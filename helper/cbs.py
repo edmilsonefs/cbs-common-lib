@@ -1,13 +1,41 @@
-import threading
 import os
+import subprocess
+import threading
 
 local = threading.local()
+
 
 class CommonHelper:
     def init(self, driver):
         # stores the webdriver as a local thread attribute to avoid having to pass the webdriver everywhere as parameter
         local.driver = driver
         self._identify_device()
+
+    def get_hosting_platform(self):
+        if 'VIRTUAL_ENV' in os.environ and "ubuntu" in os.environ['VIRTUAL_ENV']:
+            self.hosting_platform = 'testdroid'
+        else:
+            self.hosting_platform = 'testlio'
+
+    def get_testdroid_device_from_adb(self):
+        lookup = {}
+        lookup['831C'] = 'HTC_M8x'
+        lookup['Nexus 5'] = 'LGE Nexus 5'
+        lookup['Nexus 5'] = 'LGE Nexus 5 6.0'
+        lookup['Nexus 5X'] = 'LGE Nexus 5X'
+        lookup['Nexus 6'] = 'motorola Nexus 6'
+        lookup['Nexus 7'] = 'asus Nexus 7'
+        lookup['?'] = 'samsung GT-N7100'
+        lookup['SAMSUNG-SM-N900A'] = 'samsung SAMSUNG-SM-N900A'
+        lookup['SM-N920R4'] = 'Samsung Galaxy Note 5'
+        lookup['SAMSUNG-SGH-I747'] = 'samsung SAMSUNG-SGH-I747'
+        lookup['GT-I9500'] = 'samsung GT-I9500'
+        lookup['SAMSUNG-SM-G900A'] = 'samsung SAMSUNG-SM-G900A'
+        lookup['SAMSUNG-SM-G930A'] = 'samsung SAMSUNG-SM-G930A'
+        lookup['SM-T330NU'] = 'samsung SM-T330NU'
+
+        adb_device_name = subprocess.check_output(['adb', 'shell', 'getprop ro.product.model']).strip()
+        return lookup[adb_device_name]
 
     def _identify_device(self):
         local.testdroid_device = os.getenv('TESTDROID_DEVICE')
