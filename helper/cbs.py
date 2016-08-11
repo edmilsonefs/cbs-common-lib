@@ -8,10 +8,25 @@ from testlio.base import TestlioAutomationTest
 class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
+    testdroid_device = os.getenv('TESTDROID_DEVICE')
 
     def setup_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method)
+
+        self.get_hosting_platform()
+        if self.hosting_platform == 'testdroid':
+            self.testdroid_device = self.get_testdroid_device_from_adb()
+
+        if 'Tab' in self.testdroid_device \
+                or 'Nexus 7' in self.testdroid_device \
+                or 'samsung SM-T330NU' == self.testdroid_device \
+                or 'Amazon Fire HDx' == self.testdroid_device:
+            self.tablet = True
+            self.phone = False
+        else:
+            self.tablet = False
+            self.phone = True
 
     def teardown_method(self, method):
         if not self.passed and self.driver:
