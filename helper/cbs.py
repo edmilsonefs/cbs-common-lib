@@ -17,7 +17,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def setup_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
-        super(CBSTest, self).setup_method(method)
+        super(CommonHelper, self).setup_method(method)
 
     def teardown_method(self, method):
         if not self.passed and self.driver:
