@@ -197,6 +197,8 @@ class CommonHelper(TestlioAutomationTest):
             x = 50
         elif kwargs['side'] == 'right':
             x = size['width'] - 50
+        else:
+            x = size['width'] / 2
         start_y = size['height'] / 2
         end_y = size['height'] - 50
 
@@ -211,6 +213,8 @@ class CommonHelper(TestlioAutomationTest):
             x = 50
         elif kwargs['side'] == 'right':
             x = size['width'] - 50
+        else:
+            x = size['width'] / 2
         start_y = size['height'] / 2
         end_y = 50
 
