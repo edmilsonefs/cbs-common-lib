@@ -41,21 +41,6 @@ class CommonHelper(TestlioAutomationTest):
         adb_device_name = subprocess.check_output(['adb', 'shell', 'getprop ro.product.model']).strip()
         return lookup[adb_device_name]
 
-    def get_testdroid_device(self):
-        return local.testdroid_device
-
-    def is_phone(self):
-        return local.is_phone
-
-    def is_tablet(self):
-        return local.is_tablet
-
-    def is_amazon(self):
-        return local.is_amazon
-
-    def is_amazon_tablet(self):
-        return local.is_amazon and local.is_tablet
-
     def click_until_element_is_visible(self, element_to_be_visible, element_to_click, click_function):
         self.driver.implicitly_wait(20)
 
