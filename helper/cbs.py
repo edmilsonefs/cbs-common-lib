@@ -15,10 +15,6 @@ class CommonHelper(TestlioAutomationTest):
     def __init__(self, d):
         self.driver = d
 
-    def init(self):
-        # stores the webdriver as a local thread attribute to avoid having to pass the webdriver everywhere as parameter
-        self._identify_device()
-
     def get_hosting_platform(self):
         if 'VIRTUAL_ENV' in os.environ and "ubuntu" in os.environ['VIRTUAL_ENV']:
             self.hosting_platform = 'testdroid'
@@ -44,19 +40,6 @@ class CommonHelper(TestlioAutomationTest):
 
         adb_device_name = subprocess.check_output(['adb', 'shell', 'getprop ro.product.model']).strip()
         return lookup[adb_device_name]
-
-    def _identify_device(self):
-        local.testdroid_device = os.getenv('TESTDROID_DEVICE')
-
-        local.is_amazon = True if 'Amazon' in local.testdroid_device else False
-
-        if ('Nexus 7' in local.testdroid_device or 'samsung SM-T330NU' in local.testdroid_device) \
-                or (local.is_amazon and 'HD' in local.testdroid_device):
-            local.is_tablet = True
-            local.is_phone = False
-        else:
-            local.is_tablet = False
-            local.is_phone = True
 
     def get_testdroid_device(self):
         return local.testdroid_device
