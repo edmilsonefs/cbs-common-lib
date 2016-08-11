@@ -1,19 +1,30 @@
 import os
 import random
 import subprocess
-import threading
 from time import sleep
+
 from testlio.base import TestlioAutomationTest
 
 driver = None
 
-class CommonHelper(TestlioAutomationTest):
 
+class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
 
     def __init__(self, d):
         self.driver = d
+
+    def setup_method(self, method):
+        # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
+        super(CBSTest, self).setup_method(method)
+
+    def teardown_method(self, method):
+        if not self.passed and self.driver:
+            self.event.screenshot(self.screenshot())
+
+        # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
+        super(CommonHelper, self).teardown_method(method)
 
     def get_hosting_platform(self):
         if 'VIRTUAL_ENV' in os.environ and "ubuntu" in os.environ['VIRTUAL_ENV']:
