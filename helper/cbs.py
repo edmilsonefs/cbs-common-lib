@@ -5,15 +5,9 @@ from time import sleep
 
 from testlio.base import TestlioAutomationTest
 
-driver = None
-
-
 class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
-
-    def __init__(self, d):
-        self.driver = d
 
     def setup_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
