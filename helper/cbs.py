@@ -12,7 +12,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def setup_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
-        super(CommonHelper, self).setup_method(method)
+        super(CommonHelper, self).setup_method(method, False)
 
         self.get_hosting_platform()
         if self.hosting_platform == 'testdroid':
