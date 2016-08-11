@@ -189,18 +189,28 @@ class CommonHelper(TestlioAutomationTest):
                 pass
         sleep(2)
 
-    def _short_swipe_up(self, duration=1000):
+    def _short_swipe_up(self, duration=1000, **kwargs):
         size = self.driver.get_window_size()
-        x = size['width'] / 2
+        if kwargs['side'] == 'middle':
+            x = size['width'] / 2
+        elif kwargs['side'] == 'left':
+            x = 50
+        elif kwargs['side'] == 'right':
+            x = size['width'] - 50
         start_y = size['height'] / 2
         end_y = size['height'] - 50
 
         self.driver.swipe(x, start_y, x, end_y, duration)
         sleep(1)
 
-    def _short_swipe_down(self, duration=4000):
+    def _short_swipe_down(self, duration=4000, **kwargs):
         size = self.driver.get_window_size()
-        x = size['width'] / 2
+        if kwargs['side'] == 'middle':
+            x = size['width'] / 2
+        elif kwargs['side'] == 'left':
+            x = 50
+        elif kwargs['side'] == 'right':
+            x = size['width'] - 50
         start_y = size['height'] / 2
         end_y = 50
 
