@@ -9,6 +9,7 @@ class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
+    default_implicit_wait = 120
 
     def setup_method(self, method, caps = False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -231,3 +232,59 @@ class CommonHelper(TestlioAutomationTest):
 
         self.driver.swipe(x, start_y, x, end_y, duration)
         sleep(1)
+
+    def click_on_first_video(self):
+        el1 = self._find_element(name='Primetime Episodes')
+        el2 = self._find_element(name='Open navigation drawer')
+        self.driver.scroll(el1, el2)
+        list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/allAccessFlag')
+        count = 0
+        while count < len(list_episodes):
+            list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/allAccessFlag')
+            self.click(element=list_episodes[count], data='Click on the All Access video on Home Page', screenshot=True)
+            sleep(5)
+            try:
+                self.driver.implicitly_wait(10)
+                self.driver.find_element_by_name("Already a subscriber? Sign In")
+                break
+            except:
+                self.back_while_open_drawer_is_visible()
+                count += 1
+        sleep(5)
+        self.event.screenshot(self.screenshot())
+
+    def back_while_open_drawer_is_visible(self):
+        counter = 0
+        self.driver.implicitly_wait(20)
+        while counter < 10:
+            try:
+                self.driver.find_element_by_name("Open navigation drawer")
+                break
+            except:
+                self.driver.back()
+                counter += 1
+        self.driver.implicitly_wait(self.default_implicit_wait)
+
+    def back_while_navigate_up_is_visible(self):
+        counter = 0
+        self.driver.implicitly_wait(20)
+        while counter < 10:
+            try:
+                self.driver.find_element_by_name("Navigate up")
+                break
+            except:
+                self.driver.back()
+                counter += 1
+        self.driver.implicitly_wait(self.default_implicit_wait)
+
+    def back_while_search_icon_is_visible(self):
+        counter = 0
+        self.driver.implicitly_wait(20)
+        while counter < 10:
+            try:
+                self.driver.find_element_by_id("com.cbs.app:id/action_search")
+                break
+            except:
+                self.driver.back()
+                counter += 1
+        self.driver.implicitly_wait(self.default_implicit_wait)
