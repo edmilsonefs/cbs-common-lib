@@ -3,6 +3,8 @@ import random
 import subprocess
 from time import sleep
 
+from selenium.common.exceptions import NoSuchElementException
+
 from testlio.base import TestlioAutomationTest
 
 class CommonHelper(TestlioAutomationTest):
@@ -123,9 +125,12 @@ class CommonHelper(TestlioAutomationTest):
     def goto_live_tv(self):
         self.open_drawer()
         self.click(name="Live TV", screenshot=True)
-        if self.testdroid_device == "LGE Nexus 5 6.0":
+        if self.exists(name='Allow', timeout=10):
             try:
-                self.click_until_element_is_visible("Open navigation drawer", "Allow")
+                if self.phone:
+                    self.click_until_element_is_visible("Open navigation drawer", "Allow")
+                else:
+                    self.click_until_element_is_visible("Navigate up", "Allow")
             except:
                 pass
         self.driver.implicitly_wait(120)
@@ -288,3 +293,40 @@ class CommonHelper(TestlioAutomationTest):
                 self.driver.back()
                 counter += 1
         self.driver.implicitly_wait(self.default_implicit_wait)
+
+    def exists(self, **kwargs):
+        """
+        Finds element by name or xpath
+        advanced:
+            call using an element:
+            my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
+            self.exists(name='Submit', driver=my_layout)
+        """
+        if kwargs.has_key('timeout'):
+            self.driver.implicitly_wait(kwargs['timeout'])
+
+        if kwargs.has_key('driver'):
+            d = kwargs['driver']
+        else:
+            d = self.driver
+
+        try:
+            if kwargs.has_key('name'):
+                try:
+                    e = d.find_element_by_name(kwargs['name'])
+                except:
+                    e = d.find_element_by_xpath('//*[contains(@text,"%s")]' % kwargs['name'])
+            elif kwargs.has_key('class_name'):
+                e = d.find_element_by_class_name(kwargs['class_name'])
+            elif kwargs.has_key('id'):
+                e = d.find_element_by_id(kwargs['id'])
+            elif kwargs.has_key('xpath'):
+                e = d.find_element_by_xpath(kwargs['xpath'])
+            else:
+                raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
+
+            return e
+        except NoSuchElementException:
+            return False
+        finally:
+            self.driver.implicitly_wait(self.default_implicit_wait)
