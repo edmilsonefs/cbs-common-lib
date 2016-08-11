@@ -10,9 +10,9 @@ class CommonHelper(TestlioAutomationTest):
     tablet = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
 
-    def setup_method(self, method):
+    def setup_method(self, method, caps = False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
-        super(CommonHelper, self).setup_method(method, False)
+        super(CommonHelper, self).setup_method(method, caps)
 
         self.get_hosting_platform()
         if self.hosting_platform == 'testdroid':
