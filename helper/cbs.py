@@ -246,11 +246,11 @@ class CommonHelper(TestlioAutomationTest):
         #     self.driver.scroll(el1, el2)
         # else:
         if self.exists(name='Primetime Episodes', timeout=10):
-            self._short_swipe_down(duration=4000)
-        list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/allAccessFlag')
+            self._short_swipe_down(duration=5000)
+        list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[//android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']")
         count = 0
         while count < len(list_episodes):
-            list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/allAccessFlag')
+            list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[//android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']")
             self.click(element=list_episodes[count], data='Click on the All Access video on Home Page', screenshot=True)
             sleep(5)
             try:
