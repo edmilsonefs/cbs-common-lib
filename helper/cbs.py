@@ -239,9 +239,14 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1)
 
     def click_on_first_video(self):
-        el1 = self._find_element(name='Primetime Episodes')
-        el2 = self._find_element(name='Open navigation drawer')
-        self.driver.scroll(el1, el2)
+        size = self.driver.get_window_size()
+        if size['width'] > 1000:
+            el1 = self._find_element(name='Primetime Episodes')
+            el2 = self._find_element(name='Open navigation drawer')
+            self.driver.scroll(el1, el2)
+        else:
+            self._short_swipe_down(duration=5000)
+            self._short_swipe_down(duration=5000)
         list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/allAccessFlag')
         count = 0
         while count < len(list_episodes):
