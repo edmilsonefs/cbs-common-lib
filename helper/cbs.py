@@ -246,7 +246,8 @@ class CommonHelper(TestlioAutomationTest):
         #     self.driver.scroll(el1, el2)
         # else:
         if self.exists(name='Primetime Episodes', timeout=10):
-            while self._find_element(name='Primetime Episodes').location > size['height'] / 2:
+            prime_location = self._find_element(name='Primetime Episodes').location
+            if prime_location['y'] > size['height'] / 2:
                 self._short_swipe_down(duration=5000)
         list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[//android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']")
         count = 0
