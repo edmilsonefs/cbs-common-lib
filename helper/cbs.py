@@ -249,19 +249,27 @@ class CommonHelper(TestlioAutomationTest):
             prime_location = self._find_element(name='Primetime Episodes').location
             if prime_location['y'] > size['height'] / 2:
                 self._short_swipe_down(duration=5000)
-        list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[//android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/videoImage']")
+        list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']")
         count = 0
         while count < len(list_episodes):
-            list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[//android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/videoImage']")
+            list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']")
             self.click(element=list_episodes[count], data='Click on the All Access video on Home Page', screenshot=True)
             sleep(5)
+            if self.exists(id='com.cbs.app:id/action_search', timeout=10):
+                self.click(element=list_episodes[count])
             try:
                 self.driver.implicitly_wait(10)
                 self.driver.find_element_by_name("Already a subscriber? Sign In")
                 break
             except:
-                self.back_while_open_drawer_is_visible()
-                count += 1
+                self.driver.back()
+                try:
+                    self.driver.implicitly_wait(10)
+                    self.driver.find_element_by_name("Already a subscriber? Sign In")
+                    break
+                except:
+                    self.back_while_open_drawer_is_visible()
+                    count += 1
         sleep(5)
         self.event.screenshot(self.screenshot())
 
