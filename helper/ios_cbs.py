@@ -86,3 +86,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(id="Search")
         self.send_text_native(show_name)
         self.driver.tap([(50, 150)])
+
+    def _accept_alert(self, count):
+        for x in range(0, count):
+            try:
+                # Accepts terms of service & other popups there may be
+                self.wait_and_accept_alert()
+                sleep(5)
+                break
+            except:
+                pass
