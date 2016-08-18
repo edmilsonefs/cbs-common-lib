@@ -89,6 +89,44 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.send_text_native(show_name)
         self.driver.tap([(80, 170)])
 
+    def exists(self, **kwargs):
+        """
+        Finds element by name or xpath
+        advanced:
+            call using an element:
+            my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
+            self.exists(xpath="//*[@name='Submit']", driver=my_layout)
+        """
+        if kwargs.has_key('timeout'):
+            self.driver.implicitly_wait(kwargs['timeout'])
+
+        if kwargs.has_key('driver'):
+            d = kwargs['driver']
+        else:
+            d = self.driver
+
+        try:
+            if kwargs.has_key('name'):
+                try:
+                    return self._find_element_by_xpath(
+                        "//*[@name='" + kwargs['name'] + "' or @value='" + kwargs['name'] + "']")
+                except:
+                    e = d.find_element_by_xpath('//*[contains(@name,"%s")]' % kwargs['name'])
+            elif kwargs.has_key('class_name'):
+                e = d.find_element_by_class_name(kwargs['class_name'])
+            elif kwargs.has_key('id'):
+                e = d.find_element_by_id(kwargs['id'])
+            elif kwargs.has_key('xpath'):
+                e = d.find_element_by_xpath(kwargs['xpath'])
+            else:
+                raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
+
+            return e
+        except NoSuchElementException:
+            return False
+        finally:
+            self.driver.implicitly_wait(self.default_implicit_wait)
+
     def _accept_alert(self, count):
         for x in range(0, count):
             try:
@@ -128,6 +166,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(1)
 
     def click_on_first_aa_video(self):
+        if not self.exists(xpath="//UIATableCell[contains(@name,'Primetime')]//UIACollectionView[1]", timeout=10):
+            self._short_swipe_down(duration=5000)
         # count = 1
         # if self.phone:
         #     max_count = 2
