@@ -29,7 +29,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
         super(CommonIOSHelper, self).teardown_method(method)
-        sleep(180)
+        sleep(300)
 
     def find_by_uiautomation(self, value, hide_keyboard=False):
         return self.driver.find_element(By.IOS_UIAUTOMATION, value)
