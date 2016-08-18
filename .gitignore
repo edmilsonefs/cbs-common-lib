@@ -11,6 +11,7 @@ screenshots
 logs
 
 .idea
+common-lib.iml
 
 .DS_Store
 cbs-common-lib.iml
