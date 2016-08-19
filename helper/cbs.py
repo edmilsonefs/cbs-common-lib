@@ -248,6 +248,8 @@ class CommonHelper(TestlioAutomationTest):
         # else:
         if not self.exists(xpath=all_access_flag, timeout=10):
             self._short_swipe_down(duration=5000)
+            if self.phone:
+                self._short_swipe_down(duration=5000)
             sleep(5)
         list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
         count = 0
