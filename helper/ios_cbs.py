@@ -1,12 +1,11 @@
 import os
-import random
-import subprocess
 from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 from testlio.base import TestlioAutomationTest
+
 
 class CommonIOSHelper(TestlioAutomationTest):
     phone = False
@@ -15,7 +14,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
 
-    def setup_method(self, method, caps = False):
+    def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonIOSHelper, self).setup_method(method, caps)
 
@@ -166,7 +165,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(1)
 
     def click_on_first_aa_video(self):
-        if not self.exists(xpath="//UIATableCell[contains(@name,'Primetime')]//UIACollectionView[1]", timeout=10):
+        aa_xpath = "//UIATableCell[contains(@name,'Primetime')]//UIACollectionView[1]//UIACollectionCell[3]"
+        if not self.exists(xpath=aa_xpath, timeout=10):
             self._short_swipe_down(duration=5000)
         # count = 1
         # if self.phone:
@@ -174,8 +174,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # else:
         #     max_count = 3
         # while count <= max_count:
-        self.click(
-            xpath="//UIATableCell[contains(@name,'Primetime')]//UIACollectionView[1]//UIACollectionCell[1]")
+        self.click(xpath=aa_xpath)
         if self.needToAccept:
             self._accept_alert(1)
             self.needToAccept = False
