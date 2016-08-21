@@ -240,12 +240,9 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_on_first_video(self):
         all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']";
-        size = self.driver.get_window_size()
-        # if size['width'] > 1000:
-        #     el1 = self._find_element(name='Primetime Episodes')
-        #     el2 = self._find_element(name='Open navigation drawer')
-        #     self.driver.scroll(el1, el2)
-        # else:
+
+        if self.exists(id='com.cbs.app:id/image'):
+            self._short_swipe_down(duration=5000)
         if not self.exists(xpath=all_access_flag, timeout=10):
             self._short_swipe_down(duration=5000)
             if self.phone:
