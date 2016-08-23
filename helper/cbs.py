@@ -46,6 +46,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def get_testdroid_device_from_adb(self):
         lookup = {}
+        lookup['KFTBWI'] = 'KFTBWI'
         lookup['831C'] = 'HTC_M8x'
         lookup['Nexus 5'] = 'LGE Nexus 5'
         lookup['Nexus 5'] = 'LGE Nexus 5 6.0'
