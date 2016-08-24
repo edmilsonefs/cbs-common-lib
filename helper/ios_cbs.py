@@ -165,6 +165,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(1)
 
     def click_on_first_aa_video(self):
+        elFrom = self._find_element(id='Primetime Episodes')
+        elTo = self._find_element(id='Main Menu')
+        self.driver.scroll(elFrom, elTo)
         aa_xpath = "//UIATableCell[contains(@name,'Primetime')]//UIACollectionView[1]//UIACollectionCell[1]"
         if not self.exists(xpath=aa_xpath, timeout=10):
             self._short_swipe_down(duration=5000)
