@@ -242,8 +242,13 @@ class CommonHelper(TestlioAutomationTest):
     def click_on_first_video(self):
         all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']";
 
-        if self.exists(id='com.cbs.app:id/image', timeout=10):
+        try:
+            self.driver.implicitly_wait(10)
+            self.driver.find_element_by_id('com.cbs.app:id/homeMarqueeContainer').click()
             self._short_swipe_down(duration=5000)
+        except:
+            self.driver.implicitly_wait(60)
+            pass
         if not self.exists(xpath=all_access_flag, timeout=10):
             self._short_swipe_down(duration=5000)
             if self.phone:
