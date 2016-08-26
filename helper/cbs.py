@@ -244,7 +244,7 @@ class CommonHelper(TestlioAutomationTest):
 
         try:
             self.driver.implicitly_wait(10)
-            self.driver.find_element_by_id('com.cbs.app:id/homeMarqueeContainer')
+            self.driver.find_element_by_name('Free Episodes')
             self._short_swipe_down(duration=5000)
         except:
             self.driver.implicitly_wait(60)
