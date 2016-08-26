@@ -193,3 +193,24 @@ class CommonIOSHelper(TestlioAutomationTest):
             #         self.driver.tap([(100, 100)])
             #         self.driver.find_element_by_id('Done').click()
             #         count += 1
+
+    def click_return(self):
+        size = self.driver.get_window_size()
+        self.driver.tap([(size['width'] - 30, size['height'] - 30)])
+        # try:
+        #     self.driver.hide_keyboard('Return')
+        # except:
+        #     pass
+
+    def hide_keyboard(self):
+        if self.phone:
+            size = self.driver.get_window_size()
+
+            x = size['width'] / 2
+            start_y = size['height'] / 2
+            end_y = size['height']
+
+            self.driver.swipe(x, start_y, x, end_y, 500)
+        elif self.tablet:
+            size = self.driver.get_window_size()
+            self.driver.tap([(size['width'] - 30, size['height'] - 30)])
