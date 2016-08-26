@@ -177,6 +177,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # else:
         #     max_count = 3
         # while count <= max_count:
+        self.event.screenshot(self.screenshot())
         self.click(xpath=aa_xpath)
         if self.needToAccept:
             self._accept_alert(1)
