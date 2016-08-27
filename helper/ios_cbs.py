@@ -158,16 +158,16 @@ class CommonIOSHelper(TestlioAutomationTest):
             x = 50
         elif side == 'right':
             x = size['width'] - 50
-        start_y = size['height'] / 2
-        end_y = 50
+        start_y = size['height'] / 4
+        end_y = -100
 
         self.driver.swipe(x, start_y, x, end_y, duration)
         sleep(1)
 
     def click_on_first_aa_video(self):
-        elFrom = self._find_element(id='Primetime Episodes')
-        elTo = self._find_element(id='Main Menu')
-        self.driver.scroll(elFrom, elTo)
+        # elFrom = self._find_element(id='Free Episodes')
+        # elTo = self._find_element(id='Main Menu')
+        # self.driver.scroll(elFrom, elTo)
         aa_xpath = "//UIATableCell[contains(@name,'Primetime')]//UIACollectionView[1]//UIACollectionCell[2]"
         if not self.exists(xpath=aa_xpath, timeout=10):
             self._short_swipe_down(duration=5000)
@@ -215,3 +215,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         elif self.tablet:
             size = self.driver.get_window_size()
             self.driver.tap([(size['width'] - 30, size['height'] - 30)])
+
+    def close_big_advertisement(self):
+        if self.exists(id='Close Advertisement', timeout=10):
+            self.click(id='Close Advertisement')
