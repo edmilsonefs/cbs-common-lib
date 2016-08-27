@@ -42,7 +42,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(element=elems[0])
 
     def back(self):
-        self.click(xpath=self.UIAWindow_XPATH + '/UIAButton[2]')
+        self.driver.tap([(25, 35)])
 
     def go_to_home(self):
         self._go_to('Home')
