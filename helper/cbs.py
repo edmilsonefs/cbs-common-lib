@@ -239,9 +239,55 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.swipe(x, start_y, x, end_y, duration)
         sleep(1)
 
-    def click_on_first_video(self):
-        all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']";
+    def _short_swipe_left(self, element, duration):
+        location = element.location
+        size = element.size
 
+        start_x = location['x'] + size['width'] - 20
+        end_x = 20
+        y = location['y'] + size['height'] / 2
+
+        self.driver.swipe(start_x, y, end_x, y, duration)
+        sleep(1)
+
+    def click_on_first_video(self):
+        # all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']";
+        #
+        # try:
+        #     self.driver.implicitly_wait(10)
+        #     self.driver.find_element_by_name('Free Episodes')
+        #     self._short_swipe_down(duration=5000)
+        # except:
+        #     self.driver.implicitly_wait(60)
+        #     pass
+        # if not self.exists(xpath=all_access_flag, timeout=10):
+        #     self._short_swipe_down(duration=5000)
+        #     if self.phone:
+        #         self._short_swipe_down(duration=5000)
+        #     sleep(5)
+        # list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
+        # count = 0
+        # while count < len(list_episodes):
+        #     list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
+        #     self.click(element=list_episodes[count], data='Click on the All Access video on Home Page', screenshot=True)
+        #     sleep(5)
+        #     if self.exists(id='com.cbs.app:id/action_search', timeout=10):
+        #         self.click(element=list_episodes[count])
+        #     try:
+        #         self.driver.implicitly_wait(10)
+        #         self.driver.find_element_by_name("Already a subscriber? Sign In")
+        #         break
+        #     except:
+        #         self.driver.back()
+        #         try:
+        #             self.driver.implicitly_wait(10)
+        #             self.driver.find_element_by_name("Already a subscriber? Sign In")
+        #             break
+        #         except:
+        #             self.back_while_open_drawer_is_visible()
+        #             count += 1
+        # sleep(5)
+        # self.event.screenshot(self.screenshot())
         try:
             self.driver.implicitly_wait(10)
             self.driver.find_element_by_name('Free Episodes')
@@ -249,34 +295,20 @@ class CommonHelper(TestlioAutomationTest):
         except:
             self.driver.implicitly_wait(60)
             pass
-        if not self.exists(xpath=all_access_flag, timeout=10):
-            self._short_swipe_down(duration=5000)
-            if self.phone:
-                self._short_swipe_down(duration=5000)
-            sleep(5)
-        list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
-        count = 0
-        while count < len(list_episodes):
-            list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
-            self.click(element=list_episodes[count], data='Click on the All Access video on Home Page', screenshot=True)
-            sleep(5)
-            if self.exists(id='com.cbs.app:id/action_search', timeout=10):
-                self.click(element=list_episodes[count])
-            try:
-                self.driver.implicitly_wait(10)
-                self.driver.find_element_by_name("Already a subscriber? Sign In")
-                break
-            except:
-                self.driver.back()
-                try:
-                    self.driver.implicitly_wait(10)
-                    self.driver.find_element_by_name("Already a subscriber? Sign In")
+        if self.exists(name='paid'):
+            list_episodes = self.driver.find_elements_by_name('paid')
+            self.click(element=list_episodes[0])
+        else:
+            count = 0
+            while count < 10:
+                prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@name,'Primetime')]]")
+                self._short_swipe_left(prime_container, 1000)
+                if self.exists(name='paid'):
+                    list_episodes = self.driver.find_elements_by_name('paid')
+                    self.click(element=list_episodes[0])
                     break
-                except:
-                    self.back_while_open_drawer_is_visible()
+                else:
                     count += 1
-        sleep(5)
-        self.event.screenshot(self.screenshot())
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
