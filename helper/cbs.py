@@ -386,3 +386,4 @@ class CommonHelper(TestlioAutomationTest):
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                          "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", screenshot=True)
+        self._hide_keyboard()
