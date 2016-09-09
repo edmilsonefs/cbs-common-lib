@@ -146,7 +146,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def goto_show(self, show_name):
         self.click(id='com.cbs.app:id/action_search')
-        sleep(1)
+        sleep(7)
 
         e = self._find_element(id='com.cbs.app:id/search_src_text')
         self.send_keys(show_name, e)
