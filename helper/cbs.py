@@ -291,19 +291,19 @@ class CommonHelper(TestlioAutomationTest):
         try:
             self.driver.implicitly_wait(10)
             self.driver.find_element_by_name('Free Episodes')
-            self._short_swipe_down(duration=5000)
+            self._short_swipe_down(duration=3000)
         except:
             self.driver.implicitly_wait(60)
             pass
-        if self.exists(name='paid'):
+        if self.exists(name='paid', timeout=10):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
         else:
             count = 0
             while count < 10:
-                prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@name,'Primetime')]]")
+                prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
                 self._short_swipe_left(prime_container, 1000)
-                if self.exists(name='paid'):
+                if self.exists(name='paid', timeout=10):
                     list_episodes = self.driver.find_elements_by_name('paid')
                     self.click(element=list_episodes[0])
                     break
