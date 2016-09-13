@@ -27,7 +27,18 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
-        super(CommonIOSHelper, self).teardown_method(method)
+        if self.passed:
+            self.event.start(data='Test completed successfully')
+        else:
+            self.event.start(data='Test failed. Getting screenshot and page_source.')
+            if self.driver:
+                self.event.screenshot(self.screenshot())
+                self.driver.page_source
+
+        self.event.stop()
+        sleep(60)
+        self.driver.quit()
+        sleep(80)
 
     def find_by_uiautomation(self, value, hide_keyboard=False):
         return self.driver.find_element(By.IOS_UIAUTOMATION, value)
