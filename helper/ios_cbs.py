@@ -27,13 +27,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
-        if self.passed:
-            self.event.start(data='Test completed successfully')
-        else:
-            self.event.start(data='Test failed. Getting screenshot and page_source.')
-            if self.driver:
-                self.event.screenshot(self.screenshot())
-                self.driver.page_source
+        if self.driver:
+            self.event.screenshot(self.screenshot())
+            self.driver.page_source
 
         self.event.stop()
         sleep(60)
