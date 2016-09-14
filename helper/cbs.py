@@ -12,6 +12,7 @@ class CommonHelper(TestlioAutomationTest):
     tablet = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
+    passed = False
 
     def setup_method(self, method, caps = False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -310,6 +311,11 @@ class CommonHelper(TestlioAutomationTest):
                 else:
                     count += 1
 
+    def click_any_free_video(self):
+        if self.exists(name='free', timeout=10):
+            list_episodes = self.driver.find_elements_by_name('free')
+            self.click(element=list_episodes[0])
+
     def back_while_open_drawer_is_visible(self):
         counter = 0
         self.driver.implicitly_wait(20)
@@ -382,6 +388,42 @@ class CommonHelper(TestlioAutomationTest):
             return False
         finally:
             self.driver.implicitly_wait(self.default_implicit_wait)
+
+    def verify_exists(self, **kwargs):
+        screenshot = False
+        if kwargs.has_key('screenshot') and kwargs['screenshot']:
+            screenshot = True
+
+        selector = ""
+        if kwargs.has_key('name'):
+            selector = kwargs['name']
+        elif kwargs.has_key('class_name'):
+            selector = kwargs['class_name']
+        elif kwargs.has_key('id'):
+            selector = kwargs['id']
+        elif kwargs.has_key('xpath'):
+            selector = kwargs['xpath']
+
+        self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
+                                      msg="Should see element with text or selector: '%s'" % selector)
+
+    def verify_not_exists(self, **kwargs):
+        screenshot = False
+        if kwargs.has_key('screenshot') and kwargs['screenshot']:
+            screenshot = True
+
+        selector = ""
+        if kwargs.has_key('name'):
+            selector = kwargs['name']
+        elif kwargs.has_key('class_name'):
+            selector = kwargs['class_name']
+        elif kwargs.has_key('id'):
+            selector = kwargs['id']
+        elif kwargs.has_key('xpath'):
+            selector = kwargs['xpath']
+
+        self.assertTrueWithScreenShot(not self.exists(**kwargs), screenshot=screenshot,
+                                      msg="Should NOT see element with text or selector: '%s'" % selector)
 
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
