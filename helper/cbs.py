@@ -151,7 +151,13 @@ class CommonHelper(TestlioAutomationTest):
 
     def goto_show(self, show_name):
         self.click(id='com.cbs.app:id/action_search')
-        sleep(10)
+        count = 0
+        while count < 10:
+            if self.exists(class_name='android.widget.ProgressBar', timeout=10):
+                sleep(10)
+                count += 1
+            else:
+                break
 
         e = self._find_element(id='com.cbs.app:id/search_src_text')
         self.send_keys(show_name, e)
@@ -327,6 +333,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.find_element_by_name('PLAY FROM BEGINNING').click()
         except:
             pass
+        self.driver.implicitly_wait(30)
 
     def click_any_video(self):
         list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/videoImage')
