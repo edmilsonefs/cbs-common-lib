@@ -128,6 +128,10 @@ class CommonHelper(TestlioAutomationTest):
     def goto_live_tv(self):
         self.open_drawer()
         self.click(name="Live TV", screenshot=True)
+        self.click_allow_popup()
+        self.driver.implicitly_wait(120)
+
+    def click_allow_popup(self):
         if self.exists(name='Allow', timeout=10):
             try:
                 if self.phone:
@@ -136,7 +140,6 @@ class CommonHelper(TestlioAutomationTest):
                     self.click_until_element_is_visible("Navigate up", "Allow")
             except:
                 pass
-        self.driver.implicitly_wait(120)
 
     def goto_schedule(self):
         self.open_drawer()
