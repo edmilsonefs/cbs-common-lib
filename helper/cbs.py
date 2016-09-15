@@ -92,13 +92,13 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(30)
 
     def open_drawer(self):
-        self.click(name='Open navigation drawer', screenshot=True)
+        self.click(name='Open navigation drawer')
 
     def close_drawer(self):
         self.driver.back()
 
     def navigate_up(self):
-        self.click(name='Navigate up', screenshot=True)
+        self.click(name='Navigate up')
 
     def goto_sign_in(self):
         self.open_drawer()
@@ -106,7 +106,7 @@ class CommonHelper(TestlioAutomationTest):
         # on some screens (live tv), the text 'Sign In' appears twice, so be sure we get the right one...
         drawer = self.driver.find_element_by_id('com.cbs.app:id/userInfoHolder')
         sign_in = drawer.find_element_by_name('Sign In')
-        self.click(element=sign_in, data='Click on menu item Sign In', screenshot=True)
+        self.click(element=sign_in, data='Click on menu item Sign In')
         self._hide_keyboard()
 
     def goto_sign_up(self):
@@ -127,7 +127,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def goto_live_tv(self):
         self.open_drawer()
-        self.click(name="Live TV", screenshot=True)
+        self.click(name="Live TV")
         self.click_allow_popup()
         self.driver.implicitly_wait(120)
 
@@ -163,8 +163,7 @@ class CommonHelper(TestlioAutomationTest):
         self.send_keys(show_name, e)
         sleep(5)
         try:
-            self.click(id='com.cbs.app:id/showImage', screenshot=True)
-            self.event.screenshot(self.screenshot())
+            self.click(id='com.cbs.app:id/showImage')
         except:
             self.driver.tap([(220, 450)])
             pass
@@ -173,7 +172,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def go_to(self, menu):
         drawer = self._find_element(id='com.cbs.app:id/navigation_drawer')
-        self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu, screenshot=True)
+        self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu)
 
     def click_by_location(self, elem, **kwargs):
         """
@@ -452,5 +451,5 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
-                         "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", screenshot=True)
+                         "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
         self._hide_keyboard()
