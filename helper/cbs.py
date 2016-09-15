@@ -124,6 +124,10 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
         self.go_to('Shows')
 
+    def goto_subscribe(self):
+        self.open_drawer()
+        self.go_to('Subscribe')
+
     def goto_live_tv(self):
         self.open_drawer()
         self.click(name="Live TV", screenshot=True)
@@ -315,6 +319,20 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(name='free', timeout=10):
             list_episodes = self.driver.find_elements_by_name('free')
             self.click(element=list_episodes[0])
+            self.click_play_from_beginning()
+
+    def click_play_from_beginning(self):
+        try:
+            self.driver.implicitly_wait(10)
+            self.driver.find_element_by_name('PLAY FROM BEGINNING').click()
+        except:
+            pass
+
+    def click_any_video(self):
+        list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/videoImage')
+        self.click(element=list_episodes[0])
+        self.click_play_from_beginning()
+        self.driver.implicitly_wait(30)
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
