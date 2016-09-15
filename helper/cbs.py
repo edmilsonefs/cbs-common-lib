@@ -33,9 +33,6 @@ class CommonHelper(TestlioAutomationTest):
             self.phone = True
 
     def teardown_method(self, method):
-        if not self.passed and self.driver:
-            self.event.screenshot(self.screenshot())
-
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
         super(CommonHelper, self).teardown_method(method)
 
