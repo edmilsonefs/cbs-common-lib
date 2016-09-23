@@ -13,7 +13,7 @@ class CommonHelper(TestlioAutomationTest):
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
     passed = False
-    user_type = None
+    user_type = 'anonymous'
     anonymous = 'anonymous'
     registered = 'registered'
     subscriber = 'subscriber'
@@ -483,6 +483,8 @@ class CommonHelper(TestlioAutomationTest):
                                      "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
             self.verify_exists(name='GET STARTED')
+            if self.user_type == self.registered:
+                self.verify_not_exists(name='SELECT', timeout=10)
         elif self.user_type in [self.subscriber, self.trial]:
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
             self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
@@ -495,3 +497,6 @@ class CommonHelper(TestlioAutomationTest):
                 self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
                 self.verify_exists(xpath="//*[contains(@text,'Only $ 5.99/month')]")
                 self.verify_exists(name='SELECT')
+                self.verify_not_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
+                                             "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
+                self.verify_not_exists(name='GET STARTED', timeout=10)
