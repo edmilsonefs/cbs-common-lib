@@ -13,6 +13,13 @@ class CommonHelper(TestlioAutomationTest):
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
     passed = False
+    user_type = None
+    anonymous = 'anonymous'
+    registered = 'registered'
+    subscriber = 'subscriber'
+    ex_subscriber = 'ex-subscriber'
+    cf_subscriber = 'cf-subscriber'
+    trial = 'trial'
 
     def setup_method(self, method, caps = False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -467,3 +474,24 @@ class CommonHelper(TestlioAutomationTest):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                          "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
         self._hide_keyboard()
+
+    def validation_upsell_page(self):
+        self.verify_exists(id='com.cbs.app:id/allAccessLogo', screenshot=True)
+        if self.user_type in [self.anonymous, self.registered]:
+            self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+            self.verify_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
+                                     "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
+            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+            self.verify_exists(name='GET STARTED')
+        elif self.user_type in [self.subscriber, self.trial]:
+            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+            self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
+        elif self.user_type == self.cf_subscriber:
+            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+            self.verify_exists(xpath="//*[contains(@text,'READ OUR FAQ')]")
+        else:
+            if self.user_type == self.ex_subscriber:
+                self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+                self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+                self.verify_exists(xpath="//*[contains(@text,'Only $ 5.99/month')]")
+                self.verify_exists(name='SELECT')
