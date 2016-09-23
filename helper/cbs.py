@@ -161,6 +161,7 @@ class CommonHelper(TestlioAutomationTest):
 
         e = self._find_element(id='com.cbs.app:id/search_src_text')
         self.send_keys(show_name, e)
+        self._hide_keyboard()
         sleep(5)
         try:
             self.click(id='com.cbs.app:id/showImage')
@@ -168,7 +169,8 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.tap([(220, 450)])
             pass
         sleep(5)
-        self._hide_keyboard()
+        self._short_swipe_down()
+        self._short_swipe_down()
 
     def go_to(self, menu):
         drawer = self._find_element(id='com.cbs.app:id/navigation_drawer')
@@ -339,6 +341,18 @@ class CommonHelper(TestlioAutomationTest):
         self.click(element=list_episodes[0])
         self.click_play_from_beginning()
         self.driver.implicitly_wait(30)
+
+    def click_any_aa_video(self):
+        if self.exists(name='paid', timeout=10):
+            list_episodes = self.driver.find_elements_by_name('paid')
+            self.click(element=list_episodes[0])
+            self.click_play_from_beginning()
+        else:
+            self._short_swipe_down(duration=3000)
+            self._short_swipe_down(duration=3000)
+            list_episodes = self.driver.find_elements_by_name('paid')
+            self.click(element=list_episodes[0])
+            self.click_play_from_beginning()
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
