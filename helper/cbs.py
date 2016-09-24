@@ -176,8 +176,6 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.tap([(220, 450)])
             pass
         sleep(5)
-        self._short_swipe_down()
-        self._short_swipe_down()
 
     def go_to(self, menu):
         drawer = self._find_element(id='com.cbs.app:id/navigation_drawer')
