@@ -27,10 +27,6 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
-        if self.driver:
-            self.event.screenshot(self.screenshot())
-            self.driver.page_source
-
         self.event.stop()
         sleep(60)
         self.driver.quit()
