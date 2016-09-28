@@ -317,7 +317,7 @@ class CommonHelper(TestlioAutomationTest):
             self.click(element=list_episodes[0])
         else:
             count = 0
-            while count < 10:
+            while count < 50:
                 prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
                 self._short_swipe_left(prime_container, 1000)
                 if self.exists(name='paid', timeout=10):
