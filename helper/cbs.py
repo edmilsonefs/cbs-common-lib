@@ -256,7 +256,7 @@ class CommonHelper(TestlioAutomationTest):
         try:
             self.driver.swipe(x, start_y, x, end_y, duration)
         except:
-            pass
+            self.event.screenshot(self.screenshot())
         sleep(1)
 
     def _short_swipe_left(self, element, duration):
