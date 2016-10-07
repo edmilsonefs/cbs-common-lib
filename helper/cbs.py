@@ -253,7 +253,10 @@ class CommonHelper(TestlioAutomationTest):
         start_y = size['height'] / 2
         end_y = 50
 
-        self.driver.swipe(x, start_y, x, end_y, duration)
+        try:
+            self.driver.swipe(x, start_y, x, end_y, duration)
+        except:
+            pass
         sleep(1)
 
     def _short_swipe_left(self, element, duration):
@@ -264,7 +267,10 @@ class CommonHelper(TestlioAutomationTest):
         end_x = 20
         y = location['y'] + size['height'] / 2
 
-        self.driver.swipe(start_x, y, end_x, y, duration)
+        try:
+            self.driver.swipe(start_x, y, end_x, y, duration)
+        except:
+            pass
         sleep(1)
 
     def click_on_first_video(self):
