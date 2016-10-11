@@ -20,6 +20,7 @@ class CommonHelper(TestlioAutomationTest):
     ex_subscriber = 'ex-subscriber'
     cf_subscriber = 'cf-subscriber'
     trial = 'trial'
+    show_name = 'Amazing Race'
 
     def setup_method(self, method, caps = False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
