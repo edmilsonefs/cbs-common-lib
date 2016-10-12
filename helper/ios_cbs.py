@@ -87,8 +87,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def go_to_show(self, show_name):
         self.go_to_shows()
-        # self.click(id="Search")
-        # self.send_text_native(show_name)
+        self.click(id="Search")
+        self.send_text_native(show_name)
         self.driver.tap([(80, 170)])
 
     def exists(self, **kwargs):
