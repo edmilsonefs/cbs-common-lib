@@ -13,6 +13,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     needToAccept = True
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
+    show_name = 'Amazing Race'
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
