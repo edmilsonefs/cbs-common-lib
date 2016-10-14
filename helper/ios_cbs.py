@@ -91,6 +91,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(id="Search")
         self.send_text_native(show_name)
         self.driver.tap([(80, 170)])
+        self.close_big_advertisement()
 
     def exists(self, **kwargs):
         """
