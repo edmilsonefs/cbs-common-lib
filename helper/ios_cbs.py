@@ -70,6 +70,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def go_to_settings(self):
         self.open_drawer()
+        self.event.screenshot(self.screenshot())
         self.click(xpath="//*[@name='Settings']")
 
     def open_drawer(self):
