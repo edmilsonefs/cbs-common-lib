@@ -390,12 +390,36 @@ class CommonHelper(TestlioAutomationTest):
                 counter += 1
         self.driver.implicitly_wait(self.default_implicit_wait)
 
+    def back_to_home_page(self):
+        counter = 0
+        self.driver.implicitly_wait(20)
+        while counter < 10:
+            try:
+                self.driver.find_element_by_id("com.cbs.app:id/homeMarqueeContainer")
+                break
+            except:
+                self.driver.back()
+                counter += 1
+        self.driver.implicitly_wait(self.default_implicit_wait)
+
     def back_while_search_icon_is_visible(self):
         counter = 0
         self.driver.implicitly_wait(20)
         while counter < 10:
             try:
                 self.driver.find_element_by_id("com.cbs.app:id/action_search")
+                break
+            except:
+                self.driver.back()
+                counter += 1
+        self.driver.implicitly_wait(self.default_implicit_wait)
+
+    def back_while_page_is_visible(self, page_title):
+        counter = 0
+        self.driver.implicitly_wait(20)
+        while counter < 10:
+            try:
+                self.driver.find_element_by_xpath("//*[@resource-id='com.cbs.app:id/toolbar']//*[@text='" + page_title + "']")
                 break
             except:
                 self.driver.back()
