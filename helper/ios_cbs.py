@@ -224,3 +224,15 @@ class CommonIOSHelper(TestlioAutomationTest):
     def close_big_advertisement(self):
         if self.exists(id='Close Advertisement', timeout=10):
             self.click(id='Close Advertisement')
+
+    def back_while_open_drawer_is_visible(self):
+        counter = 0
+        self.driver.implicitly_wait(20)
+        while counter < 10:
+            try:
+                self.driver.find_element_by_id("Main Menu")
+                break
+            except:
+                self.back()
+                counter += 1
+        self.driver.implicitly_wait(self.default_implicit_wait)
