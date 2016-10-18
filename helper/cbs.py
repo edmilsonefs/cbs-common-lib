@@ -108,6 +108,10 @@ class CommonHelper(TestlioAutomationTest):
     def navigate_up(self):
         self.click(name='Navigate up')
 
+    def go_to(self, menu):
+        drawer = self._find_element(id='com.cbs.app:id/navigation_drawer')
+        self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu)
+
     def goto_sign_in(self):
         self.open_drawer()
 
@@ -139,16 +143,6 @@ class CommonHelper(TestlioAutomationTest):
         self.click_allow_popup()
         self.driver.implicitly_wait(120)
 
-    def click_allow_popup(self):
-        if self.exists(name='Allow', timeout=10):
-            try:
-                if self.phone:
-                    self.click_until_element_is_visible("Open navigation drawer", "Allow")
-                else:
-                    self.click_until_element_is_visible("Navigate up", "Allow")
-            except:
-                pass
-
     def goto_schedule(self):
         self.open_drawer()
         self.go_to('Schedule')
@@ -178,9 +172,15 @@ class CommonHelper(TestlioAutomationTest):
             pass
         sleep(5)
 
-    def go_to(self, menu):
-        drawer = self._find_element(id='com.cbs.app:id/navigation_drawer')
-        self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu)
+    def click_allow_popup(self):
+        if self.exists(name='Allow', timeout=10):
+            try:
+                if self.phone:
+                    self.click_until_element_is_visible("Open navigation drawer", "Allow")
+                else:
+                    self.click_until_element_is_visible("Navigate up", "Allow")
+            except:
+                pass
 
     def click_by_location(self, elem, **kwargs):
         """
@@ -529,3 +529,69 @@ class CommonHelper(TestlioAutomationTest):
                 self.verify_not_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                                              "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
                 self.verify_not_exists(name='GET STARTED', timeout=10)
+
+    def wait_until_element_is_visible(self, element_css=None, element_name=None, element_id=None, timeout=30):
+
+        count = 0
+        while count <= 10:
+            self.driver.implicitly_wait(timeout)
+            try:
+                if element_css:
+                    self.driver.find_elements_by_class_name(element_css)
+                    break
+                if element_name:
+                    self.driver.find_element_by_name(element_name)
+                    break
+                if element_id:
+                    self.driver.find_element_by_id(element_id)
+                    break
+            except:
+                pass
+            count += 1
+
+    def _login(self, username, password):
+
+        email_field = self.click(id='com.cbs.app:id/edtEmail')
+        self.send_keys(element=email_field, data=username, id='com.cbs.app:id/edtEmail')
+        self._hide_keyboard()
+        self.event.screenshot(self.screenshot())
+
+        password_field = self.click(id='com.cbs.app:id/edtPassword')
+        self.send_keys(element=password_field, data=password, id='com.cbs.app:id/edtPassword')
+        self._hide_keyboard()
+        self.event.screenshot(self.screenshot())
+        self.click(id='com.cbs.app:id/btnSignIn')
+
+        self.complete_registration()
+
+    def complete_registration(self):
+        # Complete registration if required
+        try:
+            self.wait_until_element_is_visible(element_id='com.cbs.app:id/terms_accept_checkBox', timeout=5)
+            self.click(id='com.cbs.app:id/terms_accept_checkBox')
+            self.click(name='SUBMIT')
+        except Exception:
+            pass
+        self.driver.implicitly_wait(30)
+
+    def logout(self):
+        window_size_y = self.driver.get_window_size()["height"]
+        self.goto_settings()
+        if self.phone:
+            # swipe to find sign out option
+            for i in range(4):
+                self.driver.swipe(40, window_size_y - 550, 40, 200)
+        self.click(name='Sign Out')
+        if self.phone:
+            self.click(name='Sign Out')
+        else:
+            # tablets weren't pressing the button with click command
+            if self.testdroid_device == 'samsung SM-T330NU':
+                self.driver.tap([(350, 380)])
+            else:
+                self.driver.tap([(500, 570)])
+        self.event.screenshot(self.screenshot())
+        self.navigate_up()
+        self.goto_home()
+
+
