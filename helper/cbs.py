@@ -71,7 +71,7 @@ class CommonHelper(TestlioAutomationTest):
         adb_device_name = subprocess.check_output(['adb', 'shell', 'getprop ro.product.model']).strip()
         return lookup[adb_device_name]
 
-    def click_until_element_is_visible(self, element_to_be_visible, element_to_click, click_function):
+    def click_until_element_is_visible(self, element_to_be_visible, element_to_click):
         self.driver.implicitly_wait(20)
 
         element = None
@@ -80,7 +80,7 @@ class CommonHelper(TestlioAutomationTest):
             try:
                 element = self.driver.find_element_by_name(element_to_be_visible)
             except:
-                click_function(name=element_to_click)
+                self.click(name=element_to_click)
                 count += 1
 
         self.driver.implicitly_wait(30)
@@ -152,7 +152,7 @@ class CommonHelper(TestlioAutomationTest):
         self.go_to('Settings')
 
     def goto_show(self, show_name):
-        self.click(id='com.cbs.app:id/action_search')
+        self.select_search_icon()
         count = 0
         while count < 10:
             if self.exists(class_name='android.widget.ProgressBar', timeout=10):
@@ -161,16 +161,24 @@ class CommonHelper(TestlioAutomationTest):
             else:
                 break
 
-        e = self._find_element(id='com.cbs.app:id/search_src_text')
-        self.send_keys(show_name, e)
-        self._hide_keyboard()
-        sleep(5)
+        self.send_keys_on_search_field(show_name)
         try:
             self.click(id='com.cbs.app:id/showImage')
         except:
             self.driver.tap([(220, 450)])
             pass
         sleep(5)
+
+    def select_search_icon(self):
+        self.click(id='com.cbs.app:id/action_search')
+        self.event.screenshot(self.screenshot())
+
+    def send_keys_on_search_field(self, show_name):
+        search_field = self.click(id='com.cbs.app:id/search_src_text')
+        self.send_keys(show_name, search_field)
+        self._hide_keyboard()
+        sleep(5)
+        self.event.screenshot(self.screenshot())
 
     def click_allow_popup(self):
         if self.exists(name='Allow', timeout=10):
@@ -348,6 +356,13 @@ class CommonHelper(TestlioAutomationTest):
             pass
         self.driver.implicitly_wait(30)
 
+    def select_first_show_option(self):
+        try:
+            self.driver.hide_keyboard()
+        except NoSuchElementException:
+            pass
+        self.click(id='com.cbs.app:id/showImage')
+
     def click_any_video(self):
         list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/videoImage')
         self.click(element=list_episodes[0])
@@ -499,6 +514,22 @@ class CommonHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(not self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
 
+    def swipe_down_and_verify_if_exists(self, name=None, id_element=None, class_name=None, screenshot=False):
+
+        if name:
+            self.swipe_down_if_element_is_not_visible(name=name, short_swipe=True)
+            self.verify_exists(name=name)
+        elif id_element:
+            self.swipe_down_if_element_is_not_visible(id_element=id_element, short_swipe=True)
+            self.verify_exists(id=id_element)
+        elif class_name:
+            self.swipe_down_if_element_is_not_visible(class_name=class_name, short_swipe=True)
+            self.verify_exists(class_name=class_name)
+
+        if screenshot:
+            self.event.screenshot(self.screenshot())
+        self.driver.implicitly_wait(30)
+
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                          "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
@@ -608,8 +639,64 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Nielsen Info & Your Choices')
         sleep(15)  # waiting for page to load
 
+    def go_to_debug_page(self):
+        window_size_y = self.driver.get_window_size()["height"]
+        self.goto_settings()
+        if self.phone:
+            for i in range(4):
+                self.driver.swipe(40, window_size_y - 550, 40, 200)
+            self.screenshot()
+            self.click(name='Debug')
+            self.screenshot()
+        else:
+            self.driver.swipe(35, window_size_y - 600, 35, 200)
+            self.click(name='Debug')
+
+    def choose_location(self, city, swipe_up=False):
+        self.go_to_debug_page()
+
+        window_size_y = self.driver.get_window_size()["height"]
+
+        self.click(name='Location Set')
+
+        try:
+            self.driver.implicitly_wait(5)
+            self.driver.find_element_by_name(name=city)
+            self.click(name=city, screenshot=True)
+        except:
+            if swipe_up:
+                for i in range(3):
+                    if self.phone:
+                        self.driver.swipe(100, 600, 100, window_size_y - 250)
+                    elif self.tablet:
+                        self.driver.swipe(500, 600, 500, window_size_y - 400)  # Nexus 7
+            else:
+                for i in range(4):
+                    if self.phone:
+                        if self.testdroid_device == 'motorola Nexus 6':
+                            self.driver.swipe(100, window_size_y - 500, 100, 550)
+                        elif self.testdroid_device == 'Samsung Galaxy Note 5':
+                            self.driver.swipe(500, window_size_y - 400, 500, 600)
+                        else:
+                            self.driver.swipe(100, window_size_y - 250, 100, 550)
+                    elif self.tablet:
+                        self.driver.swipe(500, window_size_y - 400, 500, 600)
+            self.click(name=city, screenshot=True)
+
+            for i in range(3):
+                try:
+                    self.driver.implicitly_wait(5)
+                    self.driver.find_element_by_name(name='Settings')
+                    self.driver.back()
+                    self.event.screenshot(self.screenshot())
+                    print(i)
+                except:
+                    pass
+            self.driver.implicitly_wait(30)
+
     def select_verify_now(self):
         self.click(name='Verify Now')
+        self.click_allow_popup()
 
     def mvpd_logout(self):
         self.goto_settings()
@@ -692,7 +779,7 @@ class CommonHelper(TestlioAutomationTest):
             sleep(3)
             self.event.screenshot(self.screenshot())
 
-    def swipe_down_if_element_is_not_visible(self, name=None, id_element=None, long_swipe=False, short_swipe=False):
+    def swipe_down_if_element_is_not_visible(self, name=None, id_element=None, class_name=None, long_swipe=False, short_swipe=False):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
         """
@@ -709,6 +796,8 @@ class CommonHelper(TestlioAutomationTest):
                     element = self.driver.find_element_by_name(name=name)
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
+                elif class_name:
+                    element = self.driver.find_element_by_class_name(class_name=class_name)
             except:
                 if self.phone:
                     if long_swipe:
@@ -727,3 +816,29 @@ class CommonHelper(TestlioAutomationTest):
                 count += 1
 
         self.driver.implicitly_wait(30)
+
+    def swipe_up_until_element_is_visible(self, name=None, id_element=None, short_swipe=False):
+        """
+        function that search for element, if element is not found swipe the page until element is found on screen
+        """
+        self.driver.implicitly_wait(0)
+
+        # Gets mobile screen size
+        window_size_y = self.driver.get_window_size()["height"]
+
+        element = None
+        count = 0
+        while element is None and count <= 20:
+            try:
+                if name:
+                    element = self.driver.find_element_by_name(name=name)
+                elif id_element:
+                    element = self.driver.find_element_by_id(id_=id_element)
+            except NoSuchElementException:
+                if short_swipe:
+                    self.driver.swipe(35, 600, 35, window_size_y - 400)
+                else:
+                    self.driver.swipe(35, 400, 35, window_size_y - 500)
+                count += 1
+        self.driver.implicitly_wait(30)
+        self.screenshot()
