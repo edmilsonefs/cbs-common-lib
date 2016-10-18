@@ -594,4 +594,136 @@ class CommonHelper(TestlioAutomationTest):
         self.navigate_up()
         self.goto_home()
 
+    def click_already_have_account_sign_in(self):
+        self.event._log_info(self.event._event_data('Select Sign In'))
+        elem = self.driver.find_element_by_name('Already have an account? Sign In')
+        self.click_by_location(elem, side='right')
 
+    #### MVPD and NIELSEN
+    def goto_nielsen_info_page(self):
+        self.goto_settings()
+        sleep(1)
+        if self.phone:
+            self.swipe_down_if_element_is_not_visible(name='Nielsen Info & Your Choices')
+        self.click(name='Nielsen Info & Your Choices')
+        sleep(15)  # waiting for page to load
+
+    def select_verify_now(self):
+        self.click(name='Verify Now')
+
+    def mvpd_logout(self):
+        self.goto_settings()
+        try:
+            self.driver.find_element_by_name(name='Disconnect from Optimum')
+            element = self.driver.find_element_by_name(name='Disconnect from Optimum')
+            self.click_by_location(element)
+
+            element = self.driver.find_element_by_id(id_='com.cbs.app:id/btnMvpdLogoutSettings')
+            self.click_by_location(element)
+            sleep(4)
+            element = self.driver.find_element_by_id(id_='android:id/button1')
+            self.click_by_location(element)
+            sleep(3)
+        except:
+            self.event._log_info(self.event._event_data('Optimum was not connected'))
+        self.navigate_up()
+
+    def go_to_providers_page(self):
+        self.goto_live_tv()
+        if self.phone:
+            self.swipe_down_if_element_is_not_visible('Verify Now')
+        self.select_verify_now()
+        self.click_allow_popup()
+
+    def select_optimum_from_provider_page(self):
+        self.driver.find_element_by_id(id_='com.cbs.app:id/ivProviderLogo')
+        self.click(id='com.cbs.app:id/ivProviderLogo')
+        self.click_allow_popup()
+
+    def optimun_sign_in(self, user, password):
+        sleep(15)
+        if self.testdroid_device == 'LGE Nexus 5 6.0':
+            sleep(10)
+            id_field = self.driver.find_element_by_xpath(xpath="//*[@content-desc='Optimum ID']").click()
+            self.send_keys(element=id_field, data=user, xpath="//*[@content-desc='Optimum ID']")
+            self._hide_keyboard()
+            self.screenshot()
+
+            password_field = self.driver.find_element_by_xpath(xpath="//*[@resource-id='IDToken2']").click()
+            self.send_keys(element=password_field, data=password, xpath="//*[@resource-id='IDToken2']")
+            self._hide_keyboard()
+            self.screenshot()
+
+            self.driver.tap([(200, 1200)])
+            self.screenshot()
+
+        else:
+            count = 0
+            while count <= 5:
+                try:
+                    self.driver.find_elements_by_class_name('android.widget.EditText')
+                    break
+                except:
+                    count += 1
+
+            if self.testdroid_device == 'LGE Nexus 5':
+                self.driver.tap([(200, 830)])
+                self.screenshot()
+            if self.testdroid_device == 'asus Nexus 7':
+                self.driver.tap([(600, 600)])
+                self.screenshot()
+            if self.testdroid_device == 'samsung SM-T330NU':
+                self.driver.tap([(400, 400)])
+                self.screenshot()
+            fields = self.driver.find_elements_by_class_name('android.widget.EditText')
+            email_field = fields[0]
+            password_field = fields[1]
+            # start from the bottom up
+            self.click(email_field)
+            self.screenshot()
+            self.send_keys(data=user, element=email_field, class_name='android.widget.EditText'[0])
+            self.screenshot()
+            self._hide_keyboard()
+            self.send_keys(data=password, element=password_field, class_name='android.widget.EditText'[1])
+            self.screenshot()
+            self.driver.back()
+            self.event.screenshot(self.screenshot())
+            self.driver.press_keycode(66)  # Enter
+            sleep(3)
+            self.event.screenshot(self.screenshot())
+
+    def swipe_down_if_element_is_not_visible(self, name=None, id_element=None, long_swipe=False, short_swipe=False):
+        """
+        function that search for element, if element is not found swipe the page until element is found on screen
+        """
+        self.driver.implicitly_wait(0)
+
+        # Gets mobile screen size
+        window_size_y = self.driver.get_window_size()["height"]
+
+        element = None
+        count = 0
+        while element is None and count <= 20:
+            try:
+                if name:
+                    element = self.driver.find_element_by_name(name=name)
+                elif id_element:
+                    element = self.driver.find_element_by_id(id_=id_element)
+            except:
+                if self.phone:
+                    if long_swipe:
+                        self.driver.swipe(35, window_size_y - 500, 35, 200)
+                    elif short_swipe:
+                        self.driver.swipe(35, window_size_y - 600, 35, 600)
+                    else:
+                        self.driver.swipe(35, window_size_y - 600, 35, 500)
+                else:
+                    if long_swipe:
+                        self.driver.swipe(500, window_size_y - 600, 500, 200)
+                    elif short_swipe:
+                        self.driver.swipe(500, window_size_y - 600, 500, 550)
+                    else:
+                        self.driver.swipe(500, window_size_y - 400, 500, 600)
+                count += 1
+
+        self.driver.implicitly_wait(30)
