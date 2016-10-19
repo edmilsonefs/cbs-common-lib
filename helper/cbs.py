@@ -82,7 +82,6 @@ class CommonHelper(TestlioAutomationTest):
             except:
                 self.click(name=element_to_click)
                 count += 1
-
         self.driver.implicitly_wait(30)
 
     def go_to_menu_page_and_select_option(self, menu_option):
