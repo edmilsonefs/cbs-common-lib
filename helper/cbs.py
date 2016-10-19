@@ -351,7 +351,7 @@ class CommonHelper(TestlioAutomationTest):
     def click_play_from_beginning(self):
         try:
             self.driver.implicitly_wait(10)
-            self.driver.find_element_by_name('PLAY FROM BEGINNING').click()
+            self.driver.find_element_by_name('Play From Beginning').click()
         except:
             pass
         self.driver.implicitly_wait(30)
