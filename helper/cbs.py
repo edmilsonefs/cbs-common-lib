@@ -703,16 +703,14 @@ class CommonHelper(TestlioAutomationTest):
 
     def mvpd_logout(self):
         self.goto_settings()
+        sleep(5)
+        self.event.screenshot(self.screenshot())
         try:
-            self.driver.find_element_by_name(name='Disconnect from Optimum')
-            element = self.driver.find_element_by_name(name='Disconnect from Optimum')
-            self.click_by_location(element)
-
-            element = self.driver.find_element_by_id(id_='com.cbs.app:id/btnMvpdLogoutSettings')
-            self.click_by_location(element)
+            self.click(xpath='//*[contains(@text,"Disconnect from Optimum")]', data='Disconnect From Optimum')
+            self.event.screenshot(self.screenshot())
+            self.click(id='com.cbs.app:id/btnMvpdLogoutSettings')
             sleep(4)
-            element = self.driver.find_element_by_id(id_='android:id/button1')
-            self.click_by_location(element)
+            self.click(id='android:id/button1')
             sleep(3)
         except:
             self.event._log_info(self.event._event_data('Optimum was not connected'))
