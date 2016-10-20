@@ -597,12 +597,12 @@ class CommonHelper(TestlioAutomationTest):
     def complete_registration(self):
         # Complete registration if required
         try:
-            self.wait_until_element_is_visible(element_id='com.cbs.app:id/terms_accept_checkBox', timeout=5)
+            self.wait_until_element_is_visible(element_id='com.cbs.app:id/terms_accept_checkBox')
             self.click(id='com.cbs.app:id/terms_accept_checkBox')
             self.event.screenshot(self.screenshot())
             self.click(name='SUBMIT')
         except Exception:
-            pass
+            self.event._log_info(self.event._event_data('complete registration not needed'))
         self.event.screenshot(self.screenshot())
         self.driver.implicitly_wait(30)
 
