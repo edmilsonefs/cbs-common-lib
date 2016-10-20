@@ -620,6 +620,8 @@ class CommonHelper(TestlioAutomationTest):
             # tablets weren't pressing the button with click command
             if self.testdroid_device == 'samsung SM-T330NU':
                 self.driver.tap([(350, 380)])
+            elif self.testdroid_device == 'KFTBWI':
+                self.driver.tap([(290, 290)])
             else:
                 self.driver.tap([(500, 570)])
         self.event.screenshot(self.screenshot())
