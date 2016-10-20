@@ -360,7 +360,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.hide_keyboard()
         except NoSuchElementException:
             pass
-        self.click(id='com.cbs.app:id/showImage')
+        self.click(id='com.cbs.app:id/showImage', data='First show icon')
 
     def click_any_video(self):
         list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/videoImage')
@@ -599,9 +599,11 @@ class CommonHelper(TestlioAutomationTest):
         try:
             self.wait_until_element_is_visible(element_id='com.cbs.app:id/terms_accept_checkBox', timeout=5)
             self.click(id='com.cbs.app:id/terms_accept_checkBox')
+            self.event.screenshot(self.screenshot())
             self.click(name='SUBMIT')
         except Exception:
             pass
+        self.event.screenshot(self.screenshot())
         self.driver.implicitly_wait(30)
 
     def logout(self):
