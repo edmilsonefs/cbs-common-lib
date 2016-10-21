@@ -14,6 +14,13 @@ class CommonIOSHelper(TestlioAutomationTest):
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
     show_name = 'Amazing Race'
+    user_type = 'anonymous'
+    anonymous = 'anonymous'
+    registered = 'registered'
+    subscriber = 'subscriber'
+    ex_subscriber = 'ex-subscriber'
+    cf_subscriber = 'cf-subscriber'
+    trial = 'trial'
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -90,6 +97,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def go_to_show(self, show_name):
         self.go_to_shows()
         self.click(id="Search")
+        sleep(3)
         self.send_text_native(show_name)
         self.driver.tap([(80, 170)])
         self.close_big_advertisement()
@@ -131,6 +139,42 @@ class CommonIOSHelper(TestlioAutomationTest):
             return False
         finally:
             self.driver.implicitly_wait(self.default_implicit_wait)
+
+    def verify_exists(self, **kwargs):
+        screenshot = False
+        if kwargs.has_key('screenshot') and kwargs['screenshot']:
+            screenshot = True
+
+        selector = ""
+        if kwargs.has_key('name'):
+            selector = kwargs['name']
+        elif kwargs.has_key('class_name'):
+            selector = kwargs['class_name']
+        elif kwargs.has_key('id'):
+            selector = kwargs['id']
+        elif kwargs.has_key('xpath'):
+            selector = kwargs['xpath']
+
+        self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
+                                      msg="Should see element with text or selector: '%s'" % selector)
+
+    def verify_not_exists(self, **kwargs):
+        screenshot = False
+        if kwargs.has_key('screenshot') and kwargs['screenshot']:
+            screenshot = True
+
+        selector = ""
+        if kwargs.has_key('name'):
+            selector = kwargs['name']
+        elif kwargs.has_key('class_name'):
+            selector = kwargs['class_name']
+        elif kwargs.has_key('id'):
+            selector = kwargs['id']
+        elif kwargs.has_key('xpath'):
+            selector = kwargs['xpath']
+
+        self.assertTrueWithScreenShot(not self.exists(**kwargs), screenshot=screenshot,
+                                      msg="Should NOT see element with text or selector: '%s'" % selector)
 
     def _accept_alert(self, count):
         for x in range(0, count):
@@ -237,3 +281,29 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.back()
                 counter += 1
         self.driver.implicitly_wait(self.default_implicit_wait)
+
+    def validation_upsell_page(self):
+        self.verify_exists(id='com.cbs.app:id/allAccessLogo', screenshot=True)
+        if self.user_type in [self.anonymous, self.registered]:
+            self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+            self.verify_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
+                                     "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
+            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+            self.verify_exists(name='GET STARTED')
+            if self.user_type == self.registered:
+                self.verify_not_exists(name='SELECT', timeout=10)
+        elif self.user_type in [self.subscriber, self.trial]:
+            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+            self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
+        elif self.user_type == self.cf_subscriber:
+            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+            self.verify_exists(xpath="//*[contains(@text,'READ OUR FAQ')]")
+        else:
+            if self.user_type == self.ex_subscriber:
+                self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+                self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+                self.verify_exists(xpath="//*[contains(@text,'Only $ 5.99/month')]")
+                self.verify_exists(name='SELECT')
+                self.verify_not_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
+                                             "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
+                self.verify_not_exists(name='GET STARTED', timeout=10)
