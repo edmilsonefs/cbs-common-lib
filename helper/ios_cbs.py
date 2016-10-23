@@ -100,7 +100,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(3)
         self.send_text_native(show_name)
         self.driver.tap([(80, 170)])
-        self.close_big_advertisement()
+        # self.close_big_advertisement()
 
     def exists(self, **kwargs):
         """
