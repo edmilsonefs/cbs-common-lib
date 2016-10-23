@@ -37,7 +37,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
         self.event.stop()
         sleep(60)
-        self.driver.quit()
+        try:
+            self.driver.quit()
+        except:
+            pass
         sleep(80)
 
     def find_by_uiautomation(self, value, hide_keyboard=False):
