@@ -685,16 +685,16 @@ class CommonHelper(TestlioAutomationTest):
                     elif self.tablet:
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
             self.click(name=city, screenshot=True)
-
-            for i in range(3):
-                try:
-                    self.driver.implicitly_wait(5)
-                    self.driver.find_element_by_name(name='Settings')
-                    self.driver.back()
-                    self.event.screenshot(self.screenshot())
-                    print(i)
-                except:
-                    pass
+            self.navigate_up()
+            # for i in range(3):
+            #     try:
+            #         self.driver.implicitly_wait(5)
+            #         self.driver.find_element_by_name(name='Debug')
+            #         self.driver.back()
+            #         self.event.screenshot(self.screenshot())
+            #         print(i)
+            #     except:
+            #         pass
             self.driver.implicitly_wait(30)
 
     def select_verify_now(self):
