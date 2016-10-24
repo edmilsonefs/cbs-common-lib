@@ -39,6 +39,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(60)
         try:
             self.driver.quit()
+            self.event.screenshot(self.screenshot())
         except:
             pass
         sleep(80)
