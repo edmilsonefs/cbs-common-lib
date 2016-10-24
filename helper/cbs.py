@@ -356,10 +356,6 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(30)
 
     def select_first_show_option(self):
-        try:
-            self.driver.hide_keyboard()
-        except NoSuchElementException:
-            pass
         self.click(id='com.cbs.app:id/showImage', data='First show icon')
 
     def click_any_video(self):
