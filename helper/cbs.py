@@ -698,7 +698,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.implicitly_wait(30)
 
     def select_verify_now(self):
-        self.click(name='Verify Now')
+        self.click(id='com.cbs.app:id/btnVerifyNow', data='Clicking verify now')
         self.click_allow_popup()
 
     def mvpd_logout(self):
