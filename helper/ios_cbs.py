@@ -279,7 +279,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_id("Main Menu")
+                self.driver.find_element_by_id("Primetime Episodes")
                 break
             except:
                 self.back()
