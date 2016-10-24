@@ -652,7 +652,7 @@ class CommonHelper(TestlioAutomationTest):
             self.click(name='Debug')
             self.screenshot()
         else:
-            self.driver.swipe(35, window_size_y - 600, 35, 200)
+            # self.driver.swipe(35, window_size_y - 600, 35, 200)
             self.click(name='Debug')
 
     def choose_location(self, city, swipe_up=False):
