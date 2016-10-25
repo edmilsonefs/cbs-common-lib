@@ -615,9 +615,11 @@ class CommonHelper(TestlioAutomationTest):
             self.event.screenshot(self.screenshot())
         self.click(name='Sign Out')
         if self.phone:
-            self.click(name='Sign Out')
+            self.event._log_info(self.event._event_data('Clicking Sign Out'))
+            self.driver.tap([(500, 1000)])
         else:
             # tablets weren't pressing the button with click command
+            self.event._log_info(self.event._event_data('Clicking Sign Out'))
             if self.testdroid_device == 'samsung SM-T330NU':
                 self.driver.tap([(350, 380)])
             elif self.testdroid_device == 'KFTBWI':
