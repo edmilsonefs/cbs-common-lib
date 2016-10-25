@@ -1,6 +1,7 @@
 import os
 from time import sleep
 
+from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
@@ -311,3 +312,30 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.verify_not_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                                              "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
                 self.verify_not_exists(name='GET STARTED', timeout=10)
+
+    def tap_by_touchaction(self, x, y):
+        x, y = self._convert_relative_x_y(x, y)
+
+        ta = TouchAction(self.driver)
+        ta.press(x=x, y=y).release().perform()
+
+    def _convert_relative_x_y(self, x, y):
+        if x < 1 or y < 1:
+            s = self.driver.get_window_size()
+            width = s['width']
+            height = s['height']
+
+            if x < 1:
+                x = x * width
+            if y < 1:
+                y = y * height
+
+        return x, y
+
+    def video_done_button(self):
+        try:
+            self.click(id="Done", timeout=2)
+        except:
+            self.tap_by_touchaction(.25, .25)
+            self.click(id="Done", timeout=5)
+        self.event._log_info(self.event._event_data("End of stream"))
