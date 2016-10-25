@@ -607,8 +607,12 @@ class CommonHelper(TestlioAutomationTest):
         self.goto_settings()
         if self.phone:
             # swipe to find sign out option
-            for i in range(4):
-                self.driver.swipe(40, window_size_y - 550, 40, 200)
+            # for i in range(4):
+            #     self.driver.swipe(40, window_size_y - 550, 40, 200)
+            origin = self.driver.find_element_by_name('Nielsen Info & Your Choices')
+            destination = self.driver.find_element_by_name('Send Feedback')
+            self.driver.drag_and_drop(origin, destination)
+            self.event.screenshot(self.screenshot())
         self.click(name='Sign Out')
         if self.phone:
             self.click(name='Sign Out')
