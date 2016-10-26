@@ -687,7 +687,6 @@ class CommonHelper(TestlioAutomationTest):
                     elif self.tablet:
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
             self.click(name=city, screenshot=True)
-            self.navigate_up()
             # for i in range(3):
             #     try:
             #         self.driver.implicitly_wait(5)
@@ -698,6 +697,7 @@ class CommonHelper(TestlioAutomationTest):
             #     except:
             #         pass
             self.driver.implicitly_wait(30)
+        self.navigate_up()
 
     def select_verify_now(self):
         self.click(id='com.cbs.app:id/btnVerifyNow', data='Clicking verify now')
