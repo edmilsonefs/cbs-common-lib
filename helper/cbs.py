@@ -33,7 +33,7 @@ class CommonHelper(TestlioAutomationTest):
         if 'Tab' in self.testdroid_device \
                 or 'Nexus 7' in self.testdroid_device \
                 or 'samsung SM-T330NU' == self.testdroid_device \
-                or 'KFTBWI' == self.testdroid_device:
+                or 'KFTBWI' in self.testdroid_device:
             self.tablet = True
             self.phone = False
         else:
