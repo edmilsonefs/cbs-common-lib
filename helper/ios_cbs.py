@@ -339,3 +339,12 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.tap_by_touchaction(.25, .25)
             self.click(id="Done", timeout=5)
         self.event._log_info(self.event._event_data("End of stream"))
+
+    def close_video(self):
+        count = 0
+        while count < 10:
+            if self.verify_exists(id="Search", timeout=5):
+                break
+            else:
+                self.video_done_button()
+                count += 1
