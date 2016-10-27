@@ -97,7 +97,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 count += 1
 
     def close_drawer(self):
-        self.tap_by_touchaction(.5, .1)
+        self.tap_by_touchaction(0.5, 0.01)
 
     def go_to_show(self, show_name):
         self.go_to_shows()
