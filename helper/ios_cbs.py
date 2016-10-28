@@ -68,7 +68,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def go_to_live_tv(self):
         self._go_to('Live TV')
-        self._accept_alert(1)
+        self._accept_alert(2)
 
     def go_to_schedule(self):
         self._go_to('Schedule')
