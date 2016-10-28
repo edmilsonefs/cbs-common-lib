@@ -78,7 +78,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def _go_to(self, menu):
         self.open_drawer()
-        self.click(xpath="//*[@name='%s' or @value='%s']" % (menu, menu))
+        self.click(xpath="//*[@name='%s' or @value='%s'][1]" % (menu, menu))
 
     def go_to_settings(self):
         self.open_drawer()
