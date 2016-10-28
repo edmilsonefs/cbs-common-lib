@@ -14,7 +14,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     needToAccept = True
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
-    show_name = 'Amazing Race'
+    show_name = 'American Gothic'
     user_type = 'anonymous'
     anonymous = 'anonymous'
     registered = 'registered'
