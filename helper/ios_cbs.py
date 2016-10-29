@@ -79,7 +79,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def _go_to(self, menu):
         self.open_drawer()
         sleep(3)
-        self.click(xpath="//UIATableView[@value='rows 1 to 6 of 6']//UIAStaticText[@name='%s']" % menu)
+        self.click(xpath="//UIATableView[contains(@value,'rows 1 to')]//UIAStaticText[@name='%s']" % menu)
 
     def go_to_settings(self):
         self._go_to('Settings')
