@@ -125,30 +125,50 @@ class CommonHelper(TestlioAutomationTest):
         self._hide_keyboard()
 
     def goto_home(self):
-        self.open_drawer()
-        self.go_to('Home')
+        try:
+            self.go_to('Home')
+        except:
+            self.open_drawer()
+            self.go_to('Home')
 
     def goto_shows(self):
-        self.open_drawer()
-        self.go_to('Shows')
+        try:
+            self.go_to('Shows')
+        except:
+            self.open_drawer()
+            self.go_to('Shows')
 
     def goto_subscribe(self):
-        self.open_drawer()
-        self.go_to('Subscribe')
+        try:
+            self.go_to('Subscribe')
+        except:
+            self.open_drawer()
+            self.go_to('Subscribe')
 
     def goto_live_tv(self):
-        self.open_drawer()
-        self.click(name="Live TV")
-        self.click_allow_popup()
-        self.driver.implicitly_wait(120)
+        try:
+            self.go_to('Live TV')
+            self.click_allow_popup()
+            self.driver.implicitly_wait(120)
+        except:
+            self.open_drawer()
+            self.go_to('Live TV')
+            self.click_allow_popup()
+            self.driver.implicitly_wait(120)
 
     def goto_schedule(self):
-        self.open_drawer()
-        self.go_to('Schedule')
+        try:
+            self.go_to('Schedule')
+        except:
+            self.open_drawer()
+            self.go_to('Schedule')
 
     def goto_settings(self):
-        self.open_drawer()
-        self.go_to('Settings')
+        try:
+            self.go_to('Settings')
+        except:
+            self.open_drawer()
+            self.go_to('Settings')
 
     def goto_show(self, show_name):
         self.select_search_icon()
