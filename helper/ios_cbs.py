@@ -96,7 +96,15 @@ class CommonIOSHelper(TestlioAutomationTest):
                 count += 1
 
     def close_drawer(self):
-        self.tap_by_touchaction(0.5, 0.01)
+        self.driver.implicitly_wait(30)
+        count = 0
+        while count < 10:
+            try:
+                self.click(id="Main Menu")
+                break
+            except:
+                self.tap_by_touchaction(0.5, 0.01)
+                count += 1
 
     def go_to_show(self, show_name):
         self.go_to_shows()
