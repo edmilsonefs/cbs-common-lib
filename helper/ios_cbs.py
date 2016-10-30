@@ -281,15 +281,13 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
-        self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_id("Primetime Episodes")
+                self.get_clickable_element(id='Primetime Episodes', timeout=10)
                 break
             except:
                 self.back()
                 counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
 
     def validation_upsell_page(self):
         self.verify_exists(id='com.cbs.app:id/allAccessLogo', screenshot=True)
