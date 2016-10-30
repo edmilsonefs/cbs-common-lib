@@ -79,11 +79,11 @@ class CommonIOSHelper(TestlioAutomationTest):
     def _go_to(self, menu):
         self.event.screenshot(self.screenshot())
         try:
-            self.click(xpath="//UIATableCell[@name='%s']" % menu)
+            self.click(element=self.get_clickable_element(xpath="//UIATableCell[@name='%s']" % menu))
         except:
             self.open_drawer()
             sleep(3)
-            self.click(xpath="//UIATableCell[@name='%s']" % menu)
+            self.click(element=self.get_clickable_element(xpath="//UIATableCell[@name='%s']" % menu))
 
     def go_to_settings(self):
         self._go_to('Settings')
@@ -93,7 +93,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         count = 0
         while count < 10:
             try:
-                self.click(id="Main Menu")
+                self.click(element=self.get_clickable_element(id="Main Menu"))
                 break
             except:
                 self.driver.tap([(25, 35)])
@@ -104,7 +104,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         count = 0
         while count < 10:
             try:
-                self.click(id="Main Menu")
+                self.click(element=self.get_clickable_element(id="Main Menu"))
                 break
             except:
                 self.tap_by_touchaction(0.5, 0.01)
@@ -126,35 +126,28 @@ class CommonIOSHelper(TestlioAutomationTest):
             my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
             self.exists(xpath="//*[@name='Submit']", driver=my_layout)
         """
+        timeout = 30
         if kwargs.has_key('timeout'):
-            self.driver.implicitly_wait(kwargs['timeout'])
-
-        if kwargs.has_key('driver'):
-            d = kwargs['driver']
-        else:
-            d = self.driver
-
+            timeout = kwargs['timeout']
         try:
             if kwargs.has_key('name'):
                 try:
-                    return self._find_element_by_xpath(
-                        "//*[@name='" + kwargs['name'] + "' or @value='" + kwargs['name'] + "']")
+                    return self.get_element(xpath=
+                        "//*[@name='" + kwargs['name'] + "' or @value='" + kwargs['name'] + "']", timeout=timeout)
                 except:
-                    e = d.find_element_by_xpath('//*[contains(@name,"%s")]' % kwargs['name'])
+                    e = self.get_element(xpath='//*[contains(@name,"%s")]' % kwargs['name'], timeout=timeout)
             elif kwargs.has_key('class_name'):
-                e = d.find_element_by_class_name(kwargs['class_name'])
+                e = self.get_element(class_name=kwargs['class_name'], timeout=timeout)
             elif kwargs.has_key('id'):
-                e = d.find_element_by_id(kwargs['id'])
+                e = self.get_element(id=kwargs['id'], timeout=timeout)
             elif kwargs.has_key('xpath'):
-                e = d.find_element_by_xpath(kwargs['xpath'])
+                e = self.get_element(xpath=kwargs['xpath'], timeout=timeout)
             else:
                 raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
 
             return e
         except NoSuchElementException:
             return False
-        finally:
-            self.driver.implicitly_wait(self.default_implicit_wait)
 
     def verify_exists(self, **kwargs):
         screenshot = False
