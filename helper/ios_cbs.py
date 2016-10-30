@@ -146,7 +146,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
 
             return e
-        except NoSuchElementException:
+        except:
             return False
 
     def verify_exists(self, **kwargs):
