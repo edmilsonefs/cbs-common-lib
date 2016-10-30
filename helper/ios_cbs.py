@@ -77,9 +77,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._go_to('My CBS')
 
     def _go_to(self, menu):
-        self.open_drawer()
-        sleep(3)
-        self.click(xpath="//UIATableCell[@name='%s']" % menu)
+        self.event.screenshot(self.screenshot())
+        try:
+            self.click(xpath="//UIATableCell[@name='%s']" % menu)
+        except:
+            self.open_drawer()
+            sleep(3)
+            self.click(xpath="//UIATableCell[@name='%s']" % menu)
 
     def go_to_settings(self):
         self._go_to('Settings')
