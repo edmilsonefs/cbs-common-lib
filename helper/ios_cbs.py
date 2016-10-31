@@ -100,7 +100,6 @@ class CommonIOSHelper(TestlioAutomationTest):
                 count += 1
 
     def close_drawer(self):
-        self.driver.implicitly_wait(30)
         count = 0
         while count < 10:
             try:
@@ -336,10 +335,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def video_done_button(self):
         try:
-            self.click(id="Done", timeout=2)
+            self.click(element=self.get_clickable_element(id="Done", timeout=10))
         except:
             self.tap_by_touchaction(.25, .25)
-            self.click(id="Done", timeout=5)
+            self.click(element=self.get_clickable_element(id="Done", timeout=10))
         self.event._log_info(self.event._event_data("End of stream"))
 
     def close_video(self):
