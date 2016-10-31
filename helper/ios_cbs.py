@@ -111,7 +111,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def go_to_show(self, show_name):
         self.go_to_shows()
-        self.click(id="Search")
+        self.click(element=self.get_clickable_element(id="Search", timeout=30))
         sleep(3)
         self.send_text_native(show_name)
         self.driver.tap([(80, 170)])
