@@ -88,6 +88,9 @@ class CommonIOSHelper(TestlioAutomationTest):
     def go_to_settings(self):
         self._go_to('Settings')
 
+    def sign_out(self):
+        self.click(id='Sign Out')
+
     def open_drawer(self):
         self.driver.implicitly_wait(30)
         count = 0
