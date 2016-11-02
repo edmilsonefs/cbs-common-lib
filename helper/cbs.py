@@ -829,7 +829,7 @@ class CommonHelper(TestlioAutomationTest):
                     if long_swipe:
                         self.driver.swipe(35, window_size_y - 500, 35, 200)
                     elif short_swipe:
-                        self.driver.swipe(35, window_size_y - 600, 35, 600)
+                        self.driver.swipe(35, window_size_y - 600, 35, 700)
                     else:
                         self.driver.swipe(35, window_size_y - 600, 35, 500)
                 else:
