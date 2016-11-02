@@ -671,9 +671,13 @@ class CommonHelper(TestlioAutomationTest):
         window_size_y = self.driver.get_window_size()["height"]
         self.goto_settings()
         if self.phone:
-            for i in range(4):
-                self.driver.swipe(40, window_size_y - 550, 40, 200)
-            self.screenshot()
+            origin = self.driver.find_element_by_name('Nielsen Info & Your Choices')
+            destination = self.driver.find_element_by_name('Send Feedback')
+            self.driver.drag_and_drop(origin, destination)
+            self.event.screenshot(self.screenshot())
+            # for i in range(4):
+            #     self.driver.swipe(40, window_size_y - 550, 40, 200)
+            # self.screenshot()
             self.click(name='Debug')
             self.screenshot()
         else:
