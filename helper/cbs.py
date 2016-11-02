@@ -705,24 +705,15 @@ class CommonHelper(TestlioAutomationTest):
             else:
                 for i in range(4):
                     if self.phone:
-                        if self.testdroid_device == 'motorola Nexus 6':
-                            self.driver.swipe(100, window_size_y - 500, 100, 550)
-                        elif self.testdroid_device == 'Samsung Galaxy Note 5':
-                            self.driver.swipe(500, window_size_y - 400, 500, 600)
-                        else:
-                            self.driver.swipe(100, window_size_y - 250, 100, 550)
+                        self.driver.swipe(100, window_size_y - 250, 100, 550)
+                        origin = self.driver.find_element_by_name('Philadelphia')
+                        destination = self.driver.find_element_by_name('Denver KCNC')
+                        self.driver.drag_and_drop(origin, destination)
+                        self.event.screenshot(self.screenshot())
                     elif self.tablet:
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
             self.click(name=city, screenshot=True)
-            # for i in range(3):
-            #     try:
-            #         self.driver.implicitly_wait(5)
-            #         self.driver.find_element_by_name(name='Debug')
-            #         self.driver.back()
-            #         self.event.screenshot(self.screenshot())
-            #         print(i)
-            #     except:
-            #         pass
+
             self.driver.implicitly_wait(30)
         self.navigate_up()
 
