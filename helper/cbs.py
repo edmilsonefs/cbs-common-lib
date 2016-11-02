@@ -703,14 +703,14 @@ class CommonHelper(TestlioAutomationTest):
                     elif self.tablet:
                         self.driver.swipe(500, 600, 500, window_size_y - 400)  # Nexus 7
             else:
-                for i in range(4):
-                    if self.phone:
-                        self.driver.swipe(100, window_size_y - 250, 100, 550)
-                        origin = self.driver.find_element_by_name('Philadelphia')
-                        destination = self.driver.find_element_by_name('Denver KCNC')
-                        self.driver.drag_and_drop(origin, destination)
-                        self.event.screenshot(self.screenshot())
-                    elif self.tablet:
+                if self.phone:
+                    # self.driver.swipe(100, window_size_y - 250, 100, 550)
+                    origin = self.driver.find_element_by_name('Philadelphia')
+                    destination = self.driver.find_element_by_name('Denver KCNC')
+                    self.driver.drag_and_drop(origin, destination)
+                    self.event.screenshot(self.screenshot())
+                elif self.tablet:
+                    for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
             self.click(name=city, screenshot=True)
 
