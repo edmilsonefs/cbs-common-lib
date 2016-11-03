@@ -637,7 +637,7 @@ class CommonHelper(TestlioAutomationTest):
         if self.phone:
             self.event._log_info(self.event._event_data('Clicking Sign Out'))
             if 'samsung SAMSUNG-SM-G930A' == self.testdroid_device:
-                self.driver.tap([(500, 1000)])
+                self.driver.tap([(500, 1200)])
             else:
                 self.driver.tap([(400, 660)])
         else:
