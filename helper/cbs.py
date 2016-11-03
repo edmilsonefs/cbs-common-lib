@@ -709,6 +709,10 @@ class CommonHelper(TestlioAutomationTest):
                     destination = self.driver.find_element_by_name('Denver KCNC')
                     self.driver.drag_and_drop(origin, destination)
                     self.event.screenshot(self.screenshot())
+                    origin = self.driver.find_element_by_name('College Station, TX KBTX')
+                    destination = self.driver.find_element_by_name('Boston')
+                    self.driver.drag_and_drop(origin, destination)
+                    self.event.screenshot(self.screenshot())
                 elif self.tablet:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
