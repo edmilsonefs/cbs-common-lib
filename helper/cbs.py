@@ -722,6 +722,7 @@ class CommonHelper(TestlioAutomationTest):
         self.navigate_up()
 
     def select_verify_now(self):
+        self.swipe_down_and_verify_if_exists(id_element='com.cbs.app:id/btnVerifyNow')
         self.click(id='com.cbs.app:id/btnVerifyNow', data='Clicking verify now')
         self.click_allow_popup()
 
