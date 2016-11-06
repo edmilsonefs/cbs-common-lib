@@ -634,21 +634,22 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
         self.click(name='Sign Out')
-        if self.phone:
-            self.event._log_info(self.event._event_data('Clicking Sign Out'))
-            if 'samsung SAMSUNG-SM-G930A' == self.testdroid_device:
-                self.driver.tap([(500, 1200)])
-            else:
-                self.driver.tap([(400, 660)])
-        else:
-            # tablets weren't pressing the button with click command
-            self.event._log_info(self.event._event_data('Clicking Sign Out'))
-            if self.testdroid_device == 'samsung SM-T330NU':
-                self.driver.tap([(350, 380)])
-            elif 'KFTBWI' in self.testdroid_device:
-                self.driver.tap([(290, 290)])
-            else:
-                self.driver.tap([(500, 570)])
+        self.click(id='com.cbs.app:id/signOutButton')
+        # if self.phone:
+        #     self.event._log_info(self.event._event_data('Clicking Sign Out'))
+        #     if 'samsung SAMSUNG-SM-G930A' == self.testdroid_device:
+        #         self.driver.tap([(500, 1200)])
+        #     else:
+        #         self.driver.tap([(400, 660)])
+        # else:
+        #     # tablets weren't pressing the button with click command
+        #     self.event._log_info(self.event._event_data('Clicking Sign Out'))
+        #     if self.testdroid_device == 'samsung SM-T330NU':
+        #         self.driver.tap([(350, 380)])
+        #     elif 'KFTBWI' in self.testdroid_device:
+        #         self.driver.tap([(290, 290)])
+        #     else:
+        #         self.driver.tap([(500, 570)])
         self.event.screenshot(self.screenshot())
         self.navigate_up()
         self.goto_home()
@@ -744,7 +745,7 @@ class CommonHelper(TestlioAutomationTest):
     def go_to_providers_page(self):
         self.goto_live_tv()
         if self.phone:
-            self.swipe_down_if_element_is_not_visible('Verify Now')
+            self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
         self.select_verify_now()
         self.click_allow_popup()
 
