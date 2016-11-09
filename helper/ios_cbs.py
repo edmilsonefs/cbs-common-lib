@@ -337,12 +337,17 @@ class CommonIOSHelper(TestlioAutomationTest):
         return x, y
 
     def video_done_button(self):
+        ta = TouchAction(self.driver)
+        self.event.screenshot(self.screenshot())
+        # try:
+        ta.press(x=100, y=100).release().perform()
+        self.event.screenshot(self.screenshot())
         try:
-            self.click(element=self.get_clickable_element(id="Done", timeout=10))
+            self.click(id="Done", timeout=2)
         except:
-            self.tap_by_touchaction(.25, .25)
-            self.click(element=self.get_clickable_element(id="Done", timeout=10))
-        self.event._log_info(self.event._event_data("End of stream"))
+            ta.press(x=100, y=100).release().perform()
+            self.click(id="Done", timeout=5)
+        self.event.screenshot(self.screenshot())
 
     def close_video(self):
         count = 0
