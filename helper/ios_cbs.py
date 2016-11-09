@@ -106,10 +106,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         count = 0
         while count < 10:
             try:
-                self.click(element=self.get_clickable_element(id="Main Menu"))
+                self.click(element=self.get_element(id="Main Menu"))
                 break
             except:
-                self.tap_by_touchaction(0.5, 0.01)
+                self.tap_by_touchaction(0.9, 0.01)
                 count += 1
 
     def go_to_show(self, show_name):
