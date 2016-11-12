@@ -6,8 +6,6 @@ from xml.etree import ElementTree
 
 
 class CommonHelperJW(CommonHelper):
-    default_implicit_wait = 130
-
     # This is just to sent the email, it's not really part of testing.
     # Don't update this as long as it's working.
     created_email_from_address    = 'jfreight33@gmail.com'
@@ -15,19 +13,12 @@ class CommonHelperJW(CommonHelper):
     created_email_to_address_list = 'valdo@testlio.com'
 
     facebook_app_list = []
-    passed = False
 
 ####################################################################################
 # SETUP/LOGIN METHODS
 
     def setup_method(self, method):
         super(CommonHelperJW, self).setup_method(method, {"unicodeKeyboard": True, "resetKeyboard": True})
-
-        self.get_hosting_platform()
-        if self.hosting_platform == 'testdroid':
-            self.testdroid_device = self.get_testdroid_device_from_adb()
-        else:
-            self.testdroid_device = os.getenv('TESTDROID_DEVICE')
 
         self.set_implicit_wait()
 
@@ -60,17 +51,6 @@ class CommonHelperJW(CommonHelper):
         else:
             self.IS_AMAZON = False
 
-        if 'Tab' in self.testdroid_device \
-                or 'Nexus 7' in self.testdroid_device \
-                or 'SM-T330NU' in self.testdroid_device \
-                or 'Amazon Fire HDx' in self.testdroid_device \
-                or 'KFTBWI' in self.testdroid_device:
-            self.tablet = True
-            self.phone  = False
-        else:
-            self.tablet = False
-            self.phone  = True
-
         if self.is_drawer_open():
             self.close_drawer()
 
@@ -93,40 +73,6 @@ class CommonHelperJW(CommonHelper):
                     self.event.start(data='in teardown: page source failed')
 
         super(CommonHelperJW, self).teardown_method(method)
-
-    def get_hosting_platform(self):
-        """
-        Determine if we're running on testlio platform or testdroid.
-        Sets self.hosting_platform
-        """
-        if 'VIRTUAL_ENV' in os.environ and "ubuntu" in os.environ['VIRTUAL_ENV']:
-            self.hosting_platform = 'testdroid'
-        else:
-            self.hosting_platform = 'testlio'
-
-    def get_testdroid_device_from_adb(self):
-        """
-        Mapping of device model names (as returned by adb getprop) to testdroid device names
-        """
-        lookup = {}
-        lookup['831C']              = 'HTC_M8x'
-        lookup['Nexus 5']           = 'LGE Nexus 5'
-        lookup['Nexus 5']           = 'LGE Nexus 5 6.0'
-        lookup['Nexus 5X']          = 'LGE Nexus 5X'
-        lookup['Nexus 6']           = 'motorola Nexus 6'
-        lookup['Nexus 7']           = 'asus Nexus 7'
-        lookup['GT-N7100']          = 'samsung GT-N7100'
-        lookup['SAMSUNG-SM-N900A']  = 'samsung SAMSUNG-SM-N900A'
-        lookup['SM-N920R4']         = 'Samsung Galaxy Note 5'
-        lookup['SAMSUNG-SGH-I747']  = 'samsung SAMSUNG-SGH-I747'
-        lookup['GT-I9500']          = 'samsung GT-I9500'
-        lookup['SAMSUNG-SM-G930A']  = 'samsung SAMSUNG-SM-G930A'
-        lookup['SAMSUNG-SM-G900A']  = 'samsung SAMSUNG-SM-G900A'
-        lookup['SM-T330NU']         = 'samsung SM-T330NU'
-        lookup['KFTBWI']            = 'Amazon KFTBWI'
-
-        adb_device_name = subprocess.check_output(['adb', 'shell', 'getprop ro.product.model']).strip()
-        return lookup[adb_device_name]
 
     def logout(self):
         self.goto_settings()
@@ -485,34 +431,8 @@ class CommonHelperJW(CommonHelper):
         sleep(5)
         self.event.screenshot(self.screenshot())
 
-    def mvpd_logout(self):
-        """
-        Goes to settings, clicks logout button
-        """
-
-        self.goto_settings()
-        self.event.screenshot(self.screenshot())
-
-        element = self.exists(name='Disconnect from Optimum', timeout=5)
-        if element:
-            element.click()
-
-            self.click(name='Disconnect')
-
-            if not self.click_safe(name="Yes", timeout=1):
-                self.click_safe(name="YES", timeout=1)
-
-            sleep(3)
-            self.event.screenshot(self.screenshot())
-
 ####################################################################################
 # RANDOM HELPER METHODS
-
-    def generate_random_string(self, length=8):
-        """
-        returns random alpha-numeric string
-        """
-        return str(''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(length)))
 
     def send_created_account_email(self):
         """
@@ -544,22 +464,6 @@ class CommonHelperJW(CommonHelper):
 
         self.created_account = None
 
-    def _hide_keyboard(self):
-        """
-        Wrapper for driver.hide_keyboard()
-        """
-        if self.IS_AMAZON:
-            try:
-                self.driver.hide_keyboard()
-            except:
-                pass
-        else:
-            for x in range(0, 2):
-                try:
-                    self.driver.hide_keyboard()
-                except:
-                    pass
-
     def set_implicit_wait(self, wait_time=-1):
         """
         wrapper that sets implicit wait, defualts to self.default_implicit_wait
@@ -569,16 +473,6 @@ class CommonHelperJW(CommonHelper):
 
         self.driver.implicitly_wait(wait_time)
 
-    def is_all_access(self):
-        """
-        To be used on Home screen.
-
-        oddly, these elements exist if user is NOT AA - at least on Home screen
-        com.cbs.app:id/all_access_root
-        com.cbs.app:id/all_access_bg
-        com.cbs.app:id/allAccessFlag
-        """
-        return not self.exists(id='com.cbs.app:id/allAccessFlag')
 
 ####################################################################################
 # PHONE/HARDWARE METHODS
@@ -588,6 +482,9 @@ class CommonHelperJW(CommonHelper):
 
     def hw_back(self):
         self.driver.press_keycode(4)
+
+    def hw_enter(self):
+        self.driver.press_keycode(66)
 
     def hw_home(self):
         self.driver.press_keycode(3)
@@ -793,8 +690,10 @@ class CommonHelperJW(CommonHelper):
         self.click(id='com.cbs.app:id/mycbsButton')
 
     def click_episode_information(self):
-        # on the show page, where you see a list of episodes,
-        # this clicks the (i) next to an episode
+        """
+        on the show page, where you see a list of episodes,
+        this clicks the (i) next to an episode
+        """
         self.click(id='com.cbs.app:id/infoIcon')
 
     def click_watch_episode(self):
@@ -924,7 +823,6 @@ class CommonHelperJW(CommonHelper):
         """
         Converts relative args such as swipe(.5, .5, .5, .2, 1000)
         to actual numbers such as (500, 500, 500, 200, 1000) based on current screen size.
-        Apparently some versions of appium don't handle this correctly. Surprising.
         """
         if startx < 1 or starty < 1 or endx < 1 or endy < 1:
             s = self.driver.get_window_size()
@@ -1014,8 +912,12 @@ class CommonHelperJW(CommonHelper):
 
     def click_safe(self, **kwargs):
         """
-        Checks to see if element exists first.
+        Waits for element to exist before trying to click.
+        Does NOT throw an error if element does not exist.
         If true - click and return the element.  If false - return False
+
+        example:
+        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
         """
         element_or_false = self.exists(**kwargs)
 
@@ -1054,8 +956,8 @@ class CommonHelperJW(CommonHelper):
     def send_keys_with_retry(self, element, string, retries=4):
         """
         Tries a few times to enter the string and then make sure it's entered correctly.
-        The "length" part is because sometimes we enter "hello" and the text element will say
-        something like "hello is being searched for"
+        The "length" part is because sometimes we send "hello" but then the element will add
+        its own text, and say something like "hello is being searched for"
         """
         length = len(string)
 
@@ -1294,12 +1196,14 @@ class CommonHelperJW(CommonHelper):
         # raise NoSuchElementException("find_on_page failed looking for '%s'" % elem_id)
 
     def find_one_of(self, *args):
-        # Uses exists_one_of() and just throws an error if cannot find any of the elements passed in
-        # See exists_one_of()
+        """
+        Uses exists_one_of() and just throws an error if cannot find any of the elements passed in
+        See exists_one_of()
 
-        # examples:
-        # self.find_one_of('name', 'SUBMIT', 'name', 'Submit')
-        # self.find_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
+        examples:
+        self.find_one_of('name', 'SUBMIT', 'name', 'Submit')
+        self.find_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
+        """
 
         elem = self.exists_one_of(*args)
         if elem:
@@ -1433,14 +1337,16 @@ class CommonHelperJW(CommonHelper):
                 return False
 
     def exists_one_of(self, *args):
-        # Pass in a list of elements to search for.  This is very helpful for differences across devices such
-        # as Submit vs. SUBMIT (or in system settings menus such as Wi-Fi vs Wi Fi).  Also very useful for multi-
-        # language support.  This is much more efficient than searching for 130s for elementA, then trying elementB
-        # default timeout is default_implicit_wait
+        """
+        Pass in a list of elements to search for.  This is very helpful for differences across devices such
+        as Submit vs. SUBMIT (or in system settings menus such as Wi-Fi vs Wi Fi).  Also very useful for multi-
+        language support.  This is much more efficient than searching for 130s for elementA, then trying elementB
+        default timeout is default_implicit_wait
 
-        # examples:
-        # self.exists_one_of('name', 'SUBMIT', 'name', 'Submit')
-        # self.exists_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
+        examples:
+        self.exists_one_of('name', 'SUBMIT', 'name', 'Submit')
+        self.exists_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
+        """
 
         if len(args) % 2 != 0:
             raise RuntimeError('Number of args passed to exists_one_of() must be an even number')

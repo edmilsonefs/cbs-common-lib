@@ -47,12 +47,19 @@ class CommonHelper(TestlioAutomationTest):
         super(CommonHelper, self).teardown_method(method)
 
     def get_hosting_platform(self):
+        """
+        Determine if we're running on testlio platform or testdroid.
+        Sets self.hosting_platform
+        """
         if 'VIRTUAL_ENV' in os.environ and "ubuntu" in os.environ['VIRTUAL_ENV']:
             self.hosting_platform = 'testdroid'
         else:
             self.hosting_platform = 'testlio'
 
     def get_testdroid_device_from_adb(self):
+        """
+        Mapping of device model names (as returned by adb getprop) to testdroid device names
+        """
         lookup = {}
         lookup['KFTBWI'] = 'KFTBWI'
         lookup['831C'] = 'HTC_M8x'
@@ -62,6 +69,7 @@ class CommonHelper(TestlioAutomationTest):
         lookup['Nexus 6'] = 'motorola Nexus 6'
         lookup['Nexus 7'] = 'asus Nexus 7'
         lookup['?'] = 'samsung GT-N7100'
+        lookup['GT-N7100'] = 'samsung GT-N7100'
         lookup['SAMSUNG-SM-N900A'] = 'samsung SAMSUNG-SM-N900A'
         lookup['SM-N920R4'] = 'Samsung Galaxy Note 5'
         lookup['SAMSUNG-SGH-I747'] = 'samsung SAMSUNG-SGH-I747'
@@ -247,6 +255,9 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.tap([(x, y)])
 
     def generate_random_string(self, length=8):
+        """
+        returns random alpha-numeric string
+        """
         return str(''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(length)))
 
     def _hide_keyboard(self):
