@@ -12,7 +12,7 @@ import re
 import subprocess
 
 
-class CBSCommon(TestlioAutomationTest):
+class CommonHelperJW(CommonHelper):
     default_implicit_wait = 130
 
     # This is just to sent the email, it's not really part of testing.
@@ -28,7 +28,7 @@ class CBSCommon(TestlioAutomationTest):
 # SETUP/LOGIN METHODS
 
     def setup_method(self, method):
-        super(CBSCommon, self).setup_method(method, {"unicodeKeyboard": True, "resetKeyboard": True})
+        super(CommonHelperJW, self).setup_method(method, {"unicodeKeyboard": True, "resetKeyboard": True})
 
         self.get_hosting_platform()
         if self.hosting_platform == 'testdroid':
@@ -99,7 +99,7 @@ class CBSCommon(TestlioAutomationTest):
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
 
-        super(CBSCommon, self).teardown_method(method)
+        super(CommonHelperJW, self).teardown_method(method)
 
     def get_hosting_platform(self):
         """
