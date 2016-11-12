@@ -149,7 +149,11 @@ class CommonHelperJW(CommonHelper):
     def sign_in_twitter(self, email, password):
         self.goto_sign_in()
         self.click_twitter_icon()
-        self.login_through_twitter(email, password)
+
+        if 'SGH-I747' in self.testdroid_device or 'SM-N900A' in self.testdroid_device:
+            self.login_through_twitter_by_multi_tap(email_text, password_text)
+        else:
+            self.login_through_twitter(email, password)
 
         self._complete_reg()
         self._post_login()
@@ -178,7 +182,10 @@ class CommonHelperJW(CommonHelper):
         if self.testdroid_device in self.facebook_app_list:
             self.login_through_facebook(email, password)
         else:
-            self.login_through_facebook_webview(email, password)
+            if 'SGH-I747' in self.testdroid_device or 'SM-N900A' in self.testdroid_device:
+                self.login_through_facebook_webview_by_x_y(email_text, password_text)
+            else:
+                self.login_through_facebook_webview(email, password)
 
     def login_through_facebook(self, email_text, password_text):
         """
@@ -253,10 +260,6 @@ class CommonHelperJW(CommonHelper):
         """
         Logs in through FB webview after making sure the textfields appear
         """
-        if 'SGH-I747' in self.testdroid_device or 'SM-N900A' in self.testdroid_device:
-            self.login_through_facebook_webview_by_x_y(email_text, password_text)
-            return
-
         sleep(30)
 
         count = 0
@@ -312,37 +315,6 @@ class CommonHelperJW(CommonHelper):
         sleep(30)
         self.event.screenshot(self.screenshot())  # per spec
 
-    def login_through_twitter_by_x_y(self, email_text, password_text):
-        """
-        A couple phones are too old (4.3) to have webviews correctly work, so we tap by x,y coords
-        """
-        if 'SGH-I747' in self.testdroid_device:
-            y_email = 650
-        elif 'SM-N900A' in self.testdroid_device:
-            y_email = 960
-        else:
-            raise RuntimeError('Device type not supported.  Please add it.')
-
-        self.exists(class_name='android.webkit.WebView', timeout=60)
-        sleep(20)
-
-        self.tap(.4, y_email)
-        sleep(1)
-        self.tap_keys_on_keyboard(email_text+'\t')
-        sleep(1)
-        self.tap_keys_on_keyboard(password_text+'\t')
-        sleep(1)
-        self.event.screenshot(self.screenshot())  # per spec
-
-        # tap authorize button
-        self.tap_keys_on_keyboard('\n')
-        sleep(10)
-
-        # popup says "Do you want to save your password?"
-        self.click_safe(name='Not now', timeout=10)
-
-        self.event.screenshot(self.screenshot())  # per spec
-
     def login_through_twitter_by_multi_tap(self, email_text, password_text):
         """
         A couple phones are too old (4.3) to have webviews correctly work, so we tap by x,y coords
@@ -350,6 +322,8 @@ class CommonHelperJW(CommonHelper):
         self.exists(class_name='android.webkit.WebView', timeout=60)
         sleep(20)
 
+        # What we're doing here is doing lots of taps in a row, trying to find the button.
+        # It's actually not that slow.
         y = .35
         for i in range(10):
             self.tap(.4,y)
@@ -379,11 +353,6 @@ class CommonHelperJW(CommonHelper):
         """
         Logs in through Twitter webview
         """
-        if 'SGH-I747' in self.testdroid_device or 'SM-N900A' in self.testdroid_device:
-            self.login_through_twitter_by_multi_tap(email_text, password_text)
-            #self.login_through_twitter_by_x_y(email_text, password_text)
-            return
-
         sleep(30)
         self.set_implicit_wait()
 
