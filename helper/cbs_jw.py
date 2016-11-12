@@ -1,15 +1,8 @@
-import os
-from time import sleep, time
-from datetime import datetime
-from testlio.base import TestlioAutomationTest
-from selenium.common.exceptions import NoSuchElementException, WebDriverException
-from random import choice
+from cbs import CommonHelper
 
 from email.mime.text import MIMEText
 from smtplib import SMTP
 from xml.etree import ElementTree
-import re
-import subprocess
 
 
 class CommonHelperJW(CommonHelper):
@@ -519,7 +512,7 @@ class CommonHelperJW(CommonHelper):
         """
         returns random alpha-numeric string
         """
-        return str(''.join(choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(length)))
+        return str(''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(length)))
 
     def send_created_account_email(self):
         """
