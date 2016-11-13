@@ -1,4 +1,4 @@
-from cbs import CommonHelper
+from cbs import *
 
 
 class CommonHelperJW(CommonHelper):
@@ -1856,7 +1856,7 @@ class CommonHelperJW(CommonHelper):
                 size = elem.size
                 loc  = elem.location
                 ratio = float(size['height'])/float(size['width'])
-                if (ratio == 1.0 and
+                if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
                     loc['y'] < max_y and
                     loc['x'] < max_x
                     ):
@@ -1869,7 +1869,7 @@ class CommonHelperJW(CommonHelper):
             for elem in elems:
                 size = elem.size
                 ratio = float(size['height'])/float(size['width'])
-                if (ratio == 1.0 and
+                if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
                     loc['y'] < max_y and
                     loc['x'] < max_x
                     ):
