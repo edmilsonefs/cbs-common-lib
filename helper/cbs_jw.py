@@ -1,9 +1,5 @@
 from cbs import CommonHelper
 
-from email.mime.text import MIMEText
-from smtplib import SMTP
-from xml.etree import ElementTree
-
 
 class CommonHelperJW(CommonHelper):
     # This is just to sent the email, it's not really part of testing.
@@ -433,82 +429,6 @@ class CommonHelperJW(CommonHelper):
 
         self.created_account = None
 
-    def set_implicit_wait(self, wait_time=-1):
-        """
-        wrapper that sets implicit wait, defualts to self.default_implicit_wait
-        """
-        if wait_time == -1:
-            wait_time = self.default_implicit_wait
-
-        self.driver.implicitly_wait(wait_time)
-
-
-####################################################################################
-# PHONE/HARDWARE METHODS
-
-    def hw_power(self):
-        self.driver.press_keycode(26)
-
-    def hw_back(self):
-        self.driver.press_keycode(4)
-
-    def hw_enter(self):
-        self.driver.press_keycode(66)
-
-    def hw_home(self):
-        self.driver.press_keycode(3)
-
-    def hw_switch_apps(self):
-        self.driver.press_keycode(187)
-
-    def activate_standard_keyboard(self):
-        """
-        Looks through the device's system keyboards and activates the correct one.  Should help with things like
-        the string "josh@gmail.com" turning into "josh2gmail.com" when using send_keys()
-        """
-        for kybd in self.driver.available_ime_engines:
-            if 'samsungkeypad' in kybd.lower():
-                self.driver.activate_ime_engine(kybd)
-                return
-
-            if ('latin' in kybd.lower() or
-                'samsung' in kybd.lower() or
-                'htc' in kybd.lower() or
-                'amazon' in kybd.lower()):
-                    new_kybd = kybd
-
-        self.driver.activate_ime_engine(new_kybd)
-
-    def tap_keys_on_keyboard(self, txt):
-        """
-        Sometimes send_keys() doesn't work. Sometimes you just have to tap the keys yourself.
-        This will currently work for a limited set of keyboard keys.
-        See all Android keycodes at http://developer.android.com/reference/android/view/KeyEvent.html
-        :param txt: The string to tap.
-        """
-        dct = {'-':69, '=':70, '[':71, ']':72, '\\':73, ';':74, '\'':75, '/': 76, ' ':62, ',':55, '.':56, '\t':61, '\r':66, '\n':66}
-        dct2 = {')':7, '!':8, '@':9, '#':10, '$':11, '%':12, '^':13, '&':14, '*':15, '(':16, '_':69, '+':70, '{':71, '}':72, '|':73, ':':74, '"':75, '?':76, '<':55, '>':56}
-
-        for char in txt:
-            metastate = 0
-
-            if re.search(r'[0-9]', char):
-                i = ord(char) - 41
-            elif re.search(r'[a-z]', char):
-                i = ord(char) - 68
-            elif re.search(r'[A-Z]', char):
-                i = ord(char) - 36
-                metastate = 1
-            elif char in dct:
-                i = dct[char]
-            elif char in dct2:
-                i = dct2[char]
-                metastate = 1
-            else:
-                raise RuntimeError("got a char I don't think we can tap: %s" % char)
-
-            self.driver.press_keycode(i, metastate)
-
 ####################################################################################
 # NAVIGATION
 
@@ -788,32 +708,6 @@ class CommonHelperJW(CommonHelper):
 ####################################################################################
 # SWIPE / TAP / CLICK / SEND_KEYS
 
-    def swipe(self, startx, starty, endx, endy, swipe_time):
-        """
-        Converts relative args such as swipe(.5, .5, .5, .2, 1000)
-        to actual numbers such as (500, 500, 500, 200, 1000) based on current screen size.
-        """
-        if startx < 1 or starty < 1 or endx < 1 or endy < 1:
-            s = self.driver.get_window_size()
-            width = s['width']
-            height = s['height']
-
-            if startx < 1:
-                startx = startx * width
-            if endx < 1:
-                endx = endx * width
-            if starty < 1:
-                starty = starty * height
-            if endy < 1:
-                endy = endy * height
-
-        # try a couple times.  sometimes swipe fails for no clear reason
-        try:
-            self.driver.swipe(startx, starty, endx, endy, swipe_time)
-        except WebDriverException:
-            sleep(4)
-            self.driver.swipe(startx, starty, endx, endy, swipe_time)
-
     def swipe_element_to_top_of_screen(self, elem, endy=None, startx=-20):
         """
         Uses element.location
@@ -879,29 +773,6 @@ class CommonHelperJW(CommonHelper):
         self.swipe(startx, starty, endx, endy, duration)
         sleep(1)
 
-    def click_safe(self, **kwargs):
-        """
-        Waits for element to exist before trying to click.
-        Does NOT throw an error if element does not exist.
-        If true - click and return the element.  If false - return False
-
-        example:
-        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
-        """
-        element_or_false = self.exists(**kwargs)
-
-        if element_or_false:
-            msg = element_or_false.text or \
-                  element_or_false.get_attribute('name') or \
-                  element_or_false.get_attribute('resourceId') or \
-                  element_or_false.tag_name
-
-            self.event.click('In click_safe(), about to click.  element info = %s' % msg)
-            element_or_false.click()
-            return element_or_false
-        else:
-            return False
-
     def click_by_location(self, elem, msg=None):
         """
         sometimes elem.click() fails for whatever reason.  get x,y coords and click by that
@@ -921,41 +792,6 @@ class CommonHelperJW(CommonHelper):
 
         # an array of tuples
         self.tap(x, y, msg)
-
-    def send_keys_with_retry(self, element, string, retries=4):
-        """
-        Tries a few times to enter the string and then make sure it's entered correctly.
-        The "length" part is because sometimes we send "hello" but then the element will add
-        its own text, and say something like "hello is being searched for"
-        """
-        length = len(string)
-
-        for i in range(retries):
-            self.send_keys(string + '\n', element)
-            if element.text[0:length] != string:
-                element.clear()
-            else:
-                break
-
-    def tap(self, x, y, msg=''):
-        """
-        Converts relative args such as click(.5, .5)
-        to actual numbers such as (515, 840) based on current screen size.
-        Apparently some versions of appium don't handle this correctly. Surprising.
-        """
-        if x < 1 or y < 1:
-            s = self.driver.get_window_size()
-            width = s['width']
-            height = s['height']
-
-            if x < 1:
-                x = x * width
-            if y < 1:
-                y = y * height
-
-        # logging
-        self.event.click('clicking: %s (%s, %s)' % (msg, int(x), int(y)))
-        self.driver.tap([(x, y)])
 
 ####################################################################################
 # SHOWS
@@ -1140,46 +976,6 @@ class CommonHelperJW(CommonHelper):
 ####################################################################################
 # FIND / EXISTS
 
-    def find_on_page(self, find_by, find_key, max_swipes=10, x=.5):
-        """
-        Scrolls down the page looking for an element.  Call the method like this:
-        self.find_on_page('name', 'Settings')
-        self.find_on_page('id', 'com.cbs.app:id/seasonEpisode')
-        """
-        self.set_implicit_wait(3)
-
-        for i in range(max_swipes):
-            try:
-                if find_by == 'name':
-                    e = self.driver.find_element_by_name(find_key)
-                else:
-                    e = self.driver.find_element_by_id(find_key)
-                self.set_implicit_wait()
-                return e
-            except NoSuchElementException:
-                self.swipe(x, .5, x, 10, 1500)
-                pass
-
-        self.set_implicit_wait()
-        return False
-        # raise NoSuchElementException("find_on_page failed looking for '%s'" % elem_id)
-
-    def find_one_of(self, *args):
-        """
-        Uses exists_one_of() and just throws an error if cannot find any of the elements passed in
-        See exists_one_of()
-
-        examples:
-        self.find_one_of('name', 'SUBMIT', 'name', 'Submit')
-        self.find_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
-        """
-
-        elem = self.exists_one_of(*args)
-        if elem:
-            return elem
-        else:
-            raise NoSuchElementException("Could not find any of %s" % str(args))
-
     def find_on_page_horizontal(self, find_by, find_value, max_swipes=10, swipe_y=.5):
         """
         Scrolls to the right the page looking for an element.  Call the method like this:
@@ -1282,85 +1078,6 @@ class CommonHelperJW(CommonHelper):
             return False
         finally:
             self.set_implicit_wait()
-
-    def not_exists(self, **kwargs):
-        """
-        Waits until element does not exist.  Waits up to <implicit_wait> seconds.
-        Optional parameter: timeout=3 if you only want to wait 3 seconds.  Default=30
-        Return: True or False
-        """
-        if 'timeout' in kwargs:
-            timeout = (kwargs['timeout'])
-        else:
-            timeout = 30
-
-        start_time = time()
-
-        kwargs['timeout'] = 0   # we want exists to return immediately
-        while True:
-            elem = self.exists(**kwargs)
-            if not elem:
-                return True
-
-            if time() - start_time > timeout:
-                return False
-
-    def exists_one_of(self, *args):
-        """
-        Pass in a list of elements to search for.  This is very helpful for differences across devices such
-        as Submit vs. SUBMIT (or in system settings menus such as Wi-Fi vs Wi Fi).  Also very useful for multi-
-        language support.  This is much more efficient than searching for 130s for elementA, then trying elementB
-        default timeout is default_implicit_wait
-
-        examples:
-        self.exists_one_of('name', 'SUBMIT', 'name', 'Submit')
-        self.exists_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
-        """
-
-        if len(args) % 2 != 0:
-            raise RuntimeError('Number of args passed to exists_one_of() must be an even number')
-
-        # will be overwritten later if they passed in a value for timeout
-        timeout = self.default_implicit_wait
-
-        # turn list ['a', 'b', 'c', 'd']
-        # into dict {'a':'b', 'c':'d'}
-        search_list = []
-        while args:
-            if args[0] in ['name', 'class_name', 'id', 'xpath']:
-                d = {args[0]: args[1]}
-                search_list.append(d)
-            elif args[0] == 'timeout':
-                timeout = args[1]
-            args = args[2:]
-
-        start_time = time()
-
-        while True:
-            # this inner for loop will ensure that we search for all elements at least once.
-            for i in range(len(search_list)):
-                new_args = {'timeout': 0}
-                new_args.update(search_list[i])  # 'timeout'=0 we want exists to return immediately
-
-                elem = self.exists(**new_args)
-                if elem:
-                    return elem
-
-            if time() - start_time > timeout:
-                return False
-
-    def is_keyboard_displayed(self):
-        """
-        WARNING: Has the side-effect of hiding the keyboard if it's displayed
-
-        Wrapper for driver.hide_keyboard()
-        Returns True or False
-        """
-        try:
-            self.driver.hide_keyboard()
-            return True
-        except WebDriverException:
-            return False
 
 ####################################################################################
 # XML methods
