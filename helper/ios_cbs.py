@@ -92,11 +92,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(element=self.get_clickable_element(id='Sign Out'))
 
     def open_drawer(self):
-        self.driver.implicitly_wait(30)
         count = 0
         while count < 10:
             try:
-                self.click(element=self.get_clickable_element(id="Main Menu"))
+                self.click(element=self.get_clickable_element(id="Main Menu", timeout=30))
                 break
             except:
                 self.driver.tap([(25, 35)])
