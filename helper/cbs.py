@@ -879,8 +879,9 @@ class CommonHelper(TestlioAutomationTest):
 
     def complete_registration(self):
         # Complete registration if required
+        
         try:
-            self.wait_until_element_is_visible(element_id='com.cbs.app:id/terms_accept_checkBox')
+            sleep(5)
             self.click(id='com.cbs.app:id/terms_accept_checkBox')
             self.event.screenshot(self.screenshot())
             self.click(name='SUBMIT')
@@ -890,33 +891,17 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(30)
 
     def logout(self):
-        window_size_y = self.driver.get_window_size()["height"]
         self.goto_settings()
         if self.phone:
-            # swipe to find sign out option
-            # for i in range(4):
-            #     self.driver.swipe(40, window_size_y - 550, 40, 200)
             origin = self.driver.find_element_by_name('Nielsen Info & Your Choices')
             destination = self.driver.find_element_by_name('Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
-        self.click(name='Sign Out')
-        self.click(id='com.cbs.app:id/signOutButton')
-        # if self.phone:
-        #     self.event._log_info(self.event._event_data('Clicking Sign Out'))
-        #     if 'samsung SAMSUNG-SM-G930A' == self.testdroid_device:
-        #         self.driver.tap([(500, 1200)])
-        #     else:
-        #         self.driver.tap([(400, 660)])
-        # else:
-        #     # tablets weren't pressing the button with click command
-        #     self.event._log_info(self.event._event_data('Clicking Sign Out'))
-        #     if self.testdroid_device == 'samsung SM-T330NU':
-        #         self.driver.tap([(350, 380)])
-        #     elif 'KFTBWI' in self.testdroid_device:
-        #         self.driver.tap([(290, 290)])
-        #     else:
-        #         self.driver.tap([(500, 570)])
+        self.click(name='Sign Out', data= 'Sign Out 1')
+        self.click(id='com.cbs.app:id/signOutButton', data="Sign out 2")
+        if "LGE Nexus 5X" == self.testdroid_device:
+            self.event._log_info(self.event._event_data('Sign out 2'))
+            self.driver.tap([(400, 660)])
         self.event.screenshot(self.screenshot())
         self.navigate_up()
         self.goto_home()
