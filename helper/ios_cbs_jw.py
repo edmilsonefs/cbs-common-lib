@@ -261,21 +261,6 @@ class CommonIOSHelperJW(CommonIOSHelper):
 
         return t_f
 
-    def set_implicit_wait(self, wait_time=-1):
-        """
-        wrapper that sets implicit wait, defualts to self.default_implicit_wait
-        """
-        if wait_time == -1:
-            wait_time = self.default_implicit_wait
-
-        self.driver.implicitly_wait(wait_time)
-
-    def find_by_uiautomation(self, value, hide_keyboard=False):
-        return self.driver.find_element(By.IOS_UIAUTOMATION, value)
-
-    def send_text_native(self, value):
-        self.driver.execute_script('var vKeyboard = target.frontMostApp().keyboard(); vKeyboard.setInterKeyDelay(0.1); vKeyboard.typeString("%s");' % value)
-
     def _accept_alert(self):
         for x in range(0, 5):
             try:
@@ -299,10 +284,6 @@ class CommonIOSHelperJW(CommonIOSHelper):
         return str(''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ') for _ in range(length)))
 
     def _hide_keyboard(self):
-        #doesn't seem to work all the time
-        #self.driver.hide_keyboard()
-
-        # if that didn't work, try the swipe
         if self.is_keyboard_displayed():
             if self.phone:
                 size = self.driver.get_window_size()
@@ -523,86 +504,6 @@ class CommonIOSHelperJW(CommonIOSHelper):
 ####################################################################################
 # SWIPE / TAP / CLICK / SEND_KEYS
 
-    def click_safe(self, **kwargs):
-        """
-        Checks to see if element exists first.
-        If true - click.  If false - return False
-        """
-        element_or_false = self.exists(**kwargs)
-
-        if element_or_false:
-            element_or_false.click()
-            return True
-        else:
-            return False
-
-    def click_by_location(self, elem, **kwargs):
-        """
-        sometimes elem.click() fails for whatever reason.  get x,y coords and click by that
-        """
-        loc = elem.location
-        size = elem.size
-        x = loc['x'] + size['width'] / 2
-        y = loc['y'] + size['height'] / 2
-
-        # an array of tuples
-        self.tap(x, y)
-
-    def _convert_relative_x_y(self, x, y):
-        if x < 1 or y < 1:
-            s = self.driver.get_window_size()
-            width = s['width']
-            height = s['height']
-
-            if x < 1:
-                x = x * width
-            if y < 1:
-                y = y * height
-
-        return x, y
-
-    def tap(self, x, y):
-        # Converts relative args such as click(.5, .5)
-        # to actual numbers such as (515, 840) based on current screen size.
-        # Apparently some versions of appium don't handle this correctly. Surprising.
-
-        x, y = self._convert_relative_x_y(x, y)
-        self.driver.tap([(x, y)])
-
-    def tap_by_touchaction(self, x, y):
-        x, y = self._convert_relative_x_y(x, y)
-
-        ta = TouchAction(self.driver)
-        ta.press(x=x, y=y).release().perform()
-
-    def swipe(self, startx, starty, endx, endy, swipe_time):
-        # Converts relative args such as swipe(.5, .5, .5, .2, 1000)
-        # to actual numbers such as (500, 500, 500, 200, 1000) based on current screen size.
-        # Apparently some versions of appium don't handle this correctly. Surprising.
-
-        if startx < 1 or starty < 1 or endx < 1 or endy < 1:
-            s = self.driver.get_window_size()
-            width = s['width']
-            height = s['height']
-
-            if startx < 1:
-                startx = startx * width
-            if endx < 1:
-                endx = endx * width
-            if starty < 1:
-                starty = starty * height
-            if endy < 1:
-                endy = endy * height
-
-        if not self.is_simulator():
-            # stupid hardware.
-            # instead of startx, starty -> endx, endy it takes startx, starty -> offsetx, offsety
-            endx = endx - startx
-            endy = endy - starty
-            swipe_time = swipe_time * 3
-
-        self.driver.swipe(startx, starty, endx, endy, swipe_time)
-
     def swipe_element_to_top_of_screen(self, elem, endy=None, startx=-20):
         """
         Swipe NEXT TO the element, to the top of the screen.
@@ -775,36 +676,6 @@ class CommonIOSHelperJW(CommonIOSHelper):
             return self._find_element(id='Search for a Show')
         else:
             return self.driver.find_elements_by_class_name('UIATextField')[-1]
-
-    def find_on_page(self, find_by, find_key, max_swipes=10, x=.5):
-        self.set_implicit_wait(3)
-
-        for i in range(max_swipes):
-            try:
-                if find_by == 'accessibility_id':
-                    e = self.driver.find_element_by_accessibility_id(find_key)
-                elif find_by == 'id':
-                    e = self.driver.find_element_by_id(find_key)
-                elif find_by == 'xpath':
-                    e = self.driver.find_element_by_xpath(find_key)
-                else:
-                    raise RuntimeError("invalid 'find_by'")
-
-                if e.is_displayed():
-                    self.set_implicit_wait()
-                    return e
-                else:
-                    raise NoSuchElementException('pass')
-            except NoSuchElementException:
-                if self.is_simulator():
-                    self.swipe(x, .5, x, 10, 1500)
-                else:
-                    self.swipe(x, .7, x, .8, 1000)
-                pass
-
-        self.set_implicit_wait()
-        return False
-        #raise NoSuchElementException("find_on_page failed looking for '%s'" % elem_id)
 
     def find_on_page_horizontal(self, find_by, find_value, max_swipes=10, swipe_y=.5, y_below=-1):
         if y_below == -1:
