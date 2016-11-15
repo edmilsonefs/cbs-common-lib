@@ -348,7 +348,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_safe(self, **kwargs):
         """
-        Waits for element to exist before trying to click.
+        Waits for element to exist before trying to click.  Default wait = current implicit wait
         Does NOT throw an error if element does not exist.
         If true - click and return the element.  If false - return False
 

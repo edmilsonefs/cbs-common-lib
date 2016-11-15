@@ -1,8 +1,9 @@
 import os
-from time import sleep
+from time import sleep, time
+import random
 
 from appium.webdriver.common.touch_action import TouchAction
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.common.by import By
 
 from testlio.base import TestlioAutomationTest
@@ -47,6 +48,49 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def find_by_uiautomation(self, value, hide_keyboard=False):
         return self.driver.find_element(By.IOS_UIAUTOMATION, value)
+
+    def set_implicit_wait(self, wait_time=-1):
+        """
+        wrapper that sets implicit wait, defualts to self.default_implicit_wait
+        """
+        if wait_time == -1:
+            wait_time = self.default_implicit_wait
+
+        self.driver.implicitly_wait(wait_time)
+
+    def find_on_page(self, find_by, find_key, max_swipes=10, x=.5):
+        """
+        Scrolls down the page looking for an element.  Call the method like this:
+        self.find_on_page('name', 'Settings')
+        self.find_on_page('id', 'com.cbs.app:id/seasonEpisode')
+        """
+        self.set_implicit_wait(3)
+
+        for i in range(max_swipes):
+            try:
+                if find_by == 'accessibility_id':
+                    e = self.driver.find_element_by_accessibility_id(find_key)
+                elif find_by == 'id':
+                    e = self.driver.find_element_by_id(find_key)
+                elif find_by == 'xpath':
+                    e = self.driver.find_element_by_xpath(find_key)
+                else:
+                    raise RuntimeError("invalid 'find_by'")
+
+                if e.is_displayed():
+                    self.set_implicit_wait()
+                    return e
+                else:
+                    raise NoSuchElementException('pass')
+            except NoSuchElementException:
+                if self.is_simulator():
+                    self.swipe(x, .5, x, 10, 1500)
+                else:
+                    self.swipe(x, .7, x, .8, 1000)
+                pass
+
+        self.set_implicit_wait()
+        return False
 
     def send_text_native(self, value):
         self.driver.execute_script(
@@ -196,6 +240,34 @@ class CommonIOSHelper(TestlioAutomationTest):
             except:
                 pass
 
+    def swipe(self, startx, starty, endx, endy, swipe_time):
+        # Converts relative args such as swipe(.5, .5, .5, .2, 1000)
+        # to actual numbers such as (500, 500, 500, 200, 1000) based on current screen size.
+        # Apparently some versions of appium don't handle this correctly. Surprising.
+
+        if startx < 1 or starty < 1 or endx < 1 or endy < 1:
+            s = self.driver.get_window_size()
+            width = s['width']
+            height = s['height']
+
+            if startx < 1:
+                startx = startx * width
+            if endx < 1:
+                endx = endx * width
+            if starty < 1:
+                starty = starty * height
+            if endy < 1:
+                endy = endy * height
+
+        if not self.is_simulator():
+            # stupid hardware.
+            # instead of startx, starty -> endx, endy it takes startx, starty -> offsetx, offsety
+            endx = endx - startx
+            endy = endy - starty
+            swipe_time = swipe_time * 3
+
+        self.driver.swipe(startx, starty, endx, endy, swipe_time)
+
     def _short_swipe_up(self, duration=1000, side='middle'):
         size = self.driver.get_window_size()
         if side == 'middle':
@@ -223,6 +295,35 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.swipe(x, start_y, x, end_y, duration)
         sleep(1)
+
+    def click_safe(self, **kwargs):
+        """
+        Waits for element to exist before trying to click.  Default wait = current implicit wait
+        Does NOT throw an error if element does not exist.
+        If true - click and return the element.  If false - return False
+
+        example:
+        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
+        """
+        element_or_false = self.exists(**kwargs)
+
+        if element_or_false:
+            element_or_false.click()
+            return True
+        else:
+            return False
+
+    def click_by_location(self, elem, **kwargs):
+        """
+        sometimes elem.click() fails for whatever reason.  get x,y coords and click by that
+        """
+        loc = elem.location
+        size = elem.size
+        x = loc['x'] + size['width'] / 2
+        y = loc['y'] + size['height'] / 2
+
+        # an array of tuples
+        self.tap(x, y)
 
     def click_on_first_aa_video(self):
         # elFrom = self._find_element(id='Free Episodes')
@@ -321,6 +422,14 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         ta = TouchAction(self.driver)
         ta.press(x=x, y=y).release().perform()
+
+    def tap(self, x, y):
+        # Converts relative args such as click(.5, .5)
+        # to actual numbers such as (515, 840) based on current screen size.
+        # Apparently some versions of appium don't handle this correctly. Surprising.
+
+        x, y = self._convert_relative_x_y(x, y)
+        self.driver.tap([(x, y)])
 
     def _convert_relative_x_y(self, x, y):
         if x < 1 or y < 1:
