@@ -1,8 +1,9 @@
 import os
-from time import sleep
+from time import sleep, time
+import random
 
 from appium.webdriver.common.touch_action import TouchAction
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.common.by import By
 
 from testlio.base import TestlioAutomationTest
