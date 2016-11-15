@@ -79,11 +79,11 @@ class CommonIOSHelper(TestlioAutomationTest):
     def _go_to(self, menu):
         self.event.screenshot(self.screenshot())
         try:
-            self.click(element=self.get_clickable_element(xpath="//UIATableCell[@name='%s']" % menu))
+            self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
         except:
             self.open_drawer()
             sleep(3)
-            self.click(element=self.get_clickable_element(xpath="//UIATableCell[@name='%s']" % menu))
+            self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
 
     def go_to_settings(self):
         self._go_to('Settings')
