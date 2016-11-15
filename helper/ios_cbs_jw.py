@@ -48,19 +48,7 @@ class CommonIOSHelperJW(CommonIOSHelper):
 ####################################################################################
 # SETUP/LOGIN METHODS
 
-    def login(self):
-        self.goto_sign_in()
-        self._login(self.username, self.password)
-        sleep(3)
-
-    def logout(self, safe=False):
-        self.goto_settings()
-        if safe:
-            self.click_safe(id='Sign Out', timeout=3)
-        else:
-            self.click(id='Sign Out')
-
-    def _login(self, username, password):
+    def login(self, username, password):
         """
         This assumes you are on the Sign In screen.
         """
@@ -147,6 +135,13 @@ class CommonIOSHelperJW(CommonIOSHelper):
                                       screenshot=True,
                                       msg="Verify 'Sign Out' button on Settings page.")
 
+    def logout(self, safe=False):
+        self.goto_settings()
+        if safe:
+            self.click_safe(id='Sign Out', timeout=3)
+        else:
+            self.click(id='Sign Out')
+
     def mvpd_logout(self):
         pass
 
@@ -176,6 +171,9 @@ class CommonIOSHelperJW(CommonIOSHelper):
 # LOW LEVEL METHODS
 
     def execute_script(self, script):
+        """
+        send javascript directly, for example see _accept_terms_popup()
+        """
         sleep(5)
         self.driver.execute_script('var target = UIATarget.localTarget();')
         self.driver.execute_script(script)
