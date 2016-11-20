@@ -450,7 +450,7 @@ class CommonHelperJW(CommonHelper):
         sleep(1.5)
 
     def is_drawer_open(self):
-        return self.exists(name='Open navigation drawer', timeout=3)
+        return not self.exists(name='Open navigation drawer', timeout=3)
 
     def close_drawer(self):
         self.swipe(.7, .7, .1, .7, 500)
