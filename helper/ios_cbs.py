@@ -389,8 +389,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         counter = 0
         while counter < 10:
             try:
-                self.get_clickable_element(id='Primetime Episodes', timeout=10)
-                break
+                if self.user_type in [self.subscriber, self.cf_subscriber, self.trial]:
+                    self.exists(id='CBSLogo_AllAccess_white', timeout=10)
+                    break
+                else:
+                    self.exists(id='CBSLogo_white', timeout=10)
+                    break
             except:
                 self.back()
                 counter += 1
