@@ -42,7 +42,7 @@ class CommonHelperJW(CommonHelper):
         # For the Chromecast button:
         self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
 
-        if 'Amazon' in self.testdroid_device:
+        if 'kftbwi' in self.testdroid_device.lower():
             self.IS_AMAZON = True
         else:
             self.IS_AMAZON = False
@@ -450,7 +450,7 @@ class CommonHelperJW(CommonHelper):
         sleep(1.5)
 
     def is_drawer_open(self):
-        return self.exists(id='com.cbs.app:id/navigation_drawer', timeout=3)
+        return not self.exists(name='Open navigation drawer', timeout=3)
 
     def close_drawer(self):
         self.swipe(.7, .7, .1, .7, 500)
