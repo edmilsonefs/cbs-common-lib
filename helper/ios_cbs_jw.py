@@ -114,9 +114,9 @@ class CommonIOSHelperJW(CommonIOSHelper):
         #         sleep(1)
         #         break
 
-        if not self.already_accepted_terms:
-            continue_button = self.exists(accessibility_id='CONTINUE', timeout=300)
+        continue_button = self.exists(accessibility_id='CONTINUE', timeout=180)
 
+        if continue_button:
             for button in self.driver.find_elements_by_xpath("//UIAButton[@name='']"):
                 try:
                     button.click()
@@ -128,7 +128,6 @@ class CommonIOSHelperJW(CommonIOSHelper):
 
             # wait for the login to happen
             self.not_exists(accessibility_id='CONTINUE', timeout=300)
-            self.already_accepted_terms = True
 
         self.goto_settings()
         self.assertTrueWithScreenShot(self.exists(accessibility_id='Sign Out', timeout=0),
