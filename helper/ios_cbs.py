@@ -102,7 +102,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(element=elems[0])
 
     def back(self):
-        self.driver.tap([(25, 35)])
+        try:
+            ta = TouchAction(self.driver)
+            ta.press(x=25, y=25).release().perform()
+        except:
+            pass
 
     def go_to_home(self):
         self._go_to('Home')
