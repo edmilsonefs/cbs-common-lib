@@ -121,10 +121,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._go_to('My CBS')
 
     def _go_to(self, menu):
-        try:
-            self.event.screenshot(self.screenshot())
-        except:
-            pass
+        self.safe_screenshot()
         try:
             self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
         except:
@@ -341,10 +338,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # else:
         #     max_count = 3
         # while count <= max_count:
-        try:
-            self.event.screenshot(self.screenshot())
-        except:
-            pass
+        self.safe_screenshot()
         self.click(xpath=aa_xpath)
         if self.needToAccept:
             self._accept_alert(1)
@@ -451,22 +445,26 @@ class CommonIOSHelper(TestlioAutomationTest):
         return x, y
 
     def video_done_button(self):
-        ta = TouchAction(self.driver)
-        try:
-            self.event.screenshot(self.screenshot())
-        except:
-            pass
+        self.safe_screenshot()
         # try:
-        ta.press(x=100, y=100).release().perform()
         try:
-            self.event.screenshot(self.screenshot())
+            ta = TouchAction(self.driver)
+            ta.press(x=100, y=100).release().perform()
         except:
             pass
+        self.safe_screenshot()
         try:
             self.click(id="Done", timeout=2)
         except:
-            ta.press(x=100, y=100).release().perform()
+            try:
+                ta = TouchAction(self.driver)
+                ta.press(x=100, y=100).release().perform()
+            except:
+                pass
             self.click(id="Done", timeout=5)
+        self.safe_screenshot()
+
+    def safe_screenshot(self):
         try:
             self.event.screenshot(self.screenshot())
         except:
