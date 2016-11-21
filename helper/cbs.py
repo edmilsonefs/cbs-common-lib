@@ -135,8 +135,10 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Navigate up')
 
     def go_to(self, menu):
+        self.driver.implicitly_wait(8)
         drawer = self._find_element(id=self.com_cbs_app + ':id/navigation_drawer')
         self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu)
+        self.driver.implicitly_wait(20)
 
     def goto_sign_in(self):
         self.open_drawer()
@@ -516,9 +518,11 @@ class CommonHelper(TestlioAutomationTest):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
         else:
+            prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
+            for _ in range(0, 60):
+                self._short_swipe_left(prime_container, 1000)
             count = 0
             while count < 70:
-                prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
                 self._short_swipe_left(prime_container, 1000)
                 if self.exists(name='paid', timeout=10):
                     list_episodes = self.driver.find_elements_by_name('paid')
@@ -542,10 +546,10 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(30)
 
     def select_first_show_option(self):
-        self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
+        self.click(id=(self.com_cbs_app + ':id/imgThumbnail'), data='First show icon')
 
     def click_any_video(self):
-        list_episodes = self.driver.find_elements_by_id(self.com_cbs_app + ':id/videoImage')
+        list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.ImageView[@resource-id='" + self.com_cbs_app + ":id/videoImage']")
         self.click(element=list_episodes[0])
         self.click_play_from_beginning()
         self.driver.implicitly_wait(30)
@@ -615,7 +619,7 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_xpath("//*[@resource-id=" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
+                self.driver.find_element_by_xpath("//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
                 break
             except:
                 self.driver.back()
