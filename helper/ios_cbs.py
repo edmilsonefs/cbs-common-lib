@@ -388,17 +388,25 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
+        try:
+            self.driver.implicitly_wait(10)
+        except:
+            pass
         while counter < 10:
             try:
                 if self.user_type in [self.subscriber, self.cf_subscriber, self.trial]:
-                    self.exists(id='CBSLogo_AllAccess_white', timeout=10)
+                    self.driver.find_element_by_id("CBSLogo_AllAccess_white").is_displayed()
                     break
                 else:
-                    self.exists(id='CBSLogo_white', timeout=10)
+                    self.driver.find_element_by_id("CBSLogo_white").is_displayed()
                     break
             except:
                 self.back()
                 counter += 1
+        try:
+            self.driver.implicitly_wait(30)
+        except:
+            pass
 
     def validation_upsell_page(self):
         self.verify_exists(id='com.cbs.app:id/allAccessLogo', screenshot=True)
