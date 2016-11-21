@@ -105,8 +105,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         try:
             ta = TouchAction(self.driver)
             ta.press(x=25, y=25).release().perform()
+            self.log_info("Press back")
         except:
-            pass
+            self.log_info("Fail to press back")
 
     def go_to_home(self):
         self._go_to('Home')
@@ -486,3 +487,6 @@ class CommonIOSHelper(TestlioAutomationTest):
             else:
                 self.video_done_button()
                 count += 1
+
+    def log_info(self, info):
+        self.event._log_info(self.event._event_data(info))
