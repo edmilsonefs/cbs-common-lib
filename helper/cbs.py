@@ -12,6 +12,7 @@ from selenium.common.exceptions import NoSuchElementException, WebDriverExceptio
 
 from testlio.base import TestlioAutomationTest
 
+
 class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
@@ -26,6 +27,7 @@ class CommonHelper(TestlioAutomationTest):
     cf_subscriber = 'cf-subscriber'
     trial = 'trial'
     show_name = 'American Gothic'
+    com_cbs_app = 'com.cbs.app'
 
     def setup_method(self, method, caps = False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -44,6 +46,9 @@ class CommonHelper(TestlioAutomationTest):
         else:
             self.tablet = False
             self.phone = True
+
+        if 'KFTBWI' in self.testdroid_device:
+            self.com_cbs_app = 'com.cbs.ott'
 
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
@@ -130,14 +135,14 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Navigate up')
 
     def go_to(self, menu):
-        drawer = self._find_element(id='com.cbs.app:id/navigation_drawer')
+        drawer = self._find_element(id=self.com_cbs_app + ':id/navigation_drawer')
         self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu)
 
     def goto_sign_in(self):
         self.open_drawer()
 
         # on some screens (live tv), the text 'Sign In' appears twice, so be sure we get the right one...
-        drawer = self.driver.find_element_by_id('com.cbs.app:id/userInfoHolder')
+        drawer = self.driver.find_element_by_id(self.com_cbs_app + ':id/userInfoHolder')
         sign_in = drawer.find_element_by_name('Sign In')
         self.click(element=sign_in, data='Click on menu item Sign In')
         self._hide_keyboard()
@@ -204,7 +209,7 @@ class CommonHelper(TestlioAutomationTest):
 
         self.send_keys_on_search_field(show_name)
         try:
-            self.click(id='com.cbs.app:id/showImage')
+            self.click(id=self.com_cbs_app + ':id/showImage')
         except:
             self.driver.tap([(220, 450)])
             pass
@@ -226,11 +231,11 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.press_keycode(187)
 
     def select_search_icon(self):
-        self.click(id='com.cbs.app:id/action_search')
+        self.click(id=self.com_cbs_app + ':id/action_search')
         self.event.screenshot(self.screenshot())
 
     def send_keys_on_search_field(self, show_name):
-        search_field = self.click(id='com.cbs.app:id/search_src_text')
+        search_field = self.click(id=self.com_cbs_app + ':id/search_src_text')
         self.send_keys(show_name, search_field)
         self._hide_keyboard()
         sleep(5)
@@ -353,7 +358,7 @@ class CommonHelper(TestlioAutomationTest):
         If true - click and return the element.  If false - return False
 
         example:
-        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
+        self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
         """
         element_or_false = self.exists(**kwargs)
 
@@ -463,7 +468,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1)
 
     def click_on_first_video(self):
-        # all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id='com.cbs.app:id/allAccessFlag']";
+        # all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id=self.com_cbs_app + ':id/allAccessFlag']";
         #
         # try:
         #     self.driver.implicitly_wait(10)
@@ -483,7 +488,7 @@ class CommonHelper(TestlioAutomationTest):
         #     list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
         #     self.click(element=list_episodes[count], data='Click on the All Access video on Home Page', screenshot=True)
         #     sleep(5)
-        #     if self.exists(id='com.cbs.app:id/action_search', timeout=10):
+        #     if self.exists(id=self.com_cbs_app + ':id/action_search', timeout=10):
         #         self.click(element=list_episodes[count])
         #     try:
         #         self.driver.implicitly_wait(10)
@@ -537,10 +542,10 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(30)
 
     def select_first_show_option(self):
-        self.click(id='com.cbs.app:id/showImage', data='First show icon')
+        self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
 
     def click_any_video(self):
-        list_episodes = self.driver.find_elements_by_id('com.cbs.app:id/videoImage')
+        list_episodes = self.driver.find_elements_by_id(self.com_cbs_app + ':id/videoImage')
         self.click(element=list_episodes[0])
         self.click_play_from_beginning()
         self.driver.implicitly_wait(30)
@@ -586,7 +591,7 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_id("com.cbs.app:id/homeMarqueeContainer")
+                self.driver.find_element_by_id(self.com_cbs_app + ":id/homeMarqueeContainer")
                 break
             except:
                 self.driver.back()
@@ -598,7 +603,7 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_id("com.cbs.app:id/action_search")
+                self.driver.find_element_by_id(self.com_cbs_app + ":id/action_search")
                 break
             except:
                 self.driver.back()
@@ -610,7 +615,7 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_xpath("//*[@resource-id='com.cbs.app:id/toolbar']//*[@text='" + page_title + "']")
+                self.driver.find_element_by_xpath("//*[@resource-id=" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
                 break
             except:
                 self.driver.back()
@@ -685,7 +690,7 @@ class CommonHelper(TestlioAutomationTest):
 
         examples:
         self.exists_one_of('name', 'SUBMIT', 'name', 'Submit')
-        self.exists_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
+        self.exists_one_of('name', 'Logout', 'id', self.com_cbs_app + ':id/signOutButton', 'timeout', 10)
         """
 
         if len(args) % 2 != 0:
@@ -724,7 +729,7 @@ class CommonHelper(TestlioAutomationTest):
         """
         Scrolls down the page looking for an element.  Call the method like this:
         self.find_on_page('name', 'Settings')
-        self.find_on_page('id', 'com.cbs.app:id/seasonEpisode')
+        self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
         """
         self.set_implicit_wait(3)
 
@@ -751,7 +756,7 @@ class CommonHelper(TestlioAutomationTest):
 
         examples:
         self.find_one_of('name', 'SUBMIT', 'name', 'Submit')
-        self.find_one_of('name', 'Logout', 'id', 'com.cbs.app:id/signOutButton', 'timeout', 10)
+        self.find_one_of('name', 'Logout', 'id', self.com_cbs_app + ':id/signOutButton', 'timeout', 10)
         """
 
         elem = self.exists_one_of(*args)
@@ -818,7 +823,7 @@ class CommonHelper(TestlioAutomationTest):
         self._hide_keyboard()
 
     def validation_upsell_page(self):
-        self.verify_exists(id='com.cbs.app:id/allAccessLogo', screenshot=True)
+        self.verify_exists(id=self.com_cbs_app + ':id/allAccessLogo', screenshot=True)
         if self.user_type in [self.anonymous, self.registered]:
             self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
             self.verify_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
@@ -864,16 +869,16 @@ class CommonHelper(TestlioAutomationTest):
 
     def _login(self, username, password):
 
-        email_field = self.click(id='com.cbs.app:id/edtEmail')
-        self.send_keys(element=email_field, data=username, id='com.cbs.app:id/edtEmail')
+        email_field = self.click(id=self.com_cbs_app + ':id/edtEmail')
+        self.send_keys(element=email_field, data=username, id=self.com_cbs_app + ':id/edtEmail')
         self._hide_keyboard()
         self.event.screenshot(self.screenshot())
 
-        password_field = self.click(id='com.cbs.app:id/edtPassword')
-        self.send_keys(element=password_field, data=password, id='com.cbs.app:id/edtPassword')
+        password_field = self.click(id=self.com_cbs_app + ':id/edtPassword')
+        self.send_keys(element=password_field, data=password, id=self.com_cbs_app + ':id/edtPassword')
         self._hide_keyboard()
         self.event.screenshot(self.screenshot())
-        self.click(id='com.cbs.app:id/btnSignIn')
+        self.click(id=self.com_cbs_app + ':id/btnSignIn')
 
         self.complete_registration()
 
@@ -882,7 +887,7 @@ class CommonHelper(TestlioAutomationTest):
         
         try:
             sleep(5)
-            self.click(id='com.cbs.app:id/terms_accept_checkBox')
+            self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
             self.event.screenshot(self.screenshot())
             self.click(name='SUBMIT')
         except Exception:
@@ -898,7 +903,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
         self.click(name='Sign Out', data= 'Sign Out 1')
-        self.click(id='com.cbs.app:id/signOutButton', data="Sign out 2")
+        self.click(id=self.com_cbs_app + ':id/signOutButton', data="Sign out 2")
         if "LGE Nexus 5X" == self.testdroid_device:
             self.event._log_info(self.event._event_data('Sign out 2'))
             self.driver.tap([(400, 660)])
@@ -975,8 +980,8 @@ class CommonHelper(TestlioAutomationTest):
         self.navigate_up()
 
     def select_verify_now(self):
-        self.swipe_down_and_verify_if_exists(id_element='com.cbs.app:id/btnVerifyNow')
-        self.click(id='com.cbs.app:id/btnVerifyNow', data='Clicking verify now')
+        self.swipe_down_and_verify_if_exists(id_element=self.com_cbs_app + ':id/btnVerifyNow')
+        self.click(id=self.com_cbs_app + ':id/btnVerifyNow', data='Clicking verify now')
         self.click_allow_popup()
 
     def mvpd_logout(self):
@@ -986,7 +991,7 @@ class CommonHelper(TestlioAutomationTest):
         try:
             self.click(xpath='//*[contains(@text,"Disconnect from Optimum")]', data='Disconnect From Optimum')
             self.event.screenshot(self.screenshot())
-            self.click(id='com.cbs.app:id/btnMvpdLogoutSettings')
+            self.click(id=self.com_cbs_app + ':id/btnMvpdLogoutSettings')
             sleep(4)
             self.click(id='android:id/button1')
             sleep(3)
@@ -1002,8 +1007,8 @@ class CommonHelper(TestlioAutomationTest):
         self.click_allow_popup()
 
     def select_optimum_from_provider_page(self):
-        self.driver.find_element_by_id(id_='com.cbs.app:id/ivProviderLogo')
-        self.click(id='com.cbs.app:id/ivProviderLogo')
+        self.driver.find_element_by_id(id_=self.com_cbs_app + ':id/ivProviderLogo')
+        self.click(id=self.com_cbs_app + ':id/ivProviderLogo')
         self.click_allow_popup()
 
     def optimun_sign_in(self, user, password):
