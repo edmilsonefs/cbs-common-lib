@@ -16,6 +16,7 @@ from testlio.base import TestlioAutomationTest
 class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
+    IS_AMAZON = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
     passed = False
@@ -49,6 +50,7 @@ class CommonHelper(TestlioAutomationTest):
 
         if 'KFTBWI' in self.testdroid_device:
             self.com_cbs_app = 'com.cbs.ott'
+            self.IS_AMAZON = True
 
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
@@ -565,6 +567,10 @@ class CommonHelper(TestlioAutomationTest):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
+
+    def back(self):
+        self.log_info("Press Back button")
+        self.driver.back()
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
@@ -1155,3 +1161,6 @@ class CommonHelper(TestlioAutomationTest):
         except WebDriverException:
             sleep(4)
             self.driver.swipe(startx, starty, endx, endy, swipe_time)
+
+    def log_info(self, info):
+        self.event._log_info(self.event._event_data(info))
