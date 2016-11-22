@@ -40,7 +40,7 @@ class CommonHelperJW(CommonHelper):
         self.event.screenshot(self.screenshot())
 
         # For the Chromecast button:
-        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
+        self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
 
         if 'kftbwi' in self.testdroid_device.lower():
             self.IS_AMAZON = True
@@ -51,7 +51,7 @@ class CommonHelperJW(CommonHelper):
             self.close_drawer()
 
         # For the Chromecast button:
-        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
+        self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
 
     def teardown_method(self, method):
         if self.passed:
@@ -79,15 +79,15 @@ class CommonHelperJW(CommonHelper):
 
         self.find_on_page('name', "Sign Out").click()
 
-        self.click(id='com.cbs.app:id/signOutButton')
+        self.click(id=self.com_cbs_app + ':id/signOutButton')
 
     def _complete_reg(self):
         """
         Deals with Term & Conditions popup and calls click_submit
         """
         # Complete registration if required
-        self.exists(id='com.cbs.app:id/terms_accept_checkBox', timeout=300)
-        self.click(id='com.cbs.app:id/terms_accept_checkBox')
+        self.exists(id=self.com_cbs_app + ':id/terms_accept_checkBox', timeout=300)
+        self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
         self.click_submit()
 
     def _post_login(self):
@@ -105,7 +105,7 @@ class CommonHelperJW(CommonHelper):
                 self.click(name='YES')
 
         # for Chromecast button
-        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=1)
+        self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=1)
 
         self.open_drawer()
         self.assertTrueWithScreenShot(self.not_exists(name='Sign In', timeout=1), screenshot=True,
@@ -461,7 +461,7 @@ class CommonHelperJW(CommonHelper):
 
     def goto_sign_in(self):
         self.open_drawer()
-        self.click(id='com.cbs.app:id/userNameView')
+        self.click(id=self.com_cbs_app + ':id/userNameView')
         self._hide_keyboard()
         sleep(1)
 
@@ -482,7 +482,7 @@ class CommonHelperJW(CommonHelper):
         places on the screen, so we have to be smarter (and slower) about it
         """
         self.open_drawer()
-        elems = self.driver.find_elements_by_id('com.cbs.app:id/navigation_list_item_text')
+        elems = self.driver.find_elements_by_id(self.com_cbs_app + ':id/navigation_list_item_text')
         for elem in elems:
             if elem.text == label:
                 elem.click()
@@ -492,7 +492,7 @@ class CommonHelperJW(CommonHelper):
 
     def goto_home(self):
         self.goto_nav_list_item("Home")
-        page_is_loaded = self.exists(id='com.cbs.app:id/sectionView')
+        page_is_loaded = self.exists(id=self.com_cbs_app + ':id/sectionView')
         if not page_is_loaded:
             self.event.screenshot(self.screenshot())
         self.assertTrueWithScreenShot(page_is_loaded, screenshot=False, msg="Assert show icons are loaded on home page.")
@@ -526,7 +526,7 @@ class CommonHelperJW(CommonHelper):
         sleep(1)
 
     def wait_for_show_page_to_load(self):
-        page_is_loaded = self.exists(id='com.cbs.app:id/imgInfo')
+        page_is_loaded = self.exists(id=self.com_cbs_app + ':id/imgInfo')
         if not page_is_loaded:
             self.event.screenshot(self.screenshot())
         self.assertTrueWithScreenShot(page_is_loaded, screenshot=False, msg="Assert show icons are loaded on show page.")
@@ -546,15 +546,15 @@ class CommonHelperJW(CommonHelper):
         self.click_safe(name='Close', timeout=5)
 
     def click_facebook_icon(self):
-        self.click(id='com.cbs.app:id/imgFacebook')
+        self.click(id=self.com_cbs_app + ':id/imgFacebook')
         sleep(5)
 
     def click_twitter_icon(self):
-        self.click(id='com.cbs.app:id/imgTwitter')
+        self.click(id=self.com_cbs_app + ':id/imgTwitter')
         sleep(5)
 
     def click_gplus_icon(self):
-        self.click(id='com.cbs.app:id/imgGoogle')
+        self.click(id=self.com_cbs_app + ':id/imgGoogle')
         sleep(5)
 
     def click_more(self):
@@ -563,27 +563,27 @@ class CommonHelperJW(CommonHelper):
         e.click()
 
     def click_search_icon(self):
-        self.click(id='com.cbs.app:id/action_search')
+        self.click(id=self.com_cbs_app + ':id/action_search')
 
     def click_search_text(self):
-        self.click(id='com.cbs.app:id/search_src_text')
+        self.click(id=self.com_cbs_app + ':id/search_src_text')
 
     def click_clear_search(self):
-        self.click(id='com.cbs.app:id/search_close_btn')
+        self.click(id=self.com_cbs_app + ':id/search_close_btn')
 
     def click_search_back(self):
-        # self.click(id='com.cbs.app:id/closeButton')
+        # self.click(id=self.com_cbs_app + ':id/closeButton')
         self.click(name='Navigate up') # home->search
 
     def click_favorite_icon(self):
-        self.click(id='com.cbs.app:id/mycbsButton')
+        self.click(id=self.com_cbs_app + ':id/mycbsButton')
 
     def click_episode_information(self):
         """
         on the show page, where you see a list of episodes,
         this clicks the (i) next to an episode
         """
-        self.click(id='com.cbs.app:id/imgInfo')
+        self.click(id=self.com_cbs_app + ':id/imgInfo')
 
     def click_watch_episode(self):
         """
@@ -610,7 +610,7 @@ class CommonHelperJW(CommonHelper):
         self.click(xpath="//android.widget.Button[@text='Upgrade']")
 
     def click_upgrade_in_menu(self):
-        es = self.driver.find_elements_by_id('com.cbs.app:id/userStatusTextView')
+        es = self.driver.find_elements_by_id(self.com_cbs_app + ':id/userStatusTextView')
         for e in es:
             if e.text == 'Upgrade':
                 e.click()
@@ -619,7 +619,7 @@ class CommonHelperJW(CommonHelper):
         raise RuntimeError('Could not find "Upgrade" in side menu')
 
     def click_upgrade_lc(self):
-        bs = self.driver.find_elements_by_id('com.cbs.app:id/button')
+        bs = self.driver.find_elements_by_id(self.com_cbs_app + ':id/button')
 
         self.event.click('Upgrade Limited Comm button')
 
@@ -631,7 +631,7 @@ class CommonHelperJW(CommonHelper):
         raise RuntimeError('Could not find "FREE..." button')
 
     def click_upgrade_cf(self):
-        bs = self.driver.find_elements_by_id('com.cbs.app:id/button')
+        bs = self.driver.find_elements_by_id(self.com_cbs_app + ':id/button')
 
         self.event.click('Upgrade Comm Free button')
 
@@ -669,7 +669,7 @@ class CommonHelperJW(CommonHelper):
             b1.click()
 
     def click_subscribe_in_menu(self):
-        es = self.driver.find_elements_by_id('com.cbs.app:id/userStatusTextView')
+        es = self.driver.find_elements_by_id(self.com_cbs_app + ':id/userStatusTextView')
         for e in es:
             if e.text == 'Subscribe':
                 e.click()
@@ -703,7 +703,7 @@ class CommonHelperJW(CommonHelper):
         Info page is the popup you see after clicking (i) on an episode thumbnail
         This will get the show title
         """
-        return self._find_element(id='com.cbs.app:id/showName').text
+        return self._find_element(id=self.com_cbs_app + ':id/showName').text
 
 ####################################################################################
 # SWIPE / TAP / CLICK / SEND_KEYS
@@ -816,7 +816,7 @@ class CommonHelperJW(CommonHelper):
 
         self.not_exists(name='android.widget.ProgressBar')
         sleep(1)
-        e = self._find_element(id='com.cbs.app:id/search_src_text')
+        e = self._find_element(id=self.com_cbs_app + ':id/search_src_text')
         e.click()
         sleep(2)
 
@@ -860,10 +860,10 @@ class CommonHelperJW(CommonHelper):
 
     def collect_details_from_show_info_page(self):
         show_dict_found = {}
-        show_dict_found['show_title'] = self._find_element(id='com.cbs.app:id/showName').text
-        show_dict_found['episode_title'] = self._find_element(id='com.cbs.app:id/episodeName').text
-        show_dict_found['air_date'] = self._find_element(id='com.cbs.app:id/airDate').text
-        show_dict_found['season_episode'] = self._find_element(id='com.cbs.app:id/seasonEpisode').text
+        show_dict_found['show_title'] = self._find_element(id=self.com_cbs_app + ':id/showName').text
+        show_dict_found['episode_title'] = self._find_element(id=self.com_cbs_app + ':id/episodeName').text
+        show_dict_found['air_date'] = self._find_element(id=self.com_cbs_app + ':id/airDate').text
+        show_dict_found['season_episode'] = self._find_element(id=self.com_cbs_app + ':id/seasonEpisode').text
 
         return show_dict_found
 
@@ -951,7 +951,7 @@ class CommonHelperJW(CommonHelper):
             season_name = 'AFTER SHOW'
         elif exception_hack == 'Specials':
             # for specials, there's only one episode, or only one row of episodes anyway
-            show_elem = self._find_element(id="com.cbs.app:id/showName")
+            show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
             return show_elem
         else:
             season_name = "Season " + str(show_dict['season_number'])
@@ -1218,7 +1218,7 @@ class CommonHelperJW(CommonHelper):
         Verifies cbs logo, but using raw xml, not Appium methods.
         Sometimes these methods don't work.  See section header (XML Methods) for details.
         """
-        el = self._exists_element_using_xml(root, find_by='resource-id', find_key='com.cbs.app:id/ibCbsLogo')
+        el = self._exists_element_using_xml(root, find_by='resource-id', find_key=self.com_cbs_app + ':id/ibCbsLogo')
 
         # you apparently can't test true/false using a xml.etree.ElementTree.Element
         if not (el == False):
@@ -1234,7 +1234,7 @@ class CommonHelperJW(CommonHelper):
         self.click_first_video()
 
     def click_first_video(self):
-        self.click(id="com.cbs.app:id/videoImage", data="Click first episode")
+        self.click(id=self.com_cbs_app + ":id/videoImage", data="Click first episode")
         sleep(5)
 
     def click_first_aa_video(self, screenshot=False):
@@ -1324,7 +1324,7 @@ class CommonHelperJW(CommonHelper):
         """
         Click the little (i) next to an episode description
         """
-        self.click(id='com.cbs.app:id/imgInfo')
+        self.click(id=self.com_cbs_app + ':id/imgInfo')
 
     def click_first_aa_info_icon(self):
         """
@@ -1334,7 +1334,7 @@ class CommonHelperJW(CommonHelper):
         if not self.exists(name='Open navigation drawer', timeout=0):
             self.hw_back()
 
-        for elem in self.driver.find_elements_by_id('com.cbs.app:id/imgInfo'):
+        for elem in self.driver.find_elements_by_id(self.com_cbs_app + ':id/imgInfo'):
             if elem.location['y'] > y:
                 elem.click()
                 return
@@ -1349,13 +1349,13 @@ class CommonHelperJW(CommonHelper):
         """
 
         start_time = time()
-        self.exists(id='com.cbs.app:id/loading', timeout=buffer_wait)
+        self.exists(id=self.com_cbs_app + ':id/loading', timeout=buffer_wait)
 
         elapsed_time = time()-start_time
         timeout = buffer_wait-elapsed_time
 
         # make sure we're not still spinning/buffering
-        ex = self.not_exists(id='com.cbs.app:id/loading', timeout=timeout)
+        ex = self.not_exists(id=self.com_cbs_app + ':id/loading', timeout=timeout)
         self.assertTrueWithScreenShot(ex, screenshot=False, msg="Assert that video buffer spinner disappears")
 
     def pause_video(self):
@@ -1407,7 +1407,7 @@ class CommonHelperJW(CommonHelper):
         """
         root = self.get_page_source_xml()
 
-        total_time_elem = self._find_element_using_xml(root, 'resource-id', 'com.cbs.app:id/tvTotalTime')
+        total_time_elem = self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
         total_time_text = total_time_elem.attrib['text']
 
         # total_time = hours*3600 + minutes*60 + seconds
@@ -1423,7 +1423,7 @@ class CommonHelperJW(CommonHelper):
         else:
             seek_pct = jump_time / total_time + .05  # add a little for room for error
 
-        seek_bar = self._find_element_using_xml(root, 'resource-id', 'com.cbs.app:id/middleSeekbar')
+        seek_bar = self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/middleSeekbar')
         seek_bar_dim = self._get_dimensions_from_element_using_xml(seek_bar)
 
         # width * seek_pct is how far over in the bar to tap
@@ -1464,13 +1464,13 @@ class CommonHelperJW(CommonHelper):
         ##### PART A: first/last/email/pwd #####
 
         if self.phone:
-            elem = self._find_element(id='com.cbs.app:id/signup_title')
+            elem = self._find_element(id=self.com_cbs_app + ':id/signup_title')
             self.swipe_element_to_top_of_screen(elem, endy=250)
 
-        fn = self._find_element(id='com.cbs.app:id/edtFirstName')
-        ln = self._find_element(id='com.cbs.app:id/edtLastName')
-        email = self._find_element(id='com.cbs.app:id/edtEmail')
-        email_confirm = self._find_element(id='com.cbs.app:id/edtConfirmEmail')
+        fn = self._find_element(id=self.com_cbs_app + ':id/edtFirstName')
+        ln = self._find_element(id=self.com_cbs_app + ':id/edtLastName')
+        email = self._find_element(id=self.com_cbs_app + ':id/edtEmail')
+        email_confirm = self._find_element(id=self.com_cbs_app + ':id/edtConfirmEmail')
 
         self.fn_str = self.generate_random_string()
         self.ln_str = self.generate_random_string()
@@ -1511,8 +1511,8 @@ class CommonHelperJW(CommonHelper):
         if self.phone:
             self.swipe_element_to_top_of_screen(email_confirm, endy=250)
 
-        pwd = self.driver.find_element_by_id('com.cbs.app:id/edtPassword')
-        pwd_confirm = self.driver.find_element_by_id('com.cbs.app:id/editConfirmPassword')
+        pwd = self.driver.find_element_by_id(self.com_cbs_app + ':id/edtPassword')
+        pwd_confirm = self.driver.find_element_by_id(self.com_cbs_app + ':id/editConfirmPassword')
 
         self.send_keys('1q2w3e4r', pwd)
         self._hide_keyboard()
@@ -1534,7 +1534,7 @@ class CommonHelperJW(CommonHelper):
             gender
             state
         """
-        bday = self._find_element(id='com.cbs.app:id/edtBirthdate')
+        bday = self._find_element(id=self.com_cbs_app + ':id/edtBirthdate')
         bday.click()
 
         # some devices have different datepickers.  Depends on app, device, and OS version
@@ -1612,7 +1612,7 @@ class CommonHelperJW(CommonHelper):
             self.event.screenshot(self.screenshot())
 
         if not self.exists(name='Alaska', timeout=3) and not self.exists(name='Arizona', timeout=3):
-            self.click(id='com.cbs.app:id/spnState')
+            self.click(id=self.com_cbs_app + ':id/spnState')
             self.click(name='Arkansas')
 
         gender = self.exists(name="Gender")
@@ -1627,7 +1627,7 @@ class CommonHelperJW(CommonHelper):
         # I think using the resource id is generally not advised because it's just part of the app's implementation
         # and could be changed at any time.  Here we get it dynamically just so we're sure we get the same element
         # after updating it to a new value
-        zip_id = "com.cbs.app:id/edtZipCode"
+        zip_id = self.com_cbs_app + ":id/edtZipCode"
         if self.IS_AMAZON:
             fields = self.driver.find_elements_by_class_name('android.widget.EditText')
             last = len(fields) - 1
@@ -1655,12 +1655,12 @@ class CommonHelperJW(CommonHelper):
         if self.phone:
             self._hide_keyboard()
 
-        self.click(id='com.cbs.app:id/btnSignUp')
+        self.click(id=self.com_cbs_app + ':id/btnSignUp')
 
-        self.exists(id='com.cbs.app:id/imgInfo', timeout=180)
+        self.exists(id=self.com_cbs_app + ':id/imgInfo', timeout=180)
 
         # the button should NOT exist any more.  We clicked it already.
-        asrt = not self.exists(id='com.cbs.app:id/btnSignUp', timeout=0) and not self.exists(id='com.cbs.app:id/edtPassword', timeout=0)
+        asrt = not self.exists(id=self.com_cbs_app + ':id/btnSignUp', timeout=0) and not self.exists(id=self.com_cbs_app + ':id/edtPassword', timeout=0)
         self.assertTrueWithScreenShot(asrt, screenshot=True, msg="We clicked SIGN UP. Should be on main page now.")
 
         if self.exists(name='CBS All Access', timeout=0) or \
@@ -1675,7 +1675,7 @@ class CommonHelperJW(CommonHelper):
         self.close_drawer()
 
         # For the Chromecast button:
-        self.click_safe(id='com.cbs.app:id/showcase_button', timeout=10)
+        self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
 
         self.send_created_account_email()
 
@@ -1755,11 +1755,11 @@ class CommonHelperJW(CommonHelper):
 
         self.open_drawer()
 
-        e = self.exists(id='com.cbs.app:id/userNameString', timeout=3)
+        e = self.exists(id=self.com_cbs_app + ':id/userNameString', timeout=3)
         if e:
             name_str = e.text
         else:
-            name_str = self._find_element(id='com.cbs.app:id/userNameView').text
+            name_str = self._find_element(id=self.com_cbs_app + ':id/userNameView').text
 
         self.assertEqualWithScreenShot(name, name_str, screenshot=True,
                                        msg="Expected name in menu: '%s' Actual name in menu: '%s'" % (name, name_str))
@@ -1768,7 +1768,7 @@ class CommonHelperJW(CommonHelper):
         # todo: fix below
         self.goto_settings()
 
-        name_str = self._find_element(id='com.cbs.app:id/accountText').get_attribute('text')
+        name_str = self._find_element(id=self.com_cbs_app + ':id/accountText').get_attribute('text')
         expected_str = 'You are signed in as %s' % name
 
         self.assertEqualWithScreenShot(expected_str, name_str, screenshot=True,
@@ -1782,7 +1782,7 @@ class CommonHelperJW(CommonHelper):
         sleep(5)
 
         self.event.screenshot(self.screenshot())
-        if self.exists(name='Start Watching') or self.exists(id="com.cbs.app:id/showList"):
+        if self.exists(name='Start Watching') or self.exists(id=self.com_cbs_app + ":id/showList"):
             return True
         else:
             raise RuntimeError('Live TV is not subscribed to')
@@ -1891,25 +1891,25 @@ class CommonHelperJW(CommonHelper):
         self.verify_exists(name='Navigate up', screenshot=screenshot)
 
     def verify_search_text(self, screenshot=False):
-        self.verify_exists(id='com.cbs.app:id/search_src_text', screenshot=screenshot)
+        self.verify_exists(id=self.com_cbs_app + ':id/search_src_text', screenshot=screenshot)
 
     def verify_search_clear_button(self, screenshot=False):
-        self.verify_exists(id='com.cbs.app:id/search_close_btn', screenshot=screenshot)
+        self.verify_exists(id=self.com_cbs_app + ':id/search_close_btn', screenshot=screenshot)
 
     def verify_info_icon(self, screenshot=False):
-        self.verify_exists(id='com.cbs.app:id/imgInfo', screenshot=screenshot)
+        self.verify_exists(id=self.com_cbs_app + ':id/imgInfo', screenshot=screenshot)
 
     def verify_search_icon(self, screenshot=False):
-        self.verify_exists(id='com.cbs.app:id/action_search', screenshot=screenshot)
+        self.verify_exists(id=self.com_cbs_app + ':id/action_search', screenshot=screenshot)
 
     def verify_favorite_icon(self, screenshot=False):
-        self.verify_exists(id='com.cbs.app:id/mycbsButton', screenshot=screenshot)
+        self.verify_exists(id=self.com_cbs_app + ':id/mycbsButton', screenshot=screenshot)
 
     def verify_no_shows_found_text(self, screenshot=False):
         self.verify_exists(name="No Shows Found.", screenshot=screenshot)
 
     def verify_show_card(self, screenshot=False):
-        self.verify_exists(id='com.cbs.app:id/showBrowseCardItem', screenshot=screenshot)
+        self.verify_exists(id=self.com_cbs_app + ':id/showBrowseCardItem', screenshot=screenshot)
 
     def verify_show_page_tabs(self, screenshot=False):
         self.verify_exists(class_name='android.widget.HorizontalScrollView', screenshot=screenshot)
