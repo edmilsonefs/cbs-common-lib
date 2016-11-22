@@ -548,7 +548,7 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(30)
 
     def select_first_show_option(self):
-        self.click(id=(self.com_cbs_app + ':id/imgThumbnail'), data='First show icon')
+        self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
 
     def click_any_video(self):
         list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.ImageView[@resource-id='" + self.com_cbs_app + ":id/videoImage']")
