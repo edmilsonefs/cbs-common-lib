@@ -1002,6 +1002,11 @@ class CommonHelper(TestlioAutomationTest):
         except:
             self.event._log_info(self.event._event_data('Optimum was not connected'))
         self.navigate_up()
+        if "KFTBWI" in self.testdroid_device:
+            try:
+                self.navigate_up()
+            except:
+                pass
 
     def go_to_providers_page(self):
         self.goto_live_tv()
