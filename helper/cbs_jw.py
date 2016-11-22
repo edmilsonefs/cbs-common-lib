@@ -1324,7 +1324,8 @@ class CommonHelperJW(CommonHelper):
         """
         Click the little (i) next to an episode description
         """
-        self.click(id=self.com_cbs_app + ':id/imgInfo')
+        e = self.find_one_of('id', self.com_cbs_app + ':id/imgInfo', 'id', self.com_cbs_app + ':id/infoIcon')
+        e.click()
 
     def click_first_aa_info_icon(self):
         """
@@ -1334,7 +1335,7 @@ class CommonHelperJW(CommonHelper):
         if not self.exists(name='Open navigation drawer', timeout=0):
             self.hw_back()
 
-        for elem in self.driver.find_elements_by_id(self.com_cbs_app + ':id/imgInfo'):
+        for elem in self.driver.find_elements_by_id(self.com_cbs_app + ':id/infoIcon'):
             if elem.location['y'] > y:
                 elem.click()
                 return
@@ -1657,7 +1658,7 @@ class CommonHelperJW(CommonHelper):
 
         self.click(id=self.com_cbs_app + ':id/btnSignUp')
 
-        self.exists(id=self.com_cbs_app + ':id/imgInfo', timeout=180)
+        self.exists(id=self.com_cbs_app + ':id/infoIcon', timeout=180)
 
         # the button should NOT exist any more.  We clicked it already.
         asrt = not self.exists(id=self.com_cbs_app + ':id/btnSignUp', timeout=0) and not self.exists(id=self.com_cbs_app + ':id/edtPassword', timeout=0)
@@ -1897,7 +1898,13 @@ class CommonHelperJW(CommonHelper):
         self.verify_exists(id=self.com_cbs_app + ':id/search_close_btn', screenshot=screenshot)
 
     def verify_info_icon(self, screenshot=False):
-        self.verify_exists(id=self.com_cbs_app + ':id/imgInfo', screenshot=screenshot)
+        # (i) image id changed on one screen but not the other
+        # imgInfo on individual show page
+        # infoIcon on home page
+        t_f = self.exists_one_of('id', self.com_cbs_app + ':id/imgInfo', 'id', self.com_cbs_app + ':id/infoIcon')
+
+        self.assertTrueWithScreenShot(t_f, screenshot=screenshot,
+                                      msg="Should see element with text or selector: '%s'" % "imgInfo or infoIcon")
 
     def verify_search_icon(self, screenshot=False):
         self.verify_exists(id=self.com_cbs_app + ':id/action_search', screenshot=screenshot)
