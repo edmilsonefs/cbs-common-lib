@@ -1169,3 +1169,9 @@ class CommonHelper(TestlioAutomationTest):
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
+
+    def click_take_the_tour(self):
+        self.click(id=self.com_cbs_app + ':id/takeTheTourTextView', screenshot=True)
+
+    def click_episode_indicator(self):
+        self.click(id=self.com_cbs_app + ':id/allAccessEpisodesContainer')
