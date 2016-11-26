@@ -101,31 +101,26 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(wait_time)
 
     def click_until_element_is_visible(self, element_to_be_visible, element_to_click):
-        self.driver.implicitly_wait(20)
-
         element = None
         count = 0
         while element is None and count < 30:
             try:
-                element = self.driver.find_element_by_name(element_to_be_visible)
+                element = self.get_element(name=element_to_be_visible, timeout=10)
             except:
-                self.click(name=element_to_click)
+                self.get_clickable_element(name=element_to_click, timeout=10)
                 count += 1
-        self.driver.implicitly_wait(30)
 
     def go_to_menu_page_and_select_option(self, menu_option):
         # This is to avoid navigation drawer not being clicked properly
         count = 0
-        self.driver.implicitly_wait(10)
         while count < 30:
             try:
-                self.driver.find_element_by_name('Open navigation drawer').click()
-                self.driver.find_element_by_name(menu_option).click()
+                self.get_clickable_element(name='Open navigation drawer', timeout=10)
+                self.get_clickable_element(name=menu_option, timeout=10).click()
                 break
             except:
                 pass
             count += 1
-        self.driver.implicitly_wait(30)
 
     def open_drawer(self):
         self.click(name='Open navigation drawer')
@@ -137,10 +132,8 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Navigate up')
 
     def go_to(self, menu):
-        self.driver.implicitly_wait(8)
-        drawer = self._find_element(id=self.com_cbs_app + ':id/navigation_drawer')
+        drawer = self.get_element(id=self.com_cbs_app + ':id/navigation_drawer', timeout=10)
         self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu)
-        self.driver.implicitly_wait(20)
 
     def goto_sign_in(self):
         self.open_drawer()
@@ -180,12 +173,10 @@ class CommonHelper(TestlioAutomationTest):
         try:
             self.go_to('Live TV')
             self.click_allow_popup()
-            self.driver.implicitly_wait(120)
         except:
             self.open_drawer()
             self.go_to('Live TV')
             self.click_allow_popup()
-            self.driver.implicitly_wait(120)
 
     def goto_schedule(self):
         try:
@@ -510,17 +501,15 @@ class CommonHelper(TestlioAutomationTest):
         # sleep(5)
         # self.event.screenshot(self.screenshot())
         try:
-            self.driver.implicitly_wait(10)
-            self.driver.find_element_by_name('Free Episodes')
+            self.get_element(name='Free Episodes', timeout=10)
             self._short_swipe_down(duration=3000)
         except:
-            self.driver.implicitly_wait(60)
             pass
         if self.exists(name='paid', timeout=10):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
         else:
-            prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
+            prime_container = self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]", timeout=10)
             for _ in range(0, 60):
                 self._short_swipe_left(prime_container, 1000)
             count = 0
@@ -541,11 +530,9 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_play_from_beginning(self):
         try:
-            self.driver.implicitly_wait(10)
-            self.driver.find_element_by_name('Play From Beginning').click()
+            self.get_clickable_element(name='Play From Beginning', timeout=30).click()
         except:
             pass
-        self.driver.implicitly_wait(30)
 
     def select_first_show_option(self):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
@@ -554,7 +541,6 @@ class CommonHelper(TestlioAutomationTest):
         list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.ImageView[@resource-id='" + self.com_cbs_app + ":id/videoImage']")
         self.click(element=list_episodes[0])
         self.click_play_from_beginning()
-        self.driver.implicitly_wait(30)
 
     def click_any_aa_video(self):
         if self.exists(name='paid', timeout=10):
@@ -574,63 +560,53 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
-        self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_name("Open navigation drawer")
+                self.get_clickable_element(name="Open navigation drawer")
                 break
             except:
                 self.driver.back()
                 counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
 
     def back_while_navigate_up_is_visible(self):
         counter = 0
-        self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_name("Navigate up")
+                self.get_clickable_element(name="Navigate up")
                 break
             except:
                 self.driver.back()
                 counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
 
     def back_to_home_page(self):
         counter = 0
-        self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_id(self.com_cbs_app + ":id/homeMarqueeContainer")
+                self.get_element(id=self.com_cbs_app + ":id/homeMarqueeContainer", timeout=10)
                 break
             except:
                 self.driver.back()
                 counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
 
     def back_while_search_icon_is_visible(self):
         counter = 0
-        self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_id(self.com_cbs_app + ":id/action_search")
+                self.get_element(id=self.com_cbs_app + ":id/action_search")
                 break
             except:
                 self.driver.back()
                 counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
 
     def back_while_page_is_visible(self, page_title):
         counter = 0
-        self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_xpath("//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
+                self.get_element(xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
                 break
             except:
                 self.driver.back()
                 counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
 
     def exists(self, **kwargs):
         """
@@ -638,36 +614,30 @@ class CommonHelper(TestlioAutomationTest):
         advanced:
             call using an element:
             my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
-            self.exists(name='Submit', driver=my_layout)
+            self.exists(xpath="//*[@name='Submit']", driver=my_layout)
         """
+        timeout = 30
         if kwargs.has_key('timeout'):
-            self.driver.implicitly_wait(kwargs['timeout'])
-
-        if kwargs.has_key('driver'):
-            d = kwargs['driver']
-        else:
-            d = self.driver
-
+            timeout = kwargs['timeout']
         try:
             if kwargs.has_key('name'):
                 try:
-                    e = d.find_element_by_name(kwargs['name'])
+                    return self.get_element(xpath=
+                                            "//*[@name='" + kwargs['name'] + "' or @value='" + kwargs['name'] + "']", timeout=timeout)
                 except:
-                    e = d.find_element_by_xpath('//*[contains(@text,"%s")]' % kwargs['name'])
+                    e = self.get_element(xpath='//*[contains(@name,"%s")]' % kwargs['name'], timeout=timeout)
             elif kwargs.has_key('class_name'):
-                e = d.find_element_by_class_name(kwargs['class_name'])
+                e = self.get_element(class_name=kwargs['class_name'], timeout=timeout)
             elif kwargs.has_key('id'):
-                e = d.find_element_by_id(kwargs['id'])
+                e = self.get_element(id=kwargs['id'], timeout=timeout)
             elif kwargs.has_key('xpath'):
-                e = d.find_element_by_xpath(kwargs['xpath'])
+                e = self.get_element(xpath=kwargs['xpath'], timeout=timeout)
             else:
                 raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
 
             return e
-        except NoSuchElementException:
+        except:
             return False
-        finally:
-            self.driver.implicitly_wait(self.default_implicit_wait)
 
     def not_exists(self, **kwargs):
         """
@@ -825,7 +795,6 @@ class CommonHelper(TestlioAutomationTest):
 
         if screenshot:
             self.event.screenshot(self.screenshot())
-        self.driver.implicitly_wait(30)
 
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
@@ -862,16 +831,15 @@ class CommonHelper(TestlioAutomationTest):
 
         count = 0
         while count <= 10:
-            self.driver.implicitly_wait(timeout)
             try:
                 if element_css:
-                    self.driver.find_elements_by_class_name(element_css)
+                    self.get_element(css=element_css, timeout=timeout)
                     break
                 if element_name:
-                    self.driver.find_element_by_name(element_name)
+                    self.get_element(name=element_name, timeout=timeout)
                     break
                 if element_id:
-                    self.driver.find_element_by_id(element_id)
+                    self.get_element(id=element_id, timeout=timeout)
                     break
             except:
                 pass
@@ -897,13 +865,12 @@ class CommonHelper(TestlioAutomationTest):
         
         try:
             sleep(5)
-            self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
+            self.get_clickable_element(id=self.com_cbs_app + ':id/terms_accept_checkBox').click()
             self.event.screenshot(self.screenshot())
-            self.click(name='SUBMIT')
+            self.get_clickable_element(name='SUBMIT').click()
         except Exception:
             self.event._log_info(self.event._event_data('complete registration not needed'))
         self.event.screenshot(self.screenshot())
-        self.driver.implicitly_wait(30)
 
     def logout(self):
         self.goto_settings()
@@ -957,11 +924,10 @@ class CommonHelper(TestlioAutomationTest):
 
         window_size_y = self.driver.get_window_size()["height"]
 
-        self.click(name='Location Set')
+        self.get_clickable_element(name='Location Set').click()
 
         try:
-            self.driver.implicitly_wait(5)
-            self.driver.find_element_by_name(name=city)
+            self.get_clickable_element(name=city)
             self.click(name=city, screenshot=True)
         except:
             if swipe_up:
@@ -973,12 +939,12 @@ class CommonHelper(TestlioAutomationTest):
             else:
                 if self.phone:
                     # self.driver.swipe(100, window_size_y - 250, 100, 550)
-                    origin = self.driver.find_element_by_name('Philadelphia')
-                    destination = self.driver.find_element_by_name('Denver KCNC')
+                    origin = self.get_element(name='Philadelphia')
+                    destination = self.get_element(name='Denver KCNC')
                     self.driver.drag_and_drop(origin, destination)
                     self.event.screenshot(self.screenshot())
-                    origin = self.driver.find_element_by_name('College Station, TX KBTX')
-                    destination = self.driver.find_element_by_name('Boston')
+                    origin = self.get_element(name='College Station, TX KBTX')
+                    destination = self.get_element(name='Boston')
                     self.driver.drag_and_drop(origin, destination)
                     self.event.screenshot(self.screenshot())
                 elif self.tablet:
@@ -986,7 +952,6 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
             self.click(name=city, screenshot=True)
 
-            self.driver.implicitly_wait(30)
         self.navigate_up()
 
     def select_verify_now(self):
@@ -1082,8 +1047,6 @@ class CommonHelper(TestlioAutomationTest):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
         """
-        self.driver.implicitly_wait(0)
-
         # Gets mobile screen size
         window_size_y = self.driver.get_window_size()["height"]
 
@@ -1092,11 +1055,11 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 20:
             try:
                 if name:
-                    element = self.driver.find_element_by_name(name=name)
+                    element = self.get_element(name=name)
                 elif id_element:
-                    element = self.driver.find_element_by_id(id_=id_element)
+                    element = self.get_element(id=id_element)
                 elif class_name:
-                    element = self.driver.find_element_by_class_name(class_name=class_name)
+                    element = self.get_element(class_name=class_name)
             except:
                 if self.phone:
                     if long_swipe:
@@ -1114,14 +1077,10 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
                 count += 1
 
-        self.driver.implicitly_wait(30)
-
     def swipe_up_until_element_is_visible(self, name=None, id_element=None, short_swipe=False):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
         """
-        self.driver.implicitly_wait(0)
-
         # Gets mobile screen size
         window_size_y = self.driver.get_window_size()["height"]
 
@@ -1130,16 +1089,15 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 20:
             try:
                 if name:
-                    element = self.driver.find_element_by_name(name=name)
+                    element = self.get_element(name=name)
                 elif id_element:
-                    element = self.driver.find_element_by_id(id_=id_element)
+                    element = self.get_element(id=id_element)
             except NoSuchElementException:
                 if short_swipe:
                     self.driver.swipe(35, 600, 35, window_size_y - 400)
                 else:
                     self.driver.swipe(35, 400, 35, window_size_y - 500)
                 count += 1
-        self.driver.implicitly_wait(30)
         self.screenshot()
 
     def swipe(self, startx, starty, endx, endy, swipe_time):
