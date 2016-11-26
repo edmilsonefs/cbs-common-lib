@@ -8,6 +8,7 @@ from email.mime.text import MIMEText
 from smtplib import SMTP
 from xml.etree import ElementTree
 
+from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest
@@ -353,7 +354,9 @@ class CommonHelper(TestlioAutomationTest):
                 y = loc['y'] + size['height'] / 2
 
         # an array of tuples
-        self.driver.tap([(x, y)])
+        # self.driver.tap([(x, y)])
+        ta = TouchAction(self.driver)
+        ta.press(x=x, y=y).release().perform()
 
     def click_safe(self, **kwargs):
         """
