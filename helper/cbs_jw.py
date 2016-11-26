@@ -457,7 +457,11 @@ class CommonHelperJW(CommonHelper):
         sleep(1.5)
 
     def go_back(self):
-        self.click_safe(name='Navigate up')
+        # <- icon lost its id on the live tv page :(
+        if self.exists(name='Live TV'):
+            self.hw_back()
+        else:
+            self.click_safe(name='Navigate up')
 
     def goto_sign_in(self):
         self.open_drawer()
