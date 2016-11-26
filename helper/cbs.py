@@ -3,11 +3,8 @@ import random
 import re
 import subprocess
 from time import sleep, time
-from datetime import datetime
-from email.mime.text import MIMEText
-from smtplib import SMTP
-from xml.etree import ElementTree
 
+from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest
@@ -30,7 +27,7 @@ class CommonHelper(TestlioAutomationTest):
     show_name = 'American Gothic'
     com_cbs_app = 'com.cbs.app'
 
-    def setup_method(self, method, caps = False):
+    def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
 
@@ -263,10 +260,10 @@ class CommonHelper(TestlioAutomationTest):
                 return
 
             if ('latin' in kybd.lower() or
-                'samsung' in kybd.lower() or
-                'htc' in kybd.lower() or
-                'amazon' in kybd.lower()):
-                    new_kybd = kybd
+                        'samsung' in kybd.lower() or
+                        'htc' in kybd.lower() or
+                        'amazon' in kybd.lower()):
+                new_kybd = kybd
 
         self.driver.activate_ime_engine(new_kybd)
 
@@ -278,8 +275,10 @@ class CommonHelper(TestlioAutomationTest):
 
         example: self.tap_keys_on_keyboard('some string')
         """
-        dct = {'-':69, '=':70, '[':71, ']':72, '\\':73, ';':74, '\'':75, '/': 76, ' ':62, ',':55, '.':56, '\t':61, '\r':66, '\n':66}
-        dct2 = {')':7, '!':8, '@':9, '#':10, '$':11, '%':12, '^':13, '&':14, '*':15, '(':16, '_':69, '+':70, '{':71, '}':72, '|':73, ':':74, '"':75, '?':76, '<':55, '>':56}
+        dct = {'-': 69, '=': 70, '[': 71, ']': 72, '\\': 73, ';': 74, '\'': 75, '/': 76, ' ': 62, ',': 55, '.': 56,
+               '\t': 61, '\r': 66, '\n': 66}
+        dct2 = {')': 7, '!': 8, '@': 9, '#': 10, '$': 11, '%': 12, '^': 13, '&': 14, '*': 15, '(': 16, '_': 69, '+': 70,
+                '{': 71, '}': 72, '|': 73, ':': 74, '"': 75, '?': 76, '<': 55, '>': 56}
 
         for char in txt:
             metastate = 0
@@ -344,7 +343,8 @@ class CommonHelper(TestlioAutomationTest):
                 y = loc['y'] + size['height'] / 2
 
         # an array of tuples
-        self.driver.tap([(x, y)])
+        ta = TouchAction(self.driver)
+        ta.press(x=x, y=y).release().perform()
 
     def click_safe(self, **kwargs):
         """
@@ -509,7 +509,9 @@ class CommonHelper(TestlioAutomationTest):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
         else:
-            prime_container = self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]", timeout=10)
+            prime_container = self.get_element(
+                xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]",
+                timeout=10)
             for _ in range(0, 60):
                 self._short_swipe_left(prime_container, 1000)
             count = 0
@@ -538,8 +540,10 @@ class CommonHelper(TestlioAutomationTest):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
 
     def click_any_video(self):
-        list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.ImageView[@resource-id='" + self.com_cbs_app + ":id/videoImage']")
-        self.click(element=list_episodes[0])
+        list_episodes = self.driver.find_elements_by_xpath(
+            "//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.ImageView[@resource-id='" + self.com_cbs_app + ":id/videoImage']")
+        self.click_by_location(list_episodes[0], side='middle')
+        # self.click(element=list_episodes[0])
         self.click_play_from_beginning()
 
     def click_any_aa_video(self):
@@ -602,7 +606,8 @@ class CommonHelper(TestlioAutomationTest):
         counter = 0
         while counter < 10:
             try:
-                self.get_element(xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
+                self.get_element(
+                    xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
                 break
             except:
                 self.driver.back()
@@ -625,7 +630,8 @@ class CommonHelper(TestlioAutomationTest):
                     return self.get_element(name=kwargs['name'])
                 except:
                     e = self.get_element(xpath=
-                                                "//*[@text='" + kwargs['name'] + "' or @content-desc='" + kwargs['name'] + "']", timeout=timeout)
+                                         "//*[@text='" + kwargs['name'] + "' or @content-desc='" + kwargs[
+                                             'name'] + "']", timeout=timeout)
             elif kwargs.has_key('class_name'):
                 e = self.get_element(class_name=kwargs['class_name'], timeout=timeout)
             elif kwargs.has_key('id'):
@@ -652,7 +658,7 @@ class CommonHelper(TestlioAutomationTest):
 
         start_time = time()
 
-        kwargs['timeout'] = 0   # we want exists to return immediately
+        kwargs['timeout'] = 0  # we want exists to return immediately
         while True:
             elem = self.exists(**kwargs)
             if not elem:
@@ -804,7 +810,8 @@ class CommonHelper(TestlioAutomationTest):
     def validation_upsell_page(self):
         self.verify_exists(id=self.com_cbs_app + ':id/allAccessLogo', screenshot=True)
         if self.user_type in [self.anonymous, self.registered]:
-            self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+            self.verify_exists(
+                xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
             self.verify_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                                      "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
@@ -819,7 +826,8 @@ class CommonHelper(TestlioAutomationTest):
             self.verify_exists(xpath="//*[contains(@text,'READ OUR FAQ')]")
         else:
             if self.user_type == self.ex_subscriber:
-                self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+                self.verify_exists(
+                    xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
                 self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
                 self.verify_exists(xpath="//*[contains(@text,'Only $ 5.99/month')]")
                 self.verify_exists(name='SELECT')
@@ -862,7 +870,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def complete_registration(self):
         # Complete registration if required
-        
+
         try:
             sleep(5)
             self.get_clickable_element(id=self.com_cbs_app + ':id/terms_accept_checkBox').click()
@@ -879,7 +887,7 @@ class CommonHelper(TestlioAutomationTest):
             destination = self.driver.find_element_by_name('Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
-        self.click(name='Sign Out', data= 'Sign Out 1')
+        self.click(name='Sign Out', data='Sign Out 1')
         self.click(id=self.com_cbs_app + ':id/signOutButton', data="Sign out 2")
         if "LGE Nexus 5X" == self.testdroid_device:
             self.event._log_info(self.event._event_data('Sign out 2'))
@@ -1043,7 +1051,8 @@ class CommonHelper(TestlioAutomationTest):
             sleep(3)
             self.event.screenshot(self.screenshot())
 
-    def swipe_down_if_element_is_not_visible(self, name=None, id_element=None, class_name=None, long_swipe=False, short_swipe=False):
+    def swipe_down_if_element_is_not_visible(self, name=None, id_element=None, class_name=None, long_swipe=False,
+                                             short_swipe=False):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
         """
