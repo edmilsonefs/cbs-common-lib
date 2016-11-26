@@ -622,10 +622,10 @@ class CommonHelper(TestlioAutomationTest):
         try:
             if kwargs.has_key('name'):
                 try:
-                    return self.get_element(xpath=
-                                            "//*[@name='" + kwargs['name'] + "' or @value='" + kwargs['name'] + "']", timeout=timeout)
+                    return self.get_element(name=kwargs['name'])
                 except:
-                    e = self.get_element(xpath='//*[contains(@name,"%s")]' % kwargs['name'], timeout=timeout)
+                    e = self.get_element(xpath=
+                                                "//*[@text='" + kwargs['name'] + "' or @content-desc='" + kwargs['name'] + "']", timeout=timeout)
             elif kwargs.has_key('class_name'):
                 e = self.get_element(class_name=kwargs['class_name'], timeout=timeout)
             elif kwargs.has_key('id'):
