@@ -458,7 +458,7 @@ class CommonHelperJW(CommonHelper):
 
     def go_back(self):
         # <- icon lost its id on the live tv page :(
-        if self.exists(name='Live TV'):
+        if self.exists(name='Live TV', timeout=3):
             self.hw_back()
         else:
             self.click_safe(name='Navigate up')
