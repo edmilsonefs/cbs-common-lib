@@ -530,7 +530,7 @@ class CommonHelperJW(CommonHelper):
         sleep(1)
 
     def wait_for_show_page_to_load(self):
-        page_is_loaded = self.exists(id=self.com_cbs_app + ':id/imgInfo')
+        page_is_loaded = self.exists(id=self.com_cbs_app + ':id/imgInfo')  or self.exists(id=self.com_cbs_app + ':id/imgHeader')
         if not page_is_loaded:
             self.event.screenshot(self.screenshot())
         self.assertTrueWithScreenShot(page_is_loaded, screenshot=False, msg="Assert show icons are loaded on show page.")
