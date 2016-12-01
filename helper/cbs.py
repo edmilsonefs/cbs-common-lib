@@ -1179,3 +1179,16 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_episode_indicator(self):
         self.click(id=self.com_cbs_app + ':id/allAccessEpisodesContainer')
+
+    def swipe_list_years(self, element):
+        loc = element.location
+        size = element.size
+
+        startx = loc['x'] + size['width'] / 2
+        endx = startx
+        starty = loc['y'] + 20
+        endy = loc['y'] + size['height']
+        duration = 800
+
+        self.swipe(startx, starty, endx, endy, duration)
+        sleep(1)

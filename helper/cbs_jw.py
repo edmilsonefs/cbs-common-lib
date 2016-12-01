@@ -4,14 +4,14 @@ from cbs import *
 class CommonHelperJW(CommonHelper):
     # This is just to sent the email, it's not really part of testing.
     # Don't update this as long as it's working.
-    created_email_from_address    = 'jfreight33@gmail.com'
-    created_email_from_password   = 'testing789'
+    created_email_from_address = 'jfreight33@gmail.com'
+    created_email_from_password = 'testing789'
     created_email_to_address_list = 'valdo@testlio.com'
 
     facebook_app_list = []
 
-####################################################################################
-# SETUP/LOGIN METHODS
+    ####################################################################################
+    # SETUP/LOGIN METHODS
 
     def setup_method(self, method):
         super(CommonHelperJW, self).setup_method(method, {"unicodeKeyboard": True, "resetKeyboard": True})
@@ -293,7 +293,8 @@ class CommonHelperJW(CommonHelper):
         sleep(30)
         self.event.screenshot(self.screenshot())  # per spec
 
-        if self.exists(class_name='android.webkit.WebView') or self.exists(name='You have already authorized CBS.com.', timeout=5):
+        if self.exists(class_name='android.webkit.WebView') or self.exists(name='You have already authorized CBS.com.',
+                                                                           timeout=5):
             if self.exists(class_name='android.widget.Button', timeout=5):
                 bs = self.driver.find_elements_by_class_name("android.widget.Button")
                 bs[1].click()
@@ -322,17 +323,17 @@ class CommonHelperJW(CommonHelper):
         # It's actually not that slow.
         y = .35
         for i in range(10):
-            self.tap(.4,y)
+            self.tap(.4, y)
             sleep(1)
             if self.is_keyboard_displayed():
-                self.tap(.4,y)
+                self.tap(.4, y)
                 break
-            y+=.01
+            y += .01
 
         sleep(1)
-        self.tap_keys_on_keyboard(email_text+'\t')
+        self.tap_keys_on_keyboard(email_text + '\t')
         sleep(1)
-        self.tap_keys_on_keyboard(password_text+'\t')
+        self.tap_keys_on_keyboard(password_text + '\t')
         sleep(1)
         self.event.screenshot(self.screenshot())  # per spec
 
@@ -396,8 +397,8 @@ class CommonHelperJW(CommonHelper):
         sleep(5)
         self.event.screenshot(self.screenshot())
 
-####################################################################################
-# RANDOM HELPER METHODS
+    ####################################################################################
+    # RANDOM HELPER METHODS
 
     def send_created_account_email(self):
         """
@@ -422,15 +423,16 @@ class CommonHelperJW(CommonHelper):
             smtp = SMTP('smtp.gmail.com', 587)
             smtp.starttls()
             smtp.login(self.created_email_from_address, self.created_email_from_password)
-            smtp.sendmail(self.created_email_from_address, self.created_email_to_address_list.split(','), MIMEmsg.as_string())
+            smtp.sendmail(self.created_email_from_address, self.created_email_to_address_list.split(','),
+                          MIMEmsg.as_string())
         except Exception as e:
             err = "%s %s" % (type(e), str(e))
             self.event.error(error=err)
 
         self.created_account = None
 
-####################################################################################
-# NAVIGATION
+    ####################################################################################
+    # NAVIGATION
 
     def open_drawer(self):
         """
@@ -499,7 +501,8 @@ class CommonHelperJW(CommonHelper):
         page_is_loaded = self.exists(id=self.com_cbs_app + ':id/sectionView')
         if not page_is_loaded:
             self.event.screenshot(self.screenshot())
-        self.assertTrueWithScreenShot(page_is_loaded, screenshot=False, msg="Assert show icons are loaded on home page.")
+        self.assertTrueWithScreenShot(page_is_loaded, screenshot=False,
+                                      msg="Assert show icons are loaded on home page.")
 
     def goto_shows(self):
         self.open_drawer()
@@ -537,8 +540,8 @@ class CommonHelperJW(CommonHelper):
         # self.assertTrueWithScreenShot(page_is_loaded, screenshot=False, msg="Assert show icons are loaded on show page.")
         sleep(10)
 
-####################################################################################
-# CLICK WRAPPERS
+    ####################################################################################
+    # CLICK WRAPPERS
 
     def click_close(self):
         """
@@ -579,7 +582,7 @@ class CommonHelperJW(CommonHelper):
 
     def click_search_back(self):
         # self.click(id=self.com_cbs_app + ':id/closeButton')
-        self.click(name='Navigate up') # home->search
+        self.click(name='Navigate up')  # home->search
 
     def click_favorite_icon(self):
         self.click(id=self.com_cbs_app + ':id/mycbsButton')
@@ -701,8 +704,8 @@ class CommonHelperJW(CommonHelper):
         # On settings screen
         self.click(name='Subscribe')
 
-####################################################################################
-# GET WRAPPERS
+    ####################################################################################
+    # GET WRAPPERS
 
     def get_show_title_from_info_page(self):
         """
@@ -711,8 +714,8 @@ class CommonHelperJW(CommonHelper):
         """
         return self._find_element(id=self.com_cbs_app + ':id/showName').text
 
-####################################################################################
-# SWIPE / TAP / CLICK / SEND_KEYS
+    ####################################################################################
+    # SWIPE / TAP / CLICK / SEND_KEYS
 
     def swipe_element_to_top_of_screen(self, elem, endy=None, startx=-20):
         """
@@ -721,7 +724,7 @@ class CommonHelperJW(CommonHelper):
         Don't swipe directly ON the element because if it's a picker we'll just edit the value
         """
         loc = elem.location
-        startx = loc['x']+startx
+        startx = loc['x'] + startx
         starty = loc['y']
 
         # in case it's behind the banner ad at the bottom, swipe up a little
@@ -745,7 +748,7 @@ class CommonHelperJW(CommonHelper):
         Default is to swipe NEXT TO the element, to the bottom of the screen.
         Don't swipe directly ON the element because if it's a picker we'll just edit the value
         """
-        startx = elem.location['x']+startx
+        startx = elem.location['x'] + startx
         starty = elem.location['y']
 
         size = self.driver.get_window_size()
@@ -767,10 +770,10 @@ class CommonHelperJW(CommonHelper):
         loc = element.location
         size = element.size
 
-        startx = loc['x']+size['width']/2
+        startx = loc['x'] + size['width'] / 2
         endx = startx
-        starty = loc['y']+size['height']/2
-        endy = starty+200
+        starty = loc['y'] + size['height'] / 2
+        endy = starty + 200
 
         if endy < 5:
             endy = 5
@@ -799,8 +802,8 @@ class CommonHelperJW(CommonHelper):
         # an array of tuples
         self.tap(x, y, msg)
 
-####################################################################################
-# SHOWS
+    ####################################################################################
+    # SHOWS
 
     def dummy_search(self):
         """
@@ -932,7 +935,8 @@ class CommonHelperJW(CommonHelper):
             else:
                 break
 
-        self.assertTrueWithScreenShot(season_ep_elem, screenshot=True, msg="Assert our season/episode exists: %s" % season_ep)
+        self.assertTrueWithScreenShot(season_ep_elem, screenshot=True,
+                                      msg="Assert our season/episode exists: %s" % season_ep)
 
         return season_ep_elem
 
@@ -979,8 +983,8 @@ class CommonHelperJW(CommonHelper):
 
         return show_elem
 
-####################################################################################
-# FIND / EXISTS
+    ####################################################################################
+    # FIND / EXISTS
 
     def find_on_page_horizontal(self, find_by, find_value, max_swipes=10, swipe_y=.5):
         """
@@ -1043,7 +1047,7 @@ class CommonHelperJW(CommonHelper):
                 break
             else:
                 if self.testdroid_device == "HTC_M8x":
-                    self.driver.swipe(window_size_x/2, window_size_y - 300, window_size_x/2, 300, 1000)
+                    self.driver.swipe(window_size_x / 2, window_size_y - 300, window_size_x / 2, 300, 1000)
                 else:
                     self.swipe(.8, .5, .2, .5, 300)
                 count += 1
@@ -1085,13 +1089,13 @@ class CommonHelperJW(CommonHelper):
         finally:
             self.set_implicit_wait()
 
-####################################################################################
-# XML methods
-# These are for the special case where using normal find methods don't work - specifically for the
-# video player skin.  driver.page_source works, but driver.find_element_by_id() just hangs for some reason.
-# Typical use would be:
-#   root = self.get_page_source_xml(True)
-#   self.verify_exists_using_xml(find_by='resource-id', find_key='com.cbs.app:id/tvCurrentTime', screenshot=True)
+        ####################################################################################
+        # XML methods
+        # These are for the special case where using normal find methods don't work - specifically for the
+        # video player skin.  driver.page_source works, but driver.find_element_by_id() just hangs for some reason.
+        # Typical use would be:
+        #   root = self.get_page_source_xml(True)
+        #   self.verify_exists_using_xml(find_by='resource-id', find_key='com.cbs.app:id/tvCurrentTime', screenshot=True)
 
     def get_page_source_xml(self):
         """
@@ -1166,7 +1170,8 @@ class CommonHelperJW(CommonHelper):
         # this is a weird comparison because you get a warning if you do a
         # simple true/false test using a xml.etree.ElementTree.Element
         if elem_or_false == False:
-            raise RuntimeError('_find_using_xml failed with args: find_by=%s find_key=%s class_name=%s' % (find_by, find_key, class_name))
+            raise RuntimeError('_find_using_xml failed with args: find_by=%s find_key=%s class_name=%s' % (
+            find_by, find_key, class_name))
         else:
             return elem_or_false
 
@@ -1188,12 +1193,13 @@ class CommonHelperJW(CommonHelper):
         dic = {}
         dic['x'] = x1
         dic['y'] = y1
-        dic['width'] = x2-x1
-        dic['height'] = y2-y1
+        dic['width'] = x2 - x1
+        dic['height'] = y2 - y1
 
         return dic
 
-    def verify_exists_using_xml(self, root=False, find_by=None, find_key=None, class_name='*', screenshot=False, timeout=0):
+    def verify_exists_using_xml(self, root=False, find_by=None, find_key=None, class_name='*', screenshot=False,
+                                timeout=0):
         """
         Verifies an element, but using raw xml, not Appium methods.
         Sometimes these methods don't work.  See section header (XML Methods) for details.
@@ -1232,8 +1238,8 @@ class CommonHelperJW(CommonHelper):
 
         self.assertTrueWithScreenShot(el, screenshot=screenshot, msg="Should see CBS logo")
 
-####################################################################################
-# PLAY / WATCH VIDEOS
+    ####################################################################################
+    # PLAY / WATCH VIDEOS
 
     def watch_first_video_on_home(self):
         self.goto_home()
@@ -1286,10 +1292,10 @@ class CommonHelperJW(CommonHelper):
                 # tedious.  If it's too high or too low, we might tap the title bar or the advertisement by accident...
                 loc = elem.location
                 correction_swipe_start_y = None
-                if loc['y'] < window_y*.25:
+                if loc['y'] < window_y * .25:
                     correction_swipe_start_y = .5
                     correction_swipe_end_y = .8
-                elif loc['y'] > window_y*.75:
+                elif loc['y'] > window_y * .75:
                     correction_swipe_start_y = .8
                     correction_swipe_end_y = .5
 
@@ -1358,8 +1364,8 @@ class CommonHelperJW(CommonHelper):
         start_time = time()
         self.exists(id=self.com_cbs_app + ':id/loading', timeout=buffer_wait)
 
-        elapsed_time = time()-start_time
-        timeout = buffer_wait-elapsed_time
+        elapsed_time = time() - start_time
+        timeout = buffer_wait - elapsed_time
 
         # make sure we're not still spinning/buffering
         ex = self.not_exists(id=self.com_cbs_app + ':id/loading', timeout=timeout)
@@ -1420,10 +1426,10 @@ class CommonHelperJW(CommonHelper):
         # total_time = hours*3600 + minutes*60 + seconds
         total_time = float(total_time_text[-2:])
         total_time_text = total_time_text[0:-3]
-        total_time += float(total_time_text[-2:])*60
+        total_time += float(total_time_text[-2:]) * 60
         total_time_text = total_time_text[0:-3]
         if total_time_text:
-            total_time += float(total_time_text[-2:])*3600
+            total_time += float(total_time_text[-2:]) * 3600
 
         if jump_time > total_time:
             seek_pct = .9
@@ -1437,7 +1443,7 @@ class CommonHelperJW(CommonHelper):
         tap_x = seek_bar_dim['x'] + seek_bar_dim['width'] * seek_pct
 
         # this is just the vertical middle of the seek bar
-        tap_y = seek_bar_dim['y'] + seek_bar_dim['height']/2
+        tap_y = seek_bar_dim['y'] + seek_bar_dim['height'] / 2
 
         sleep(1)
         self.tap(tap_x, tap_y, 'jumping in seek bar')
@@ -1457,201 +1463,141 @@ class CommonHelperJW(CommonHelper):
 
         return False
 
-
-####################################################################################
-# REGISTRATION
+    ####################################################################################
+    # REGISTRATION
 
     def enter_registration_form_part_01(self):
-        """
-        Assumes we're on sign up email page.  Creates data such as TestA+1234@gmail.com and enters it:
-            first and last name
-            email
-            password
-        """
         ##### PART A: first/last/email/pwd #####
-
-        if self.phone:
-            elem = self._find_element(id=self.com_cbs_app + ':id/signup_title')
-            self.swipe_element_to_top_of_screen(elem, endy=250)
-
-        fn = self._find_element(id=self.com_cbs_app + ':id/edtFirstName')
-        ln = self._find_element(id=self.com_cbs_app + ':id/edtLastName')
-        email = self._find_element(id=self.com_cbs_app + ':id/edtEmail')
-        email_confirm = self._find_element(id=self.com_cbs_app + ':id/edtConfirmEmail')
 
         self.fn_str = self.generate_random_string()
         self.ln_str = self.generate_random_string()
+        email_str = "TestA%s@gmail.com" % self.generate_random_string()
 
-        # the + is there so that all the emails will go to TestA@gmail.com
-        email_str = "TestA+%s@gmail.com" % self.generate_random_string()
-        self.created_account = email_str
-
-        self.send_keys(self.fn_str + '\n', fn)
-        self.send_keys(self.ln_str + '\n', ln)
-
-        # On some phones, the text will be something stupid like
-        # 'TestA+1GC4@gmail.com. Double tap to edit.'
-        # instead of
-        # 'TestA+1GC4@gmail.com'
-        length = len(email_str)
-        for i in range(4):
-            self.send_keys(email_str, email)
-            if email.text[0:length] != email_str:
-                email.clear()
-            else:
-                break
-
-        for i in range(4):
-            self.send_keys(email_str, email_confirm)
-            if email_confirm.text[0:length] != email_str:
-                email_confirm.clear()
-            else:
-                break
-
-        asrt = email.text[0:length] == email_str and email_confirm.text[0:length] == email_str
-        self.assertTrueWithScreenShot(asrt,
-                                      screenshot=False,
-                                      msg="Verify email addresses match what we entered.")
-
+        first_name = self._find_element(id=self.com_cbs_app + ':id/edtFirstName')
+        self.send_keys(data=self.fn_str, element=first_name)
         self._hide_keyboard()
+
+        # while not self._verify_sent_text(first_name, self.fn_str):
+        #     self.send_keys(data=self.fn_str + "\n", element=first_name)
+
+        last_name = self._find_element(id=self.com_cbs_app + ':id/edtLastName')
+        self.send_keys(data=self.ln_str, element=last_name)
+        self._hide_keyboard()
+
+        # while not self._verify_sent_text(last_name, self.ln_str):
+        #     self.send_keys(data=self.ln_str + "\n", element=last_name)
+
+        email = self._find_element(id=self.com_cbs_app + ':id/edtEmail')
+        self.send_keys(data=email_str, element=email, screenshot=True)
+        self._hide_keyboard()
+
+        # while not self._verify_sent_text(email, email_str):
+        #     self.send_keys(data=email_str + "\n", element=email)
+
+        email_confirm = self._find_element(id=self.com_cbs_app + ':id/edtConfirmEmail')
+        self.send_keys(data=email_str, element=email_confirm, screenshot=True)
+        self._hide_keyboard()
+
+        # while not self._verify_sent_text(email_confirm, email_str):
+        #     self.send_keys(data=email_str + "\n", element=email_confirm)
 
         if self.phone:
-            self.swipe_element_to_top_of_screen(email_confirm, endy=250)
+            self.swipe_element_to_top_of_screen(email_confirm, endy=400)
 
-        pwd = self.driver.find_element_by_id(self.com_cbs_app + ':id/edtPassword')
-        pwd_confirm = self.driver.find_element_by_id(self.com_cbs_app + ':id/editConfirmPassword')
-
-        self.send_keys('1q2w3e4r', pwd)
+        pwd = self._find_element(id=self.com_cbs_app + ':id/edtPassword')
+        self.send_keys('abcdef', pwd)
         self._hide_keyboard()
 
-        # The HTC One was not correctly entering the password into the pwd_confirm field.
-        pwd_confirm.click()
-        self.send_keys('1q2w3e4r', pwd_confirm)
-        self.event.screenshot(self.screenshot())
-
+        pwd_confirm = self._find_element(id=self.com_cbs_app + ':id/editConfirmPassword')
+        self.send_keys('abcdef', pwd_confirm, screenshot=True)
         self._hide_keyboard()
 
         if self.phone:
             self.swipe_element_to_top_of_screen(pwd_confirm, endy=300)
 
     def enter_registration_form_part_02(self):
-        """
-        Enters:
-            birthday - chosen randomly, prior to 1996
-            gender
-            state
-        """
-        bday = self._find_element(id=self.com_cbs_app + ':id/edtBirthdate')
-        bday.click()
+        self.click(id=self.com_cbs_app + ':id/edtBirthdate', screenshot=True)
 
-        # some devices have different datepickers.  Depends on app, device, and OS version
-        # ["LGE Nexus 5", "asus Nexus 7", "samsung SM-T330NU"]
+        if self.exists(id='android:id/date_picker_header_year', timeout=10):
+            self.click(id='android:id/date_picker_header_year', data='Click on current year')
+            list_years = self._find_element(id='android:id/animator')
 
-        if self.exists(class_name='android.widget.NumberPicker', timeout=0):
-            year_picker = self.driver.find_elements_by_class_name('android.widget.NumberPicker')[2]
-            year_but    = year_picker.find_element_by_class_name('android.widget.Button')
+            for _ in range(5):
+                self.swipe_list_years(list_years)
 
+            years = self.driver.find_elements_by_class_name("android.widget.TextView")
+
+            self.click(element=years[5], data='Choose year from the list')
+            self.click(name='OK')
+        elif self.exists(id='android:id/date_picker_year', timeout=10):
+            self.click(id='android:id/date_picker_year', data='Click on current year')
+            list_years = self._find_element(id='android:id/animator')
+
+            for _ in range(5):
+                self.swipe_list_years(list_years)
+
+            years = self.driver.find_elements_by_class_name("android.widget.TextView")
+
+            self.click(element=years[5], data='Choose year from the list')
+            self.click(name='OK')
+        else:
+            pickers = self.driver.find_elements_by_class_name('android.widget.NumberPicker')
+
+            year_picker = pickers[2]
+
+            year_but = year_picker.find_element_by_class_name('android.widget.Button')
+
+            # swipe a bunch of times to make the user 18 years old
+            # do in two steps to try to speed it up some
             for i in range(10):
                 self.swipe_datepicker_down(year_but)
 
             for i in range(10):
                 self.swipe_datepicker_down(year_but)
-                year_picker  = self.driver.find_elements_by_class_name('android.widget.NumberPicker')[2]
+                year_picker = self.driver.find_elements_by_class_name('android.widget.NumberPicker')[2]
                 current_year = year_picker.find_element_by_class_name('android.widget.Button').text
 
                 if current_year < '1996':
                     break
 
-            if self.exists(name='Set'):
-                self.click(name='Set')
-            else:
-                self.click(name="Done")
-        else:
-            year_but = self.exists(id='android:id/date_picker_header_year', timeout=0) or self.exists(id='android:id/date_picker_year', timeout=0)
-            year_but.click()
+            self.driver.implicitly_wait(10)
+            try:
+                elem = self.driver.find_element_by_name('Set')
+            except:
+                elem = self.driver.find_element_by_name('Done')
 
-            # swipe a bunch of times to make the user 18 years old
-            # do in two steps to try to speed it up some
+            self.click(element=elem, data='Choose the date')
 
-            self.set_implicit_wait(0)
-            for i in range(20):
-                year_specific_buttons = self.driver.find_elements_by_id('android:id/text1') or self.driver.find_elements_by_id('android:id/month_text_view')
-                year_specific_button = year_specific_buttons[1]
+            self.driver.implicitly_wait(self.default_implicit_wait)
 
-                if int(year_specific_button.text) < 1996:
-                    year_specific_button.click()
-                    break
-                self.swipe_datepicker_down(year_specific_button, duration=200)
-
-            self.click(name="OK")
-            self.set_implicit_wait()
-
-        # TODO: this is a bug workaround
-        if not self.exists(class_name='android.widget.EditText', timeout=3):
-            buggy_element = self.exists(name="Male") or self.exists(name="male", timeout=1)
-            if buggy_element:
-                buggy_element.click()
-
-            self.event.screenshot(self.screenshot())
-
-        # TODO: this is a bug workaround
-        if not self.exists(class_name='android.widget.EditText', timeout=3):
-            buggy_element = self.exists(name="Alaska", timeout=3)
-            if buggy_element:
-                buggy_element.click()
-
-            self.event.screenshot(self.screenshot())
-
-        # TODO: this is a bug workaround
-        if not self.exists(class_name='android.widget.EditText', timeout=3):
-            buggy_element = self.exists(name="Female", timeout=3) or self.exists(name="female", timeout=1)
-            if buggy_element:
-                buggy_element.click()
-
-            self.event.screenshot(self.screenshot())
-
-        # TODO: this is a bug workaround
-        if not self.exists(class_name='android.widget.EditText', timeout=3):
-            buggy_element = self.exists(name="Arizona", timeout=3)
-            if buggy_element:
-                buggy_element.click()
-
-            self.event.screenshot(self.screenshot())
-
-        if not self.exists(name='Alaska', timeout=3) and not self.exists(name='Arizona', timeout=3):
+        self.click(name='Male')
+        try:
+            self.driver.find_element_by_name('Alaska')
+            self.click(name='Alaska')
+        except:
             self.click(id=self.com_cbs_app + ':id/spnState')
-            self.click(name='Arkansas')
-
-        gender = self.exists(name="Gender")
-        if gender and self.phone:
-            self.swipe_element_to_top_of_screen(gender)
+            self.click(name='Alaska')
 
     def enter_registration_form_part_03(self):
-        """
-        Enters zip code.
-        Clicks checkbox
-        """
-        # I think using the resource id is generally not advised because it's just part of the app's implementation
-        # and could be changed at any time.  Here we get it dynamically just so we're sure we get the same element
-        # after updating it to a new value
         zip_id = self.com_cbs_app + ":id/edtZipCode"
-        if self.IS_AMAZON:
-            fields = self.driver.find_elements_by_class_name('android.widget.EditText')
-            last = len(fields) - 1
-            zip_code = fields[last]
-        else:
-            zip_code = self.driver.find_element_by_id(zip_id)
 
-        self.send_text('36006', zip_code)
-        if self.IS_AMAZON is False:
-            self._hide_keyboard()
+        zip = self.driver.find_element_by_id(zip_id)
+
+        zip_text = zip.text
+
+        self.send_keys('78704', zip)
         sleep(2)
 
-        if self.phone:
-            self.swipe_element_to_top_of_screen(zip_code)
+        zip = self.driver.find_element_by_id(zip_id)
 
-        check = self.driver.find_element_by_class_name('android.widget.CheckBox')
-        self.click(check)
+        self.verify_not_equal(zip_text, zip.text, screenshot=True)
+
+        if self.phone:
+            self.swipe_element_to_top_of_screen(zip)
+
+        check_box = self._find_element(class_name='android.widget.CheckBox')
+
+        self.click(element=check_box, data='Accept Terms and Conditions', screenshot=True)
 
     def submit_registration_form(self):
         """
@@ -1667,18 +1613,20 @@ class CommonHelperJW(CommonHelper):
         self.exists(id=self.com_cbs_app + ':id/infoIcon', timeout=180)
 
         # the button should NOT exist any more.  We clicked it already.
-        asrt = not self.exists(id=self.com_cbs_app + ':id/btnSignUp', timeout=0) and not self.exists(id=self.com_cbs_app + ':id/edtPassword', timeout=0)
+        asrt = not self.exists(id=self.com_cbs_app + ':id/btnSignUp', timeout=0) and not self.exists(
+            id=self.com_cbs_app + ':id/edtPassword', timeout=0)
         self.assertTrueWithScreenShot(asrt, screenshot=True, msg="We clicked SIGN UP. Should be on main page now.")
 
         if self.exists(name='CBS All Access', timeout=0) or \
-           self.exists(name='Upgrade', timeout=0):
+                self.exists(name='Upgrade', timeout=0):
             self.hw_back()
 
         # verify user was created
         self.open_drawer()
 
         asrt = not self.exists(name='Sign In')
-        self.assertTrueWithScreenShot(asrt, screenshot=True, msg="Verify 'Sign In' not an option in menu after logging in.")
+        self.assertTrueWithScreenShot(asrt, screenshot=True,
+                                      msg="Verify 'Sign In' not an option in menu after logging in.")
         self.close_drawer()
 
         # For the Chromecast button:
@@ -1686,10 +1634,10 @@ class CommonHelperJW(CommonHelper):
 
         self.send_created_account_email()
 
-################################################
-# VALIDATE / VERIFY
-# Some generic validate / verify methods to be used in test-specific validations
-# Some specific validations such as verify_show_card()
+    ################################################
+    # VALIDATE / VERIFY
+    # Some generic validate / verify methods to be used in test-specific validations
+    # Some specific validations such as verify_show_card()
 
     def verify_field_text(self, element, text):
         """
@@ -1698,11 +1646,13 @@ class CommonHelperJW(CommonHelper):
         elem_text = element.text
 
         if (type(text) == list and elem_text not in text or
-           type(text) == str and elem_text != text):
-                raise RuntimeError("verify_field_text failed: text of element '%s' was '%s' but should have been '%s'" % (element.name, elem_text, text))
+                        type(text) == str and elem_text != text):
+            raise RuntimeError("verify_field_text failed: text of element '%s' was '%s' but should have been '%s'" % (
+            element.name, elem_text, text))
 
     def verify_not_equal(self, obj1, obj2, screenshot=False):
-        self.assertTrueWithScreenShot(obj1 != obj2, screenshot=screenshot, msg="'%s' should NOT equal '%s'" % (obj1, obj2))
+        self.assertTrueWithScreenShot(obj1 != obj2, screenshot=screenshot,
+                                      msg="'%s' should NOT equal '%s'" % (obj1, obj2))
 
     def verify_equal(self, obj1, obj2, screenshot=False):
         self.assertTrueWithScreenShot(obj1 == obj2, screenshot=screenshot, msg="'%s' should EQUAL '%s'" % (obj1, obj2))
@@ -1779,7 +1729,8 @@ class CommonHelperJW(CommonHelper):
         expected_str = 'You are signed in as %s' % name
 
         self.assertEqualWithScreenShot(expected_str, name_str, screenshot=True,
-                                       msg="Expected string in settings: '%s' Actual string in settings: '%s'" % (expected_str, name_str))
+                                       msg="Expected string in settings: '%s' Actual string in settings: '%s'" % (
+                                       expected_str, name_str))
 
     def verify_live_tv_subscription(self):
         """
@@ -1818,8 +1769,8 @@ class CommonHelperJW(CommonHelper):
             elems = self.driver.find_elements_by_class_name(class_name)
             for elem in elems:
                 size = elem.size
-                loc  = elem.location
-                ratio = float(size['height'])/float(size['width'])
+                loc = elem.location
+                ratio = float(size['height']) / float(size['width'])
                 if (loc['y'] < max_y and loc['x'] < max_x and
                         (0.252 < ratio < 0.258)
                     ):
@@ -1831,8 +1782,8 @@ class CommonHelperJW(CommonHelper):
             elems = self.driver.find_elements_by_class_name(class_name)
             for elem in elems:
                 size = elem.size
-                loc  = elem.location
-                ratio = float(size['height'])/float(size['width'])
+                loc = elem.location
+                ratio = float(size['height']) / float(size['width'])
                 if (loc['y'] < max_y and loc['x'] < max_x and
                         (0.252 < ratio < 0.258)
                     ):
@@ -1861,11 +1812,11 @@ class CommonHelperJW(CommonHelper):
             elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
             for elem in elems:
                 size = elem.size
-                loc  = elem.location
-                ratio = float(size['height'])/float(size['width'])
+                loc = elem.location
+                ratio = float(size['height']) / float(size['width'])
                 if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
-                    loc['y'] < max_y and
-                    loc['x'] < max_x
+                            loc['y'] < max_y and
+                            loc['x'] < max_x
                     ):
                     logo_exists = True
         except NoSuchElementException:
@@ -1875,10 +1826,10 @@ class CommonHelperJW(CommonHelper):
             elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
             for elem in elems:
                 size = elem.size
-                ratio = float(size['height'])/float(size['width'])
+                ratio = float(size['height']) / float(size['width'])
                 if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
-                    loc['y'] < max_y and
-                    loc['x'] < max_x
+                            loc['y'] < max_y and
+                            loc['x'] < max_x
                     ):
                     logo_exists = True
 
@@ -1987,9 +1938,9 @@ class CommonHelperJW(CommonHelper):
         self.assertTrueWithScreenShot(not ret_val, msg='Should NOT see "%s" on screen' % txt_or_list)
         return ret_val
 
-####################################################################################
-# DEVELOPING / DEBUGGING METHODS
-# Used only in interactive sessions
+    ####################################################################################
+    # DEVELOPING / DEBUGGING METHODS
+    # Used only in interactive sessions
 
     def kill_ss(self):
         """
@@ -2018,7 +1969,8 @@ class CommonHelperJW(CommonHelper):
         """
         Quick way to get page source.  In your interactive session, just do a self.src()
         """
-        self.src_skip = ['scrollable', 'long-clickable', 'focused', 'checkable', 'password', 'class', 'index', 'checked', 'package', 'selected', 'focusable']
+        self.src_skip = ['scrollable', 'long-clickable', 'focused', 'checkable', 'password', 'class', 'index',
+                         'checked', 'package', 'selected', 'focusable']
 
         if not recursing:
             self.src_out_str = ''
@@ -2054,7 +2006,8 @@ class CommonHelperJW(CommonHelper):
         """
         # QUICKER way to get page source - shows elements inline for easy comparison
         """
-        self.qsrc_skip = ['NAF', 'clickable', 'enabled', 'instance', 'scrollable', 'long-clickable', 'focused', 'checkable', 'password', 'class', 'index', 'checked', 'package', 'selected', 'focusable']
+        self.qsrc_skip = ['NAF', 'clickable', 'enabled', 'instance', 'scrollable', 'long-clickable', 'focused',
+                          'checkable', 'password', 'class', 'index', 'checked', 'package', 'selected', 'focusable']
 
         if not recursing:
             self.qsrc_out_str = ''
