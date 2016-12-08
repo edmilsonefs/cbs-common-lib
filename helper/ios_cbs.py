@@ -498,3 +498,4 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
+
