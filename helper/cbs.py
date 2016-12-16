@@ -912,11 +912,11 @@ class CommonHelper(TestlioAutomationTest):
     def logout(self):
         self.goto_settings()
         if self.phone:
-            origin = self.driver.find_element_by_name('Nielsen Info & Your Choices')
+            origin = self.driver.find_element_by_name('Video Services')
             destination = self.driver.find_element_by_name('Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
-        self.click(name='Sign Out', data= 'Sign Out 1')
+        self.click(name='Sign Out', data='Sign Out 1')
         self.click(id=self.com_cbs_app + ':id/signOutButton', data="Sign out 2")
         if "LGE Nexus 5X" == self.testdroid_device:
             self.event._log_info(self.event._event_data('Sign out 2'))
