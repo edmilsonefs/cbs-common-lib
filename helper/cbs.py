@@ -851,7 +851,6 @@ class CommonHelper(TestlioAutomationTest):
             self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
         elif self.user_type == self.cf_subscriber:
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-            self.verify_exists(xpath="//*[contains(@text,'READ OUR FAQ')]")
         else:
             if self.user_type == self.ex_subscriber:
                 self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
