@@ -132,7 +132,7 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Open navigation drawer')
 
     def close_drawer(self):
-        self.driver.back()
+        self.back()
 
     def navigate_up(self):
         self.click(name='Navigate up')
