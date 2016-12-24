@@ -15,7 +15,6 @@ from selenium.common.exceptions import NoSuchElementException, WebDriverExceptio
 
 from testlio.base import TestlioAutomationTest
 
-
 class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
@@ -1194,13 +1193,15 @@ class CommonHelper(TestlioAutomationTest):
         self.swipe(startx, starty, endx, endy, duration)
         sleep(1)
 
-    def new_timezone(tz):
+    def new_timezone(self, tz):
         local_zone = get_localzone()
         timezone_chosen = pytz.timezone(tz)
         new_datetime = datetime.now(local_zone).astimezone(timezone_chosen)
         return new_datetime
 
-    def is_dst(zone_name):
+    def is_dst(self, zone_name):
         tz = pytz.timezone(zone_name)
         now = pytz.utc.localize(datetime.utcnow())
         return now.astimezone(tz).dst() != timedelta(0)
+
+
