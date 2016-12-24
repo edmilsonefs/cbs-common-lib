@@ -465,12 +465,6 @@ class CommonHelperJW(CommonHelper):
         else:
             self.click_safe(name='Navigate up')
 
-    def goto_sign_in(self):
-        self.open_drawer()
-        self.click(id=self.com_cbs_app + ':id/userNameView')
-        self._hide_keyboard()
-        sleep(1)
-
     def goto_sign_up(self):
         self.goto_sign_in()
         self._hide_keyboard()
