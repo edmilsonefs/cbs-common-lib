@@ -3,11 +3,13 @@ import random
 import re
 import subprocess
 from time import sleep, time
-from datetime import datetime
+from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from smtplib import SMTP
 from xml.etree import ElementTree
+from tzlocal import get_localzone
 
+import pytz
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
@@ -1191,3 +1193,14 @@ class CommonHelper(TestlioAutomationTest):
 
         self.swipe(startx, starty, endx, endy, duration)
         sleep(1)
+
+    def new_timezone(tz):
+        local_zone = get_localzone()
+        timezone_chosen = pytz.timezone(tz)
+        new_datetime = datetime.now(local_zone).astimezone(timezone_chosen)
+        return new_datetime
+
+    def is_dst(zone_name):
+        tz = pytz.timezone(zone_name)
+        now = pytz.utc.localize(datetime.utcnow())
+        return now.astimezone(tz).dst() != timedelta(0)
