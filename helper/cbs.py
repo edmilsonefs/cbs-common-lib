@@ -3,16 +3,17 @@ import random
 import re
 import subprocess
 from time import sleep, time
-from datetime import datetime
+from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from smtplib import SMTP
 from xml.etree import ElementTree
+from tzlocal import get_localzone
 
+import pytz
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest
-
 
 class CommonHelper(TestlioAutomationTest):
     phone = False
@@ -132,7 +133,7 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Open navigation drawer')
 
     def close_drawer(self):
-        self.driver.back()
+        self.back()
 
     def navigate_up(self):
         self.click(name='Navigate up')
@@ -525,7 +526,7 @@ class CommonHelper(TestlioAutomationTest):
         else:
             prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
             for _ in range(0, 60):
-                self._short_swipe_left(prime_container, 1000)
+                self._short_swipe_left(prime_container, 500)
             count = 0
             while count < 70:
                 self._short_swipe_left(prime_container, 1000)
@@ -851,7 +852,6 @@ class CommonHelper(TestlioAutomationTest):
             self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
         elif self.user_type == self.cf_subscriber:
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-            self.verify_exists(xpath="//*[contains(@text,'READ OUR FAQ')]")
         else:
             if self.user_type == self.ex_subscriber:
                 self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
@@ -912,11 +912,11 @@ class CommonHelper(TestlioAutomationTest):
     def logout(self):
         self.goto_settings()
         if self.phone:
-            origin = self.driver.find_element_by_name('Nielsen Info & Your Choices')
+            origin = self.driver.find_element_by_name('Video Services')
             destination = self.driver.find_element_by_name('Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
-        self.click(name='Sign Out', data= 'Sign Out 1')
+        self.click(name='Sign Out', data='Sign Out 1')
         self.click(id=self.com_cbs_app + ':id/signOutButton', data="Sign out 2")
         if "LGE Nexus 5X" == self.testdroid_device:
             self.event._log_info(self.event._event_data('Sign out 2'))
@@ -1192,3 +1192,16 @@ class CommonHelper(TestlioAutomationTest):
 
         self.swipe(startx, starty, endx, endy, duration)
         sleep(1)
+
+    def new_timezone(self, tz):
+        local_zone = get_localzone()
+        timezone_chosen = pytz.timezone(tz)
+        new_datetime = datetime.now(local_zone).astimezone(timezone_chosen)
+        return new_datetime
+
+    def is_dst(self, zone_name):
+        tz = pytz.timezone(zone_name)
+        now = pytz.utc.localize(datetime.utcnow())
+        return now.astimezone(tz).dst() != timedelta(0)
+
+
