@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from smtplib import SMTP
 from xml.etree import ElementTree
-from tzlocal import get_localzone
 
 import pytz
 from appium.webdriver.common.touch_action import TouchAction
