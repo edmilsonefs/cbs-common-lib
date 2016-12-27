@@ -691,9 +691,7 @@ class CommonHelper(TestlioAutomationTest):
 
         # logging
         self.event.click('clicking: %s (%s, %s)' % (msg, int(x), int(y)))
-        ta = TouchAction()
-        ta.press(x=x, y=y).release().perform()
-        # self.driver.tap([(x, y)])
+        self.driver.tap([(x, y)])
 
     def generate_random_string(self, length=8):
         """
