@@ -192,6 +192,17 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Sign Up')
         self._hide_keyboard()
 
+    def goto_signup(self):
+        self.goto_sign_in()
+        self._hide_keyboard()
+        sleep(1)
+
+        if not self.click_safe(name="Don't have an account? Sign Up"):
+            self.click(name="Sign Up")
+
+        self.verify_exists(name='Sign up with your email')
+        sleep(1)
+
     def goto_home(self):
         try:
             self.go_to('Home')
