@@ -1,7 +1,7 @@
 from cbs import *
 
 
-class CommonHelperJW(CommonHelper):
+class CCommonHelperJW(CommonHelper):
     # This is just to sent the email, it's not really part of testing.
     # Don't update this as long as it's working.
 
@@ -9,7 +9,7 @@ class CommonHelperJW(CommonHelper):
     # SETUP/LOGIN METHODS
 
     def setup_method(self, method):
-        super(CommonHelperJW, self).setup_method(method, {"unicodeKeyboard": True, "resetKeyboard": True})
+        super(CCommonHelperJW, self).setup_method(method, {"unicodeKeyboard": True, "resetKeyboard": True})
 
         self.set_implicit_wait()
 
@@ -49,7 +49,7 @@ class CommonHelperJW(CommonHelper):
         self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
 
     def teardown_method(self, method):
-        super(CommonHelperJW, self).teardown_method(method)
+        super(CCommonHelperJW, self).teardown_method(method)
 
     # def logout(self):
     #     self.goto_settings()
