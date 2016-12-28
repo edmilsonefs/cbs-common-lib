@@ -822,7 +822,7 @@ class CommonHelper(TestlioAutomationTest):
         except:
             self.driver.implicitly_wait(60)
             pass
-        if self.exists(name='paid', timeout=10):
+        if self.exists(name='paid', timeout=5):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
         else:
@@ -832,7 +832,7 @@ class CommonHelper(TestlioAutomationTest):
             count = 0
             while count < 70:
                 self._short_swipe_left(prime_container, 1000)
-                if self.exists(name='paid', timeout=10):
+                if self.exists(name='paid', timeout=5):
                     list_episodes = self.driver.find_elements_by_name('paid')
                     self.click(element=list_episodes[0])
                     break
