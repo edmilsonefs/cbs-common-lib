@@ -13,6 +13,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     phone = False
     tablet = False
     needToAccept = True
+    UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
     show_name = 'American Gothic'
@@ -101,6 +102,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         elems = self.driver.find_elements_by_xpath("//*[@name='Sign In']")
         self.click(element=elems[0])
 
+    def click_already_have_cbs_account_sign_in(self):
+        elem = self.driver.find_element_by_name('Already Have a CBS Account?').find_element_by_name('Sign In')
+        self.click(element=elem, screenshot=True)
+
     def back(self):
         try:
             ta = TouchAction(self.driver)
@@ -139,6 +144,11 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def sign_out(self):
         self.click(element=self.get_clickable_element(id='Sign Out'))
+
+    def go_to_sign_out(self):
+        self.go_to_settings()
+        self.sign_out()
+        self.go_to_home()
 
     def open_drawer(self):
         count = 0
@@ -245,7 +255,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             except:
                 pass
 
-    def swipe(self, startx, starty, endx, endy, swipe_time):
+    def swipe(self, startx, starty, endx, endy, swipe_time=None):
         # Converts relative args such as swipe(.5, .5, .5, .2, 1000)
         # to actual numbers such as (500, 500, 500, 200, 1000) based on current screen size.
         # Apparently some versions of appium don't handle this correctly. Surprising.
@@ -264,12 +274,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             if endy < 1:
                 endy = endy * height
 
-        if not self.is_simulator():
-            # stupid hardware.
-            # instead of startx, starty -> endx, endy it takes startx, starty -> offsetx, offsety
-            endx = endx - startx
-            endy = endy - starty
-            swipe_time = swipe_time * 3
+        endx = endx - startx
+        endy = endy - starty
 
         self.driver.swipe(startx, starty, endx, endy, swipe_time)
 
@@ -448,6 +454,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         x, y = self._convert_relative_x_y(x, y)
         self.driver.tap([(x, y)])
 
+    def tap_element(self, **kwargs):
+        elem = self._find_element(**kwargs)
+        action = TouchAction(self.driver)
+        action.long_press(elem).perform()
+
     def _convert_relative_x_y(self, x, y):
         if x < 1 or y < 1:
             s = self.driver.get_window_size()
@@ -479,6 +490,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             except:
                 pass
             self.click(id="Done", timeout=5)
+        self.log_info("End of stream")
         self.safe_screenshot()
 
     def safe_screenshot(self):
@@ -498,4 +510,162 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
+
+    def click_facebook_icon(self):
+        self.click(id='FacebookLogo')
+
+    ####################################################################################
+    # LOGIN
+    def set_sign_in_email(self, email):
+        elem = self._find_element(xpath=self.UIAWindow_XPATH + "/UIATextField[@value='Email']")
+        self.send_text(element=elem, data=email)
+
+    def set_sign_in_password(self, password):
+        elem = self._find_element(xpath=self.UIAWindow_XPATH + '/UIASecureTextField[1]')
+        self.send_text(element=elem, data=password)
+
+    def login(self, email, password):
+        self.set_sign_in_email(email)
+        self.set_sign_in_password(password)
+
+        self.click(xpath='(//UIAButton[@name="SIGN IN"])')
+
+        self.finish_login()
+
+    def finish_login(self):
+        # Complete registration if required
+
+        self.driver.implicitly_wait(10)
+        try:
+            self.tap_element(xpath=self.UIAWindow_XPATH + "//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+            self.click(accessibility_id='CONTINUE')
+            sleep(3)
+            self.event.screenshot(self.screenshot())
+        except:
+            try:
+                self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
+            except:
+                self.tap_element(xpath=self.UIAWindow_XPATH + "//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                self.click(accessibility_id='CONTINUE')
+                sleep(3)
+                self.event.screenshot(self.screenshot())
+            self.event.screenshot(self.screenshot())
+        self.driver.implicitly_wait(30)
+
+    def login_optimum(self, username, password):
+        email_field = self.driver.find_element_by_class_name('UIATextField').click()
+        self.send_keys(element=email_field, data=username, class_name='UIATextField')
+
+        password_field_element = self.driver.find_element_by_xpath(
+            '//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIASecureTextField[1]')
+        self.click(password_field_element)
+        self.send_keys(element=password_field_element, data=password)
+
+
+        if self.tablet:
+            self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAImage[3]')
+        else:
+            self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAImage[2]')
+        self.event.screenshot(self.screenshot())
+        sleep(5)
+
+    ####################################################################################
+    # SEARCH
+
+    def enter_search_text(self, what_to_search_for):
+        e = self.find_search_text()
+        self.send_keys(element=e, data=what_to_search_for)
+
+    def search_for(self, what_to_search_for):
+        self.click_search_icon()
+        self.enter_search_text(what_to_search_for)
+
+    def click_first_search_result(self):
+        element = self.get_search_result_episode_count_element()
+        element.click()
+
+    def find_search_text(self):
+        if self.exists(id='Search for a Show', timeout=2):
+            return self._find_element(id='Search for a Show')
+        else:
+            return self.driver.find_elements_by_class_name('UIATextField')[-1]
+
+    def click_search_icon(self):
+        self.click(xpath="//UIAButton[@name='Search']")
+        self.event.screenshot(self.screenshot())
+
+    def get_search_result_episode_count_element(self):
+        collection_views = self.driver.find_elements_by_xpath("//*[@value='page 1 of 1']")
+
+        for cell in collection_views:
+            static_texts = cell.find_elements_by_class_name('UIAStaticText')
+            for static_text in static_texts:
+                if ' Episode' in static_text.text:
+                    return static_text
+    ####################################################################################
+    # SWIPE
+    def swipe_element_to_top_of_screen(self):
+        """
+        Swipe NEXT TO the element, to the top of the screen.
+        Don't swipe directly ON the element because if it's a picker we'll just edit the value
+        """
+        window_size_y = self.driver.get_window_size()["height"]
+        self.swipe(30, window_size_y - 400, 30, window_size_y - 20)
+
+    def swipe_element_to_bottom_of_screen(self):
+        """
+        Swipe NEXT TO the element, to the top of the screen.
+        Don't swipe directly ON the element because if it's a picker we'll just edit the value
+        """
+        window_size_y = self.driver.get_window_size()["height"]
+        self.swipe(30, window_size_y - 80, 30, window_size_y - 500)
+
+    def short_swipe_down(self):
+        window_size_y = self.driver.get_window_size()["height"]
+        self.swipe(30, window_size_y - 100, 30, window_size_y - 150)
+
+    def short_swipe_down_if_element_is_not_visible(self, id=None, class_name=None):
+        """
+        function that search for element, if element is not found swipe the page until element is found on screen
+        """
+        self.driver.implicitly_wait(0)
+
+        element = None
+        count = 0
+        while element is None and count <= 20:
+            try:
+                if id:
+                    element = self.driver.find_element_by_id(id_=id)
+                if class_name:
+                    element = self.driver.find_element_by_class_name(class_name)
+            except:
+                self.short_swipe_down()
+                count += 1
+
+        self.driver.implicitly_wait(30)
+
+    def header_back_button(self):
+        self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAButton[2]')
+        sleep(2)
+
+
+    def click_first_show_page_episode(self):
+        self.tap_element(xpath=self.UIAWindow_XPATH + '/UIAScrollView[1]/UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell[1]')
+
+    def select_optimum_from_provider_page(self):
+        self.click(xpath='//UIACollectionCell[2]')
+
+    def go_to_optimum_page(self):
+        self.go_to_providers_page()
+        self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell[1]')
+
+    def go_to_providers_page(self):
+        self.go_to_live_tv()
+        self.select_verify_now()
+
+    def select_verify_now(self):
+        self.click(id='VERIFY NOW')
+
+    def start_watching_button(self):
+        self.click(id='Start Watching')
 
