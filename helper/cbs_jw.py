@@ -13,24 +13,7 @@ class CCommonHelperJW(CommonHelper):
 
         self.set_implicit_wait()
 
-        self.activate_standard_keyboard()
-        self.driver.orientation = 'PORTRAIT'
-
-        # Allow CBS to see your location?
-        if "5 6.0" in self.testdroid_device:
-            self.click_safe(name='Allow', timeout=300)
-
-        if 'HTC' in self.testdroid_device:
-            name = 'ACCEPT'
-            self.click_safe(name=name, timeout=480)
-            sleep(3)
-            self.click_safe(id='android:id/button1', timeout=5)
-        elif 'Nexus' in self.testdroid_device:
-            name = 'ACCEPT'
-            self.click_safe(name=name, timeout=300)
-        else:
-            if not self.click_safe(name='ACCEPT', timeout=300):
-                self.click_safe(name='Accept', timeout=10)
+        self.accept_start_popup()
 
         self.event.screenshot(self.screenshot())
 
@@ -47,7 +30,6 @@ class CCommonHelperJW(CommonHelper):
 
         # For the Chromecast button:
         self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
-
     def teardown_method(self, method):
         super(CCommonHelperJW, self).teardown_method(method)
 

@@ -42,6 +42,9 @@ class CommonHelper(TestlioAutomationTest):
         if self.hosting_platform == 'testdroid':
             self.testdroid_device = self.get_testdroid_device_from_adb()
 
+        self.activate_standard_keyboard()
+        self.driver.orientation = 'PORTRAIT'
+
         if 'Tab' in self.testdroid_device \
                 or 'Nexus 7' in self.testdroid_device \
                 or 'samsung SM-T330NU' == self.testdroid_device \
@@ -661,6 +664,23 @@ class CommonHelper(TestlioAutomationTest):
         # self.driver.tap([(x, y)])
         self.tap(x, y, msg)
 
+    def accept_start_popup(self):
+        # Allow CBS to see your location?
+        if "5 6.0" in self.testdroid_device:
+            self.click_safe(name='Allow', timeout=300)
+        if 'HTC' in self.testdroid_device:
+            name = 'ACCEPT'
+            self.click_safe(name=name, timeout=480)
+            sleep(3)
+            self.click_safe(id='android:id/button1', timeout=5)
+        elif 'Nexus' in self.testdroid_device:
+            name = 'ACCEPT'
+            self.click_safe(name=name, timeout=300)
+        else:
+            if not self.click_safe(name='ACCEPT', timeout=300):
+                self.click_safe(name='Accept', timeout=10)
+
+
     def click_safe(self, **kwargs):
         """
         Waits for element to exist before trying to click.  Default wait = current implicit wait
@@ -675,7 +695,8 @@ class CommonHelper(TestlioAutomationTest):
         if element_or_false:
             msg = element_or_false.text or \
                   element_or_false.get_attribute('name') or \
-                  element_or_false.get_attribute('resourceId') or \
+                  element_or_false.get_attribute('content-desc') or \
+                  element_or_false.get_attribute('resource-id') or \
                   element_or_false.tag_name
 
             self.event.click('In click_safe(), about to click.  element info = %s' % msg)
