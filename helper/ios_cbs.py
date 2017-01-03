@@ -1426,7 +1426,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         elem = self._find_element(xpath=self.UIAWindow_XPATH + '/UIASecureTextField[1]')
         self.send_text(element=elem, data=password)
 
-    def login(self, email, password):
+    def login_(self, email, password):
         self.set_sign_in_email(email)
         self.set_sign_in_password(password)
 
