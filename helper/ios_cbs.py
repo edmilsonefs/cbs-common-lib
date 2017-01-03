@@ -317,7 +317,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         loc = elem.location
         if loc['x'] < 0 or loc['y'] < 0:
             elem = self._find_element(id='Main Menu')
-            self.click_by_location(elem)
+            self.click_by_location(elem, side='middle')
         else:
             elem.click()
 
