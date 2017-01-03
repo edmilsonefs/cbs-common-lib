@@ -112,82 +112,9 @@ class CCommonIOSHelperJW(CommonIOSHelper):
 
 
 
-    def verify_exists(self, **kwargs):
-        """
-        Uses self.exists()
-        Optional params: screenshot (default: False), timeout (default: default_implicit_wait)
-        """
-        screenshot = kwargs.get('screenshot')
 
-        if 'accessibility_id' in kwargs:
-            selector = kwargs['accessibility_id']
-        elif 'class_name' in kwargs:
-            selector = kwargs['class_name']
-        elif 'id' in kwargs:
-            selector = kwargs['id']
-        elif 'xpath' in kwargs:
-            selector = kwargs['xpath']
 
-        self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
-                                      msg="Should see element with text or selector: '%s'" % selector)
 
-    def verify_not_exists(self, **kwargs):
-        """
-        Uses self.not_exists()
-        Optional params: screenshot (default: False), timeout (default: 30 sec)
-        """
-        screenshot = kwargs.get('screenshot')
-
-        if not 'timeout' in kwargs:
-            kwargs['timeout'] = 30
-
-        if 'accessibility_id' in kwargs:
-            selector = kwargs['accessibility_id']
-        elif 'class_name' in kwargs:
-            selector = kwargs['class_name']
-        elif 'id' in kwargs:
-            selector = kwargs['id']
-        elif 'xpath' in kwargs:
-            selector = kwargs['xpath']
-
-        self.assertTrueWithScreenShot(self.not_exists(**kwargs), screenshot=screenshot,
-                                      msg="Should NOT see element with text or selector: '%s'" % selector)
-
-    def exists(self, **kwargs):
-        """
-        Finds element and returns it (or False).  Waits up to <implicit_wait> seconds.
-        Optional parameter: timeout=10 if you only want to wait 10 seconds.  Default=default_implicit_wait
-
-        advanced:
-            call using an element:
-            my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
-            self.exists(id='Submit', driver=my_layout)
-        """
-        if 'timeout' in kwargs:
-            self.set_implicit_wait(kwargs['timeout'])
-
-        if 'driver' in kwargs:
-            d = kwargs['driver']
-        else:
-            d = self.driver
-
-        try:
-            if 'accessibility_id' in kwargs:
-                e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
-            elif 'class_name' in kwargs:
-                e = d.find_element_by_class_name(kwargs['class_name'])
-            elif 'id' in kwargs:
-                e = d.find_element_by_id(kwargs['id'])
-            elif 'xpath' in kwargs:
-                e = d.find_element_by_xpath(kwargs['xpath'])
-            else:
-                raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
-
-            return e
-        except NoSuchElementException:
-            return False
-        finally:
-            self.set_implicit_wait()
 
 
 

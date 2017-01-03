@@ -330,8 +330,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_live_tv(self):
         self.open_drawer()
         self.click(id='Live TV')
-        self.click_safe(accessibility_id='Accept', timeout=60)
-        self.click_safe(accessibility_id='Allow', timeout=1)
+        self._accept_alert(2)
 
     def goto_schedule(self):
         self.open_drawer()
@@ -382,34 +381,39 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def exists(self, **kwargs):
         """
-        Finds element by name or xpath
+        Finds element and returns it (or False).  Waits up to <implicit_wait> seconds.
+        Optional parameter: timeout=10 if you only want to wait 10 seconds.  Default=default_implicit_wait
+
         advanced:
             call using an element:
             my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
-            self.exists(xpath="//*[@name='Submit']", driver=my_layout)
+            self.exists(id='Submit', driver=my_layout)
         """
-        timeout = 30
-        if kwargs.has_key('timeout'):
-            timeout = kwargs['timeout']
+        if 'timeout' in kwargs:
+            self.set_implicit_wait(kwargs['timeout'])
+
+        if 'driver' in kwargs:
+            d = kwargs['driver']
+        else:
+            d = self.driver
+
         try:
-            if kwargs.has_key('name'):
-                try:
-                    return self.get_element(xpath=
-                        "//*[@name='" + kwargs['name'] + "' or @value='" + kwargs['name'] + "']", timeout=timeout)
-                except:
-                    e = self.get_element(xpath='//*[contains(@name,"%s")]' % kwargs['name'], timeout=timeout)
-            elif kwargs.has_key('class_name'):
-                e = self.get_element(class_name=kwargs['class_name'], timeout=timeout)
-            elif kwargs.has_key('id'):
-                e = self.get_element(id=kwargs['id'], timeout=timeout)
-            elif kwargs.has_key('xpath'):
-                e = self.get_element(xpath=kwargs['xpath'], timeout=timeout)
+            if 'accessibility_id' in kwargs:
+                e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
+            elif 'class_name' in kwargs:
+                e = d.find_element_by_class_name(kwargs['class_name'])
+            elif 'id' in kwargs:
+                e = d.find_element_by_id(kwargs['id'])
+            elif 'xpath' in kwargs:
+                e = d.find_element_by_xpath(kwargs['xpath'])
             else:
                 raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
 
             return e
-        except:
+        except NoSuchElementException:
             return False
+        finally:
+            self.set_implicit_wait()
 
     def not_exists(self, **kwargs):
         """
@@ -440,18 +444,19 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(obj1 == obj2, screenshot=screenshot, msg="'%s' should EQUAL '%s'" % (obj1, obj2))
 
     def verify_exists(self, **kwargs):
-        screenshot = False
-        if kwargs.has_key('screenshot') and kwargs['screenshot']:
-            screenshot = True
+        """
+        Uses self.exists()
+        Optional params: screenshot (default: False), timeout (default: default_implicit_wait)
+        """
+        screenshot = kwargs.get('screenshot')
 
-        selector = ""
-        if kwargs.has_key('name'):
-            selector = kwargs['name']
-        elif kwargs.has_key('class_name'):
+        if 'accessibility_id' in kwargs:
+            selector = kwargs['accessibility_id']
+        elif 'class_name' in kwargs:
             selector = kwargs['class_name']
-        elif kwargs.has_key('id'):
+        elif 'id' in kwargs:
             selector = kwargs['id']
-        elif kwargs.has_key('xpath'):
+        elif 'xpath' in kwargs:
             selector = kwargs['xpath']
 
         self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
