@@ -374,10 +374,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         pass
 
     def go_to_show(self, show_name):
-        self.search_for(show_name)
-        self.event.screenshot(self.screenshot())
-        self.click_first_search_result()
-        self.event.screenshot(self.screenshot())
+        self.goto_show(show_name)
+        # self.go_to_shows()
+        # self.click(element=self.get_clickable_element(id="Search", timeout=30))
+        # sleep(3)
+        # self.send_text_native(show_name)
+        # self.driver.tap([(80, 170)])
+        # # self.close_big_advertisement()
 
     def exists(self, **kwargs):
         """
@@ -1578,3 +1581,21 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def restart_from_the_beggining(self):
         self.click(id='Restart From Beginning')
+
+    def wait_until_element_is_visible(self, element_css=None, element_id=None, element_xpath=None):
+
+        count = 0
+        while count <= 10:
+            self.driver.implicitly_wait(20)
+            try:
+                if element_css:
+                    self.driver.find_elements_by_class_name(element_css)
+                    break
+                if element_id:
+                    self.driver.find_element_by_id(element_id)
+                    break
+                if element_xpath:
+                    self.driver.find_element_by_xpath(element_xpath)
+            except:
+                pass
+            count += 1
