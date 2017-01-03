@@ -1426,7 +1426,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         elem = self._find_element(xpath=self.UIAWindow_XPATH + '/UIASecureTextField[1]')
         self.send_text(element=elem, data=password)
 
-    def login(self, email, password):
+    def login_(self, email, password):
         self.set_sign_in_email(email)
         self.set_sign_in_password(password)
 
@@ -1462,7 +1462,6 @@ class CommonIOSHelper(TestlioAutomationTest):
             '//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIASecureTextField[1]')
         self.click(password_field_element)
         self.send_keys(element=password_field_element, data=password)
-
 
         if self.tablet:
             self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAImage[3]')
@@ -1559,7 +1558,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAButton[2]')
         sleep(2)
 
-
     def click_first_show_page_episode(self):
         self.tap_element(xpath=self.UIAWindow_XPATH + '/UIAScrollView[1]/UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell[1]')
 
@@ -1568,7 +1566,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def go_to_optimum_page(self):
         self.go_to_providers_page()
-        self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell[1]')
+        self.select_optimum_from_provider_page()
+        # self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell[1]')
 
     def go_to_providers_page(self):
         self.go_to_live_tv()
@@ -1580,3 +1579,23 @@ class CommonIOSHelper(TestlioAutomationTest):
     def start_watching_button(self):
         self.click(id='Start Watching')
 
+    def restart_from_the_beggining(self):
+        self.click(id='Restart From Beginning')
+
+    def wait_until_element_is_visible(self, element_css=None, element_id=None, element_xpath=None):
+
+        count = 0
+        while count <= 10:
+            self.driver.implicitly_wait(20)
+            try:
+                if element_css:
+                    self.driver.find_elements_by_class_name(element_css)
+                    break
+                if element_id:
+                    self.driver.find_element_by_id(element_id)
+                    break
+                if element_xpath:
+                    self.driver.find_element_by_xpath(element_xpath)
+            except:
+                pass
+            count += 1
