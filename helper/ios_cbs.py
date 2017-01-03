@@ -162,6 +162,393 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             self.click(id='Sign Out')
 
+    ####################################################################################
+    # MENU
+    # def go_to_home(self):
+    #     #self._go_to('Home')
+    #     self.goto_home()
+    #
+    # def go_to_shows(self):
+    #     #self._go_to('Shows')
+    #     self.goto_shows()
+    #
+    # def go_to_live_tv(self):
+    #     #self._go_to('Live TV')
+    #     self.goto_live_tv()
+    #     #self._accept_alert(1)
+    #
+    # def go_to_schedule(self):
+    #     #self._go_to('Schedule')
+    #     self.goto_schedule()
+    #
+    # def _go_to(self, menu):
+    #     self.safe_screenshot()
+    #     try:
+    #         self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
+    #     except:
+    #         self.open_drawer()
+    #         sleep(3)
+    #         self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
+    #
+    # def go_to_settings(self):
+    #     # self._go_to('Settings')
+    #     self.goto_settings()
+
+    def goto_home(self):
+        self.open_drawer()
+        self.click(id='Home')
+
+    def goto_shows(self):
+        self.open_drawer()
+        self.click(id='Shows')
+
+    def goto_live_tv(self):
+        self.open_drawer()
+        self.click(id='Live TV')
+        self._accept_alert(1)
+
+    def goto_schedule(self):
+        self.open_drawer()
+        self.click(id='Schedule')
+
+    def goto_settings(self):
+        self.open_drawer()
+        self.click(xpath="//UIATableCell[@name='Settings']")
+
+    def goto_show(self, show_name):
+        self.search_for(show_name)
+        self.click_first_search_result()
+        t_f = (self.exists(id='MyCBSStarOutlined iPhone', timeout=30) or
+               self.exists(id='MyCBSStarOutlined iPad', timeout=0))
+
+        self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page")
+
+    def goto_sign_in(self):
+        self.open_drawer()
+        elems = self.driver.find_elements_by_xpath("//*[@name='Sign In']")
+        self.click(element=elems[0])
+
+    def sign_out(self):
+        self.click(element=self.get_clickable_element(id='Sign Out'))
+
+    def goto_sign_out(self):
+        self.goto_settings()
+        self.sign_out()
+        self.goto_home()
+
+    def goto_sign_up(self):
+        self.goto_sign_in()
+        self.click(id='Sign Up')
+
+    # def go_to_show(self, show_name):
+    #     self.goto_show(show_name)
+    #     # self.go_to_shows()
+    #     # self.click(element=self.get_clickable_element(id="Search", timeout=30))
+    #     # sleep(3)
+    #     # self.send_text_native(show_name)
+    #     # self.driver.tap([(80, 170)])
+    #     # # self.close_big_advertisement()
+
+    ####################################################################################
+    # SEARCH
+
+    def enter_search_text(self, what_to_search_for):
+        e = self.find_search_text()
+        self.send_keys(element=e, data=what_to_search_for)
+
+    def search_for(self, what_to_search_for):
+        self.click_search_icon()
+        self.enter_search_text(what_to_search_for)
+
+    def click_first_search_result(self):
+        element = self.get_search_result_episode_count_element()
+        element.click()
+
+    ####################################################################################
+    # HEADER
+    def header_back_button(self):
+        self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAButton[2]')
+        sleep(2)
+
+    def click_search_icon(self):
+        self.click(xpath="//UIAButton[@name='Search']")
+
+    def click_search_text(self):
+        self.find_search_text().click()
+
+    def clear_search(self):
+        e = self.find_search_text()
+        self.clear_text_field(e, 'Search')
+
+    def click_search_back(self):
+        self.driver.find_elements_by_xpath("//UIAButton[@name='Cancel']")[-1].click()
+
+    def back(self):
+        try:
+            ta = TouchAction(self.driver)
+            ta.press(x=25, y=25).release().perform()
+            self.log_info("Press back")
+        except:
+            self.log_info("Fail to press back")
+
+    def go_back(self):
+        elem = self.exists(id='BackArrow_white', timeout=2)
+        if not elem:
+            elem = self._find_element(xpath="//UIAButton[@name='Back']")
+
+        # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
+        # use click_by_location)
+        loc = elem.location
+        if loc['x'] < 0 or loc['y'] < 0:
+            elem = self._find_element(id='Main Menu')
+            self.click_by_location(elem, side='middle')
+        else:
+            elem.click()
+
+    def open_drawer(self, native=False):
+        e = self.exists_and_visible(id='Main Menu', timeout=1)
+
+        if not e:
+            self.go_back()
+            sleep(1)
+            e = self.exists_and_visible(id='Main Menu', timeout=3)
+
+        if e.location['x'] > 80:
+            return
+
+        if e:
+            e.click()
+        else:
+            self.go_back()
+            sleep(1)
+            self.click(id='Main Menu')
+
+    def close_drawer(self):
+        e = self.exists_and_visible(id='Main Menu')
+
+        if e.location['x'] < 80:
+            return
+
+        if e:
+            e.click()
+        else:
+            self.go_back()
+            sleep(1)
+            self.click(id='Main Menu')
+
+    ####################################################################################
+    # SHOW PAGE
+    def click_first_show_page_episode(self):
+        self.tap_element(xpath='//UIACollectionCell[1]')
+
+    def click_info_icon_on_found_on_show_page(self, show_elem):
+        # swipe it to the middle of the screen
+        loc = show_elem.location
+        x = loc['x']
+        y = loc['y']
+
+        size = show_elem.size
+        width = size['width']
+        height = size['height']
+
+        self.swipe(x, y, 10, y, 1500)
+        sleep(1)
+
+        # use offsets to tap the (i) icon
+        loc = show_elem.location
+        x = loc['x']
+        y = loc['y']
+
+        size = show_elem.size
+        width = size['width']
+        height = size['height']
+
+        tap_x = int(x + width*.88)
+        tap_y = int(y + height*.95)
+
+        self.tap(tap_x, tap_y)
+
+    def find_show_on_home_page(self, show_dict):
+        """
+        First scrolls down looking for the show category (Primetime, etc.)
+        Then scrolls to the side looking for the episode
+        show_dict should look like
+            {'show_title': 'CSI Miami',
+            'show_category': 'Primetime'}
+
+        Returns a dict that looks like:
+            {'show_title': 'CSI Miami',
+            'episode_title': 'Fun in the Sun',
+            'air_date': '3/5/16',
+            'season_episode': 'S28Ep8''}
+        """
+        show_title = show_dict['show_title']
+        show_category = show_dict['show_category']
+        category_xpath = "//UIAStaticText[@name='%s']" % show_category
+        category_elem = self.find_on_page('xpath', category_xpath)
+
+        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert our category exists")
+        self.swipe_el_to_top_of_screen(category_elem, endy=.25, startx=20)
+
+        y = category_elem.location['y'] + category_elem.size['height'] + 50
+        y_below = category_elem.location['y']
+
+        season_ep_long = self.convert_title_season_episode_to_long_form(show_dict['season_episode'], show_title)
+
+        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
+        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
+
+        self.click_info_icon_on_found_on_show_page(show_elem)
+        sleep(2)
+
+        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
+        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
+
+        show_title_found = texts[0].text
+        season_ep_found = texts[1].text
+        ndx = texts[2].text.index(' ')  # remove the "Aired: "
+        air_date_found = texts[2].text[ndx+1:]
+        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
+        episode_title_found = texts[3].text[0:ndx]
+
+        show_dict_found = {}
+        show_dict_found['element']        = show_elem
+        show_dict_found['show_title']     = show_title_found
+        show_dict_found['episode_title']  = episode_title_found
+        show_dict_found['air_date']       = air_date_found
+        show_dict_found['season_episode'] = season_ep_found
+
+        return show_dict_found
+
+    def find_episode_on_show_page(self, show_dict):
+        season_name = "Season " + str(self.convert_season_episode(show_dict['season_episode'])[0])
+        season_xpath = "//UIAStaticText[@name='%s']" % season_name
+
+        season_elem = self.find_on_page('xpath', season_xpath)
+        self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists")
+        self.swipe_el_to_top_of_screen(season_elem, endy=.25, startx=20)
+
+        #don't think necessary for ios: find it again to be sure we get the right positioning
+        #season_elem = self._find_element(xpath=season_xpath)
+        y = season_elem.location['y'] + season_elem.size['height'] + 50
+        y_below = season_elem.location['y']
+
+        season_ep_long = self.convert_season_episode_to_long_form(show_dict['season_episode'])
+
+        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
+        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
+
+        self.click_info_icon_on_found_on_show_page(show_elem)
+        sleep(2)
+
+        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
+        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
+
+        show_title_found = texts[0].text
+        season_ep_found = texts[1].text
+        ndx = texts[2].text.index(' ')  # remove the "Aired: "
+        air_date_found = texts[2].text[ndx+1:]
+        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
+        episode_title_found = texts[3].text[0:ndx]
+
+        show_dict_found = {}
+        show_dict_found['element']        = show_elem
+        show_dict_found['show_title']     = show_title_found
+        show_dict_found['episode_title']  = episode_title_found
+        show_dict_found['air_date']       = air_date_found
+        show_dict_found['season_episode'] = season_ep_found
+
+        return show_dict_found
+
+    ####################################################################################
+    # VIDEO PLAYER
+
+    def restart_from_the_beggining(self):
+        self.click(id='Restart From Beginning')
+
+    def close_video(self):
+        count = 0
+        while count < 10:
+            if self.verify_exists(id="Search", timeout=5):
+                break
+            else:
+                self.video_done_button()
+                count += 1
+
+    def video_done_button(self):
+        self.safe_screenshot()
+        try:
+            ta = TouchAction(self.driver)
+            ta.press(x=100, y=100).release().perform()
+        except:
+            pass
+        self.safe_screenshot()
+        try:
+            self.click(id="Done", timeout=2)
+        except:
+            try:
+                ta = TouchAction(self.driver)
+                ta.press(x=100, y=100).release().perform()
+            except:
+                pass
+            self.click(id="Done", timeout=5)
+        self.log_info("End of stream")
+        self.safe_screenshot()
+
+    def stop_video(self):
+        try:
+            self.click(id="Done", timeout=2)
+        except WebDriverException:
+            try:
+                self.tap_by_touchaction(.25, .25)
+                self.click(id="Done", timeout=5)
+            except WebDriverException:
+                e = self._find_element(id="Done")
+                self.tap_by_touchaction(.25, .25)
+                e.click()
+
+    def pause_video(self):
+        # brings panel control up
+        self.tap_by_touchaction(.25, .25)
+        self.click(accessibility_id='UVPSkinPauseButton')
+        # self.event.screenshot(self.screenshot())
+
+    def unpause_video(self):
+        self.click(accessibility_id='UVPSkinPlayButton')
+        sleep(2)
+        # self.event.screenshot(self.screenshot())
+
+    def jump_in_video(self, jump_time):
+        """
+        We'll tap in the seek bar to jump over.  jump_time is in seconds.
+        We'll find where to tap by dividing jump_time by total_time as found in the screen element
+        """
+        self.pause_video()
+        total_time = self.driver.find_elements_by_class_name('UIAStaticText')[-1].text
+
+        # total_time = minutes*60 + seconds
+        total_time = float(total_time[-5:-3])*60 + float(total_time[-2:])
+
+        seek_pct = jump_time / total_time
+
+        seek_bar = self._find_element(class_name='UIASlider')
+
+        # width * seek_pct is how far over in the bar to tap
+        seek_bar_end_x = seek_bar.location['x'] + seek_bar.size['width'] * seek_pct
+
+        # this is just the vertical middle of the seek bar
+        seek_bar_end_y = seek_bar.location['y'] + seek_bar.size['height']/2
+
+        seek_bar_start_x = seek_bar.location['x']
+
+        while seek_bar_start_x < seek_bar_end_x:
+            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 500)
+            seek_bar_start_x += 15
+            print seek_bar_start_x
+
+        self.unpause_video()
+
+
     def find_by_uiautomation(self, value, hide_keyboard=False):
         return self.driver.find_element(By.IOS_UIAUTOMATION, value)
 
@@ -212,287 +599,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.driver.execute_script(
             'var vKeyboard = target.frontMostApp().keyboard(); vKeyboard.setInterKeyDelay(0.1); vKeyboard.typeString("%s");' % value)
 
-    def go_to_sign_in(self):
-        self.open_drawer()
-        elems = self.driver.find_elements_by_xpath("//*[@name='Sign In']")
-        self.click(element=elems[0])
-
-    def click_already_have_cbs_account_sign_in(self):
-        elem = self.driver.find_element_by_name('Already Have a CBS Account?').find_element_by_name('Sign In')
-        self.click(element=elem, screenshot=True)
-
-    def back(self):
-        try:
-            ta = TouchAction(self.driver)
-            ta.press(x=25, y=25).release().perform()
-            self.log_info("Press back")
-        except:
-            self.log_info("Fail to press back")
-
-    def go_to_home(self):
-        #self._go_to('Home')
-        self.goto_home()
-
-    def go_to_shows(self):
-        #self._go_to('Shows')
-        self.goto_shows()
-
-    def go_to_live_tv(self):
-        #self._go_to('Live TV')
-        self.goto_live_tv()
-        #self._accept_alert(1)
-
-    def go_to_schedule(self):
-        #self._go_to('Schedule')
-        self.goto_schedule()
-
-    def _go_to(self, menu):
-        self.safe_screenshot()
-        try:
-            self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
-        except:
-            self.open_drawer()
-            sleep(3)
-            self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
-
-    def go_to_settings(self):
-        # self._go_to('Settings')
-        self.goto_settings()
-
-    def sign_out(self):
-        self.click(element=self.get_clickable_element(id='Sign Out'))
-
-    def go_to_sign_out(self):
-        self.go_to_settings()
-        self.sign_out()
-        self.go_to_home()
-
-    def open_drawer(self, native=False):
-        e = self.exists_and_visible(id='Main Menu', timeout=1)
-
-        if not e:
-            self.go_back()
-            sleep(1)
-            e = self.exists_and_visible(id='Main Menu', timeout=3)
-
-        if e.location['x'] > 80:
-            return
-
-        if e:
-            e.click()
-        else:
-            self.go_back()
-            sleep(1)
-            self.click(id='Main Menu')
-
-    def close_drawer(self):
-        e = self.exists_and_visible(id='Main Menu')
-
-        if e.location['x'] < 80:
-            return
-
-        if e:
-            e.click()
-        else:
-            self.go_back()
-            sleep(1)
-            self.click(id='Main Menu')
-
-    def goto_sign_in(self, native=False):
-        self.open_drawer()
-        self.click(id='Sign In')
-
-    def goto_sign_up(self):
-        self.goto_sign_in()
-        self.click(id='Sign Up')
-
-    def go_back(self):
-        elem = self.exists(id='BackArrow_white', timeout=2)
-        if not elem:
-            elem = self._find_element(xpath="//UIAButton[@name='Back']")
-
-        # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
-        # use click_by_location)
-        loc = elem.location
-        if loc['x'] < 0 or loc['y'] < 0:
-            elem = self._find_element(id='Main Menu')
-            self.click_by_location(elem, side='middle')
-        else:
-            elem.click()
-
-    def goto_home(self):
-        self.open_drawer()
-        self.click(id='Home')
-
-    def goto_shows(self):
-        self.open_drawer()
-        self.click(id='Shows')
-
-    def goto_live_tv(self):
-        self.open_drawer()
-        self.click(id='Live TV')
-        self._accept_alert(1)
-
-    def goto_schedule(self):
-        self.open_drawer()
-        self.click(id='Schedule')
-
-    def goto_settings(self):
-        self.open_drawer()
-        self.click(xpath="//UIATableCell[@name='Settings']")
-
-    def goto_show(self, show_name):
-        self.search_for(show_name)
-        self.click_first_search_result()
-        t_f = (self.exists(id='MyCBSStarOutlined iPhone', timeout=30) or
-               self.exists(id='MyCBSStarOutlined iPad', timeout=0))
-
-        self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page")
-
-    # def open_drawer(self):
-    #     count = 0
-    #     while count < 10:
-    #         try:
-    #             self.click(element=self.get_clickable_element(id="Main Menu", timeout=30))
-    #             break
-    #         except:
-    #             self.driver.tap([(25, 35)])
-    #             count += 1
-    #
-    # def close_drawer(self):
-    #     count = 0
-    #     while count < 10:
-    #         try:
-    #             self.click(element=self.get_element(id="Main Menu"))
-    #             break
-    #         except:
-    #             self.tap_by_touchaction(0.9, 0.01)
-    #             count += 1
-
-    def mvpd_logout(self):
-        pass
-
-    def go_to_show(self, show_name):
-        self.goto_show(show_name)
-        # self.go_to_shows()
-        # self.click(element=self.get_clickable_element(id="Search", timeout=30))
-        # sleep(3)
-        # self.send_text_native(show_name)
-        # self.driver.tap([(80, 170)])
-        # # self.close_big_advertisement()
-
-    def exists(self, **kwargs):
-        """
-        Finds element and returns it (or False).  Waits up to <implicit_wait> seconds.
-        Optional parameter: timeout=10 if you only want to wait 10 seconds.  Default=default_implicit_wait
-
-        advanced:
-            call using an element:
-            my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
-            self.exists(id='Submit', driver=my_layout)
-        """
-        if 'timeout' in kwargs:
-            self.set_implicit_wait(kwargs['timeout'])
-
-        if 'driver' in kwargs:
-            d = kwargs['driver']
-        else:
-            d = self.driver
-
-        try:
-            if 'accessibility_id' in kwargs:
-                e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
-            elif 'class_name' in kwargs:
-                e = d.find_element_by_class_name(kwargs['class_name'])
-            elif 'id' in kwargs:
-                e = d.find_element_by_id(kwargs['id'])
-            elif 'xpath' in kwargs:
-                e = d.find_element_by_xpath(kwargs['xpath'])
-            else:
-                raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
-
-            return e
-        except NoSuchElementException:
-            return False
-        finally:
-            self.set_implicit_wait()
-
-    def not_exists(self, **kwargs):
-        """
-        Waits until element does not exist.  Waits up to <implicit_wait> seconds.
-        Optional parameter: timeout=3 if you only want to wait 3 seconds.  Default=30
-        Return: True or False
-        """
-        if 'timeout' in kwargs:
-            timeout = (kwargs['timeout'])
-        else:
-            timeout = 30
-
-        start_time = time()
-
-        kwargs['timeout'] = 0   # we want exists to return immediately
-        while True:
-            elem = self.exists(**kwargs)
-            if not elem:
-                return True
-
-            if time() - start_time > timeout:
-                return False
-
-    def verify_not_equal(self, obj1, obj2, screenshot=False):
-        self.assertTrueWithScreenShot(obj1 != obj2, screenshot=screenshot, msg="'%s' should NOT equal '%s'" % (obj1, obj2))
-
-    def verify_equal(self, obj1, obj2, screenshot=False):
-        self.assertTrueWithScreenShot(obj1 == obj2, screenshot=screenshot, msg="'%s' should EQUAL '%s'" % (obj1, obj2))
-
-    def verify_exists(self, **kwargs):
-        """
-        Uses self.exists()
-        Optional params: screenshot (default: False), timeout (default: default_implicit_wait)
-        """
-        screenshot = kwargs.get('screenshot')
-
-        if 'accessibility_id' in kwargs:
-            selector = kwargs['accessibility_id']
-        elif 'class_name' in kwargs:
-            selector = kwargs['class_name']
-        elif 'id' in kwargs:
-            selector = kwargs['id']
-        elif 'xpath' in kwargs:
-            selector = kwargs['xpath']
-
-        self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
-                                      msg="Should see element with text or selector: '%s'" % selector)
-
-    def verify_not_exists(self, **kwargs):
-        """
-        Uses self.not_exists()
-        Optional params: screenshot (default: False), timeout (default: 30 sec)
-        """
-        screenshot = kwargs.get('screenshot')
-
-        if not 'timeout' in kwargs:
-            kwargs['timeout'] = 30
-
-        if 'accessibility_id' in kwargs:
-            selector = kwargs['accessibility_id']
-        elif 'class_name' in kwargs:
-            selector = kwargs['class_name']
-        elif 'id' in kwargs:
-            selector = kwargs['id']
-        elif 'xpath' in kwargs:
-            selector = kwargs['xpath']
-
-        self.assertTrueWithScreenShot(self.not_exists(**kwargs), screenshot=screenshot,
-                                      msg="Should NOT see element with text or selector: '%s'" % selector)
-
-    def exists_and_visible(self, **kwargs):
-        e = self.exists(**kwargs)
-
-        if e and e.is_displayed():
-            return e
-
-        return False
 
     # def verify_exists_and_visible(self, **kwargs):
     #     screenshot = kwargs.get('screenshot')
@@ -646,6 +752,24 @@ class CommonIOSHelper(TestlioAutomationTest):
             #         self.driver.find_element_by_id('Done').click()
             #         count += 1
 
+    def wait_until_element_is_visible(self, element_css=None, element_id=None, element_xpath=None):
+
+        count = 0
+        while count <= 10:
+            self.driver.implicitly_wait(20)
+            try:
+                if element_css:
+                    self.driver.find_elements_by_class_name(element_css)
+                    break
+                if element_id:
+                    self.driver.find_element_by_id(element_id)
+                    break
+                if element_xpath:
+                    self.driver.find_element_by_xpath(element_xpath)
+            except:
+                pass
+            count += 1
+
     ####################################################################################
     # GET WRAPPERS
 
@@ -717,8 +841,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             pass
 
 
-        ####################################################################################
-        # PLAY / WATCH VIDEOS
+    ####################################################################################
+    # HOME PAGE
 
     def click_first_primetime_video(self, screenshot=False):
         """
@@ -754,61 +878,120 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         sleep(5)
 
-    def pause_video(self):
-        # brings panel control up
-        self.tap_by_touchaction(.25, .25)
-        self.click(accessibility_id='UVPSkinPauseButton')
-        # self.event.screenshot(self.screenshot())
-
-    def unpause_video(self):
-        self.click(accessibility_id='UVPSkinPlayButton')
-        sleep(2)
-        # self.event.screenshot(self.screenshot())
-
-    def jump_in_video(self, jump_time):
+    ################################################
+    # VALIDATE / VERIFY
+    def exists(self, **kwargs):
         """
-        We'll tap in the seek bar to jump over.  jump_time is in seconds.
-        We'll find where to tap by dividing jump_time by total_time as found in the screen element
+        Finds element and returns it (or False).  Waits up to <implicit_wait> seconds.
+        Optional parameter: timeout=10 if you only want to wait 10 seconds.  Default=default_implicit_wait
+
+        advanced:
+            call using an element:
+            my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
+            self.exists(id='Submit', driver=my_layout)
         """
-        self.pause_video()
-        total_time = self.driver.find_elements_by_class_name('UIAStaticText')[-1].text
+        if 'timeout' in kwargs:
+            self.set_implicit_wait(kwargs['timeout'])
 
-        # total_time = minutes*60 + seconds
-        total_time = float(total_time[-5:-3])*60 + float(total_time[-2:])
+        if 'driver' in kwargs:
+            d = kwargs['driver']
+        else:
+            d = self.driver
 
-        seek_pct = jump_time / total_time
-
-        seek_bar = self._find_element(class_name='UIASlider')
-
-        # width * seek_pct is how far over in the bar to tap
-        seek_bar_end_x = seek_bar.location['x'] + seek_bar.size['width'] * seek_pct
-
-        # this is just the vertical middle of the seek bar
-        seek_bar_end_y = seek_bar.location['y'] + seek_bar.size['height']/2
-
-        seek_bar_start_x = seek_bar.location['x']
-
-        while seek_bar_start_x < seek_bar_end_x:
-            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 500)
-            seek_bar_start_x += 15
-            print seek_bar_start_x
-
-        self.unpause_video()
-
-    def stop_video(self):
         try:
-            self.click(id="Done", timeout=2)
-        except WebDriverException:
-            try:
-                self.tap_by_touchaction(.25, .25)
-                self.click(id="Done", timeout=5)
-            except WebDriverException:
-                e = self._find_element(id="Done")
-                self.tap_by_touchaction(.25, .25)
-                e.click()
+            if 'accessibility_id' in kwargs:
+                e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
+            elif 'class_name' in kwargs:
+                e = d.find_element_by_class_name(kwargs['class_name'])
+            elif 'id' in kwargs:
+                e = d.find_element_by_id(kwargs['id'])
+            elif 'xpath' in kwargs:
+                e = d.find_element_by_xpath(kwargs['xpath'])
+            else:
+                raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
 
-            ################################################
-            # VALIDATE / VERIFY
+            return e
+        except NoSuchElementException:
+            return False
+        finally:
+            self.set_implicit_wait()
+
+    def not_exists(self, **kwargs):
+        """
+        Waits until element does not exist.  Waits up to <implicit_wait> seconds.
+        Optional parameter: timeout=3 if you only want to wait 3 seconds.  Default=30
+        Return: True or False
+        """
+        if 'timeout' in kwargs:
+            timeout = (kwargs['timeout'])
+        else:
+            timeout = 30
+
+        start_time = time()
+
+        kwargs['timeout'] = 0   # we want exists to return immediately
+        while True:
+            elem = self.exists(**kwargs)
+            if not elem:
+                return True
+
+            if time() - start_time > timeout:
+                return False
+
+    def verify_not_equal(self, obj1, obj2, screenshot=False):
+        self.assertTrueWithScreenShot(obj1 != obj2, screenshot=screenshot, msg="'%s' should NOT equal '%s'" % (obj1, obj2))
+
+    def verify_equal(self, obj1, obj2, screenshot=False):
+        self.assertTrueWithScreenShot(obj1 == obj2, screenshot=screenshot, msg="'%s' should EQUAL '%s'" % (obj1, obj2))
+
+    def verify_exists(self, **kwargs):
+        """
+        Uses self.exists()
+        Optional params: screenshot (default: False), timeout (default: default_implicit_wait)
+        """
+        screenshot = kwargs.get('screenshot')
+
+        if 'accessibility_id' in kwargs:
+            selector = kwargs['accessibility_id']
+        elif 'class_name' in kwargs:
+            selector = kwargs['class_name']
+        elif 'id' in kwargs:
+            selector = kwargs['id']
+        elif 'xpath' in kwargs:
+            selector = kwargs['xpath']
+
+        self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
+                                      msg="Should see element with text or selector: '%s'" % selector)
+
+    def verify_not_exists(self, **kwargs):
+        """
+        Uses self.not_exists()
+        Optional params: screenshot (default: False), timeout (default: 30 sec)
+        """
+        screenshot = kwargs.get('screenshot')
+
+        if not 'timeout' in kwargs:
+            kwargs['timeout'] = 30
+
+        if 'accessibility_id' in kwargs:
+            selector = kwargs['accessibility_id']
+        elif 'class_name' in kwargs:
+            selector = kwargs['class_name']
+        elif 'id' in kwargs:
+            selector = kwargs['id']
+        elif 'xpath' in kwargs:
+            selector = kwargs['xpath']
+
+        self.assertTrueWithScreenShot(self.not_exists(**kwargs), screenshot=screenshot,
+                                      msg="Should NOT see element with text or selector: '%s'" % selector)
+
+    def exists_and_visible(self, **kwargs):
+        e = self.exists(**kwargs)
+
+        if e and e.is_displayed():
+            return e
+
+        return False
 
     def verify_cbs_logo(self, special=None, screenshot=False):
         #cbs logo in upper left
@@ -1203,72 +1386,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         x, y = self._convert_relative_x_y(x, y)
         self.driver.tap([(x, y)])
 
-    def click_info_icon_on_found_on_show_page(self, show_elem):
-        # swipe it to the middle of the screen
-        loc = show_elem.location
-        x = loc['x']
-        y = loc['y']
 
-        size = show_elem.size
-        width = size['width']
-        height = size['height']
-
-        self.swipe(x, y, 10, y, 1500)
-        sleep(1)
-
-        # use offsets to tap the (i) icon
-        loc = show_elem.location
-        x = loc['x']
-        y = loc['y']
-
-        size = show_elem.size
-        width = size['width']
-        height = size['height']
-
-        tap_x = int(x + width*.88)
-        tap_y = int(y + height*.95)
-
-        self.tap(tap_x, tap_y)
-
-    def find_episode_on_show_page(self, show_dict):
-        season_name = "Season " + str(self.convert_season_episode(show_dict['season_episode'])[0])
-        season_xpath = "//UIAStaticText[@name='%s']" % season_name
-
-        season_elem = self.find_on_page('xpath', season_xpath)
-        self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists")
-        self.swipe_el_to_top_of_screen(season_elem, endy=.25, startx=20)
-
-        #don't think necessary for ios: find it again to be sure we get the right positioning
-        #season_elem = self._find_element(xpath=season_xpath)
-        y = season_elem.location['y'] + season_elem.size['height'] + 50
-        y_below = season_elem.location['y']
-
-        season_ep_long = self.convert_season_episode_to_long_form(show_dict['season_episode'])
-
-        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
-        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
-
-        self.click_info_icon_on_found_on_show_page(show_elem)
-        sleep(2)
-
-        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
-        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
-
-        show_title_found = texts[0].text
-        season_ep_found = texts[1].text
-        ndx = texts[2].text.index(' ')  # remove the "Aired: "
-        air_date_found = texts[2].text[ndx+1:]
-        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
-        episode_title_found = texts[3].text[0:ndx]
-
-        show_dict_found = {}
-        show_dict_found['element']        = show_elem
-        show_dict_found['show_title']     = show_title_found
-        show_dict_found['episode_title']  = episode_title_found
-        show_dict_found['air_date']       = air_date_found
-        show_dict_found['season_episode'] = season_ep_found
-
-        return show_dict_found
 
     ####################################################################################
     # FIND / EXISTS
@@ -1303,58 +1421,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.set_implicit_wait()
         return False
 
-    def find_show_on_home_page(self, show_dict):
-        """
-        First scrolls down looking for the show category (Primetime, etc.)
-        Then scrolls to the side looking for the episode
-        show_dict should look like
-            {'show_title': 'CSI Miami',
-            'show_category': 'Primetime'}
-
-        Returns a dict that looks like:
-            {'show_title': 'CSI Miami',
-            'episode_title': 'Fun in the Sun',
-            'air_date': '3/5/16',
-            'season_episode': 'S28Ep8''}
-        """
-        show_title = show_dict['show_title']
-        show_category = show_dict['show_category']
-        category_xpath = "//UIAStaticText[@name='%s']" % show_category
-        category_elem = self.find_on_page('xpath', category_xpath)
-
-        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert our category exists")
-        self.swipe_el_to_top_of_screen(category_elem, endy=.25, startx=20)
-
-        y = category_elem.location['y'] + category_elem.size['height'] + 50
-        y_below = category_elem.location['y']
-
-        season_ep_long = self.convert_title_season_episode_to_long_form(show_dict['season_episode'], show_title)
-
-        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
-        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
-
-        self.click_info_icon_on_found_on_show_page(show_elem)
-        sleep(2)
-
-        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
-        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
-
-        show_title_found = texts[0].text
-        season_ep_found = texts[1].text
-        ndx = texts[2].text.index(' ')  # remove the "Aired: "
-        air_date_found = texts[2].text[ndx+1:]
-        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
-        episode_title_found = texts[3].text[0:ndx]
-
-        show_dict_found = {}
-        show_dict_found['element']        = show_elem
-        show_dict_found['show_title']     = show_title_found
-        show_dict_found['episode_title']  = episode_title_found
-        show_dict_found['air_date']       = air_date_found
-        show_dict_found['season_episode'] = season_ep_found
-
-        return show_dict_found
-
     def tap_element(self, **kwargs):
         elem = self._find_element(**kwargs)
         action = TouchAction(self.driver)
@@ -1373,41 +1439,11 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         return x, y
 
-    def video_done_button(self):
-        self.safe_screenshot()
-        # try:
-        try:
-            ta = TouchAction(self.driver)
-            ta.press(x=100, y=100).release().perform()
-        except:
-            pass
-        self.safe_screenshot()
-        try:
-            self.click(id="Done", timeout=2)
-        except:
-            try:
-                ta = TouchAction(self.driver)
-                ta.press(x=100, y=100).release().perform()
-            except:
-                pass
-            self.click(id="Done", timeout=5)
-        self.log_info("End of stream")
-        self.safe_screenshot()
-
     def safe_screenshot(self):
         try:
             self.event.screenshot(self.screenshot())
         except:
             pass
-
-    def close_video(self):
-        count = 0
-        while count < 10:
-            if self.verify_exists(id="Search", timeout=5):
-                break
-            else:
-                self.video_done_button()
-                count += 1
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
@@ -1453,37 +1489,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.event.screenshot(self.screenshot())
         self.driver.implicitly_wait(30)
 
-    def login_optimum(self, username, password):
-        email_field = self.driver.find_element_by_class_name('UIATextField').click()
-        self.send_keys(element=email_field, data=username, class_name='UIATextField')
-
-        password_field_element = self.driver.find_element_by_xpath(
-            '//UIASecureTextField[1]')
-        self.click(password_field_element)
-        self.send_keys(element=password_field_element, data=password)
-
-        if self.tablet:
-            self.click(xpath='//UIAImage[3]')
-        else:
-            self.click(xpath='//UIAImage[2]')
-        self.event.screenshot(self.screenshot())
-        sleep(5)
-
     ####################################################################################
     # CLICK WRAPPERS
-
-    def click_search_icon(self):
-        self.click(xpath="//UIAButton[@name='Search']")
-
-    def click_search_text(self):
-        self.find_search_text().click()
-
-    def clear_search(self):
-        e = self.find_search_text()
-        self.clear_text_field(e, 'Search')
-
-    def click_search_back(self):
-        self.driver.find_elements_by_xpath("//UIAButton[@name='Cancel']")[-1].click()
 
     def click_return(self):
         size = self.driver.get_window_size()
@@ -1495,21 +1502,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_close_cta(self):
         self.click(id='upsell close')
 
-
-    ####################################################################################
-    # SEARCH
-
-    def enter_search_text(self, what_to_search_for):
-        e = self.find_search_text()
-        self.send_keys(element=e, data=what_to_search_for)
-
-    def search_for(self, what_to_search_for):
-        self.click_search_icon()
-        self.enter_search_text(what_to_search_for)
-
-    def click_first_search_result(self):
-        element = self.get_search_result_episode_count_element()
-        element.click()
 
     ####################################################################################
     # SWIPE
@@ -1553,12 +1545,11 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(30)
 
-    def header_back_button(self):
-        self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAButton[2]')
-        sleep(2)
+    ####################################################################################
+    # Live TV
 
-    def click_first_show_page_episode(self):
-        self.tap_element(xpath='//UIACollectionCell[1]')
+    def select_verify_now(self):
+        self.click(id='VERIFY NOW')
 
     def select_optimum_from_provider_page(self):
         self.click(xpath='//UIACollectionCell[2]')
@@ -1569,32 +1560,27 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell[1]')
 
     def go_to_providers_page(self):
-        self.go_to_live_tv()
+        self.goto_live_tv()
         self.select_verify_now()
-
-    def select_verify_now(self):
-        self.click(id='VERIFY NOW')
 
     def start_watching_button(self):
         self.click(id='Start Watching')
 
-    def restart_from_the_beggining(self):
-        self.click(id='Restart From Beginning')
+    def login_optimum(self, username, password):
+        email_field = self.driver.find_element_by_class_name('UIATextField').click()
+        self.send_keys(element=email_field, data=username, class_name='UIATextField')
 
-    def wait_until_element_is_visible(self, element_css=None, element_id=None, element_xpath=None):
+        password_field_element = self.driver.find_element_by_xpath(
+            '//UIASecureTextField[1]')
+        self.click(password_field_element)
+        self.send_keys(element=password_field_element, data=password)
 
-        count = 0
-        while count <= 10:
-            self.driver.implicitly_wait(20)
-            try:
-                if element_css:
-                    self.driver.find_elements_by_class_name(element_css)
-                    break
-                if element_id:
-                    self.driver.find_element_by_id(element_id)
-                    break
-                if element_xpath:
-                    self.driver.find_element_by_xpath(element_xpath)
-            except:
-                pass
-            count += 1
+        if self.tablet:
+            self.click(xpath='//UIAImage[3]')
+        else:
+            self.click(xpath='//UIAImage[2]')
+        self.event.screenshot(self.screenshot())
+        sleep(5)
+
+
+
