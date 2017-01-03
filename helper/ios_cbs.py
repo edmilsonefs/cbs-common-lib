@@ -13,7 +13,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     phone = False
     tablet = False
     needToAccept = True
-    UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     default_implicit_wait = 120
     show_name = 'American Gothic'
@@ -1419,11 +1418,11 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # LOGIN
     def set_sign_in_email(self, email):
-        elem = self._find_element(xpath=self.UIAWindow_XPATH + "/UIATextField[@value='Email']")
+        elem = self._find_element(xpath="//UIATextField[@value='Email']")
         self.send_text(element=elem, data=email)
 
     def set_sign_in_password(self, password):
-        elem = self._find_element(xpath=self.UIAWindow_XPATH + '/UIASecureTextField[1]')
+        elem = self._find_element(xpath="//UIASecureTextField[1]")
         self.send_text(element=elem, data=password)
 
     def login_(self, email, password):
@@ -1439,7 +1438,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(10)
         try:
-            self.tap_element(xpath=self.UIAWindow_XPATH + "//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+            self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
             self.click(accessibility_id='CONTINUE')
             sleep(3)
             self.event.screenshot(self.screenshot())
@@ -1447,7 +1446,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             try:
                 self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
             except:
-                self.tap_element(xpath=self.UIAWindow_XPATH + "//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
                 self.event.screenshot(self.screenshot())
@@ -1459,14 +1458,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.send_keys(element=email_field, data=username, class_name='UIATextField')
 
         password_field_element = self.driver.find_element_by_xpath(
-            '//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIASecureTextField[1]')
+            '//UIASecureTextField[1]')
         self.click(password_field_element)
         self.send_keys(element=password_field_element, data=password)
 
         if self.tablet:
-            self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAImage[3]')
+            self.click(xpath='//UIAImage[3]')
         else:
-            self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAImage[2]')
+            self.click(xpath='//UIAImage[2]')
         self.event.screenshot(self.screenshot())
         sleep(5)
 
@@ -1559,7 +1558,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(2)
 
     def click_first_show_page_episode(self):
-        self.tap_element(xpath=self.UIAWindow_XPATH + '/UIAScrollView[1]/UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell[1]')
+        self.tap_element(xpath='//UIACollectionCell[1]')
 
     def select_optimum_from_provider_page(self):
         self.click(xpath='//UIACollectionCell[2]')
