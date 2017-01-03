@@ -368,58 +368,6 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.tap(tap_x, tap_y)
 
-    def find_show_on_home_page(self, show_dict):
-        """
-        First scrolls down looking for the show category (Primetime, etc.)
-        Then scrolls to the side looking for the episode
-        show_dict should look like
-            {'show_title': 'CSI Miami',
-            'show_category': 'Primetime'}
-
-        Returns a dict that looks like:
-            {'show_title': 'CSI Miami',
-            'episode_title': 'Fun in the Sun',
-            'air_date': '3/5/16',
-            'season_episode': 'S28Ep8''}
-        """
-        show_title = show_dict['show_title']
-        show_category = show_dict['show_category']
-        category_xpath = "//UIAStaticText[@name='%s']" % show_category
-        category_elem = self.find_on_page('xpath', category_xpath)
-
-        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert our category exists")
-        self.swipe_el_to_top_of_screen(category_elem, endy=.25, startx=20)
-
-        y = category_elem.location['y'] + category_elem.size['height'] + 50
-        y_below = category_elem.location['y']
-
-        season_ep_long = self.convert_title_season_episode_to_long_form(show_dict['season_episode'], show_title)
-
-        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
-        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
-
-        self.click_info_icon_on_found_on_show_page(show_elem)
-        sleep(2)
-
-        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
-        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
-
-        show_title_found = texts[0].text
-        season_ep_found = texts[1].text
-        ndx = texts[2].text.index(' ')  # remove the "Aired: "
-        air_date_found = texts[2].text[ndx+1:]
-        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
-        episode_title_found = texts[3].text[0:ndx]
-
-        show_dict_found = {}
-        show_dict_found['element']        = show_elem
-        show_dict_found['show_title']     = show_title_found
-        show_dict_found['episode_title']  = episode_title_found
-        show_dict_found['air_date']       = air_date_found
-        show_dict_found['season_episode'] = season_ep_found
-
-        return show_dict_found
-
     def find_episode_on_show_page(self, show_dict):
         season_name = "Season " + str(self.convert_season_episode(show_dict['season_episode'])[0])
         season_xpath = "//UIAStaticText[@name='%s']" % season_name
@@ -877,6 +825,58 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.tap(.15, .53)
 
         sleep(5)
+
+    def find_show_on_home_page(self, show_dict):
+        """
+        First scrolls down looking for the show category (Primetime, etc.)
+        Then scrolls to the side looking for the episode
+        show_dict should look like
+            {'show_title': 'CSI Miami',
+            'show_category': 'Primetime'}
+
+        Returns a dict that looks like:
+            {'show_title': 'CSI Miami',
+            'episode_title': 'Fun in the Sun',
+            'air_date': '3/5/16',
+            'season_episode': 'S28Ep8''}
+        """
+        show_title = show_dict['show_title']
+        show_category = show_dict['show_category']
+        category_xpath = "//UIAStaticText[@name='%s']" % show_category
+        category_elem = self.find_on_page('xpath', category_xpath)
+
+        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert our category exists")
+        self.swipe_el_to_top_of_screen(category_elem, endy=.25, startx=20)
+
+        y = category_elem.location['y'] + category_elem.size['height'] + 50
+        y_below = category_elem.location['y']
+
+        season_ep_long = self.convert_title_season_episode_to_long_form(show_dict['season_episode'], show_title)
+
+        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
+        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
+
+        self.click_info_icon_on_found_on_show_page(show_elem)
+        sleep(2)
+
+        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
+        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
+
+        show_title_found = texts[0].text
+        season_ep_found = texts[1].text
+        ndx = texts[2].text.index(' ')  # remove the "Aired: "
+        air_date_found = texts[2].text[ndx+1:]
+        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
+        episode_title_found = texts[3].text[0:ndx]
+
+        show_dict_found = {}
+        show_dict_found['element']        = show_elem
+        show_dict_found['show_title']     = show_title_found
+        show_dict_found['episode_title']  = episode_title_found
+        show_dict_found['air_date']       = air_date_found
+        show_dict_found['season_episode'] = season_ep_found
+
+        return show_dict_found
 
     ################################################
     # VALIDATE / VERIFY
