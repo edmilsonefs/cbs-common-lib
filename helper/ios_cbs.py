@@ -374,12 +374,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         pass
 
     def go_to_show(self, show_name):
-        self.go_to_shows()
-        self.click(element=self.get_clickable_element(id="Search", timeout=30))
-        sleep(3)
-        self.send_text_native(show_name)
-        self.driver.tap([(80, 170)])
-        # self.close_big_advertisement()
+        self.search_for(show_name)
+        self.event.screenshot(self.screenshot())
+        self.click_first_search_result()
+        self.event.screenshot(self.screenshot())
 
     def exists(self, **kwargs):
         """
@@ -1462,7 +1460,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(password_field_element)
         self.send_keys(element=password_field_element, data=password)
 
-
         if self.tablet:
             self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAWebView[1]/UIAImage[3]')
         else:
@@ -1558,7 +1555,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIAButton[2]')
         sleep(2)
 
-
     def click_first_show_page_episode(self):
         self.tap_element(xpath=self.UIAWindow_XPATH + '/UIAScrollView[1]/UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell[1]')
 
@@ -1567,7 +1563,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def go_to_optimum_page(self):
         self.go_to_providers_page()
-        self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell[1]')
+        self.select_optimum_from_provider_page()
+        # self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell[1]')
 
     def go_to_providers_page(self):
         self.go_to_live_tv()
@@ -1579,3 +1576,5 @@ class CommonIOSHelper(TestlioAutomationTest):
     def start_watching_button(self):
         self.click(id='Start Watching')
 
+    def restart_from_the_beggining(self):
+        self.click(id='Restart From Beginning')
