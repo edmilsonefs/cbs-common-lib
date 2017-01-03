@@ -231,20 +231,21 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.log_info("Fail to press back")
 
     def go_to_home(self):
-        self._go_to('Home')
+        #self._go_to('Home')
+        self.goto_home()
 
     def go_to_shows(self):
-        self._go_to('Shows')
+        #self._go_to('Shows')
+        self.goto_shows()
 
     def go_to_live_tv(self):
-        self._go_to('Live TV')
-        self._accept_alert(2)
+        #self._go_to('Live TV')
+        self.goto_live_tv()
+        #self._accept_alert(1)
 
     def go_to_schedule(self):
-        self._go_to('Schedule')
-
-    def go_to_my_cbs(self):
-        self._go_to('My CBS')
+        #self._go_to('Schedule')
+        self.goto_schedule()
 
     def _go_to(self, menu):
         self.safe_screenshot()
@@ -256,7 +257,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
 
     def go_to_settings(self):
-        self._go_to('Settings')
+        # self._go_to('Settings')
+        self.goto_settings()
 
     def sign_out(self):
         self.click(element=self.get_clickable_element(id='Sign Out'))
