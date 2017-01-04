@@ -32,9 +32,6 @@ class CommonHelper(TestlioAutomationTest):
     show_name = 'American Gothic'
     com_cbs_app = 'com.cbs.app'
 
-    def __init__(self, driver):
-        self.driver = driver
-
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
