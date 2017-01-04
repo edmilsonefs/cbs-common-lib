@@ -271,6 +271,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(2)
 
     def click_search_icon(self):
+        self.close_drawer()
         self.click(xpath="//UIAButton[@name='Search']")
 
     def click_search_text(self):
