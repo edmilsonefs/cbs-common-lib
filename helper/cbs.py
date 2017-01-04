@@ -609,6 +609,9 @@ class CommonHelper(TestlioAutomationTest):
         """
         sometimes elem.click() fails for whatever reason.  get x,y coords and click by that
         """
+        if kwargs['side'] is None:
+            kwargs['side'] = 'middle'
+
         loc = elem.location
         size = elem.size
         if self.tablet:
@@ -647,7 +650,7 @@ class CommonHelper(TestlioAutomationTest):
 
         # an array of tuples
         # self.driver.tap([(x, y)])
-        self.tap(x, y, msg)
+        self.tap(x=x, y=y, msg=msg)
 
     def accept_start_popup(self):
         # Allow CBS to see your location?
@@ -689,7 +692,7 @@ class CommonHelper(TestlioAutomationTest):
         else:
             return False
 
-    def tap(self, x, y, msg=''):
+    def tap(self, x, y, msg=""):
         """
         Converts relative args such as click(.5, .5)
         to actual numbers such as (515, 840) based on current screen size.
