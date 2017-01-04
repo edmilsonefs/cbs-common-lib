@@ -36,21 +36,20 @@ class CommonHelper(TestlioAutomationTest):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
 
-        self.testdroid_device = self.get_testdroid_device_from_adb()
+        self.init_variables()
 
+    def init_variables(self):
+        if os.getenv('LOCAL') is None:
+            self.testdroid_device = self.get_testdroid_device_from_adb()
         self.activate_standard_keyboard()
         self.driver.orientation = 'PORTRAIT'
-
-        if 'Tab' in self.testdroid_device \
-                or 'Nexus 7' in self.testdroid_device \
-                or 'samsung SM-T330NU' == self.testdroid_device \
+        if 'Nexus 7' in self.testdroid_device \
                 or 'KFTBWI' in self.testdroid_device:
             self.tablet = True
             self.phone = False
         else:
             self.tablet = False
             self.phone = True
-
         if 'KFTBWI' in self.testdroid_device:
             self.com_cbs_app = 'com.cbs.ott'
             self.IS_AMAZON = True
@@ -741,43 +740,6 @@ class CommonHelper(TestlioAutomationTest):
             return False
 
     def click_on_first_video(self):
-        # all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id=self.com_cbs_app + ':id/allAccessFlag']";
-        #
-        # try:
-        #     self.driver.implicitly_wait(10)
-        #     self.driver.find_element_by_name('Free Episodes')
-        #     self._short_swipe_down(duration=5000)
-        # except:
-        #     self.driver.implicitly_wait(60)
-        #     pass
-        # if not self.exists(xpath=all_access_flag, timeout=10):
-        #     self._short_swipe_down(duration=5000)
-        #     if self.phone:
-        #         self._short_swipe_down(duration=5000)
-        #     sleep(5)
-        # list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
-        # count = 0
-        # while count < len(list_episodes):
-        #     list_episodes = self.driver.find_elements_by_xpath(all_access_flag)
-        #     self.click(element=list_episodes[count], data='Click on the All Access video on Home Page', screenshot=True)
-        #     sleep(5)
-        #     if self.exists(id=self.com_cbs_app + ':id/action_search', timeout=10):
-        #         self.click(element=list_episodes[count])
-        #     try:
-        #         self.driver.implicitly_wait(10)
-        #         self.driver.find_element_by_name("Already a subscriber? Sign In")
-        #         break
-        #     except:
-        #         self.driver.back()
-        #         try:
-        #             self.driver.implicitly_wait(10)
-        #             self.driver.find_element_by_name("Already a subscriber? Sign In")
-        #             break
-        #         except:
-        #             self.back_while_open_drawer_is_visible()
-        #             count += 1
-        # sleep(5)
-        # self.event.screenshot(self.screenshot())
         try:
             self.driver.implicitly_wait(10)
             self.driver.find_element_by_name('Free Episodes')
@@ -791,7 +753,7 @@ class CommonHelper(TestlioAutomationTest):
         else:
             prime_container = self._find_element(
                 xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
-            for _ in range(0, 60):
+            for _ in range(0, 40):
                 self._short_swipe_left(prime_container, 500)
             count = 0
             while count < 70:

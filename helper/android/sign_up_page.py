@@ -8,6 +8,7 @@ class SignUpPage(CommonHelper):
     def __init__(self, driver, event):
         self.driver = driver
         self.event = event
+        self.init_variables()
 
     def first_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
@@ -52,7 +53,7 @@ class SignUpPage(CommonHelper):
         self.verify_exists(name='Sign up with your social account', screenshot=True)
         self.verify_exists(id=self.com_cbs_app + ':id/imgFacebook')
         self.verify_exists(id=self.com_cbs_app + ':id/imgTwitter')
-        if "KFTBWI" not in self.testdroid_device:
+        if not self.IS_AMAZON:
             self.verify_exists(id=self.com_cbs_app + ':id/imgGoogle')
         self.verify_exists(name='Sign up with your email')
         for _ in range(0, 2):
@@ -66,47 +67,37 @@ class SignUpPage(CommonHelper):
         for _ in range(0, 2):
             self._short_swipe_up()
 
-        self._register_user_part_1()
+        fn, ln = self._register_user_part_1()
         self._register_user_part_2(year)
         self._register_user_part_3()
         self._register_user_part_4()
         self.submit_registration_form()
 
+        return fn, ln
+
     def _register_user_part_1(self):
 
         ##### PART A: first/last/email/pwd #####
 
-        self.fn_str = self.generate_random_string()
-        self.ln_str = self.generate_random_string()
+        fn_str = self.generate_random_string()
+        ln_str = self.generate_random_string()
         email_str = "TestA%s@gmail.com" % self.generate_random_string()
 
         first_name = self.first_name()
-        self.send_keys(data=self.fn_str, element=first_name)
+        self.send_keys(data=fn_str, element=first_name)
         self._hide_keyboard()
-
-        # while not self._verify_sent_text(first_name, self.fn_str):
-        #     self.send_keys(data=self.fn_str + "\n", element=first_name)
 
         last_name = self.last_name()
-        self.send_keys(data=self.ln_str, element=last_name)
+        self.send_keys(data=ln_str, element=last_name)
         self._hide_keyboard()
-
-        # while not self._verify_sent_text(last_name, self.ln_str):
-        #     self.send_keys(data=self.ln_str + "\n", element=last_name)
 
         email = self.email()
         self.send_keys(data=email_str, element=email, screenshot=True)
         self._hide_keyboard()
 
-        # while not self._verify_sent_text(email, email_str):
-        #     self.send_keys(data=email_str + "\n", element=email)
-
         email_confirm = self.email_confirm()
         self.send_keys(data=email_str, element=email_confirm, screenshot=True)
         self._hide_keyboard()
-
-        # while not self._verify_sent_text(email_confirm, email_str):
-        #     self.send_keys(data=email_str + "\n", element=email_confirm)
 
         if self.phone:
             self.swipe_element_to_top_of_screen(email_confirm, endy=400)
@@ -121,6 +112,8 @@ class SignUpPage(CommonHelper):
 
         if self.phone:
             self.swipe_element_to_top_of_screen(pwd_confirm, endy=300)
+
+        return fn_str, ln_str
 
     def _register_user_part_2(self, year=1996):
         self.birth_date().click()
