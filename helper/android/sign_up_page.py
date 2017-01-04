@@ -1,15 +1,13 @@
 from time import sleep
 
 from helper.cbs import CommonHelper
-from testlio.log import EventLogger
 
 
 class SignUpPage(CommonHelper):
 
-    def __init__(self, driver, method):
+    def __init__(self, driver, event):
         self.driver = driver
-        self.name = type(self).__name__ + '.' + method.__name__
-        self.event = EventLogger(self.name)
+        self.event = event
 
     def first_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
