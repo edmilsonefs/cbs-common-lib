@@ -3,67 +3,68 @@ from time import sleep
 from helper.cbs import CommonHelper
 
 
-class SignUpPage(CommonHelper):
+class SignUpPage:
+    helper = CommonHelper()
 
     def __init__(self, driver):
         self.driver = driver
 
     def first_name(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/edtFirstName')
 
     def last_name(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtLastName')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/edtLastName')
 
     def email(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtEmail')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/edtEmail')
 
     def email_confirm(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtConfirmEmail')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/edtConfirmEmail')
 
     def password(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtPassword')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/edtPassword')
 
     def password_confirm(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/editConfirmPassword')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/editConfirmPassword')
 
     def submit(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnSignUp')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/btnSignUp')
 
     def state(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/spnState')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/spnState')
 
     def zip(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtZipCode')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/edtZipCode')
 
     def gender(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/spnGender')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/spnGender')
 
     def birth_date(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtBirthdate')
+        return self.helper.get_element(timeout=timeout, id=self.helper.com_cbs_app + ':id/edtBirthdate')
 
     def terms_and_conditions(self, timeout=10):
-        return self.get_element(timeout=timeout, class_name='android.widget.CheckBox')
+        return self.helper.get_element(timeout=timeout, class_name='android.widget.CheckBox')
 
     def validate_page(self):
-        self._hide_keyboard()
-        if self.phone:
-            self.verify_exists(name='Sign Up')
-        self.verify_exists(name='Sign up with your social account', screenshot=True)
-        self.verify_exists(id=self.com_cbs_app + ':id/imgFacebook')
-        self.verify_exists(id=self.com_cbs_app + ':id/imgTwitter')
-        if "KFTBWI" not in self.testdroid_device:
-            self.verify_exists(id=self.com_cbs_app + ':id/imgGoogle')
-        self.verify_exists(name='Sign up with your email')
+        self.helper._hide_keyboard()
+        if self.helper.phone:
+            self.helper.verify_exists(name='Sign Up')
+        self.helper.verify_exists(name='Sign up with your social account', screenshot=True)
+        self.helper.verify_exists(id=self.helper.com_cbs_app + ':id/imgFacebook')
+        self.helper.verify_exists(id=self.helper.com_cbs_app + ':id/imgTwitter')
+        if "KFTBWI" not in self.helper.testdroid_device:
+            self.helper.verify_exists(id=self.helper.com_cbs_app + ':id/imgGoogle')
+        self.helper.verify_exists(name='Sign up with your email')
         for _ in range(0, 2):
-            self._short_swipe_down()
-        self.verify_exists(name='Sign Up', screenshot=True)
-        self.verify_exists(name='Already have an account? Sign In')
+            self.helper._short_swipe_down()
+        self.helper.verify_exists(name='Sign Up', screenshot=True)
+        self.helper.verify_exists(name='Already have an account? Sign In')
 
     def register_new_user(self, year=1996):
-        self._hide_keyboard()
+        self.helper._hide_keyboard()
 
         for _ in range(0, 2):
-            self._short_swipe_up()
+            self.helper._short_swipe_up()
 
         self._register_user_part_1()
         self._register_user_part_2(year)
@@ -75,77 +76,77 @@ class SignUpPage(CommonHelper):
 
         ##### PART A: first/last/email/pwd #####
 
-        self.fn_str = self.generate_random_string()
-        self.ln_str = self.generate_random_string()
-        email_str = "TestA%s@gmail.com" % self.generate_random_string()
+        self.fn_str = self.helper.generate_random_string()
+        self.ln_str = self.helper.generate_random_string()
+        email_str = "TestA%s@gmail.com" % self.helper.generate_random_string()
 
         first_name = self.first_name()
-        self.send_keys(data=self.fn_str, element=first_name)
-        self._hide_keyboard()
+        self.helper.send_keys(data=self.fn_str, element=first_name)
+        self.helper._hide_keyboard()
 
         # while not self._verify_sent_text(first_name, self.fn_str):
         #     self.send_keys(data=self.fn_str + "\n", element=first_name)
 
         last_name = self.last_name()
-        self.send_keys(data=self.ln_str, element=last_name)
-        self._hide_keyboard()
+        self.helper.send_keys(data=self.ln_str, element=last_name)
+        self.helper._hide_keyboard()
 
         # while not self._verify_sent_text(last_name, self.ln_str):
         #     self.send_keys(data=self.ln_str + "\n", element=last_name)
 
         email = self.email()
-        self.send_keys(data=email_str, element=email, screenshot=True)
-        self._hide_keyboard()
+        self.helper.send_keys(data=email_str, element=email, screenshot=True)
+        self.helper._hide_keyboard()
 
         # while not self._verify_sent_text(email, email_str):
         #     self.send_keys(data=email_str + "\n", element=email)
 
         email_confirm = self.email_confirm()
-        self.send_keys(data=email_str, element=email_confirm, screenshot=True)
-        self._hide_keyboard()
+        self.helper.send_keys(data=email_str, element=email_confirm, screenshot=True)
+        self.helper._hide_keyboard()
 
         # while not self._verify_sent_text(email_confirm, email_str):
         #     self.send_keys(data=email_str + "\n", element=email_confirm)
 
-        if self.phone:
-            self.swipe_element_to_top_of_screen(email_confirm, endy=400)
+        if self.helper.phone:
+            self.helper.swipe_element_to_top_of_screen(email_confirm, endy=400)
 
         pwd = self.password()
-        self.send_keys('abcdef', pwd)
-        self._hide_keyboard()
+        self.helper.send_keys('abcdef', pwd)
+        self.helper._hide_keyboard()
 
         pwd_confirm = self.password_confirm()
-        self.send_keys('abcdef', pwd_confirm, screenshot=True)
-        self._hide_keyboard()
+        self.helper.send_keys('abcdef', pwd_confirm, screenshot=True)
+        self.helper._hide_keyboard()
 
-        if self.phone:
-            self.swipe_element_to_top_of_screen(pwd_confirm, endy=300)
+        if self.helper.phone:
+            self.helper.swipe_element_to_top_of_screen(pwd_confirm, endy=300)
 
     def _register_user_part_2(self, year=1996):
         self.birth_date().click()
 
-        if self.exists(id='android:id/date_picker_header_year', timeout=10):
-            self.click(id='android:id/date_picker_header_year', data='Click on current year')
-            list_years = self._find_element(id='android:id/animator')
+        if self.helper.exists(id='android:id/date_picker_header_year', timeout=10):
+            self.helper.click(id='android:id/date_picker_header_year', data='Click on current year')
+            list_years = self.helper._find_element(id='android:id/animator')
 
             for _ in range(5):
                 self._swipe_list_years(list_years)
 
             years = self.driver.find_elements_by_class_name("android.widget.TextView")
 
-            self.click(element=years[5], data='Choose year from the list')
-            self.click(name='OK')
-        elif self.exists(id='android:id/date_picker_year', timeout=10):
-            self.click(id='android:id/date_picker_year', data='Click on current year')
-            list_years = self._find_element(id='android:id/animator')
+            self.helper.click(element=years[5], data='Choose year from the list')
+            self.helper.click(name='OK')
+        elif self.helper.exists(id='android:id/date_picker_year', timeout=10):
+            self.helper.click(id='android:id/date_picker_year', data='Click on current year')
+            list_years = self.helper._find_element(id='android:id/animator')
 
             for _ in range(5):
                 self._swipe_list_years(list_years)
 
             years = self.driver.find_elements_by_class_name("android.widget.TextView")
 
-            self.click(element=years[5], data='Choose year from the list')
-            self.click(name='OK')
+            self.helper.click(element=years[5], data='Choose year from the list')
+            self.helper.click(name='OK')
         else:
             pickers = self.driver.find_elements_by_class_name('android.widget.NumberPicker')
 
@@ -172,18 +173,18 @@ class SignUpPage(CommonHelper):
             except:
                 elem = self.driver.find_element_by_name('Done')
 
-            self.click(element=elem, data='Choose the date')
+            self.helper.click(element=elem, data='Choose the date')
 
-            self.driver.implicitly_wait(self.default_implicit_wait)
+            self.driver.implicitly_wait(self.helper.default_implicit_wait)
 
     def _register_user_part_3(self):
-        self.click(name='Male')
+        self.helper.click(name='Male')
         try:
             self.driver.find_element_by_name('Alaska')
-            self.click(name='Alaska')
+            self.helper.click(name='Alaska')
         except:
-            self.click(id=self.com_cbs_app + ':id/spnState')
-            self.click(name='Alaska')
+            self.helper.click(id=self.helper.com_cbs_app + ':id/spnState')
+            self.helper.click(name='Alaska')
 
     def _register_user_part_4(self):
         # I think using the resource id is generally not advised because it's just part of the app's implementation
@@ -193,25 +194,25 @@ class SignUpPage(CommonHelper):
 
         zip_text = zip.text
 
-        self.send_keys('78704', zip)
+        self.helper.send_keys('78704', zip)
         sleep(2)
 
         zip = self.zip()
 
-        self.verify_not_equal(zip_text, zip.text, screenshot=True)
+        self.helper.verify_not_equal(zip_text, zip.text, screenshot=True)
 
-        if self.phone:
-            self.swipe_element_to_top_of_screen(zip)
+        if self.helper.phone:
+            self.helper.swipe_element_to_top_of_screen(zip)
 
         self.terms_and_conditions().click()
 
     def submit_registration_form(self):
-        self._hide_keyboard()
+        self.helper._hide_keyboard()
         self.submit().click()
 
     def cancel_registration_form(self):
-        self._hide_keyboard()
-        self.navigate_up()
+        self.helper._hide_keyboard()
+        self.helper.navigate_up()
 
     def _swipe_datepicker_down(self, element):
         """
@@ -230,7 +231,7 @@ class SignUpPage(CommonHelper):
             endy = 5
             duration = 600
 
-        self.swipe(startx, starty, endx, endy, duration)
+        self.helper.swipe(startx, starty, endx, endy, duration)
         sleep(1)
 
     def _swipe_list_years(self, element):
@@ -243,5 +244,5 @@ class SignUpPage(CommonHelper):
         endy = loc['y'] + size['height']
         duration = 800
 
-        self.swipe(startx, starty, endx, endy, duration)
+        self.helper.swipe(startx, starty, endx, endy, duration)
         sleep(1)
