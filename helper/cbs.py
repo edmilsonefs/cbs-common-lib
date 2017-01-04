@@ -2,15 +2,15 @@ import os
 import random
 import re
 import subprocess
-from time import sleep, time
-from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from smtplib import SMTP
+from time import sleep, time
 from xml.etree import ElementTree
-from appium.webdriver.common.touch_action import TouchAction
+
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest
+
 
 class CommonHelper(TestlioAutomationTest):
     created_email_from_address = 'jfreight33@gmail.com'
@@ -32,13 +32,11 @@ class CommonHelper(TestlioAutomationTest):
     show_name = 'American Gothic'
     com_cbs_app = 'com.cbs.app'
 
-    def setup_method(self, method, caps = False):
+    def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
 
-        self.get_hosting_platform()
-        if self.hosting_platform == 'testdroid':
-            self.testdroid_device = self.get_testdroid_device_from_adb()
+        self.testdroid_device = self.get_testdroid_device_from_adb()
 
         self.activate_standard_keyboard()
         self.driver.orientation = 'PORTRAIT'
@@ -76,16 +74,6 @@ class CommonHelper(TestlioAutomationTest):
             self.event.screenshot(self.screenshot())
         except Exception:
             self.event.start(data='in teardown: screenshot failed')
-
-    def get_hosting_platform(self):
-        """
-        Determine if we're running on testlio platform or testdroid.
-        Sets self.hosting_platform
-        """
-        if 'VIRTUAL_ENV' in os.environ and "ubuntu" in os.environ['VIRTUAL_ENV']:
-            self.hosting_platform = 'testdroid'
-        else:
-            self.hosting_platform = 'testlio'
 
     def get_testdroid_device_from_adb(self):
         """
@@ -192,12 +180,12 @@ class CommonHelper(TestlioAutomationTest):
     def click_search_back(self):
         # self.click(id=self.com_cbs_app + ':id/closeButton')
         self.click(name='Navigate up')  # home->search
-        #Todo analyze this, as it's the same as navigate up
+        # Todo analyze this, as it's the same as navigate up
 
     ################################################
     # MENU
 
-    def go_to(self, menu):
+    def _go_to(self, menu):
         self.driver.implicitly_wait(8)
         drawer = self._find_element(id=self.com_cbs_app + ':id/navigation_drawer')
         self.click(element=drawer.find_element_by_name(menu), data='Click on menu item %s' % menu)
@@ -212,10 +200,6 @@ class CommonHelper(TestlioAutomationTest):
         self.click(element=sign_in, data='Click on menu item Sign In')
         self._hide_keyboard()
 
-    def goto_sign_up(self):
-        self.click(name='Sign Up')
-        self._hide_keyboard()
-
     def goto_signup(self):
         self.goto_sign_in()
         self._hide_keyboard()
@@ -228,50 +212,30 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1)
 
     def goto_home(self):
-        try:
-            self.go_to('Home')
-        except:
-            self.open_drawer()
-            self.go_to('Home')
+        self.open_drawer()
+        self._go_to('Home')
 
     def goto_shows(self):
-        try:
-            self.go_to('Shows')
-        except:
-            self.open_drawer()
-            self.go_to('Shows')
+        self.open_drawer()
+        self._go_to('Shows')
 
     def goto_subscribe(self):
-        try:
-            self.go_to('Subscribe')
-        except:
-            self.open_drawer()
-            self.go_to('Subscribe')
+        self.open_drawer()
+        self._go_to('Subscribe')
 
     def goto_live_tv(self):
-        try:
-            self.go_to('Live TV')
-            self.click_allow_popup()
-            self.driver.implicitly_wait(120)
-        except:
-            self.open_drawer()
-            self.go_to('Live TV')
-            self.click_allow_popup()
-            self.driver.implicitly_wait(120)
+        self.open_drawer()
+        self._go_to('Live TV')
+        self.click_allow_popup()
+        self.driver.implicitly_wait(120)
 
     def goto_schedule(self):
-        try:
-            self.go_to('Schedule')
-        except:
-            self.open_drawer()
-            self.go_to('Schedule')
+        self.open_drawer()
+        self._go_to('Schedule')
 
     def goto_settings(self):
-        try:
-            self.go_to('Settings')
-        except:
-            self.open_drawer()
-            self.go_to('Settings')
+        self.open_drawer()
+        self._go_to('Settings')
 
     def goto_show(self, show_name):
         self.select_search_icon()
@@ -606,8 +570,10 @@ class CommonHelper(TestlioAutomationTest):
 
         example: self.tap_keys_on_keyboard('some string')
         """
-        dct = {'-':69, '=':70, '[':71, ']':72, '\\':73, ';':74, '\'':75, '/': 76, ' ':62, ',':55, '.':56, '\t':61, '\r':66, '\n':66}
-        dct2 = {')':7, '!':8, '@':9, '#':10, '$':11, '%':12, '^':13, '&':14, '*':15, '(':16, '_':69, '+':70, '{':71, '}':72, '|':73, ':':74, '"':75, '?':76, '<':55, '>':56}
+        dct = {'-': 69, '=': 70, '[': 71, ']': 72, '\\': 73, ';': 74, '\'': 75, '/': 76, ' ': 62, ',': 55, '.': 56,
+               '\t': 61, '\r': 66, '\n': 66}
+        dct2 = {')': 7, '!': 8, '@': 9, '#': 10, '$': 11, '%': 12, '^': 13, '&': 14, '*': 15, '(': 16, '_': 69, '+': 70,
+                '{': 71, '}': 72, '|': 73, ':': 74, '"': 75, '?': 76, '<': 55, '>': 56}
 
         for char in txt:
             metastate = 0
@@ -771,8 +737,6 @@ class CommonHelper(TestlioAutomationTest):
         except WebDriverException:
             return False
 
-
-
     def click_on_first_video(self):
         # all_access_flag = "//android.widget.LinearLayout[./android.widget.TextView[@text='Primetime Episodes']]//*[@resource-id=self.com_cbs_app + ':id/allAccessFlag']";
         #
@@ -822,7 +786,8 @@ class CommonHelper(TestlioAutomationTest):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
         else:
-            prime_container = self._find_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
+            prime_container = self._find_element(
+                xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
             for _ in range(0, 60):
                 self._short_swipe_left(prime_container, 500)
             count = 0
@@ -853,7 +818,8 @@ class CommonHelper(TestlioAutomationTest):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
 
     def click_any_video(self):
-        list_episodes = self.driver.find_elements_by_xpath("//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.FrameLayout[@resource-id='" + self.com_cbs_app + ":id/imageHolder']/android.widget.ImageView")
+        list_episodes = self.driver.find_elements_by_xpath(
+            "//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.FrameLayout[@resource-id='" + self.com_cbs_app + ":id/imageHolder']/android.widget.ImageView")
         # self.click(element=list_episodes[0])
         self.click_by_location(list_episodes[0], side='middle')
         self.click_play_from_beginning()
@@ -935,7 +901,8 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(20)
         while counter < 10:
             try:
-                self.driver.find_element_by_xpath("//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
+                self.driver.find_element_by_xpath(
+                    "//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@text='" + page_title + "']")
                 break
             except:
                 self.driver.back()
@@ -992,7 +959,7 @@ class CommonHelper(TestlioAutomationTest):
 
         start_time = time()
 
-        kwargs['timeout'] = 0   # we want exists to return immediately
+        kwargs['timeout'] = 0  # we want exists to return immediately
         while True:
             elem = self.exists(**kwargs)
             if not elem:
@@ -1129,7 +1096,8 @@ class CommonHelper(TestlioAutomationTest):
     def validation_upsell_page(self):
         self.verify_exists(id=self.com_cbs_app + ':id/allAccessLogo', screenshot=True)
         if self.user_type in [self.anonymous, self.registered]:
-            self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+            self.verify_exists(
+                xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
             self.verify_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                                      "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
@@ -1143,7 +1111,8 @@ class CommonHelper(TestlioAutomationTest):
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
         else:
             if self.user_type == self.ex_subscriber:
-                self.verify_exists(xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
+                self.verify_exists(
+                    xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
                 self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
                 self.verify_exists(xpath="//*[contains(@text,'Only $ 5.99/month')]")
                 self.verify_exists(name='SELECT')
@@ -1539,6 +1508,7 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Subscribe')
 
         ####################################################################################
+
     # REGISTRATION
 
     def enter_registration_form_part_01(self):
@@ -2712,7 +2682,6 @@ class CommonHelper(TestlioAutomationTest):
         else:
             return False
 
-
     def send_created_account_email(self):
         """
         Sends an email about the test.  Currently just used for account creation.  To/from
@@ -2862,5 +2831,3 @@ class CommonHelper(TestlioAutomationTest):
 
             for child in list(elem):
                 self.qsrc(elem=child, tab_str=tab_str + '', full=full, recursing=True)
-
-
