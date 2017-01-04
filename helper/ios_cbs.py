@@ -205,7 +205,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_live_tv(self):
         self.open_drawer()
         self.click(id='Live TV')
-        self._accept_alert(1)
+        self._accept_alert(2)
 
     def goto_schedule(self):
         self.open_drawer()
