@@ -5,8 +5,8 @@ from helper.cbs import CommonHelper
 
 class SignUpPage(CommonHelper):
 
-    def __init__(self):
-        pass
+    def __init__(self, driver):
+        self.driver = driver
 
     def first_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
