@@ -821,7 +821,7 @@ class CommonHelper(TestlioAutomationTest):
                 self.driver.find_element_by_name("Open navigation drawer")
                 break
             except:
-                self.driver.back()
+                self.back()
                 counter += 1
         self.driver.implicitly_wait(self.default_implicit_wait)
 
