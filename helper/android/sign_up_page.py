@@ -222,7 +222,7 @@ class SignUpPage(BasePage):
 
     def cancel_registration_form(self):
         self._hide_keyboard()
-        self.navigate_up()
+        self.click(element=self.navigate_up())
 
     def _swipe_datepicker_down(self, element):
         """
