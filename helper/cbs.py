@@ -106,7 +106,10 @@ class CommonHelper(TestlioAutomationTest):
         if wait_time == -1:
             wait_time = self.default_implicit_wait
 
-        self.driver.implicitly_wait(wait_time)
+        try:
+            self.driver.implicitly_wait(wait_time)
+        except:
+            pass
 
     def click_until_element_is_visible(self, element_to_be_visible, element_to_click):
         self.driver.implicitly_wait(20)

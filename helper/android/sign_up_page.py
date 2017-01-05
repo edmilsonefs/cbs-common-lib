@@ -8,52 +8,68 @@ class SignUpPage(BasePage):
         super(SignUpPage, self).__init__(driver, event)
 
     def facebook_button(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgFacebook')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/imgFacebook')
 
     def twitter_button(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgTwitter')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/imgTwitter')
 
     def google_button(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgGoogle')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/imgGoogle')
 
     def first_name(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/edtFirstName')
 
     def last_name(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtLastName')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/edtLastName')
 
     def email(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtEmail')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/edtEmail')
 
     def email_confirm(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtConfirmEmail')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/edtConfirmEmail')
 
     def password(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtPassword')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/edtPassword')
 
     def password_confirm(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/editConfirmPassword')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/editConfirmPassword')
 
     def submit(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnSignUp')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/btnSignUp')
 
     def state(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/spnState')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/spnState')
 
     def zip(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtZipCode')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/edtZipCode')
 
     def gender(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/spnGender')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/spnGender')
 
     def birth_date(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtBirthdate')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/edtBirthdate')
 
     def terms_and_conditions(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/chkAccountAgreement')
+        self.set_implicit_wait(timeout)
+        return self._find_element(id=self.com_cbs_app + ':id/chkAccountAgreement')
 
     def already_have_an_account_sign_in(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Already a subscriber? Sign In')
+        self.set_implicit_wait(timeout)
+        return self._find_element(name='Already a subscriber? Sign In')
 
     def validate_page(self):
         self._hide_keyboard()
