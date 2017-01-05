@@ -882,6 +882,7 @@ class CommonHelper(TestlioAutomationTest):
             my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
             self.exists(name='Submit', driver=my_layout)
         """
+
         if kwargs.has_key('timeout'):
             self.driver.implicitly_wait(kwargs['timeout'])
 
@@ -890,26 +891,33 @@ class CommonHelper(TestlioAutomationTest):
         else:
             d = self.driver
 
-        try:
-            if kwargs.has_key('name'):
-                try:
-                    e = d.find_element_by_name(kwargs['name'])
-                except:
-                    e = d.find_element_by_xpath('//*[contains(@text,"%s")]' % kwargs['name'])
-            elif kwargs.has_key('class_name'):
-                e = d.find_element_by_class_name(kwargs['class_name'])
-            elif kwargs.has_key('id'):
-                e = d.find_element_by_id(kwargs['id'])
-            elif kwargs.has_key('xpath'):
-                e = d.find_element_by_xpath(kwargs['xpath'])
-            else:
-                raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
+        if kwargs.has_key('element'):
+            try:
+                e = kwargs['element']
+                return e
+            except:
+                return False
+        else:
+            try:
+                if kwargs.has_key('name'):
+                    try:
+                        e = d.find_element_by_name(kwargs['name'])
+                    except:
+                        e = d.find_element_by_xpath('//*[contains(@text,"%s")]' % kwargs['name'])
+                elif kwargs.has_key('class_name'):
+                    e = d.find_element_by_class_name(kwargs['class_name'])
+                elif kwargs.has_key('id'):
+                    e = d.find_element_by_id(kwargs['id'])
+                elif kwargs.has_key('xpath'):
+                    e = d.find_element_by_xpath(kwargs['xpath'])
+                else:
+                    raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
 
-            return e
-        except NoSuchElementException:
-            return False
-        finally:
-            self.driver.implicitly_wait(self.default_implicit_wait)
+                return e
+            except NoSuchElementException:
+                return False
+            finally:
+                self.driver.implicitly_wait(self.default_implicit_wait)
 
     def not_exists(self, **kwargs):
         """
@@ -1022,7 +1030,6 @@ class CommonHelper(TestlioAutomationTest):
         if kwargs.has_key('screenshot') and kwargs['screenshot']:
             screenshot = True
 
-        selector = ""
         if kwargs.has_key('name'):
             selector = kwargs['name']
         elif kwargs.has_key('class_name'):
@@ -1031,6 +1038,8 @@ class CommonHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
+        else:
+            selector = ''
 
         self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should see element with text or selector: '%s'" % selector)
@@ -1040,7 +1049,6 @@ class CommonHelper(TestlioAutomationTest):
         if kwargs.has_key('screenshot') and kwargs['screenshot']:
             screenshot = True
 
-        selector = ""
         if kwargs.has_key('name'):
             selector = kwargs['name']
         elif kwargs.has_key('class_name'):
@@ -1049,6 +1057,8 @@ class CommonHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
+        else:
+            selector = ''
 
         self.assertTrueWithScreenShot(not self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)

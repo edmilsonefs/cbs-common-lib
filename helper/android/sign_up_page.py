@@ -7,6 +7,15 @@ class SignUpPage(BasePage):
     def __init__(self, driver, event):
         super(SignUpPage, self).__init__(driver, event)
 
+    def facebook_button(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgFacebook')
+
+    def twitter_button(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgTwitter')
+
+    def google_button(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgGoogle')
+
     def first_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
 
@@ -42,6 +51,9 @@ class SignUpPage(BasePage):
 
     def terms_and_conditions(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/chkAccountAgreement')
+
+    def already_have_an_account_sign_in(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Already a subscriber? Sign In')
 
     def validate_page(self):
         self._hide_keyboard()
@@ -199,8 +211,10 @@ class SignUpPage(BasePage):
         self.accept_terms_and_conditions()
 
     def accept_terms_and_conditions(self):
-        while bool(self.terms_and_conditions().get_attribute("checked")) is False:
-            self.terms_and_conditions().click()
+        self._hide_keyboard()
+        while str(self.terms_and_conditions().get_attribute("checked")) == "false":
+            self.log_info("State of T&A is: " + str(self.terms_and_conditions().get_attribute("checked")))
+            self.click(element=self.terms_and_conditions(), screenshot=True)
 
     def submit_registration_form(self):
         self._hide_keyboard()
@@ -242,3 +256,10 @@ class SignUpPage(BasePage):
 
         self.swipe(startx, starty, endx, endy, duration)
         sleep(1)
+
+    def select_sign_in_from_text_link(self):
+        self.event._log_info(self.event._event_data('Select Sign In'))
+        elem = self.already_have_an_account_sign_in()
+        self.click_by_location(elem, side='right')
+        sleep(3)
+        self._hide_keyboard()
