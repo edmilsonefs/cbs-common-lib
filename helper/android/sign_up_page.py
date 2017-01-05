@@ -1,14 +1,11 @@
 from time import sleep
 
-from helper.cbs import CommonHelper
+from helper.android.base_page import BasePage
 
 
-class SignUpPage(CommonHelper):
-
+class SignUpPage(BasePage):
     def __init__(self, driver, event):
-        self.driver = driver
-        self.event = event
-        self.init_variables()
+        super(SignUpPage, self).__init__(driver, event)
 
     def first_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
@@ -44,7 +41,7 @@ class SignUpPage(CommonHelper):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtBirthdate')
 
     def terms_and_conditions(self, timeout=10):
-        return self.get_element(timeout=timeout, class_name='android.widget.CheckBox')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/chkAccountAgreement')
 
     def validate_page(self):
         self._hide_keyboard()
@@ -194,10 +191,16 @@ class SignUpPage(CommonHelper):
 
         self.verify_not_equal(zip_text, zip.text, screenshot=True)
 
+        self._hide_keyboard()
+
         if self.phone:
             self.swipe_element_to_top_of_screen(zip)
 
-        self.terms_and_conditions().click()
+        self.accept_terms_and_conditions()
+
+    def accept_terms_and_conditions(self):
+        while bool(self.terms_and_conditions().get_attribute("checked")) is False:
+            self.terms_and_conditions().click()
 
     def submit_registration_form(self):
         self._hide_keyboard()
