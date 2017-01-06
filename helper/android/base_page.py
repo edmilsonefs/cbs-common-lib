@@ -13,7 +13,7 @@ class BasePage(CommonHelper):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/toolbar')
 
     def btn_search_icon(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_id(self.com_cbs_app + ':id/action_search')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/action_search')
 
     def txt_search_field(self, timeout=10):
         return self.top_toolbar(timeout=timeout).find_element_by_id(self.com_cbs_app + ':id/search_src_text')
