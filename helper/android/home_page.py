@@ -9,6 +9,15 @@ class HomePage(BasePage):
     def __init__(self, driver, event):
         super(HomePage, self).__init__(driver, event)
 
+    def home_marquee_container(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/homeMarqueeContainer')
+
+    def validate_page(self):
+        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
+        self.verify_exists(element=self.img_logo())
+        self.verify_exists(element=self.btn_search_icon())
+        self.verify_exists(element=self.home_marquee_container())
+
     def click_all_access_video(self):
         try:
             self.driver.implicitly_wait(10)

@@ -20,7 +20,6 @@ class CommonHelper(TestlioAutomationTest):
     tablet = False
     IS_AMAZON = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
-    default_implicit_wait = 120
     passed = False
     user_type = 'anonymous'
     anonymous = 'anonymous'
@@ -98,18 +97,6 @@ class CommonHelper(TestlioAutomationTest):
 
         adb_device_name = subprocess.check_output(['adb', 'shell', 'getprop ro.product.model']).strip()
         return lookup[adb_device_name]
-
-    def set_implicit_wait(self, wait_time=-1):
-        """
-        Wrapper that sets implicit wait, defaults to self.default_implicit_wait
-        """
-        if wait_time == -1:
-            wait_time = self.default_implicit_wait
-
-        try:
-            self.driver.implicitly_wait(wait_time)
-        except:
-            pass
 
     def click_until_element_is_visible(self, element_to_be_visible, element_to_click):
         self.driver.implicitly_wait(20)
