@@ -1632,7 +1632,7 @@ class CommonHelper(TestlioAutomationTest):
 
         self.click(id=self.com_cbs_app + ':id/btnSignUp')
 
-        self.send_created_account_email()
+        # self.send_created_account_email()
 
     ####################################################################################
     # GET WRAPPERS
