@@ -221,7 +221,7 @@ class SignUpPage(BasePage):
 
     def submit_registration_form(self):
         self._hide_keyboard()
-        self.click(element=self.btn_submit(), screenshot=True)
+        self.click(element=self.btn_submit())
 
     def cancel_registration_form(self):
         self._hide_keyboard()
