@@ -7,68 +7,71 @@ class SignUpPage(BasePage):
     def __init__(self, driver, event):
         super(SignUpPage, self).__init__(driver, event)
 
-    def facebook_button(self, timeout=10):
+    def lbl_title(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('Sign Up')
+
+    def btn_facebook_button(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgFacebook')
 
-    def twitter_button(self, timeout=10):
+    def btn_twitter_button(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgTwitter')
 
-    def google_button(self, timeout=10):
+    def btn_google_button(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgGoogle')
 
-    def first_name(self, timeout=10):
+    def txt_first_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtFirstName')
 
-    def last_name(self, timeout=10):
+    def txt_last_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtLastName')
 
-    def email(self, timeout=10):
+    def txt_email(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtEmail')
 
-    def email_confirm(self, timeout=10):
+    def txt_email_confirm(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtConfirmEmail')
 
-    def password(self, timeout=10):
+    def txt_password(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtPassword')
 
-    def password_confirm(self, timeout=10):
+    def txt_password_confirm(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/editConfirmPassword')
 
-    def submit(self, timeout=10):
+    def btn_submit(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnSignUp')
 
-    def state(self, timeout=10):
+    def btn_state(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/spnState')
 
-    def zip(self, timeout=10):
+    def txt_zip(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtZipCode')
 
-    def gender(self, timeout=10):
+    def btn_gender(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/spnGender')
 
-    def birth_date(self, timeout=10):
+    def btn_birth_date(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/edtBirthdate')
 
-    def terms_and_conditions(self, timeout=10):
+    def btn_terms_and_conditions(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/chkAccountAgreement')
 
-    def already_have_an_account_sign_in(self, timeout=10):
+    def btn_already_have_an_account_sign_in(self, timeout=10):
         return self.get_element(timeout=timeout, name='Already have an account? Sign In')
 
     def validate_page(self):
         self._hide_keyboard()
         if self.phone:
-            self.verify_exists(name='Sign Up')
+            self.verify_exists(element=self.lbl_title())
         self.verify_exists(name='Sign up with your social account', screenshot=True)
-        self.verify_exists(element=self.facebook_button())
-        self.verify_exists(element=self.twitter_button())
+        self.verify_exists(element=self.btn_facebook_button())
+        self.verify_exists(element=self.btn_twitter_button())
         if not self.IS_AMAZON:
-            self.verify_exists(element=self.google_button())
+            self.verify_exists(element=self.btn_google_button())
         self.verify_exists(name='Sign up with your email')
         for _ in range(0, 2):
             self._short_swipe_down()
-        self.verify_exists(element=self.submit(), screenshot=True)
-        self.verify_exists(element=self.already_have_an_account_sign_in())
+        self.verify_exists(element=self.btn_submit(), screenshot=True)
+        self.verify_exists(element=self.btn_already_have_an_account_sign_in())
 
     def register_new_user(self, year=1996):
         self._hide_keyboard()
@@ -92,30 +95,30 @@ class SignUpPage(BasePage):
         ln_str = self.generate_random_string()
         email_str = "TestA%s@gmail.com" % self.generate_random_string()
 
-        first_name = self.first_name()
+        first_name = self.txt_first_name()
         self.send_keys(data=fn_str, element=first_name)
         self._hide_keyboard()
 
-        last_name = self.last_name()
+        last_name = self.txt_last_name()
         self.send_keys(data=ln_str, element=last_name)
         self._hide_keyboard()
 
-        email = self.email()
+        email = self.txt_email()
         self.send_keys(data=email_str, element=email, screenshot=True)
         self._hide_keyboard()
 
-        email_confirm = self.email_confirm()
+        email_confirm = self.txt_email_confirm()
         self.send_keys(data=email_str, element=email_confirm, screenshot=True)
         self._hide_keyboard()
 
         if self.phone:
             self.swipe_element_to_top_of_screen(email_confirm, endy=400)
 
-        pwd = self.password()
+        pwd = self.txt_password()
         self.send_keys('abcdef', pwd)
         self._hide_keyboard()
 
-        pwd_confirm = self.password_confirm()
+        pwd_confirm = self.txt_password_confirm()
         self.send_keys('abcdef', pwd_confirm, screenshot=True)
         self._hide_keyboard()
 
@@ -125,7 +128,7 @@ class SignUpPage(BasePage):
         return fn_str, ln_str
 
     def _register_user_part_2(self, year=1996):
-        self.birth_date().click()
+        self.btn_birth_date().click()
 
         if self.exists(id='android:id/date_picker_header_year', timeout=10):
             self.click(id='android:id/date_picker_header_year', data='Click on current year')
@@ -192,14 +195,14 @@ class SignUpPage(BasePage):
         # I think using the resource id is generally not advised because it's just part of the app's implementation
         # and could be changed at any time.  Here we get it dynamically just so we're sure we get the same element
         # after updating it to a new value
-        zip = self.zip()
+        zip = self.txt_zip()
 
         zip_text = zip.text
 
         self.send_keys('78704', zip)
         sleep(2)
 
-        zip = self.zip()
+        zip = self.txt_zip()
 
         self.verify_not_equal(zip_text, zip.text, screenshot=True)
 
@@ -212,17 +215,17 @@ class SignUpPage(BasePage):
 
     def accept_terms_and_conditions(self):
         self._hide_keyboard()
-        while str(self.terms_and_conditions().get_attribute("checked")) == "false":
-            self.log_info("State of T&A is: " + str(self.terms_and_conditions().get_attribute("checked")))
-            self.click(element=self.terms_and_conditions(), screenshot=True)
+        while str(self.btn_terms_and_conditions().get_attribute("checked")) == "false":
+            self.log_info("State of T&A is: " + str(self.btn_terms_and_conditions().get_attribute("checked")))
+            self.click(element=self.btn_terms_and_conditions(), screenshot=True)
 
     def submit_registration_form(self):
         self._hide_keyboard()
-        self.click(element=self.submit(), screenshot=True)
+        self.click(element=self.btn_submit(), screenshot=True)
 
     def cancel_registration_form(self):
         self._hide_keyboard()
-        self.click(element=self.navigate_up())
+        self.click(element=self.btn_navigate_up())
 
     def _swipe_datepicker_down(self, element):
         """
@@ -259,7 +262,7 @@ class SignUpPage(BasePage):
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
-        elem = self.already_have_an_account_sign_in()
+        elem = self.btn_already_have_an_account_sign_in()
         self.click_by_location(elem, side='right')
         sleep(3)
         self._hide_keyboard()
