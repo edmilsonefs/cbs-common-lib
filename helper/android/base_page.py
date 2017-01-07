@@ -22,10 +22,10 @@ class BasePage(CommonHelper):
         return self.top_toolbar(timeout=timeout).find_element_by_class_name('android.widget.TextView')
 
     def btn_navigate_up(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Navigate up')
+        return self.get_element(timeout=timeout, name='Navigate up')
 
     def btn_hamburger_menu(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Open navigation drawer')
+        return self.get_element(timeout=timeout, name='Open navigation drawer')
 
     def img_logo(self, timeout=10):
         return self.top_toolbar(timeout=timeout).find_element_by_class_name('android.widget.ImageView')
