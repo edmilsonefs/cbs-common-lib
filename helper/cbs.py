@@ -10,6 +10,16 @@ from xml.etree import ElementTree
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest
+from helper.android.home_page import HomePage
+from helper.android.settings_page import SettingsPage
+from helper.android.shows_page import ShowsPage
+from helper.android.show_page import ShowPage
+from helper.android.live_tv_page import LiveTvPage
+from helper.android.upsell_page import UpsellPage
+from helper.android.sign_in_page import SignInPage
+from helper.android.sign_up_page import SignUpPage
+from helper.android.schedule_page import SchedulePage
+from helper.android.base_page import BasePage
 
 
 class CommonHelper(TestlioAutomationTest):
@@ -31,9 +41,30 @@ class CommonHelper(TestlioAutomationTest):
     show_name = 'American Gothic'
     com_cbs_app = 'com.cbs.app'
 
+    home_page = None
+    settings_page = None
+    shows_page = None
+    show_page = None
+    live_tv_page = None
+    upsell_page = None
+    sign_in_page = None
+    sign_up_page = None
+    schedule_page = None
+    page = None
+
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
+        self.home_page = HomePage(self.driver, self.event)
+        self.settings_page = SettingsPage(self.driver, self.event)
+        self.shows_page = ShowsPage(self.driver, self.event)
+        self.show_page = ShowPage(self.driver, self.event)
+        self.live_tv_page = LiveTvPage(self.driver, self.event)
+        self.upsell_page = UpsellPage(self.driver, self.event)
+        self.sign_in_page = SignInPage(self.driver, self.event)
+        self.sign_up_page = SignUpPage(self.driver, self.event)
+        self.schedule_page = SchedulePage(self.driver, self.event)
+        self.page = BasePage(self.driver, self.event)
 
         self.init_variables()
 
@@ -459,6 +490,7 @@ class CommonHelper(TestlioAutomationTest):
         # for Chromecast button
         self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=1)
 
+        self.back_while_open_drawer_is_visible()
         self.open_drawer()
         self.assertTrueWithScreenShot(self.not_exists(name='Sign In', timeout=1), screenshot=True,
                                       msg="Verify 'Sign In' not an option in menu after logging in.")
@@ -805,27 +837,15 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
-        self.driver.implicitly_wait(20)
-        while counter < 10:
-            try:
-                self.driver.find_element_by_name("Open navigation drawer")
-                break
-            except:
-                self.back()
-                counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
+        while not self.exists(element=self.page.btn_hamburger_menu(timeout=5)) and counter < 10:
+            self.back()
+            counter += 1
 
     def back_while_navigate_up_is_visible(self):
         counter = 0
-        self.driver.implicitly_wait(20)
-        while counter < 10:
-            try:
-                self.driver.find_element_by_name("Navigate up")
-                break
-            except:
-                self.driver.back()
-                counter += 1
-        self.driver.implicitly_wait(self.default_implicit_wait)
+        while not self.exists(element=self.page.btn_navigate_up(timeout=5)) and counter < 10:
+            self.back()
+            counter += 1
 
     def back_to_home_page(self):
         counter = 0
