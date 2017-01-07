@@ -2,9 +2,6 @@ from time import sleep
 
 from helper.android.base_page import BasePage
 
-PAID = "paid"
-
-
 class SettingsPage(BasePage):
     def __init__(self, driver, event):
         super(SettingsPage, self).__init__(driver, event)

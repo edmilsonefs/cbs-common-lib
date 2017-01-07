@@ -262,6 +262,10 @@ class SignUpPage(BasePage):
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
+        if not self.exists(element=self.btn_already_have_an_account_sign_in()):
+            self._short_swipe_down(duration=1000)
+            self._short_swipe_down(duration=1000)
+            self._short_swipe_down(duration=1000)
         elem = self.btn_already_have_an_account_sign_in()
         self.click_by_location(elem, side='right')
         sleep(3)

@@ -2,9 +2,6 @@ from time import sleep
 
 from helper.android.base_page import BasePage
 
-PAID = "paid"
-
-
 class LiveTvPage(BasePage):
     def __init__(self, driver, event):
         super(LiveTvPage, self).__init__(driver, event)
@@ -15,6 +12,9 @@ class LiveTvPage(BasePage):
 
     def btn_verify_now(self, timeout=10):
         return self.get_element(timeout=timeout, name='Verify Now')
+
+    def btn_provider_logo(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgProviderLogo')
 
     def btn_already_have_an_account_sign_in(self, timeout=10):
         return self.get_element(timeout=timeout, name='Already have an account? Sign In')
@@ -29,6 +29,10 @@ class LiveTvPage(BasePage):
             self.verify_exists(element=self.btn_try_1_week_month_free())
         elif user_type == self.ex_subscriber:
             self.verify_exists(name='Get Started')
+        if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
+            self.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
+            self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')
+            self.verify_not_exists(element=self.btn_provider_logo(), timeout=10)
         if self.phone:
             self._short_swipe_down()
         self.verify_exists(element=self.btn_verify_now())

@@ -83,6 +83,9 @@ class BasePage(CommonHelper):
     def is_drawer_open(self):
         return not self.exists(element=self.btn_hamburger_menu(timeout=3))
 
+    def is_navigate_up_visible(self):
+        return self.exists(element=self.btn_navigate_up(timeout=5))
+
     def close_drawer(self):
         self.back()
 

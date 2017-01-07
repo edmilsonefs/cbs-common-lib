@@ -883,8 +883,7 @@ class CommonHelper(TestlioAutomationTest):
 
         if kwargs.has_key('element'):
             try:
-                e = kwargs['element']
-                return e
+                return kwargs['element']
             except:
                 return False
         else:
