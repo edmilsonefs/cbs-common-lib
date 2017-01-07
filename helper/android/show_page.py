@@ -7,7 +7,7 @@ class ShowPage(BasePage):
         super(ShowPage, self).__init__(driver, event)
 
     def validate_page(self):
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
+        self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
         # self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
