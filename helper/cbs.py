@@ -450,6 +450,7 @@ class CommonHelper(TestlioAutomationTest):
         Verifies that login was successful
         Also closes nav drawer if it's open
         """
+        self.safe_screenshot()
         if self.exists(name='CBS All Access', timeout=30) or self.exists(name='Upgrade Account', timeout=5):
             self.hw_back()
 
