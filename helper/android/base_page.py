@@ -96,6 +96,7 @@ class BasePage(CommonHelper):
     def goto_shows(self):
         self.open_drawer()
         self.click(element=self.btn_shows_menu_item())
+        self.wait_for_show_page_to_load()
 
     def goto_subscribe(self):
         self.open_drawer()

@@ -865,7 +865,8 @@ class CommonHelper(TestlioAutomationTest):
 
         if kwargs.has_key('timeout'):
             self.driver.implicitly_wait(kwargs['timeout'])
-
+        else:
+            self.driver.implicitly_wait(20)
         if kwargs.has_key('driver'):
             d = kwargs['driver']
         else:

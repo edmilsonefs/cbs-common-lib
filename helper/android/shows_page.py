@@ -17,6 +17,6 @@ class ShowsPage(BasePage):
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
         self.verify_exists(element=self.lbl_title())
-        self.verify_exists(xpath="//*[@text='I want to see:']")
+        self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
         self.verify_exists(xpath="//*[@text='All Shows']")
         self.verify_exists(id=self.com_cbs_app + ':id/showImage')
