@@ -450,13 +450,18 @@ class CommonHelper(TestlioAutomationTest):
         Verifies that login was successful
         Also closes nav drawer if it's open
         """
-        self.safe_screenshot()
         if self.exists(name='CBS All Access', timeout=30) or self.exists(name='Upgrade Account', timeout=5):
             self.hw_back()
 
         if self.exists(name='Use location?', timeout=5):
             if not self.click_safe(name='Yes', timeout=5):
                 self.click(name='YES')
+
+        self.back_while_open_drawer_is_visible()
+        self.open_drawer()
+        self.assertTrueWithScreenShot(self.not_exists(name='Sign In', timeout=1), screenshot=True,
+                                      msg="Verify 'Sign In' not an option in menu after logging in.")
+        self.close_drawer()
 
     def login(self, username, password):
         """

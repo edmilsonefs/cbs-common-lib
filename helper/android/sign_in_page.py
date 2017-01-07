@@ -47,7 +47,7 @@ class SignInPage(BasePage):
             self.click(element=self.btn_terms_accept())
             self.click(element=self.btn_terms_accept_submit(), screenshot=True)
 
-        self._post_login()
+        # self._post_login()
 
     def validate_page(self):
         self._hide_keyboard()
