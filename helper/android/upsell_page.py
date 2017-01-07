@@ -20,7 +20,7 @@ class UpsellPage(BasePage):
     def btn_take_the_tour(self, timeout=10):
         return self.get_element(timeout=timeout, name='Take the Tour')
 
-    def validate_page(self, user_type):
+    def validate_page(self, user_type="anonymous"):
         self.verify_exists(id=self.com_cbs_app + ':id/allAccessLogo', screenshot=True)
         if user_type in [self.anonymous, self.registered]:
             self.verify_exists(
