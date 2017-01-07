@@ -17,7 +17,7 @@ class LiveTvPage(BasePage):
         return self.get_element(timeout=timeout, name='Verify Now')
 
     def btn_provider_logo(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgProviderLogo')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/ivProviderLogo')
 
     def btn_already_have_an_account_sign_in(self, timeout=10):
         return self.get_element(timeout=timeout, name='Already have an account? Sign In')
@@ -44,8 +44,7 @@ class LiveTvPage(BasePage):
         else:
             self.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
             self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')
-            self.verify_not_exists(element=self.btn_provider_logo(), timeout=10)
-
+            self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo', timeout=10)
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
