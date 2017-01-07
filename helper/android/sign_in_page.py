@@ -41,7 +41,7 @@ class SignInPage(BasePage):
         self.send_keys(data=password, element=self.txt_password())
         self._hide_keyboard()
 
-        self.click(element=self.btn_submit())
+        self.click(element=self.btn_submit(), screenshot=True)
 
         if self.exists(element=self.btn_terms_accept(timeout=30), timeout=30):
             self.click(element=self.btn_terms_accept())
