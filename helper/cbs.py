@@ -457,15 +457,6 @@ class CommonHelper(TestlioAutomationTest):
             if not self.click_safe(name='Yes', timeout=5):
                 self.click(name='YES')
 
-        # for Chromecast button
-        self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=1)
-
-        self.back_while_open_drawer_is_visible()
-        self.open_drawer()
-        self.assertTrueWithScreenShot(self.not_exists(name='Sign In', timeout=1), screenshot=True,
-                                      msg="Verify 'Sign In' not an option in menu after logging in.")
-        self.close_drawer()
-
     def login(self, username, password):
         """
         Does the work - enters email/pwd, then calls some post-login functions
