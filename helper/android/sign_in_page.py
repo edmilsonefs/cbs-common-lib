@@ -70,3 +70,5 @@ class SignInPage(BasePage):
     def click_dont_have_account_sign_up(self):
         self._hide_keyboard()
         self.click(element=self.btn_don_t_have_an_account_sign_up())
+
+

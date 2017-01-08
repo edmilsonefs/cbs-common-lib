@@ -221,6 +221,8 @@ class SignUpPage(BasePage):
 
     def submit_registration_form(self):
         self._hide_keyboard()
+        self._short_swipe_down(duration=1000)
+        self._short_swipe_down(duration=1000)
         self.click(element=self.btn_submit())
 
     def cancel_registration_form(self):

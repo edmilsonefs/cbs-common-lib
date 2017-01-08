@@ -291,10 +291,10 @@ class CommonHelper(TestlioAutomationTest):
 
     def login_through_gplus(self):
         sleep(30)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         self.click(id='com.google.android.gms:id/account_name')
         sleep(5)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def login_through_facebook_webview(self, email_text, password_text):
         """
