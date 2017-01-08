@@ -805,15 +805,19 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
-        while not self.exists(element=self.get_element(timeout=5, name='Open navigation drawer')) and counter < 10:
+        while not self.exists(element=self.get_element(timeout=5, name='Open navigation drawer')):
             self.back()
             counter += 1
+            if counter > 10:
+                break
 
     def back_while_navigate_up_is_visible(self):
         counter = 0
-        while not self.exists(element=self.get_element(timeout=5, name='Navigate up')) and counter < 10:
+        while not self.exists(element=self.get_element(timeout=5, name='Navigate up')):
             self.back()
             counter += 1
+            if counter > 10:
+                break
 
     def back_to_home_page(self):
         counter = 0
