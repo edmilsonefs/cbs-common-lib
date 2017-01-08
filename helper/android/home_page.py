@@ -1,5 +1,3 @@
-from time import sleep
-
 from helper.android.base_page import BasePage
 
 PAID = "paid"

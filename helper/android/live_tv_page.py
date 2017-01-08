@@ -20,7 +20,7 @@ class LiveTvPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/ivProviderLogo')
 
     def btn_already_have_an_account_sign_in(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Already have an account? Sign In')
+        return self.get_elements(timeout=timeout, name='Already have an account? Sign In')
 
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.lbl_title())
@@ -32,7 +32,7 @@ class LiveTvPage(BasePage):
             self.verify_exists(name='Two ways to watch Live TV')
             self.verify_exists(id=self.com_cbs_app + ':id/imageView')
             if user_type == self.anonymous:
-                self.verify_exists(element=self.btn_already_have_an_account_sign_in())
+                self.verify_exists(element=self.btn_already_have_an_account_sign_in()[0])
             self.verify_exists(name='TV PROVIDER')
             if user_type in [self.anonymous, self.registered]:
                 self.verify_exists(element=self.btn_try_1_week_month_free())
@@ -49,6 +49,9 @@ class LiveTvPage(BasePage):
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
         elem = self.btn_already_have_an_account_sign_in()
-        self.click_by_location(elem, side='right')
+        if len(elem) == 1:
+            self.click_by_location(elem[0], side='right')
+        elif len(elem) > 1:
+            self.click_by_location(elem[1], side='right')
         sleep(3)
         self._hide_keyboard()

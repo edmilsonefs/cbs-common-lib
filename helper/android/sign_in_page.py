@@ -43,11 +43,15 @@ class SignInPage(BasePage):
 
         self.click(element=self.btn_submit(), screenshot=True)
 
+        self.post_sign_in_accept_terms()
+
+    def post_sign_in_accept_terms(self):
         if self.exists(element=self.btn_terms_accept(timeout=30), timeout=30):
             self.click(element=self.btn_terms_accept())
             self.click(element=self.btn_terms_accept_submit(), screenshot=True)
 
-        # self._post_login()
+        if self.exists(name='Ok', timeout=5):
+            self.click(element=self.get_element(name='Ok'))
 
     def validate_page(self):
         self._hide_keyboard()

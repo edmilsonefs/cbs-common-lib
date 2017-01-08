@@ -761,12 +761,8 @@ class CommonHelper(TestlioAutomationTest):
             self.click_play_from_beginning()
 
     def click_play_from_beginning(self):
-        try:
-            self.driver.implicitly_wait(10)
-            self.driver.find_element_by_name('Play From Beginning').click()
-        except:
-            pass
-        self.driver.implicitly_wait(30)
+        if self.exists(name='Play From Beginning', timeout=10):
+            self.click(name='Play From Beginning', screenshot=True)
 
     def select_first_show_option(self):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
@@ -805,7 +801,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
-        while not self.exists(element=self.get_element(timeout=5, name='Open navigation drawer')):
+        while not self.exists(element=self.get_element(timeout=10, name='Open navigation drawer')):
             self.back()
             counter += 1
             if counter > 10:
@@ -813,7 +809,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_navigate_up_is_visible(self):
         counter = 0
-        while not self.exists(element=self.get_element(timeout=5, name='Navigate up')):
+        while not self.exists(element=self.get_element(timeout=10, name='Navigate up')):
             self.back()
             counter += 1
             if counter > 10:
