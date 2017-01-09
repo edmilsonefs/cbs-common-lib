@@ -1,10 +1,15 @@
-from time import sleep
-
 from helper.android.base_page import BasePage
+
 
 class SettingsPage(BasePage):
     def __init__(self, driver, event):
         super(SettingsPage, self).__init__(driver, event)
+
+    def lbl_title(self, timeout=10):
+        if self.phone:
+            return self.top_toolbar(timeout=timeout).find_element_by_name('Settings')
+        else:
+            return self.top_toolbar(timeout=timeout).find_element_by_name('Subscription')
 
     def validate_page(self):
         self.verify_exists(name='Subscribe', screenshot=True)

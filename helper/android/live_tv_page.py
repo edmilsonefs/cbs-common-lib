@@ -2,6 +2,7 @@ from time import sleep
 
 from helper.android.base_page import BasePage
 
+
 class LiveTvPage(BasePage):
     def __init__(self, driver, event):
         super(LiveTvPage, self).__init__(driver, event)
