@@ -26,6 +26,24 @@ class LiveTvPage(BasePage):
     def btn_provider_logo(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/ivProviderLogo')
 
+    def btn_take_a_tour(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Take a Tour')
+
+    def btn_take_a_quick_tour(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Take A Quick Tour')
+
+    def btn_read_our_faq(self, timeout=10):
+        return self.get_element(timeout=timeout, name='READ OUR FAQ')
+
+    def btn_learn_more(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtLearnMore')
+
+    def btn_see_devices(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnSeeDevices')
+
+    def btn_check_availability(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnCheckAvailability')
+
     def lst_already_have_an_account_sign_in(self, timeout=10):
         return self.get_elements(timeout=timeout, name='Already have an account? Sign In')
 
