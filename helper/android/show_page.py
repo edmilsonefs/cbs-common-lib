@@ -8,6 +8,12 @@ class ShowPage(BasePage):
     def btn_episode_indicator(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/allAccessEpisodesContainer')
 
+    def lbl_total_episode_count(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/totalEpisodeCount')
+
+    def btn_all_access_episodes(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtAllAccessEpisodes')
+
     def validate_page(self):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())

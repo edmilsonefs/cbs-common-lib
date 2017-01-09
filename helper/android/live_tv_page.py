@@ -17,11 +17,20 @@ class LiveTvPage(BasePage):
     def btn_verify_now(self, timeout=10):
         return self.get_element(timeout=timeout, name='Verify Now')
 
+    def btn_get_started(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Get Started')
+
+    def btn_start_watching(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Start Watching')
+
     def btn_provider_logo(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/ivProviderLogo')
 
     def btn_already_have_an_account_sign_in(self, timeout=10):
         return self.get_elements(timeout=timeout, name='Already have an account? Sign In')
+
+    def lbl_two_ways_to_watch_live_tv(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Two ways to watch Live TV')
 
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.lbl_title())
@@ -38,7 +47,7 @@ class LiveTvPage(BasePage):
             if user_type in [self.anonymous, self.registered]:
                 self.verify_exists(element=self.btn_try_1_week_month_free())
             elif user_type == self.ex_subscriber:
-                self.verify_exists(name='Get Started')
+                self.verify_exists(element=self.btn_get_started())
             if self.phone:
                 self._short_swipe_down()
             self.verify_exists(element=self.btn_verify_now())
