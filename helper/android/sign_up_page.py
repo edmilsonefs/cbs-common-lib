@@ -107,9 +107,10 @@ class SignUpPage(BasePage):
         self.send_keys(data=email_str, element=email, screenshot=True)
         self._hide_keyboard()
 
-        email_confirm = self.txt_email_confirm()
-        self.send_keys(data=email_str, element=email_confirm, screenshot=True)
-        self._hide_keyboard()
+        email_confirm = self.exists(element=self.txt_email_confirm())
+        if email_confirm is not False:
+            self.send_keys(data=email_str, element=email_confirm, screenshot=True)
+            self._hide_keyboard()
 
         if self.phone:
             self.swipe_element_to_top_of_screen(email_confirm, endy=400)
