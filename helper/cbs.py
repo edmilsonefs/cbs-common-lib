@@ -1434,7 +1434,7 @@ class CommonHelper(TestlioAutomationTest):
             b1.click()
 
     def click_subscribe_in_menu(self):
-        es = self.driver.find_elements_by_id(self.com_cbs_app + ':id/userStatusTextView')
+        es = self.get_element(id=self.com_cbs_app + ':id/userStatusTextView')
         for e in es:
             if e.text == 'Subscribe':
                 e.click()
