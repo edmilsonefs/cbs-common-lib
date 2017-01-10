@@ -21,7 +21,7 @@ class UpsellPage(BasePage):
         return self.get_element(timeout=timeout, name='Take the Tour')
 
     def validate_page(self, user_type="anonymous"):
-        self.verify_exists(id=self.com_cbs_app + ':id/allAccessLogo', screenshot=True)
+        self.verify_exists(id=self.com_cbs_app + ':id/allAccessLogo', timeout=10, screenshot=True)
         if user_type in [self.anonymous, self.registered]:
             self.verify_exists(
                 xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
