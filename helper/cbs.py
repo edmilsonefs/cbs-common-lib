@@ -1434,13 +1434,13 @@ class CommonHelper(TestlioAutomationTest):
             b1.click()
 
     def click_subscribe_in_menu(self):
-        es = self.get_element(id=self.com_cbs_app + ':id/userStatusTextView')
-        for e in es:
-            if e.text == 'Subscribe':
-                e.click()
-                return
-
-        raise RuntimeError('Could not find "Subscribe" in side menu')
+        self.click(element=self.get_element(id=self.com_cbs_app + ':id/userStatusTextView'))
+        # for e in es:
+        #     if e.text == 'Subscribe':
+        #         e.click()
+        #         return
+        #
+        # raise RuntimeError('Could not find "Subscribe" in side menu')
 
     def click_get_started(self):
         self.click(xpath="//android.widget.Button[@text='Get Started']")
