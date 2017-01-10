@@ -37,7 +37,7 @@ class BasePage(CommonHelper):
         return self.navigation_drawer(timeout=timeout).find_element_by_id(self.com_cbs_app + ':id/userNameView')
 
     def btn_user_status_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_id(self.com_cbs_app + ':id/userStatusTextView')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/userStatusTextView')
 
     def btn_home_menu_item(self, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_name('Home')
