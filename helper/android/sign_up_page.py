@@ -185,12 +185,6 @@ class SignUpPage(BasePage):
 
     def _register_user_part_3(self):
         self.click(name='Male')
-        try:
-            self.driver.find_element_by_name('Alaska')
-            self.click(name='Alaska')
-        except:
-            self.click(id=self.com_cbs_app + ':id/spnState')
-            self.click(name='Alaska')
 
     def _register_user_part_4(self):
         # I think using the resource id is generally not advised because it's just part of the app's implementation
