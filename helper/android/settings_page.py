@@ -11,6 +11,9 @@ class SettingsPage(BasePage):
         else:
             return self.top_toolbar(timeout=timeout).find_element_by_name('Subscription')
 
+    def btn_nielsen(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Nielsen Info & Your Choices')
+
     def validate_page(self):
         self.verify_exists(name='Subscribe', screenshot=True)
         if self.tablet:
@@ -31,3 +34,9 @@ class SettingsPage(BasePage):
         self.verify_exists(name='Video Services')
         self.verify_exists(name='Nielsen Info & Your Choices')
         self.verify_exists(name='Closed Captions')
+
+    def goto_nielsen_info(self):
+        self.goto_settings()
+        if self.phone:
+            self._short_swipe_down(duration=2000)
+        self.click(element=self.btn_nielsen())
