@@ -113,7 +113,7 @@ class SignUpPage(BasePage):
             self._hide_keyboard()
 
         if self.phone:
-            self.swipe_element_to_top_of_screen(email_confirm, endy=400)
+            self.swipe_element_to_top_of_screen(email, endy=400)
 
         pwd = self.txt_password()
         self.send_keys('abcdef', pwd)
