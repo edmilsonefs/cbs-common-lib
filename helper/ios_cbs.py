@@ -536,45 +536,35 @@ class CommonIOSHelper(TestlioAutomationTest):
             if time() - start_time > timeout:
                 return False
 
-    def find_episode_on_show_page(self, show_dict):
-        season_name = "Season " + str(self.convert_season_episode(show_dict['season_episode'])[0])
-        season_xpath = "//UIAStaticText[@name='%s']" % season_name
+    def find_episode_on_show_page(self, show_dict, exception_hack=False):
+        episode_title = show_dict['episode_title']
 
-        season_elem = self.find_on_page('xpath', season_xpath)
-        self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists")
-        self.swipe_el_to_top_of_screen(season_elem, endy=.25, startx=20)
+        if exception_hack == 'AFTER SHOW':
+            # for Big Brother After Show, there is no season, it just says "After Show"
+            season_name = 'AFTER SHOW'
+        elif exception_hack == 'Specials':
+            # for specials, there's only one episode, or only one row of episodes anyway
+            show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
+            return show_elem
+        else:
+            season_name = "Season " + str(show_dict['season_number'])
 
-        #don't think necessary for ios: find it again to be sure we get the right positioning
-        #season_elem = self._find_element(xpath=season_xpath)
-        y = season_elem.location['y'] + season_elem.size['height'] + 50
-        y_below = season_elem.location['y']
+        # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
+        season_elem = self.find_on_page('id', season_name)
+        self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists: %s" % season_name)
+        self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
 
-        season_ep_long = self.convert_season_episode_to_long_form(show_dict['season_episode'])
-
-        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
-        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
-
-        self.click_info_icon_on_found_on_show_page(show_elem)
+        # may help get the position correctly
         sleep(2)
 
-        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
-        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
+        # find it again to be sure we get the right positioning
+        season_elem = self._find_element(name=season_name)
+        y = season_elem.location['y'] + season_elem.size['height'] + 50
 
-        show_title_found = texts[0].text
-        season_ep_found = texts[1].text
-        ndx = texts[2].text.index(' ')  # remove the "Aired: "
-        air_date_found = texts[2].text[ndx+1:]
-        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
-        episode_title_found = texts[3].text[0:ndx]
+        show_elem = self.find_on_page_horizontal('name', episode_title, swipe_y=y, max_swipes=20)
+        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists: %s" % episode_title)
 
-        show_dict_found = {}
-        show_dict_found['element']        = show_elem
-        show_dict_found['show_title']     = show_title_found
-        show_dict_found['episode_title']  = episode_title_found
-        show_dict_found['air_date']       = air_date_found
-        show_dict_found['season_episode'] = season_ep_found
-
-        return show_dict_found
+        return show_elem
 
     ####################################################################################
     # VIDEO PLAYER
@@ -1679,13 +1669,29 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # SWIPE
-    def swipe_element_to_top_of_screen(self):
+    def swipe_element_to_top_of_screen(self, elem=None, endy=None, startx=-20):
         """
         Swipe NEXT TO the element, to the top of the screen.
         Don't swipe directly ON the element because if it's a picker we'll just edit the value
         """
-        window_size_y = self.driver.get_window_size()["height"]
-        self.swipe(30, window_size_y - 400, 30, window_size_y - 20)
+        loc = elem.location
+        startx = loc['x'] + startx
+        starty = loc['y']
+
+        # in case it's behind the banner ad at the bottom, swipe up a little
+        window_height = self.driver.get_window_size()['height']
+        if starty > .8 * window_height:
+            self.swipe(.5, .5, .5, .3, 1500)
+            starty = starty - window_height * .2
+            sleep(1)
+
+        if not endy:
+            if self.phone:
+                endy = 70
+            else:
+                endy = 180
+
+        self.swipe(startx, starty, startx, endy, 1500)
 
     def swipe_element_to_bottom_of_screen(self):
         """
