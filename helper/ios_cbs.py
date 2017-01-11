@@ -902,23 +902,29 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             d = self.driver
 
-        try:
-            if 'accessibility_id' in kwargs:
-                e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
-            elif 'class_name' in kwargs:
-                e = d.find_element_by_class_name(kwargs['class_name'])
-            elif 'id' in kwargs:
-                e = d.find_element_by_id(kwargs['id'])
-            elif 'xpath' in kwargs:
-                e = d.find_element_by_xpath(kwargs['xpath'])
-            else:
-                raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
+        if kwargs.has_key('element'):
+            try:
+                return kwargs['element']
+            except:
+                return False
+        else:
+            try:
+                if 'accessibility_id' in kwargs:
+                    e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
+                elif 'class_name' in kwargs:
+                    e = d.find_element_by_class_name(kwargs['class_name'])
+                elif 'id' in kwargs:
+                    e = d.find_element_by_id(kwargs['id'])
+                elif 'xpath' in kwargs:
+                    e = d.find_element_by_xpath(kwargs['xpath'])
+                else:
+                    raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
 
-            return e
-        except NoSuchElementException:
-            return False
-        finally:
-            self.set_implicit_wait()
+                return e
+            except NoSuchElementException:
+                return False
+            finally:
+                self.set_implicit_wait()
 
     def not_exists(self, **kwargs):
         """
