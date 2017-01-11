@@ -9,26 +9,23 @@ class BasePage(CommonHelper):
         self.event = event
         self.init_variables()
 
-    def top_toolbar(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/toolbar')
-
     def btn_search_icon(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_id(self.com_cbs_app + ':id/action_search')
+        return self.get_element(timeout=timeout, id='Search')
 
     def txt_search_field(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/search_src_text')
 
     def lbl_title(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_class_name('android.widget.TextView')
+        return self.get_element(timeout=timeout, xpath='//UIAStaticText[1]')
 
     def btn_navigate_up(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Navigate up')
+        return self.get_element(timeout=timeout, id='BackArrow_white')
 
     def btn_hamburger_menu(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Open navigation drawer')
+        return self.get_element(timeout=timeout, id='Main Menu')
 
     def img_logo(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_class_name('android.widget.ImageView')
+        return self.get_element(timeout=timeout, id='CBSLogo_white')
 
     def navigation_drawer(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/navigation_drawer_root')
