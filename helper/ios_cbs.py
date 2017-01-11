@@ -1,6 +1,8 @@
 import os
-from time import sleep, time
 import random
+from time import sleep, time
+from xml.etree import ElementTree
+
 
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
@@ -371,6 +373,168 @@ class CommonIOSHelper(TestlioAutomationTest):
         tap_y = int(y + height*.95)
 
         self.tap(tap_x, tap_y)
+
+    def verify_exists_using_xml(self, root=False, find_by=None, find_key=None, class_name='*', screenshot=False,
+                                timeout=0):
+        """
+        Verifies an element, but using raw xml, not Appium methods.
+        Sometimes these methods don't work.  See section header (XML Methods) for details.
+        """
+        start_time = time()
+
+        # there's no point in trying multiple times if the root is constant
+        if not (root == False):
+            timeout = 0
+
+        while True:
+            el = self._exists_element_using_xml(root, find_by=find_by, find_key=find_key, class_name=class_name)
+            # you apparently can't test true/false using a xml.etree.ElementTree.Element
+            if not (el == False):
+                el = True
+                break
+
+            if time() - start_time > timeout:
+                break
+            sleep(1)
+
+        self.assertTrueWithScreenShot(el,
+                                      screenshot=screenshot,
+                                      msg="Should see element with values %s, %s, %s" % (find_by, find_key, class_name))
+
+    def _exists_element_using_xml(self, root=False, find_by=None, find_key=None, class_name='*'):
+        """
+        usually you'll use either both find_by and find_key:
+            find_by must be an attribute such as "text" or "content-desc"
+            find_key would be the corresponding attribute like "Learn More" or "OK"
+        or just class_name (will get the first element of that class)
+            class_name would be the class_name such as "android.widget.Button"
+        """
+
+        # We do this weird comparison becasue you apparently can't test true/false using a xml.etree.ElementTree.Element
+        if root == False:
+            root = self.get_page_source_xml()
+
+        if find_by:
+            for elem in root.iter(class_name):
+                if find_by in elem.attrib:
+                    if elem.attrib[find_by] == find_key:
+                        return elem
+        else:
+            for elem in root.iter(class_name):
+                return elem
+
+        return False
+
+    def get_page_source_xml(self):
+        """
+        Used for dealing with watching videos. See section header (XML Methods) for details.
+        Returns root element of xml.  We always want the xml with the controls on screen, so
+        this taps to bring up the controls if necessary, returns whichever xml has more information.
+        Yes, this is a terrible way to do this, but there are so many variables that we do not know and have
+        no control over that this simple way is the most reliable in all situations.
+        """
+        ps1 = self.driver.page_source
+
+        # yeah, this is fairly hacky, but we need this method to return as quickly as possible
+        try:
+            self.get_page_source_xml_x_tap
+        except AttributeError:
+            s = self.driver.get_window_size()
+            tap_x = int(s['width'] * .5)
+            tap_y = int(s['height'] * .5)
+
+            # we're expecting screen to be horizontal while watching a video
+            if tap_x > tap_y:
+                self.get_page_source_xml_x_tap = tap_x
+                self.get_page_source_xml_y_tap = tap_y
+            else:
+                self.get_page_source_xml_x_tap = tap_y
+                self.get_page_source_xml_y_tap = tap_x
+
+        # use the base driver.tap() because we're going to be doing this A LOT and want to avoid clogging the logs
+        self.driver.tap([(self.get_page_source_xml_x_tap, self.get_page_source_xml_y_tap)])
+        sleep(.5)
+        ps2 = self.driver.page_source
+
+        if len(ps1) > len(ps2):
+            return ElementTree.fromstring(ps1)
+        else:
+            return ElementTree.fromstring(ps2)
+
+    def verify_cbs_logo_using_xml(self, root=False, screenshot=False):
+        """
+        Verifies cbs logo, but using raw xml, not Appium methods.
+        Sometimes these methods don't work.  See section header (XML Methods) for details.
+        """
+        el = self._exists_element_using_xml(root, find_by='name', find_key='CBSLogo_white')
+
+        # you apparently can't test true/false using a xml.etree.ElementTree.Element
+        if not (el == False):
+            el = True
+
+        self.assertTrueWithScreenShot(el, screenshot=screenshot, msg="Should see CBS logo")
+
+    def _find_element_using_xml(self, root=False, find_by=None, find_key=None, class_name='*'):
+        """
+        usually you'll use either both find_by and find_key:
+            find_by must be an attribute such as "text" or "content-desc"
+            find_key would be the corresponding attribute like "Learn More" or "OK"
+        or just class_name (will get the first element of that class)
+            class_name would be the class_name such as "android.widget.Button"
+        """
+        elem_or_false = self._exists_element_using_xml(root, find_by=find_by, find_key=find_key, class_name=class_name)
+
+        # this is a weird comparison because you get a warning if you do a
+        # simple true/false test using a xml.etree.ElementTree.Element
+        if elem_or_false == False:
+            raise RuntimeError('_find_using_xml failed with args: find_by=%s find_key=%s class_name=%s' % (
+                find_by, find_key, class_name))
+        else:
+            return elem_or_false
+
+    def exists_one_of(self, *args):
+        """
+        Pass in a list of elements to search for.  This is very helpful for differences across devices such
+        as Submit vs. SUBMIT (or in system settings menus such as Wi-Fi vs Wi Fi).  Also very useful for multi-
+        language support.  This is much more efficient than searching for 130s for elementA, then trying elementB
+        default timeout is default_implicit_wait
+
+        examples:
+        self.exists_one_of('name', 'SUBMIT', 'name', 'Submit')
+        self.exists_one_of('name', 'Logout', 'id', self.com_cbs_app + ':id/signOutButton', 'timeout', 10)
+        """
+
+        if len(args) % 2 != 0:
+            raise RuntimeError('Number of args passed to exists_one_of() must be an even number')
+
+        # will be overwritten later if they passed in a value for timeout
+        timeout = self.default_implicit_wait
+
+        # turn list ['a', 'b', 'c', 'd']
+        # into dict {'a':'b', 'c':'d'}
+        search_list = []
+        while args:
+            if args[0] in ['name', 'class_name', 'id', 'xpath']:
+                d = {args[0]: args[1]}
+                search_list.append(d)
+            elif args[0] == 'timeout':
+                timeout = args[1]
+            args = args[2:]
+
+        start_time = time()
+
+        while True:
+            # this inner for loop will ensure that we search for all elements at least once.
+            for i in range(len(search_list)):
+                new_args = {'timeout': 0}
+                new_args.update(search_list[i])  # 'timeout'=0 we want exists to return immediately
+
+                elem = self.exists(**new_args)
+                if elem:
+                    return elem
+
+            if time() - start_time > timeout:
+                return False
 
     def find_episode_on_show_page(self, show_dict):
         season_name = "Season " + str(self.convert_season_episode(show_dict['season_episode'])[0])
