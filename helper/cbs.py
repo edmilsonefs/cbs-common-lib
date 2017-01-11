@@ -761,8 +761,7 @@ class CommonHelper(TestlioAutomationTest):
             self.click_play_from_beginning()
 
     def click_play_from_beginning(self):
-        if self.exists(name='Play From Beginning', timeout=10):
-            self.click(name='Play From Beginning', screenshot=True)
+        self.click_safe(name='Play From Beginning', timeout=10)
 
     def select_first_show_option(self):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
