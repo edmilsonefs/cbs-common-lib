@@ -282,7 +282,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             elem.click()
 
     def open_drawer(self, native=False):
-        e = self.exists_and_visible(id='Main Menu', timeout=1)
+        e = self.exists_and_visible(element=self.get_element(id='Main Menu'), timeout=10)
 
         if not e:
             self.go_back()
