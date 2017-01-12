@@ -14,6 +14,9 @@ class ShowPage(BasePage):
     def btn_all_access_episodes(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtAllAccessEpisodes')
 
+    def lst_video_icons(self, timeout=10):
+        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/imgThumbnail')
+
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())

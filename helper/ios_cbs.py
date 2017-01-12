@@ -166,36 +166,6 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # MENU
-    # def go_to_home(self):
-    #     #self._go_to('Home')
-    #     self.goto_home()
-    #
-    # def go_to_shows(self):
-    #     #self._go_to('Shows')
-    #     self.goto_shows()
-    #
-    # def go_to_live_tv(self):
-    #     #self._go_to('Live TV')
-    #     self.goto_live_tv()
-    #     #self._accept_alert(1)
-    #
-    # def go_to_schedule(self):
-    #     #self._go_to('Schedule')
-    #     self.goto_schedule()
-    #
-    # def _go_to(self, menu):
-    #     self.safe_screenshot()
-    #     try:
-    #         self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
-    #     except:
-    #         self.open_drawer()
-    #         sleep(3)
-    #         self.click(element=self.get_element(xpath="//UIATableCell[@name='%s']" % menu))
-    #
-    # def go_to_settings(self):
-    #     # self._go_to('Settings')
-    #     self.goto_settings()
-
     def goto_home(self):
         self.open_drawer()
         self.click(id='Home')
