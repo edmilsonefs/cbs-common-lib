@@ -59,14 +59,14 @@ class CommonIOSHelper(TestlioAutomationTest):
                     self.event.start(data='in teardown: page source failed')
 
         self.event.stop()
-        sleep(60)
+        sleep(10)
 
         try:
             self.driver.quit()
         except Exception:
             self.event.start(data='in teardown: driver.quit() failed')
 
-        sleep(80)
+        #sleep(80)
 
     ####################################################################################
     # SETUP/LOGIN METHODS
@@ -436,7 +436,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         Verifies cbs logo, but using raw xml, not Appium methods.
         Sometimes these methods don't work.  See section header (XML Methods) for details.
         """
-        el = self._exists_element_using_xml(root, find_by='name', find_key='CBSLogo_white')
+        el = self._exists_element_using_xml(root, find_by='id', find_key='CBSLogo_white')
 
         # you apparently can't test true/false using a xml.etree.ElementTree.Element
         if not (el == False):
@@ -484,7 +484,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # into dict {'a':'b', 'c':'d'}
         search_list = []
         while args:
-            if args[0] in ['name', 'class_name', 'id', 'xpath']:
+            if args[0] in ['class_name', 'id', 'xpath']:
                 d = {args[0]: args[1]}
                 search_list.append(d)
             elif args[0] == 'timeout':
@@ -528,10 +528,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(2)
 
         # find it again to be sure we get the right positioning
-        season_elem = self._find_element(name=season_name)
+        season_elem = self._find_element(id=season_name)
         y = season_elem.location['y'] + season_elem.size['height'] + 50
 
-        show_elem = self.find_on_page_horizontal('name', episode_title, swipe_y=y, max_swipes=20)
+        show_elem = self.find_on_page_horizontal('id', episode_title, swipe_y=y, max_swipes=20)
         self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists: %s" % episode_title)
 
         return show_elem
@@ -957,7 +957,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def find_show_on_home_page(self, show_dict):
         """
         First scrolls down looking for the show category (Primetime, etc.)
-        Then scrolls to the side looking for the episode
+        Then scrolls to the side looking for the season / episode combination
         show_dict should look like
             {'show_title': 'CSI Miami',
             'show_category': 'Primetime'}
@@ -966,45 +966,57 @@ class CommonIOSHelper(TestlioAutomationTest):
             {'show_title': 'CSI Miami',
             'episode_title': 'Fun in the Sun',
             'air_date': '3/5/16',
-            'season_episode': 'S28Ep8''}
+            'season': '28',
+            'episode': '3'}
         """
-        show_title = show_dict['show_title']
         show_category = show_dict['show_category']
-        category_xpath = "//UIAStaticText[@name='%s']" % show_category
-        category_elem = self.find_on_page('xpath', category_xpath)
 
+        category_elem = self.find_on_page('id', show_category)
         self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert our category exists")
-        self.swipe_el_to_top_of_screen(category_elem, endy=.25, startx=20)
+        y_orig = category_elem.location['y']
 
-        y = category_elem.location['y'] + category_elem.size['height'] + 50
-        y_below = category_elem.location['y']
+        self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
 
-        season_ep_long = self.convert_title_season_episode_to_long_form(show_dict['season_episode'], show_title)
+        # For some stupid reason, it over-swipes sometimes.  Make sure it's still on the screen
+        self.driver.page_source
 
-        show_elem = self.find_on_page_horizontal('accessibility_id', season_ep_long, swipe_y=y, max_swipes=10, y_below=y_below)
-        self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists")
-
-        self.click_info_icon_on_found_on_show_page(show_elem)
+        category_elem = self.exists(name=show_dict['show_category'], timeout=2)
+        screen_height = self.driver.get_window_size()["height"]
+        if not category_elem or category_elem.location['y'] < screen_height * .12:
+            self.swipe(.5, .5, .5, .9, 1500)
         sleep(2)
+        self.driver.page_source
 
-        scroll_views = self.driver.find_elements_by_class_name('UIAScrollView')
-        texts = scroll_views[-1].find_elements_by_class_name('UIAStaticText')
+        # find it again to be sure we get the right positioning
+        category_elem = self._find_element(name=show_category)
+        y = category_elem.location['y'] + category_elem.size['height'] + 50
 
-        show_title_found = texts[0].text
-        season_ep_found = texts[1].text
-        ndx = texts[2].text.index(' ')  # remove the "Aired: "
-        air_date_found = texts[2].text[ndx+1:]
-        ndx = len(show_dict['episode_title'])  # remove the description after the actual title of the episode
-        episode_title_found = texts[3].text[0:ndx]
+        # swipe left to right to reset to the beginning of the list
+        for i in range(2):
+            self.swipe(.1, y, .9, y, 500)
+            sleep(1)
 
-        show_dict_found = {}
-        show_dict_found['element']        = show_elem
-        show_dict_found['show_title']     = show_title_found
-        show_dict_found['episode_title']  = episode_title_found
-        show_dict_found['air_date']       = air_date_found
-        show_dict_found['season_episode'] = season_ep_found
+        season_ep = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
 
-        return show_dict_found
+        # We have to try multiple times just in case we see a "S3 Ep4" (for example) from a different show.
+        # Should be extremely rare.
+        for i in range(3):
+            season_ep_elem = self.find_on_page_horizontal('id', season_ep, swipe_y=y, max_swipes=20)
+            title_elem = self.exists(name=show_dict['show_title'], timeout=0)
+
+            # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
+            # Swipe it off the screen and try again...
+            if season_ep_elem and not title_elem:
+                self.event.screenshot(self.screenshot())
+                self.swipe(.9, y, .2, y, 1500)
+                self.event.screenshot(self.screenshot())
+            else:
+                break
+
+        self.assertTrueWithScreenShot(season_ep_elem, screenshot=True,
+                                      msg="Assert our season/episode exists: %s" % season_ep)
+
+        return season_ep_elem
 
     ################################################
     # VALIDATE / VERIFY
@@ -1537,20 +1549,18 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.set_implicit_wait(0)
 
-        for i in range(max_swipes):
-            self.driver.page_source
-            if find_by == 'accessibility_id':
-                elems = self.driver.find_elements_by_name(find_value)
-            else:
-                elems = self.driver.find_elements_by_id(find_value)
+        find_value_episode = find_value.split("/")[0]
+        find_value_season = find_value.split("/")[1]
 
-            for elem in elems:
-                if elem.location['y'] > y_below and \
-                        elem.is_displayed():
-                    self.set_implicit_wait()
-                    return elem
+        find_value_episode = find_value_episode if len(find_value_episode) > 1 else "0" + find_value_episode
 
-            self.swipe(.7, swipe_y, 10, swipe_y, 1500)
+        find_value = "Ep" + find_value_episode + find_value_season
+        find_value = find_value.split(":")[0]
+
+        elems = self.driver.find_elements_by_xpath("//UIACollectionCell[contains(@name,'" + find_value + "')]")
+
+        if len(elems) > 0:
+            return elems[0]
 
         self.set_implicit_wait()
         return False
