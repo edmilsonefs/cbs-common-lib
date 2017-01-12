@@ -10,6 +10,9 @@ class HomePage(BasePage):
     def home_marquee_container(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/homeMarqueeContainer')
 
+    def lst_home_video_icons(self, timeout=10):
+        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ":id/videoImage")
+
     def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())
