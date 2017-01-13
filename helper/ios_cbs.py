@@ -1617,21 +1617,22 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Complete registration if required
 
         self.driver.implicitly_wait(10)
-        try:
-            self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
-            self.click(accessibility_id='CONTINUE')
-            sleep(3)
-            self.event.screenshot(self.screenshot())
-        except:
+        if self.exists(id='CONTINUE', timeout=10):
             try:
-                self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
-            except:
                 self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
                 self.event.screenshot(self.screenshot())
-            self.event.screenshot(self.screenshot())
-        self.driver.implicitly_wait(30)
+            except:
+                try:
+                    self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
+                except:
+                    self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                    self.click(accessibility_id='CONTINUE')
+                    sleep(3)
+                    self.event.screenshot(self.screenshot())
+                self.event.screenshot(self.screenshot())
+            self.driver.implicitly_wait(30)
 
     ####################################################################################
     # CLICK WRAPPERS
