@@ -1,5 +1,6 @@
 import os
 import random
+import re
 from time import sleep, time
 from xml.etree import ElementTree
 
@@ -1549,13 +1550,16 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.set_implicit_wait(0)
 
-        find_value_episode = find_value.split("/")[0]
-        find_value_season = find_value.split("/")[1]
+        if bool(re.search("S(\d+) Ep(\d+)", find_value)):
+            find_value = "Season " + str(find_value[1:]).replace("Ep", "Episode ")
+        else:
+            find_value_episode = find_value.split("/")[0]
+            find_value_season = find_value.split("/")[1]
 
-        find_value_episode = find_value_episode if len(find_value_episode) > 1 else "0" + find_value_episode
+            find_value_episode = find_value_episode if len(find_value_episode) > 1 else "0" + find_value_episode
 
-        find_value = "Ep" + find_value_episode + find_value_season
-        find_value = find_value.split(":")[0]
+            find_value = "Ep" + find_value_episode + find_value_season
+            find_value = find_value.split(":")[0]
 
         elems = self.driver.find_elements_by_xpath("//UIACollectionCell[contains(@name,'" + find_value + "')]")
 
