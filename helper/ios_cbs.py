@@ -67,7 +67,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         except Exception:
             self.event.start(data='in teardown: driver.quit() failed')
 
-        #sleep(80)
+        sleep(80)
 
     ####################################################################################
     # SETUP/LOGIN METHODS
