@@ -60,7 +60,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                     self.event.start(data='in teardown: page source failed')
 
         self.event.stop()
-        sleep(10)
+        sleep(60)
 
         try:
             self.driver.quit()
