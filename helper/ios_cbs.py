@@ -980,7 +980,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # For some stupid reason, it over-swipes sometimes.  Make sure it's still on the screen
         self.driver.page_source
 
-        category_elem = self.exists(name=show_dict['show_category'], timeout=2)
+        category_elem = self.exists(id=show_dict['show_category'], timeout=2)
         screen_height = self.driver.get_window_size()["height"]
         if not category_elem or category_elem.location['y'] < screen_height * .12:
             self.swipe(.5, .5, .5, .9, 1500)
@@ -988,7 +988,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.driver.page_source
 
         # find it again to be sure we get the right positioning
-        category_elem = self._find_element(name=show_category)
+        category_elem = self._find_element(id=show_category)
         y = category_elem.location['y'] + category_elem.size['height'] + 50
 
         # swipe left to right to reset to the beginning of the list
@@ -1002,7 +1002,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Should be extremely rare.
         for i in range(3):
             season_ep_elem = self.find_on_page_horizontal('id', season_ep, swipe_y=y, max_swipes=20)
-            title_elem = self.exists(name=show_dict['show_title'], timeout=0)
+            title_elem = self.exists(id=show_dict['show_title'], timeout=0)
 
             # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
             # Swipe it off the screen and try again...
