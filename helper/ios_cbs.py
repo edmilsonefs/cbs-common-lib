@@ -792,11 +792,42 @@ class CommonIOSHelper(TestlioAutomationTest):
         """
         loc = elem.location
         size = elem.size
-        x = loc['x'] + size['width'] / 2
-        y = loc['y'] + size['height'] / 2
+        screen_size = self.driver.get_window_size()
+        if self.tablet:
+            if kwargs['side'] == 'middle':
+                x = loc['x'] + size['width'] / 2
+                y = loc['y'] + size['height'] / 2
+
+            elif kwargs['side'] == 'left':
+                x = loc['x'] + size['width'] / 4
+                y = loc['y'] + size['height'] / 2
+
+            elif kwargs['side'] == 'right':
+                x = loc['x'] + size['width'] - 50
+                y = loc['y'] + 10
+            else:
+                x = loc['x'] + size['width'] / 2
+                y = loc['y'] + size['height'] / 2
+
+        elif self.phone:
+            if kwargs['side'] == 'middle':
+                x = loc['x'] + size['width'] / 2
+                y = loc['y'] + size['height'] / 2
+
+            elif kwargs['side'] == 'left':
+                x = loc['x'] + size['width'] / 4
+                y = loc['y'] + size['height'] / 2
+
+            elif kwargs['side'] == 'right':
+                x = screen_size['width'] - 40
+                y = loc['y'] + 5
+            else:
+                x = loc['x'] + size['width'] / 2
+                y = loc['y'] + size['height'] / 2
 
         # an array of tuples
-        self.tap(x, y)
+        action = TouchAction(self.driver)
+        action.tap(x=x, y=y).perform()
 
     def click_on_first_aa_video(self):
         # elFrom = self._find_element(id='Free Episodes')
