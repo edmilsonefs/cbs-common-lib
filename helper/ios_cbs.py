@@ -202,7 +202,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(element=elems[0])
 
     def sign_out(self):
-        self.click(element=self.get_clickable_element(id='Sign Out'))
+        # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
+        self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
 
     def goto_sign_out(self):
         self.goto_settings()
@@ -625,9 +626,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.unpause_video()
 
-
     def find_by_uiautomation(self, value, hide_keyboard=False):
-        return self.driver.find_element(By.IOS_UIAUTOMATION, value)
+        return self.driver.find_element_by_ios_uiautomation(value)
 
     def set_implicit_wait(self, wait_time=-1):
         """
