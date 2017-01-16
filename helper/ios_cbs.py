@@ -1025,7 +1025,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
-            self.swipe(.1, y, .9, y, 500)
+            self.swipe(.1, y, .5, y, 500)
             sleep(1)
 
         season_ep = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
