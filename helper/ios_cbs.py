@@ -1137,6 +1137,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif 'xpath' in kwargs:
             selector = kwargs['xpath']
+        else:
+            selector = ''
 
         self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should see element with text or selector: '%s'" % selector)
@@ -1159,6 +1161,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif 'xpath' in kwargs:
             selector = kwargs['xpath']
+        else:
+            selector = ''
 
         self.assertTrueWithScreenShot(self.not_exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
