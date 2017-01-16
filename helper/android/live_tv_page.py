@@ -50,6 +50,48 @@ class LiveTvPage(BasePage):
     def lbl_two_ways_to_watch_live_tv(self, timeout=10):
         return self.get_element(timeout=timeout, name='Two ways to watch Live TV')
 
+    def txt_optimum_sign_in_fields(self, timeout=15):
+        return self.get_element(timeout=timeout, class_name='android.widget.EditText')
+
+    def select_sign_in_from_text_link(self):
+        self.event._log_info(self.event._event_data('Select Sign In'))
+        elem = self.lst_already_have_an_account_sign_in()
+        if len(elem) == 1:
+            self.click_by_location(elem[0], side='right')
+        elif len(elem) > 1:
+            self.click_by_location(elem[1], side='right')
+        sleep(3)
+        self._hide_keyboard()
+
+    def optimum_sign_in(self, user, password):
+        if self.testdroid_device == 'asus Nexus 7':
+            self.driver.tap([(600, 600)])
+        fields = self.txt_optimum_sign_in_fields()
+        email_field = fields[0]
+        password_field = fields[1]
+
+        self.click(email_field)
+        self.send_keys(data=user, element=email_field)
+        self.event.screenshot(self.screenshot())
+        self._hide_keyboard()
+        self.send_keys(data=password, element=password_field)
+        self._hide_keyboard()
+        self.event.screenshot(self.screenshot())
+        self.driver.press_keycode(66)  # Enter
+        sleep(5)
+        self.log_info("after pressing enter")
+        self.event.screenshot(self.screenshot())
+
+    def goto_providers_page(self):
+        self.goto_live_tv()
+        if self.phone:
+            self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
+        self.click(element=self.btn_verify_now())
+
+    def goto_optimum_sign_in(self):
+        self.goto_providers_page()
+        self.click(element=self.btn_provider_logo())
+
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.lbl_title())
         if self.phone:
@@ -73,13 +115,3 @@ class LiveTvPage(BasePage):
             self.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
             self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')
             self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo', timeout=10)
-
-    def select_sign_in_from_text_link(self):
-        self.event._log_info(self.event._event_data('Select Sign In'))
-        elem = self.lst_already_have_an_account_sign_in()
-        if len(elem) == 1:
-            self.click_by_location(elem[0], side='right')
-        elif len(elem) > 1:
-            self.click_by_location(elem[1], side='right')
-        sleep(3)
-        self._hide_keyboard()
