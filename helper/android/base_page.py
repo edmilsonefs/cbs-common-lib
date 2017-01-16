@@ -57,9 +57,6 @@ class BasePage(CommonHelper):
     def btn_settings_menu_item(self, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_name('Settings')
 
-    def btn_nielsen_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Nielsen Info & Your Choices')
-
     def get_menu_item_with_text(self, text, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_name(text)
 
@@ -130,12 +127,7 @@ class BasePage(CommonHelper):
         self.click_first_search_result()
         sleep(10)
 
-    def goto_nielsen_info_page(self):
-        self.goto_settings()
-        if self.phone:
-            self.swipe_down_if_element_is_not_visible(name='Nielsen Info & Your Choices')
-        self.click(element=self.btn_nielsen_menu_item())
-        sleep(15)  # waiting for page to load
+
 
 
 

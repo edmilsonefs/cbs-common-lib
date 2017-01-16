@@ -1,3 +1,4 @@
+from time import sleep
 from helper.android.base_page import BasePage
 
 
@@ -35,8 +36,9 @@ class SettingsPage(BasePage):
         self.verify_exists(name='Nielsen Info & Your Choices')
         self.verify_exists(name='Closed Captions')
 
-    def goto_nielsen_info(self):
+    def goto_nielsen_info_page(self):
         self.goto_settings()
         if self.phone:
-            self._short_swipe_down(duration=2000)
+            self.swipe_down_if_element_is_not_visible(name='Nielsen Info & Your Choices')
         self.click(element=self.btn_nielsen())
+        sleep(15)  # waiting for page to load

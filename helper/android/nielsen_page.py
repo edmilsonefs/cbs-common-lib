@@ -1,10 +1,13 @@
 from helper.android.base_page import BasePage
-from time import sleep
+from helper.android.settings_page import SettingsPage
 
 
 class NielsenPage(BasePage):
+    settings_page = None
+
     def __init__(self, driver, event):
         super(NielsenPage, self).__init__(driver, event)
+        self.settings_page = SettingsPage(self.driver, self.event)
 
     def lbl_title(self, timeout=10):
         return self.top_toolbar(timeout=timeout).find_element_by_name('Nielsen Info & Your Choices')
@@ -20,7 +23,7 @@ class NielsenPage(BasePage):
 
     def goto_nielsen_opt_out(self):
         window_height = self.driver.get_window_size()["height"]
-        self.goto_nielsen_info_page()
+        self.settings_page.goto_nielsen_info_page()
         # Nielsen page now needs to scroll to end of page to find buttons
         for i in range(0, 5):
             self.driver.swipe(500, window_height - 600, 500, 200)
@@ -30,7 +33,7 @@ class NielsenPage(BasePage):
 
     def goto_nielsen_opt_in(self):
         window_height = self.driver.get_window_size()["height"]
-        self.goto_nielsen_info_page()
+        self.settings_page.goto_nielsen_info_page()
         # Nielsen page now needs to scroll to end of page to find buttons
         for i in range(0, 5):
             self.driver.swipe(500, window_height - 600, 500, 200)
