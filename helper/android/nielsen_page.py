@@ -19,12 +19,24 @@ class NielsenPage(BasePage):
         return self.get_element(timeout=timeout, name='OK')
 
     def goto_nielsen_opt_out(self):
+        window_height = self.driver.get_window_size()["height"]
         self.goto_nielsen_info_page()
-
-        self.click(element=self.btn_opt_out())
-        self.event.screenshot(self.screenshot())
+        # Nielsen page now needs to scroll to end of page to find buttons
+        for i in range(0, 5):
+            self.driver.swipe(500, window_height - 600, 500, 200)
+        self.click(element=self.btn_opt_out(), screenshot=True)
         self.click(element=self.btn_ok())
+        self.navigate_up()
+
+    def goto_nielsen_opt_in(self):
+        window_height = self.driver.get_window_size()["height"]
+        self.goto_nielsen_info_page()
+        # Nielsen page now needs to scroll to end of page to find buttons
+        for i in range(0, 5):
+            self.driver.swipe(500, window_height - 600, 500, 200)
         self.event.screenshot(self.screenshot())
+        self.click(element=self.btn_opt_in(), screenshot=True)
+        self.click(element=self.btn_ok())
         self.navigate_up()
 
 
