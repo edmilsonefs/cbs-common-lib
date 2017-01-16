@@ -509,7 +509,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 return False
 
     def find_episode_on_show_page(self, show_dict, exception_hack=False):
-        episode_title = show_dict['episode_title']
+        episode_title = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
 
         if exception_hack == 'AFTER SHOW':
             # for Big Brother After Show, there is no season, it just says "After Show"
@@ -1034,11 +1034,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Should be extremely rare.
         for i in range(3):
             season_ep_elem = self.find_on_page_horizontal('id', season_ep, swipe_y=y, max_swipes=20)
-            title_elem = self.exists(id=show_dict['show_title'], timeout=0)
-
             # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
             # Swipe it off the screen and try again...
-            if season_ep_elem and not title_elem:
+            if not season_ep_elem:
                 self.event.screenshot(self.screenshot())
                 self.swipe(.9, y, .2, y, 1500)
                 self.event.screenshot(self.screenshot())
@@ -1588,13 +1586,15 @@ class CommonIOSHelper(TestlioAutomationTest):
         if bool(re.search("S(\d+) Ep(\d+)", find_value)):
             find_value = "Season " + str(find_value[1:]).replace("Ep", "Episode ")
         else:
-            find_value_episode = find_value.split("/")[0]
-            find_value_season = find_value.split("/")[1]
+            if "/" in find_value:
 
-            find_value_episode = find_value_episode if len(find_value_episode) > 1 else "0" + find_value_episode
+                find_value_episode = find_value.split("/")[0]
+                find_value_season = find_value.split("/")[1]
 
-            find_value = "Ep" + find_value_episode + find_value_season
-            find_value = find_value.split(":")[0]
+                find_value_episode = find_value_episode if len(find_value_episode) > 1 else "0" + find_value_episode
+
+                find_value = "Ep" + find_value_episode + find_value_season
+                find_value = find_value.split(":")[0]
 
         elems = self.driver.find_elements_by_xpath("//UIACollectionCell[contains(@name,'" + find_value + "')]")
 
