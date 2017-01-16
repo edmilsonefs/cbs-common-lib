@@ -50,8 +50,8 @@ class LiveTvPage(BasePage):
     def lbl_two_ways_to_watch_live_tv(self, timeout=10):
         return self.get_element(timeout=timeout, name='Two ways to watch Live TV')
 
-    def txt_optimum_sign_in_fields(self, timeout=15):
-        return self.get_element(timeout=timeout, class_name='android.widget.EditText')
+    def lst_optimum_sign_in_fields(self, timeout=15):
+        return self.get_elements(timeout=timeout, class_name='android.widget.EditText')
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
@@ -66,7 +66,7 @@ class LiveTvPage(BasePage):
     def optimum_sign_in(self, user, password):
         if self.testdroid_device == 'asus Nexus 7':
             self.driver.tap([(600, 600)])
-        fields = self.txt_optimum_sign_in_fields()
+        fields = self.lst_optimum_sign_in_fields()
         email_field = fields[0]
         password_field = fields[1]
 
