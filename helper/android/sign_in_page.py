@@ -35,6 +35,12 @@ class SignInPage(BasePage):
     def btn_terms_accept_submit(self, timeout=10):
         return self.get_element(timeout=timeout, name='SUBMIT')
 
+    def btn_facebook_ok(self, timeout=10):
+        return self.get_element(timeout=timeout, name='OK ')
+
+    def lst_social_sign_in_fields(self, timeout=10):
+        return self.get_elements(timeout=timeout, class_name='android.widget.EditText')
+
     def sign_in(self, email, password):
         self.send_keys(data=email, element=self.txt_email())
         self._hide_keyboard()
@@ -42,6 +48,34 @@ class SignInPage(BasePage):
         self._hide_keyboard()
 
         self.click(element=self.btn_submit(), screenshot=True)
+
+        self.post_sign_in_accept_terms()
+
+    def sign_in_facebook(self, email, password):
+        fields = self.lst_social_sign_in_fields()
+        email_field = fields[0]
+        password_field = fields[1]
+
+        self.send_keys(data=email, element=email_field)
+        self._hide_keyboard()
+        self.send_keys(data=password, element=password_field)
+        self._hide_keyboard()
+        self.driver.press_keycode(66)  # Enter
+        self.click(element=self.btn_facebook_ok())
+
+        self.post_sign_in_accept_terms()
+
+    def sign_in_twitter(self, email, password):
+        fields = self.lst_social_sign_in_fields()
+        email_field = fields[0]
+        password_field = fields[1]
+
+        self.send_keys(data=email, element=email_field)
+        self._hide_keyboard()
+        self.send_keys(data=password, element=password_field)
+        self._hide_keyboard()
+        self.driver.press_keycode(66)  # Enter
+        self.event.screenshot(self.screenshot())
 
         self.post_sign_in_accept_terms()
 
