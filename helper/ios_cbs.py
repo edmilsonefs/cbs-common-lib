@@ -1004,7 +1004,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         show_category = show_dict['show_category']
 
         category_elem = self.find_on_page('id', show_category)
-        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert our category exists")
+        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert '" + show_category + "' category exists")
         y_orig = category_elem.location['y']
 
         self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
@@ -1015,13 +1015,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         category_elem = self.exists(id=show_dict['show_category'], timeout=2)
         screen_height = self.driver.get_window_size()["height"]
         if not category_elem or category_elem.location['y'] < screen_height * .12:
-            self.swipe(.5, .5, .5, .9, 1500)
+            self.swipe(.5, .5, .5, .4, 1500)
         sleep(2)
         self.driver.page_source
 
         # find it again to be sure we get the right positioning
         category_elem = self._find_element(id=show_category)
-        y = category_elem.location['y'] + category_elem.size['height'] + 50
+        y = category_elem.location['y'] + category_elem.size['height']
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
