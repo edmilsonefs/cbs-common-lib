@@ -664,9 +664,9 @@ class CommonIOSHelper(TestlioAutomationTest):
                     raise NoSuchElementException('pass')
             except NoSuchElementException:
                 if self.is_simulator():
-                    self.driver.swipe(x, 600, x, -400, 1500)
+                    self.driver.swipe(x, 600, x, -100, 1500)
                 else:
-                    self.driver.swipe(x, 600, x, -400, 1500)
+                    self.driver.swipe(x, 600, x, -100, 1500)
                 pass
 
         self.set_implicit_wait()
