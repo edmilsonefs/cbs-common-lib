@@ -1037,9 +1037,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
             # Swipe it off the screen and try again...
             if not season_ep_elem:
-                self.event.screenshot(self.screenshot())
-                self.swipe(.9, y, .2, y, 1500)
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
+                self.swipe(500, y, -100, y, 1500)
             else:
                 break
 
