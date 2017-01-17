@@ -17,6 +17,9 @@ class ShowPage(BasePage):
     def lst_video_icons(self, timeout=10):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/imgThumbnail')
 
+    def show_page_header(self, timeout=10):
+        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/imgHeader')
+
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())
