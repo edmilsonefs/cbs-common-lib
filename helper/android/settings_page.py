@@ -24,6 +24,12 @@ class SettingsPage(BasePage):
     def btn_mvpd_disconnect_yes(self, timeout=10):
         return self.get_element(timeout=timeout, id='android:id/button1')
 
+    def btn_sign_out_settings(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Sign Out')
+
+    def btn_sign_out(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/signOutButton')
+
     def validate_page(self):
         self.verify_exists(name='Subscribe', screenshot=True)
         if self.tablet:
@@ -68,3 +74,14 @@ class SettingsPage(BasePage):
                 self.click(element=self.btn_navigate_up())
             except:
                 pass
+
+    def sign_out(self):
+        self.goto_settings()
+        if self.phone:
+            self.swipe_down_if_element_is_not_visible(name='Sign Out')
+        self.event.screenshot(self.screenshot())
+        self.click(element=self.btn_sign_out_settings())
+        self.click(element=self.btn_sign_out())
+        self.event.screenshot(self.screenshot())
+        #  To go back to home page
+        self.btn_navigate_up()
