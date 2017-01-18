@@ -664,9 +664,9 @@ class CommonIOSHelper(TestlioAutomationTest):
                     raise NoSuchElementException('pass')
             except NoSuchElementException:
                 if self.is_simulator():
-                    self.driver.swipe(x, 600, x, -100, 1500)
+                    self.driver.swipe(x, 600, 0, -100, 1500)
                 else:
-                    self.driver.swipe(x, 600, x, -100, 1500)
+                    self.driver.swipe(x, 600, 0, -100, 1500)
                 pass
 
         self.set_implicit_wait()
@@ -1015,7 +1015,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         category_elem = self.exists(id=show_dict['show_category'], timeout=2)
         screen_height = self.driver.get_window_size()["height"]
         if not category_elem or category_elem.location['y'] < screen_height * .12:
-            self.driver.swipe(.5, 500, .5, -100, 1500)
+            self.driver.swipe(.5, 500, 0, -100, 1500)
         sleep(2)
         self.driver.page_source
 
@@ -1025,7 +1025,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
-            self.driver.swipe(400, y, 100, y, 1000)
+            self.driver.swipe(400, y, 100, 0, 1000)
             sleep(1)
 
         season_ep = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
@@ -1038,7 +1038,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             # Swipe it off the screen and try again...
             if not season_ep_elem:
                 self.safe_screenshot()
-                self.driver.swipe(500, y, -100, y, 1500)
+                self.driver.swipe(500, y, -100, 0, 1500)
             else:
                 break
 
