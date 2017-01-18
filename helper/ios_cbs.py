@@ -1015,7 +1015,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         category_elem = self.exists(id=show_dict['show_category'], timeout=2)
         screen_height = self.driver.get_window_size()["height"]
         if not category_elem or category_elem.location['y'] < screen_height * .12:
-            self.swipe(.5, .5, .5, .4, 1500)
+            self.swipe(.5, 500, .5, -100, 1500)
         sleep(2)
         self.driver.page_source
 
@@ -1025,7 +1025,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
-            self.swipe(.1, y, .5, y, 500)
+            self.swipe(100, y, 100, y, 1000)
             sleep(1)
 
         season_ep = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
