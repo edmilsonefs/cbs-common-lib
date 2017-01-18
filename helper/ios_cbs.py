@@ -194,7 +194,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         t_f = (self.exists(id='MyCBSStarOutlined iPhone', timeout=30) or
                self.exists(id='MyCBSStarOutlined iPad', timeout=0))
 
-        self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page")
+        self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
     def goto_sign_in(self):
         self.open_drawer()
