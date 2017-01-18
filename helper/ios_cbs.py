@@ -190,9 +190,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_show(self, show_name):
         self.search_for(show_name)
+        self.safe_screenshot()
         self.click_first_search_result()
         t_f = (self.exists(id='MyCBSStarOutlined iPhone', timeout=30) or
-               self.exists(id='MyCBSStarOutlined iPad', timeout=0))
+               self.exists(id='MyCBSStarOutlined iPad', timeout=10))
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
