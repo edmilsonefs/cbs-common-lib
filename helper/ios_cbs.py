@@ -524,7 +524,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
         season_elem = self.find_on_page('id', season_name)
         self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists: %s" % season_name)
-        self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
+        # self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
 
         # may help get the position correctly
         sleep(2)
