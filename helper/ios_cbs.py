@@ -1024,7 +1024,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # find it again to be sure we get the right positioning
         category_elem = self._find_element(id=show_category)
-        y = category_elem.location['y'] + category_elem.size['height']
+        y = category_elem.location['y'] + category_elem.size['height'] - 20
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
@@ -1586,7 +1586,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.set_implicit_wait(0)
         find_value_converted = ""
         if bool(re.search("S(\d+) Ep(\d+)", find_value)):
-            find_value_converted = find_value.replace("S", "Season ").replace("Ep", "Episode ")
+            find_value_converted = find_value.replace("S", "Season ")
+            find_value_converted = find_value_converted.replace("Ep", "Episode ")
         else:
             if "/" in find_value:
 
@@ -1598,7 +1599,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 find_value = "Ep" + find_value_episode + find_value_season
                 find_value = find_value.split(":")[0]
 
-        elems = self.driver.find_elements_by_xpath("//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')]")
+        elems = self.get_elements(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')]", timeout=20)
 
         if len(elems) > 0:
             return elems[0]
