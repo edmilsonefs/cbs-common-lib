@@ -755,6 +755,8 @@ class CommonHelper(TestlioAutomationTest):
                     count += 1
 
     def click_any_free_video(self):
+        if self.exists(xpath="//android.widget.TextView[@text='My CBS']", timeout=5):
+            self.swipe_element_to_top_of_screen(elem=self.get_element(xpath="//android.widget.TextView[@text='My CBS']"), endy=100, startx=0)
         if self.exists(name='free', timeout=10):
             list_episodes = self.driver.find_elements_by_name('free')
             self.click(element=list_episodes[0])
