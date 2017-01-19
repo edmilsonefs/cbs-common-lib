@@ -593,8 +593,11 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click(accessibility_id='UVPSkinPauseButton')
 
     def unpause_video(self):
-        self.click(accessibility_id='UVPSkinPlayButton')
-        sleep(2)
+        try:
+            self.click(accessibility_id='UVPSkinPlayButton')
+            sleep(2)
+        except:
+            self.log_info("Video was not paused")
 
     def jump_in_video(self, jump_time):
         """
