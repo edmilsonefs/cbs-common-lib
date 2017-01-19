@@ -739,7 +739,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         endx = endx - startx
         endy = endy - starty
 
-        self.driver.swipe(startx, starty, endx, endy, swipe_time)
+        try:
+            self.driver.swipe(startx, starty, endx, endy, swipe_time)
+        except:
+            self.log_info("Swipe is failing")
 
     def _short_swipe_up(self, duration=1000, side='middle'):
         size = self.driver.get_window_size()
