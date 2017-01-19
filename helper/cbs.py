@@ -770,8 +770,8 @@ class CommonHelper(TestlioAutomationTest):
         self.safe_screenshot()
         list_episodes = self.driver.find_elements_by_xpath(
             "(//android.widget.LinearLayout[./android.widget.TextView[@text='Recently Watched']]//android.widget.ImageView[@resource-id='com.cbs.app:id/videoImage'])[1]")
-        # self.click(element=list_episodes[0])
-        self.click_by_location(list_episodes[0], side='middle')
+        self.click(element=list_episodes[0])
+        # self.click_by_location(list_episodes[0], side='middle')
         self.click_play_from_beginning()
         self.driver.implicitly_wait(30)
 
