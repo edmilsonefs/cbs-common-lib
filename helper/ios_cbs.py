@@ -1584,9 +1584,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             y_below = swipe_y
 
         self.set_implicit_wait(0)
-
+        find_value_converted = ""
         if bool(re.search("S(\d+) Ep(\d+)", find_value)):
-            find_value = "Season " + str(find_value[1:]).replace("Ep", "Episode ")
+            find_value_converted = "Season " + str(find_value[1:]).replace("Ep", "Episode ")
         else:
             if "/" in find_value:
 
@@ -1598,7 +1598,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 find_value = "Ep" + find_value_episode + find_value_season
                 find_value = find_value.split(":")[0]
 
-        elems = self.driver.find_elements_by_xpath("//UIACollectionCell[contains(@name,'" + find_value + "')]")
+        elems = self.driver.find_elements_by_xpath("//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')]")
 
         if len(elems) > 0:
             return elems[0]
