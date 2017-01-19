@@ -1586,7 +1586,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.set_implicit_wait(0)
         find_value_converted = ""
         if bool(re.search("S(\d+) Ep(\d+)", find_value)):
-            find_value_converted = "Season " + str(find_value[1:]).replace("Ep", "Episode ")
+            find_value_converted = find_value.replace("S", "Season ").replace("Ep", "Episode ")
         else:
             if "/" in find_value:
 
