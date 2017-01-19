@@ -589,12 +589,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         # brings panel control up
         self.tap_by_touchaction(.25, .25)
         self.click(accessibility_id='UVPSkinPauseButton')
-        # self.event.screenshot(self.screenshot())
+        if not self.exists(accessibility_id='UVPSkinPlayButton'):
+            self.click(accessibility_id='UVPSkinPauseButton')
 
     def unpause_video(self):
         self.click(accessibility_id='UVPSkinPlayButton')
         sleep(2)
-        # self.event.screenshot(self.screenshot())
 
     def jump_in_video(self, jump_time):
         """
@@ -1167,6 +1167,18 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(self.not_exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
 
+    def verify_exists_element_video_page(self, poll_every=5, **kwargs):
+        count = 0
+        while count < kwargs['timeout']:
+            if self.exists(**kwargs):
+                self.assertTrueWithScreenShot(True, screenshot=True, msg="Should see element on video page")
+                break
+            else:
+                sleep(poll_every)
+                self.tap(.5, .5)
+                count += poll_every
+        self.assertTrueWithScreenShot(False, screenshot=True, msg="Should see element on video page")
+        
     def exists_and_visible(self, **kwargs):
         e = self.exists(**kwargs)
 
