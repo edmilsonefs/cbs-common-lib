@@ -588,16 +588,13 @@ class CommonIOSHelper(TestlioAutomationTest):
     def pause_video(self):
         # brings panel control up
         self.tap_by_touchaction(.25, .25)
-        self.click(accessibility_id='UVPSkinPauseButton')
         if not self.exists(accessibility_id='UVPSkinPlayButton'):
             self.click(accessibility_id='UVPSkinPauseButton')
 
     def unpause_video(self):
-        try:
+        if not self.exists(accessibility_id='UVPSkinPauseButton'):
             self.click(accessibility_id='UVPSkinPlayButton')
-            sleep(2)
-        except:
-            self.log_info("Video was not paused")
+        sleep(2)
 
     def jump_in_video(self, jump_time):
         """
@@ -1176,10 +1173,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         while count < kwargs['timeout']:
             if self.exists(element=self.get_element(**kwargs)):
                 result = True
+                self.unpause_video()
                 break
             else:
                 sleep(poll_every)
-                self.tap(.5, .5)
+                self.pause_video()
                 count += poll_every
 
         self.assertTrueWithScreenShot(result, screenshot=True, msg="Should see element on video page")
