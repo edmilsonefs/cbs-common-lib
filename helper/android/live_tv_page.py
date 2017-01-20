@@ -35,6 +35,9 @@ class LiveTvPage(BasePage):
     def btn_read_our_faq(self, timeout=10):
         return self.get_element(timeout=timeout, name='READ OUR FAQ')
 
+    def btn_get_notified(self, timeout=10):
+        return self.get_element(timeout=timeout, name='GET NOTIFIED')
+
     def btn_video_no_local_station_page(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/ivVideoThumbnail')
 
@@ -46,6 +49,9 @@ class LiveTvPage(BasePage):
 
     def btn_check_availability(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnCheckAvailability')
+
+    def btn_sign_up(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnSignUp')
 
     def lst_already_have_an_account_sign_in(self, timeout=10):
         return self.get_elements(timeout=timeout, name='Already have an account? Sign In')
