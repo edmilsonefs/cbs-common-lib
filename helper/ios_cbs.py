@@ -1173,11 +1173,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         while count < kwargs['timeout']:
             if self.exists(element=self.get_element(**kwargs)):
                 result = True
-                self.unpause_video()
+                #self.unpause_video()
                 break
             else:
                 sleep(poll_every)
-                self.pause_video()
+                #self.pause_video()
                 count += poll_every
 
         self.assertTrueWithScreenShot(result, screenshot=True, msg="Should see element on video page")
