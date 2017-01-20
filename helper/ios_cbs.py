@@ -589,7 +589,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         # brings panel control up
         self.tap_by_touchaction(.25, .25)
         if not self.exists(accessibility_id='UVPSkinPlayButton'):
-            self.click(accessibility_id='UVPSkinPauseButton')
+            try:
+                self.click(accessibility_id='UVPSkinPauseButton')
+            except:
+                self.tap_by_touchaction(.25, .25)
+                self.click(accessibility_id='UVPSkinPauseButton')
 
     def unpause_video(self):
         if not self.exists(accessibility_id='UVPSkinPauseButton'):
