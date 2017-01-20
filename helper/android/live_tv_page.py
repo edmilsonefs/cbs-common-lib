@@ -35,6 +35,9 @@ class LiveTvPage(BasePage):
     def btn_read_our_faq(self, timeout=10):
         return self.get_element(timeout=timeout, name='READ OUR FAQ')
 
+    def btn_get_notified(self, timeout=10):
+        return self.get_element(timeout=timeout, name='GET NOTIFIED')
+
     def btn_video_no_local_station_page(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/ivVideoThumbnail')
 
