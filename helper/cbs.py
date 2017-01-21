@@ -1066,7 +1066,7 @@ class CommonHelper(TestlioAutomationTest):
                 self.verify_exists(
                     xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
                 self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-                self.verify_exists(xpath="//*[contains(@text,'Only $ 5.99/month')]")
+                self.verify_exists(xpath="//*[contains(@text,'Only $5.99/month')]")
                 self.verify_exists(name='SELECT')
                 self.verify_not_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                                              "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
