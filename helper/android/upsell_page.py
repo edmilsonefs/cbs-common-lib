@@ -38,10 +38,10 @@ class UpsellPage(BasePage):
         else:
             if user_type == self.ex_subscriber:
                 self.verify_exists(
-                    xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
-                self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-                self.verify_exists(xpath="//*[contains(@text,'Only $5.99/month')]")
-                self.verify_exists(name='SELECT')
+                    xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]", timeout=20)
+                self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]", timeout=20)
+                self.verify_exists(xpath="//*[contains(@text,'Only $5.99/month')]", timeout=20)
+                self.verify_exists(name='SELECT', timeout=20)
                 self.verify_not_exists(element=self.btn_try_1_week_month_free(), timeout=10)
                 self.verify_not_exists(element=self.btn_get_started(), timeout=10)
 
