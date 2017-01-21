@@ -529,11 +529,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # may help get the position correctly
         sleep(2)
 
-        # find it again to be sure we get the right positioning
-        season_elem = self._find_element(id=season_name)
-        y = season_elem.location['y'] + season_elem.size['height'] + 50
-
-        show_elem = self.find_on_page_horizontal('id', episode_title, swipe_y=y, max_swipes=20)
+        show_elem = self.find_on_page_horizontal(episode_title)
         self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists: %s" % episode_title)
 
         return show_elem
@@ -592,8 +588,11 @@ class CommonIOSHelper(TestlioAutomationTest):
             try:
                 self.click(accessibility_id='UVPSkinPauseButton')
             except:
-                self.tap_by_touchaction(.25, .25)
-                self.click(accessibility_id='UVPSkinPauseButton')
+                try:
+                    self.tap_by_touchaction(.25, .25)
+                    self.click(accessibility_id='UVPSkinPauseButton')
+                except:
+                    pass
 
     def unpause_video(self):
         if not self.exists(accessibility_id='UVPSkinPauseButton'):
@@ -606,7 +605,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         We'll find where to tap by dividing jump_time by total_time as found in the screen element
         """
         self.pause_video()
-        total_time = self.driver.find_elements_by_class_name('UIAStaticText')[-1].text
+        total_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[2]').text
 
         # total_time = minutes*60 + seconds
         total_time = float(total_time[-5:-3])*60 + float(total_time[-2:])
@@ -1040,7 +1039,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # We have to try multiple times just in case we see a "S3 Ep4" (for example) from a different show.
         # Should be extremely rare.
         for i in range(3):
-            season_ep_elem = self.find_on_page_horizontal('id', season_ep, swipe_y=y, max_swipes=20)
+            season_ep_elem = self.find_on_page_horizontal(season_ep)
             # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
             # Swipe it off the screen and try again...
             if not season_ep_elem:
@@ -1598,11 +1597,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             return self.driver.find_elements_by_class_name('UIATextField')[-1]
 
-    def find_on_page_horizontal(self, find_by, find_value, max_swipes=10, swipe_y=.5, y_below=-1):
-        if y_below == -1:
-            y_below = swipe_y
-
-        self.set_implicit_wait(0)
+    def find_on_page_horizontal(self, find_value):
         find_value_converted = ""
         if bool(re.search("S(\d+) Ep(\d+)", find_value)):
             find_value_converted = find_value.replace("S", "Season ")
@@ -1618,7 +1613,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 find_value = "Ep" + find_value_episode + find_value_season
                 find_value = find_value.split(":")[0]
 
-        elems = self.get_elements(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')]", timeout=20)
+        elems = self.get_elements(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')]", timeout=30)
 
         if len(elems) > 0:
             return elems[0]
