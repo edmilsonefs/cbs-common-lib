@@ -1599,7 +1599,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def find_on_page_horizontal(self, find_value):
         find_value_converted = ""
-        if bool(re.search("S(\d+) Ep(\d+)", find_value)):
+        if bool(re.search("S\d+ Ep\d+", find_value)):
             find_value_converted = find_value.replace("S", "Season ")
             find_value_converted = find_value_converted.replace("Ep", "Episode ")
         else:
@@ -1613,13 +1613,14 @@ class CommonIOSHelper(TestlioAutomationTest):
                 find_value = "Ep" + find_value_episode + find_value_season
                 find_value = find_value.split(":")[0]
 
-        elems = self.get_elements(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')]", timeout=30)
+        #self.set_implicit_wait(30)
+        return self.get_element(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')][1]")
+        #
+        # if len(elems) > 0:
+        #     return elems[0]
 
-        if len(elems) > 0:
-            return elems[0]
-
-        self.set_implicit_wait()
-        return False
+        # self.set_implicit_wait()
+        # return False
 
     def tap_element(self, **kwargs):
         elem = self._find_element(**kwargs)
