@@ -597,9 +597,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         try:
             self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
         except:
-            self.tap_by_touchaction(.25, .25)
-            self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
-            sleep(2)
+            try:
+                self.tap_by_touchaction(.25, .25)
+                self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
+                sleep(2)
+            except:
+                pass
 
     def jump_in_video(self, jump_time):
         """
@@ -1040,15 +1043,17 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # We have to try multiple times just in case we see a "S3 Ep4" (for example) from a different show.
         # Should be extremely rare.
-        for i in range(3):
+        season_ep_elem = self.find_on_page_horizontal(season_ep)
+        # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
+        # Swipe it off the screen and try again...
+        if not season_ep_elem:
+            self.safe_screenshot()
+            self.swipe_el_to_top_of_screen(elem=self.get_element(id='My CBS'), endy=100, startx=0, time=4000)
             season_ep_elem = self.find_on_page_horizontal(season_ep)
-            # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
-            # Swipe it off the screen and try again...
             if not season_ep_elem:
                 self.safe_screenshot()
                 self.swipe(0.4, y, 0.1, y, 1500)
-            else:
-                break
+                season_ep_elem = self.find_on_page_horizontal(season_ep)
 
         self.assertTrueWithScreenShot(season_ep_elem, screenshot=True,
                                       msg="Assert our season/episode exists: %s" % season_ep)
