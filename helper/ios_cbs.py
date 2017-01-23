@@ -1616,7 +1616,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 find_value = find_value.split(":")[0]
 
         #self.set_implicit_wait(30)
-        return self.get_element(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')][1]")
+        return self.get_element(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')][1]", timeout=60)
         #
         # if len(elems) > 0:
         #     return elems[0]
