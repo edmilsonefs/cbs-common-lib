@@ -1018,7 +1018,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert '" + show_category + "' category exists")
         y_orig = category_elem.location['y']
 
-        self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
+        # self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
 
         # For some stupid reason, it over-swipes sometimes.  Make sure it's still on the screen
         self.driver.page_source
@@ -1048,7 +1048,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Swipe it off the screen and try again...
         if not season_ep_elem:
             self.safe_screenshot()
-            self.swipe_el_to_top_of_screen(elem=self.get_element(id='My CBS'), endy=100, startx=0, time=4000)
+            self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
             season_ep_elem = self.find_on_page_horizontal(season_ep)
             if not season_ep_elem:
                 self.safe_screenshot()
