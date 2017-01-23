@@ -1205,10 +1205,10 @@ class CommonHelper(TestlioAutomationTest):
     def mvpd_logout(self):
         self.goto_settings()
         sleep(5)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         try:
             self.click(xpath='//*[contains(@text,"Disconnect from Optimum")]', data='Disconnect From Optimum')
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
             self.click(id=self.com_cbs_app + ':id/btnMvpdLogoutSettings')
             sleep(4)
             self.click(id='android:id/button1')
