@@ -35,7 +35,6 @@ class CommonHelper(TestlioAutomationTest):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
 
-
         self.init_variables()
 
     def init_variables(self):
