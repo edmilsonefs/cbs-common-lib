@@ -119,8 +119,7 @@ class BasePage(CommonIOSHelper):
     def goto_show(self, show_name):
         self.search_for(show_name)
         self.click_first_search_result()
-        t_f = (self.exists(id='MyCBSStarOutlined iPhone', timeout=30) or
-               self.exists(id='MyCBSStarOutlined iPad', timeout=0))
+        t_f = self.exists(xpath="//UIAButton[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page")
 
