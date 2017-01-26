@@ -51,49 +51,43 @@ class BasePage(CommonHelper):
     def is_drawer_open(self):
         return self.btn_discover_menu_item().is_displayed()
 
-    def is_navigate_up_visible(self):
-        return self.exists(element=self.btn_navigate_up(timeout=5))
-
-    def close_drawer(self):
-        self.back()
-
-    def goto_home(self):
+    def goto_discover(self):
         self.open_drawer()
-        self.click(element=self.btn_home_menu_item())
+        self.click(element=self.btn_shows_menu_item())
+        self.click(element=self.btn_shows_menu_item())
 
     def goto_shows(self):
         self.open_drawer()
         self.click(element=self.btn_shows_menu_item())
-        self.wait_for_show_page_to_load()
-
-    def goto_subscribe(self):
-        self.open_drawer()
-        self.click(element=self.btn_user_status_menu_item())
+        self.click(element=self.btn_shows_menu_item())
 
     def goto_live_tv(self):
         self.open_drawer()
         self.click(element=self.btn_live_tv_menu_item())
-        self.click_allow_popup()
-        self.driver.implicitly_wait(120)
-
-    def goto_schedule(self):
-        self.open_drawer()
-        self.click(element=self.btn_schedule_menu_item())
+        self.click(element=self.btn_live_tv_menu_item())
 
     def goto_settings(self):
         self.open_drawer()
         self.click(element=self.btn_settings_menu_item())
+        self.click(element=self.btn_settings_menu_item())
 
     def goto_show(self, show_name):
-        self.click(element=self.btn_search_icon(), screenshot=True)
-        self.wait_for_show_page_to_load()
+        self.goto_discover()
+        self.click(element=self.btn_search_icon())
 
         self.send_keys(data=show_name, element=self.txt_search_field())
         self._hide_keyboard()
         sleep(5)
 
-        self.click_first_search_result()
+        self.click(element=self.get_elements(timeout=10, id=self.com_cbs_app + ':id/imgPoster')[0])
         sleep(10)
+
+    def validate_menu(self):
+        self.verify_exists(element=self.btn_discover_menu_item(), screenshot=True)
+        self.verify_exists(element=self.btn_shows_menu_item())
+        self.verify_exists(element=self.btn_live_tv_menu_item())
+        self.verify_exists(element=self.btn_settings_menu_item())
+        self.verify_exists(element=self.btn_search_icon())
 
 
 
