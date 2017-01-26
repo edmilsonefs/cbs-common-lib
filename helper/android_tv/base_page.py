@@ -51,25 +51,29 @@ class BasePage(CommonHelper):
     def is_drawer_open(self):
         return self.btn_discover_menu_item().is_displayed()
 
-    def goto_discover(self):
+    def goto_discover(self, close_drawer=True):
         self.open_drawer()
         self.click(element=self.btn_shows_menu_item())
-        self.click(element=self.btn_shows_menu_item())
+        if close_drawer is True:
+            self.click(element=self.btn_shows_menu_item())
 
-    def goto_shows(self):
+    def goto_shows(self, close_drawer=True):
         self.open_drawer()
         self.click(element=self.btn_shows_menu_item())
-        self.click(element=self.btn_shows_menu_item())
+        if close_drawer is True:
+            self.click(element=self.btn_shows_menu_item())
 
-    def goto_live_tv(self):
+    def goto_live_tv(self, close_drawer=True):
         self.open_drawer()
         self.click(element=self.btn_live_tv_menu_item())
-        self.click(element=self.btn_live_tv_menu_item())
+        if close_drawer is True:
+            self.click(element=self.btn_live_tv_menu_item())
 
-    def goto_settings(self):
+    def goto_settings(self, close_drawer=True):
         self.open_drawer()
         self.click(element=self.btn_settings_menu_item())
-        self.click(element=self.btn_settings_menu_item())
+        if close_drawer is True:
+            self.click(element=self.btn_settings_menu_item())
 
     def goto_show(self, show_name):
         self.goto_discover()
@@ -88,6 +92,9 @@ class BasePage(CommonHelper):
         self.verify_exists(element=self.btn_live_tv_menu_item())
         self.verify_exists(element=self.btn_settings_menu_item())
         self.verify_exists(element=self.btn_search_icon())
+
+    def validate_menu_is_hidden(self):
+        self.assertTrueWithScreenShot(not self.is_drawer_open(), screenshot=True, msg="Menu should be hidden")
 
 
 
