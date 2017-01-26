@@ -50,7 +50,10 @@ class BasePage(CommonHelper):
         sleep(1.5)
 
     def is_drawer_open(self):
-        return self.navigation_drawer() is not False
+        try:
+            self.btn_discover_menu_item().is_displayed()
+        except:
+            return False
 
     def goto_discover(self, close_drawer=True):
         self.open_drawer()
