@@ -547,7 +547,10 @@ class CommonHelper(TestlioAutomationTest):
                         'amazon' in kybd.lower()):
                 new_kybd = kybd
 
-        self.driver.activate_ime_engine(new_kybd)
+        try:
+            self.driver.activate_ime_engine(new_kybd)
+        except:
+            pass
 
     def tap_keys_on_keyboard(self, txt):
         """

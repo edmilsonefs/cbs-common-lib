@@ -8,6 +8,7 @@ class BasePage(CommonHelper):
         self.driver = driver
         self.event = event
         self.init_variables()
+        self.com_cbs_app = 'com.cbs.ott'
 
     def btn_search_icon(self, timeout=10):
         return self.get_element(timeout=timeout, name='Search Action')
@@ -49,30 +50,30 @@ class BasePage(CommonHelper):
         sleep(1.5)
 
     def is_drawer_open(self):
-        return self.btn_discover_menu_item().is_displayed()
+        return self.navigation_drawer() is not False
 
     def goto_discover(self, close_drawer=True):
         self.open_drawer()
-        self.click(element=self.btn_shows_menu_item())
-        if close_drawer is True:
-            self.click(element=self.btn_shows_menu_item())
+        self.click(element=self.btn_discover_menu_item())
+        if close_drawer is True and self.is_drawer_open():
+            self.click(element=self.btn_discover_menu_item())
 
     def goto_shows(self, close_drawer=True):
         self.open_drawer()
         self.click(element=self.btn_shows_menu_item())
-        if close_drawer is True:
+        if close_drawer is True and self.is_drawer_open():
             self.click(element=self.btn_shows_menu_item())
 
     def goto_live_tv(self, close_drawer=True):
         self.open_drawer()
         self.click(element=self.btn_live_tv_menu_item())
-        if close_drawer is True:
+        if close_drawer is True and self.is_drawer_open():
             self.click(element=self.btn_live_tv_menu_item())
 
     def goto_settings(self, close_drawer=True):
         self.open_drawer()
         self.click(element=self.btn_settings_menu_item())
-        if close_drawer is True:
+        if close_drawer is True and self.is_drawer_open():
             self.click(element=self.btn_settings_menu_item())
 
     def goto_show(self, show_name):
