@@ -32,7 +32,7 @@ class BasePage(CommonHelper):
         return self.get_element(timeout=timeout, name='LIVE TV')
 
     def btn_settings_menu_item(self, timeout=10):
-        return self.get_element(timeout=timeout, name='SETTINGS')
+        return self.navigation_drawer(timeout=timeout).find_element_by_name('SETTINGS')
 
     def get_menu_item_with_text(self, text, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_name(text)
@@ -50,7 +50,7 @@ class BasePage(CommonHelper):
         sleep(1.5)
 
     def is_drawer_open(self):
-        return self.btn_discover_menu_item() is not False
+        return self.btn_discover_menu_item(timeout=1) is not False
 
     def goto_discover(self, close_drawer=True):
         self.open_drawer()
@@ -92,7 +92,7 @@ class BasePage(CommonHelper):
         self.verify_exists(element=self.btn_shows_menu_item())
         self.verify_exists(element=self.btn_live_tv_menu_item())
         self.verify_exists(element=self.btn_settings_menu_item())
-        self.verify_exists(element=self.btn_search_icon())
+        # self.verify_exists(element=self.btn_search_icon())
 
     def validate_menu_is_hidden(self):
         self.assertTrueWithScreenShot(not self.is_drawer_open(), screenshot=True, msg="Menu should be hidden")

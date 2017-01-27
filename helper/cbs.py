@@ -41,7 +41,7 @@ class CommonHelper(TestlioAutomationTest):
         if os.getenv('LOCAL') is None:
             self.testdroid_device = self.get_testdroid_device_from_adb()
         self.activate_standard_keyboard()
-        self.driver.orientation = 'PORTRAIT'
+        #self.driver.orientation = 'PORTRAIT'
         if 'Nexus 7' in self.testdroid_device \
                 or 'KFTBWI' in self.testdroid_device:
             self.tablet = True
