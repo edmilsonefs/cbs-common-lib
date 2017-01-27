@@ -23,16 +23,16 @@ class BasePage(CommonHelper):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/lb_search_text_editor')
 
     def btn_discover_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('DISCOVER')
+        return self.get_element(timeout=timeout, name='DISCOVER')
 
     def btn_shows_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('SHOWS')
+        return self.get_element(timeout=timeout, name='SHOWS')
 
     def btn_live_tv_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('LIVE TV')
+        return self.get_element(timeout=timeout, name='LIVE TV')
 
     def btn_settings_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('SETTINGS')
+        return self.get_element(timeout=timeout, name='SETTINGS')
 
     def get_menu_item_with_text(self, text, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_name(text)
@@ -50,10 +50,7 @@ class BasePage(CommonHelper):
         sleep(1.5)
 
     def is_drawer_open(self):
-        try:
-            self.btn_discover_menu_item().is_displayed()
-        except:
-            return False
+        return self.btn_discover_menu_item() is not False
 
     def goto_discover(self, close_drawer=True):
         self.open_drawer()
@@ -80,7 +77,7 @@ class BasePage(CommonHelper):
             self.click(element=self.btn_settings_menu_item())
 
     def goto_show(self, show_name):
-        self.goto_discover()
+        self.goto_discover(close_drawer=False)
         self.click(element=self.btn_search_icon())
 
         self.send_keys(data=show_name, element=self.txt_search_field())
