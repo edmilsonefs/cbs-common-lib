@@ -102,8 +102,6 @@ class LiveTvPage(BasePage):
         self.click(element=self.btn_provider_logo())
 
     def validate_page(self, user_type="anonymous"):
-        if self.exists(name='Allow', timeout=10):
-            self.click_allow_popup()
         self.verify_exists(element=self.lbl_title())
         if self.phone:
             self.verify_exists(element=self.btn_hamburger_menu())
