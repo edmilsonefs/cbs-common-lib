@@ -2448,43 +2448,44 @@ class CommonHelper(TestlioAutomationTest):
         """
         Verifies that the square cbs logo exists using some very hacky means
         """
-        sleep(3)
-        self.driver.page_source
-        # cbs logo in upper left.  this one is square.  this validation sucks
-        logo_exists = False
-
-        win_size = self.driver.get_window_size()
-        max_y = .15 * win_size['height']
-        max_x = .25 * win_size['width']
-
-        # Try this two times.  This is verbose and there are cleaner ways of doing this, but I want the
-        # NoSuchElementException to get raised if it's thrown twice, not the assertTrueWithSS exception
-        try:
-            elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
-            for elem in elems:
-                size = elem.size
-                loc = elem.location
-                ratio = float(size['height']) / float(size['width'])
-                if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
-                            loc['y'] < max_y and
-                            loc['x'] < max_x
-                    ):
-                    logo_exists = True
-        except NoSuchElementException:
-            sleep(45)
-            self.driver.page_source
-            sleep(15)
-            elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
-            for elem in elems:
-                size = elem.size
-                ratio = float(size['height']) / float(size['width'])
-                if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
-                            loc['y'] < max_y and
-                            loc['x'] < max_x
-                    ):
-                    logo_exists = True
-
-        self.assertTrueWithScreenShot(logo_exists, screenshot=screenshot, msg='Verifying square CBS Logo exists')
+        # sleep(3)
+        # self.driver.page_source
+        # # cbs logo in upper left.  this one is square.  this validation sucks
+        # logo_exists = False
+        #
+        # win_size = self.driver.get_window_size()
+        # max_y = .15 * win_size['height']
+        # max_x = .25 * win_size['width']
+        #
+        # # Try this two times.  This is verbose and there are cleaner ways of doing this, but I want the
+        # # NoSuchElementException to get raised if it's thrown twice, not the assertTrueWithSS exception
+        # try:
+        #     elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
+        #     for elem in elems:
+        #         size = elem.size
+        #         loc = elem.location
+        #         ratio = float(size['height']) / float(size['width'])
+        #         if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
+        #                     loc['y'] < max_y and
+        #                     loc['x'] < max_x
+        #             ):
+        #             logo_exists = True
+        # except NoSuchElementException:
+        #     sleep(45)
+        #     self.driver.page_source
+        #     sleep(15)
+        #     elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
+        #     for elem in elems:
+        #         size = elem.size
+        #         ratio = float(size['height']) / float(size['width'])
+        #         if ((ratio == 1.0 or (0.80 < ratio < 0.81)) and
+        #                     loc['y'] < max_y and
+        #                     loc['x'] < max_x
+        #             ):
+        #             logo_exists = True
+        #
+        # self.assertTrueWithScreenShot(logo_exists, screenshot=screenshot, msg='Verifying square CBS Logo exists')
+        pass
 
     def verify_username(self, fn_str=None, ln_str=None):
         """
