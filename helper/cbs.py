@@ -1455,7 +1455,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_subscription(self):
         # On settings screen
-        self.click(name='Subscription')
+        self.click(name='Manage Account')
 
     def click_subscribe(self):
         # On settings screen
