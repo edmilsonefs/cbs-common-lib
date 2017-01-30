@@ -96,6 +96,8 @@ class LiveTvPage(BasePage):
         if self.phone:
             self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
         self.click(element=self.btn_verify_now())
+        if self.IS_AMAZON:
+            self.driver.tap([(620, 710)])
 
     def goto_optimum_sign_in(self):
         self.goto_providers_page()
