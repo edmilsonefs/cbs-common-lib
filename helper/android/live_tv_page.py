@@ -1,5 +1,4 @@
 from time import sleep
-
 from helper.android.base_page import BasePage
 
 
@@ -96,12 +95,18 @@ class LiveTvPage(BasePage):
         if self.phone:
             self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
         self.click(element=self.btn_verify_now())
+        sleep(5)
+        self.event.screenshot(self.screenshot())
         if self.IS_AMAZON:
             self.driver.tap([(620, 710)])
+        self.event.screenshot(self.screenshot())
 
     def goto_optimum_sign_in(self):
         self.goto_providers_page()
         self.click(element=self.btn_provider_logo())
+        if self.IS_AMAZON:
+            self.driver.tap([(620, 710)])
+        self.event.screenshot(self.screenshot())
 
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.lbl_title())
