@@ -8,6 +8,9 @@ class SchedulePage(BasePage):
     def lbl_title(self, timeout=10):
         return self.top_toolbar(timeout=timeout).find_element_by_name('Schedule')
 
+    def lst_shows_icon(self, timeout=10):
+        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/title')
+
     def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())

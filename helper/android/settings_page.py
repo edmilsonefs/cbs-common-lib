@@ -30,26 +30,82 @@ class SettingsPage(BasePage):
     def btn_sign_out(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/signOutButton')
 
+    def btn_faq(self, timeout=10):
+        return self.get_element(timeout=timeout, name='FAQ')
+
+    def btn_app_version_tablet(self, timeout=10):
+        return self.get_element(timeout=timeout, name='App Version')
+
+    def btn_terms_of_use(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Terms of Use')
+
+    def btn_privacy_policy(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Privacy Policy')
+
+    def btn_mobile_user_agreement(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Mobile User Agreement')
+
+    def btn_video_services(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Video Services')
+
+    def btn_closed_captions(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Closet Captions')
+
+    def btn_send_feedback(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Send Feedback')
+
+    def btn_manage_account(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Manage Account')
+
+    def btn_limited_commercials(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Limited Commercials')
+
+    def btn_commercial_free(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Commercial Free')
+
+    def btn_subscribe(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Subscribe')
+
+    def btn_update(self, timeout=10):
+        return self.get_element(timeout=timeout, id= self.com_cbs_app + ':id/updateButton')
+
+    def btn_app_version_phone(self, timeout=10):
+        return self.get_element(timeout=timeout, id= self.com_cbs_app + ':id/appVersionTextView')
+
+    def txt_cbs(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/cbsTextView')
+
+    def cbs_icon(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/appIcon')
+
     def validate_page(self):
-        self.verify_exists(name='Subscribe', screenshot=True)
+        if self.user_type in [self.anonymous, self.ex_subscriber, self.registered]:
+            self.verify_exists(element=self.btn_subscribe)
+        if self.user_type in [self.subscriber, self.trial]:
+            self.verify_exists(element=self.btn_manage_account())
+            if self.phone:
+                self.verify_exists(element=self.btn_limited_commercials())
+        if self.user_type == self.cf_subscriber:
+            self.verify_exists(element=self.btn_manage_account())
+            if self.phone:
+                self.verify_exists(element=self.btn_commercial_free())
         if self.tablet:
-            self.verify_exists(name='App Version')
+            self.verify_exists(element=self.btn_app_version_tablet)
         if self.phone:
-            self.verify_exists(id=self.com_cbs_app + ':id/appIcon')
-            self.verify_exists(id=self.com_cbs_app + ':id/appVersionTextView')
-            self.verify_exists(id=self.com_cbs_app + ':id/cbsTextView')
-            self.verify_exists(id=self.com_cbs_app + ':id/updateButton')
-        self.verify_exists(name='Send Feedback')
-        # self.verify_exists(name='Push Notifications')
-        self.verify_exists(name='FAQ')
-        self.verify_exists(name='Terms of Use')
+            self.verify_exists(element=self.cbs_icon)
+            self.verify_exists(element=self.btn_app_version_phone)
+            self.verify_exists(element=self.txt_cbs)
+            self.verify_exists(element=self.btn_update)
+        self.verify_exists(element=self.btn_send_feedback())
+        self.verify_exists(element=self.btn_faq())
+        self.verify_exists(element=self.btn_terms_of_use())
         if self.phone:
             self._short_swipe_down(duration=2000)
-        self.verify_exists(name='Privacy Policy')
-        self.verify_exists(name='Mobile User Agreement')
-        self.verify_exists(name='Video Services')
-        self.verify_exists(name='Nielsen Info & Your Choices')
-        self.verify_exists(name='Closed Captions')
+        self.verify_exists(element=self.btn_privacy_policy())
+        self.verify_exists(element=self.btn_mobile_user_agreement())
+        self.verify_exists(element=self.btn_video_services())
+        self.verify_exists(element=self.btn_nielsen())
+        self.verify_exists(element=self.btn_closed_captions())
 
     def goto_nielsen_info_page(self):
         self.goto_settings()
