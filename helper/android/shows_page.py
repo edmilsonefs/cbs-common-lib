@@ -8,6 +8,31 @@ class ShowsPage(BasePage):
     def lbl_title(self, timeout=10):
         return self.top_toolbar(timeout=timeout).find_element_by_name('Shows')
 
+    def btn_all_shows(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('All Shows')
+
+    def btn_featured(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('Featured')
+
+    def btn_primetime(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('Primetime')
+
+    def btn_daytime(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('Daytime')
+
+    def btn_latenight(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('Late Night')
+
+    def btn_specials(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('Specials')
+
+    def btn_news(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('News')
+
+    def btn_classics(self, timeout=10):
+        return self.top_toolbar(timeout=timeout).find_element_by_name('Classics')
+
+
     def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())
