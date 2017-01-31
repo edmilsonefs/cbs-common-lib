@@ -9,29 +9,31 @@ class ShowsPage(BasePage):
         return self.top_toolbar(timeout=timeout).find_element_by_name('Shows')
 
     def btn_all_shows(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('All Shows')
+        return self.get_element(timeout=timeout, name='All Shows')
 
     def btn_featured(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Featured')
+        return self.get_element(timeout=timeout, name='Featured')
 
     def btn_primetime(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Primetime')
+        return self.get_element(timeout=timeout, name='Primetime')
 
     def btn_daytime(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Daytime')
+        return self.get_element(timeout=timeout, name='Daytime')
 
     def btn_latenight(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Late Night')
+        return self.get_element(timeout=timeout, name='Late Night')
 
     def btn_specials(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Specials')
+        return self.get_element(timeout=timeout, name='Specials')
 
     def btn_news(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('News')
+        return self.get_element(timeout=timeout, name='News')
 
     def btn_classics(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Classics')
+        return self.get_element(timeout=timeout, name='Classics')
 
+    def lst_shows_icons(self, timeout=10):
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/showImage')
 
     def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
