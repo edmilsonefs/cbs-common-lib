@@ -621,17 +621,19 @@ class CommonIOSHelper(TestlioAutomationTest):
         seek_pct = jump_time / total_time_text
 
         seek_bar = self._find_element(class_name='UIASlider')
+        seek_bar_size = seek_bar.size['width'] - current_time.size['width'] - total_time.size['width']
+        seek_bar_percentage = float(float(str(seek_bar.get_attribute("value"))[:-1]) / 100)
 
         # width * seek_pct is how far over in the bar to tap
-        seek_bar_end_x = seek_bar.location['x'] + seek_bar.size['width'] * seek_pct
+        seek_bar_end_x = seek_bar.location['x'] + (seek_bar.size['width'] * seek_pct) - total_time.size['width']
 
         # this is just the vertical middle of the seek bar
         seek_bar_end_y = seek_bar.location['y'] + seek_bar.size['height']/2
 
-        seek_bar_start_x = seek_bar.location['x']
+        seek_bar_start_x = seek_bar.location['x'] + current_time.size['width'] + (seek_bar_size * seek_bar_percentage)
 
         while seek_bar_start_x < seek_bar_end_x:
-            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 500)
+            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 2000)
             seek_bar_start_x += 15
             print seek_bar_start_x
 
