@@ -610,12 +610,15 @@ class CommonIOSHelper(TestlioAutomationTest):
         We'll find where to tap by dividing jump_time by total_time as found in the screen element
         """
         self.pause_video()
-        total_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[2]').text
+        current_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[1]')
+        current_time_text = current_time.text
+        total_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[2]')
+        total_time_text = total_time.text
 
         # total_time = minutes*60 + seconds
-        total_time = float(total_time[-5:-3])*60 + float(total_time[-2:])
+        total_time_text = float(total_time_text[-5:-3])*60 + float(total_time_text[-2:])
 
-        seek_pct = jump_time / total_time
+        seek_pct = jump_time / total_time_text
 
         seek_bar = self._find_element(class_name='UIASlider')
 
