@@ -33,7 +33,7 @@ class ShowsPage(BasePage):
         return self.get_element(timeout=timeout, name='Classics')
 
     def lst_shows_icons(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/showImage')
+        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/showImage')
 
     def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)

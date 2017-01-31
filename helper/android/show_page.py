@@ -20,6 +20,36 @@ class ShowPage(BasePage):
     def show_page_header(self, timeout=10):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/imgHeader')
 
+    def btn_clips(self, timeout=10):
+        self.get_element(timeout=timeout, name='Clips')
+
+    def btn_free(self, timeout=10):
+        self.get_element(timeout=timeout, name='Free')
+
+    def btn_full_episodes(self, timeout=10):
+        self.get_element(timeout=timeout, name='Full Episodes')
+
+    def btn_more_options(self, timeout=10):
+        self.get_element(timeout=timeout, name='More options')
+
+    def btn_like_on_facebook(self, timeout=10):
+        self.get_element(timeout=timeout, name='Like on Facebook')
+
+    def btn_follow_on_twitter(self, timeout=10):
+        self.get_element(timeout=timeout, name='Follow on Twitter')
+
+    def btn_share(self, timeout=10):
+        self.get_element(timeout=timeout, name='Share')
+
+    def btn_see_all(self, timeout=10):
+        self.get_element(timeout=timeout, name='See all')
+
+    def btn_show_info(self, timeout=10):
+        self.get_element(timeout=timeout, name='Show Info')
+
+    def btn_my_cbs(self, timeout=10):
+        self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgMyCbsToggle')
+
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())
