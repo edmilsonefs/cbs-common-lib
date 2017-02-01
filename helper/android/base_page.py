@@ -57,6 +57,12 @@ class BasePage(CommonHelper):
     def btn_settings_menu_item(self, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_name('Settings')
 
+    def btn_upgrade_menu_item(self, timeout=10):
+        return self.navigation_drawer(timeout=timeout).find_element_by_name('Upgrade')
+
+    def btn_subscribe_menu_item(self, timeout=10):
+        return self.navigation_drawer(timeout=timeout).find_element_by_name('Subscribe')
+
     def get_menu_item_with_text(self, text, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_name(text)
 
@@ -127,6 +133,24 @@ class BasePage(CommonHelper):
         self.click_first_search_result()
         sleep(10)
 
+    def validate_menu_page(self, name):
+        if self.user_type == self.anonymous:
+            self.verify_exists(element=self.btn_sign_in_menu_item())
+        else:
+            self.verify_exists(name=name)
+        if self.user_type in [self.subscriber, self.trial]:
+            self.verify_exists(element=self.btn_upgrade_menu_item())
+        elif self.user_type == self.cf_subscriber:
+            self.verify_not_exists(element=self.btn_upgrade_menu_item())
+            self.verify_not_exists(element=self.btn_subscribe_menu_item())
+        else:
+            self.verify_exists(element=self.btn_subscribe_menu_item())
+        self.verify_exists(element=self.btn_settings_menu_item(), screenshot=True)
+        self.verify_exists(element=self.btn_home_menu_item())
+        self.verify_exists(element=self.btn_shows_menu_item())
+        self.verify_exists(element=self.btn_live_tv_menu_item())
+        self.verify_exists(element=self.btn_schedule_menu_item())
+        self.verify_exists(element=self.btn_shop_menu_item())
 
 
 
