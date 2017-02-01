@@ -49,7 +49,7 @@ class SettingsPage(BasePage):
         return self.get_element(timeout=timeout, name='Video Services')
 
     def btn_closed_captions(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Closet Captions')
+        return self.get_element(timeout=timeout, name='Closed Captions')
 
     def btn_send_feedback(self, timeout=10):
         return self.get_element(timeout=timeout, name='Send Feedback')
