@@ -115,8 +115,6 @@ class LiveTvPage(BasePage):
         else:
             self.verify_exists(element=self.btn_navigate_up())
         if self.user_type in [self.subscriber, self.cf_subscriber, self.trial]:
-            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv())
-            self.verify_exists(element=self.img_logo())
             if self.phone:
                 self.verify_exists(element=self.btn_start_watching())
             else:
@@ -124,8 +122,12 @@ class LiveTvPage(BasePage):
         if self.user_type == self.anonymous:
             self.verify_exists(element=self.lst_already_have_an_account_sign_in()[0])
         if self.user_type in [self.anonymous, self.registered]:
+            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv())
+            self.verify_exists(element=self.img_logo())
             self.verify_exists(element=self.btn_try_1_week_month_free())
         elif self.user_type == self.ex_subscriber:
+            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv())
+            self.verify_exists(element=self.img_logo())
             self.verify_exists(element=self.btn_get_started())
         if self.phone:
             self._short_swipe_down()
