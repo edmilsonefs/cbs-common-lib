@@ -35,10 +35,8 @@ class ShowsPage(BasePage):
     def txt_want_to_see(self, timeout=10):
         self.get_element(timeout=timeout, name='I want to see:')
 
-
     def lst_shows_icons(self, timeout=10):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/showImage')
-
 
     def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)

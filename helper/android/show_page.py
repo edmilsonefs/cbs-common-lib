@@ -68,14 +68,14 @@ class ShowPage(BasePage):
     def txt_episode_description(self, timeout=10):
         self.get_element(timeout=timeout, id=':id/txtDescription')
 
-    def validate_page(self, user_type="anonymous"):
+    def validate_page(self):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
-        # self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
-        self.verify_exists(name='More options')
-        # self.verify_exists(xpath="//*[@resource-id='" + self.com_cbs_app + ":id/imgMyCbsToggle']")
-        if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+        self.verify_exists(element=self.lst_video_icons())
+        self.verify_exists(element=self.btn_more_options())
+        self.verify_exists(element=self.btn_my_cbs())
+        if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
             self.verify_exists(element=self.btn_episode_indicator())
         else:
             self.verify_not_exists(element=self.btn_episode_indicator())
