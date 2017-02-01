@@ -21,58 +21,58 @@ class ShowPage(BasePage):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/imgHeader')
 
     def btn_clips(self, timeout=10):
-        self.get_element(timeout=timeout, name='Clips')
+        return self.get_element(timeout=timeout, name='Clips')
 
     def btn_free(self, timeout=10):
-        self.get_element(timeout=timeout, name='Free')
+        return self.get_element(timeout=timeout, name='Free')
 
     def btn_full_episodes(self, timeout=10):
-        self.get_element(timeout=timeout, name='Full Episodes')
+        return self.get_element(timeout=timeout, name='Full Episodes')
 
     def btn_more_options(self, timeout=10):
-        self.get_element(timeout=timeout, name='More options')
+        return self.get_element(timeout=timeout, name='More options')
 
     def btn_like_on_facebook(self, timeout=10):
-        self.get_element(timeout=timeout, name='Like on Facebook')
+        return self.get_element(timeout=timeout, name='Like on Facebook')
 
     def btn_follow_on_twitter(self, timeout=10):
-        self.get_element(timeout=timeout, name='Follow on Twitter')
+        return self.get_element(timeout=timeout, name='Follow on Twitter')
 
     def btn_add_to_calendar(self, timeout=10):
-        self.get_element(timeout=timeout, name='Add to Calendar')
+        return self.get_element(timeout=timeout, name='Add to Calendar')
 
     def btn_share(self, timeout=10):
-        self.get_element(timeout=timeout, name='Share')
+        return self.get_element(timeout=timeout, name='Share')
 
     def btn_see_all(self, timeout=10):
-        self.get_element(timeout=timeout, name='See all')
+        return self.get_element(timeout=timeout, name='See all')
 
     def btn_show_info(self, timeout=10):
-        self.get_element(timeout=timeout, name='Show Info')
+        return self.get_element(timeout=timeout, name='Show Info')
 
     def btn_my_cbs(self, timeout=10):
-        self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgMyCbsToggle')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgMyCbsToggle')
 
     def btn_watch_episode(self, timeout=10):
-        self.get_element(timeout=timeout, name='Watch Episode')
+        return self.get_element(timeout=timeout, name='Watch Episode')
 
     def txt_all_access_episode(self, timeout=10):
-        self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtAllAccessEpisodes')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtAllAccessEpisodes')
 
     def txt_show_name(self, timeout=10):
-        self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtShowName')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtShowName')
 
     def txt_episode_name(self, timeout=10):
-        self.get_element(timeout=timeout, id=':id/txtEpisodeName')
+        return self.get_element(timeout=timeout, id=':id/txtEpisodeName')
 
     def txt_air_date(self, timeout=10):
-        self.get_element(timeout=timeout, id=':id/txtAirDate')
+        return self.get_element(timeout=timeout, id=':id/txtAirDate')
 
     def txt_episode_description(self, timeout=10):
-        self.get_element(timeout=timeout, id=':id/txtDescription')
+        return self.get_element(timeout=timeout, id=':id/txtDescription')
 
     def txt_season_episode(self, timeout=10):
-        self.get_element(timeout=timeout, id=':id/seasonEpisode')
+        return self.get_element(timeout=timeout, id=':id/seasonEpisode')
 
     def validate_page(self):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
