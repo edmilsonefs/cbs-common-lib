@@ -68,6 +68,9 @@ class ShowPage(BasePage):
     def txt_episode_description(self, timeout=10):
         self.get_element(timeout=timeout, id=':id/txtDescription')
 
+    def txt_season_episode(self, timeout=10):
+        self.get_element(timeout=timeout, id=':id/seasonEpisode')
+
     def validate_page(self):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())
@@ -79,6 +82,13 @@ class ShowPage(BasePage):
             self.verify_exists(element=self.btn_episode_indicator())
         else:
             self.verify_not_exists(element=self.btn_episode_indicator())
+
+    def validate_show_more_info_page(self):
+        self.verify_exists(element=self.show_name(), screenshot=True)
+        self.verify_exists(element=self.txt_season_episode())
+        self.verify_exists(element=self.txt_episode_name())
+        self.verify_exists(element=self.txt_air_date())
+        self.verify_exists(element=self.btn_watch_episode())
 
     def click_all_access_video(self):
         if self.exists(name='paid', timeout=10):
