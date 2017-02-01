@@ -46,3 +46,14 @@ class ShowsPage(BasePage):
         self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
         self.verify_exists(xpath="//*[@text='All Shows']")
         self.verify_exists(id=self.com_cbs_app + ':id/showImage')
+
+    def validate_all_shows_dropdown_menu(self):
+        self.verify_exists(element=self.btn_all_shows(), screenshot=True)
+        self.verify_exists(element=self.btn_featured())
+        self.verify_exists(element=self.btn_primetime())
+        self.verify_exists(element=self.btn_daytime())
+        self.verify_exists(element=self.btn_latenight())
+        self.verify_exists(element=self.btn_specials())
+        self.verify_exists(element=self.btn_news())
+        self.verify_exists(element=self.btn_classics())
+

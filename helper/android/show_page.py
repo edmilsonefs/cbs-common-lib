@@ -38,6 +38,9 @@ class ShowPage(BasePage):
     def btn_follow_on_twitter(self, timeout=10):
         self.get_element(timeout=timeout, name='Follow on Twitter')
 
+    def btn_add_to_calendar(self, timeout=10):
+        self.get_element(timeout=timeout, name='Add to Calendar')
+
     def btn_share(self, timeout=10):
         self.get_element(timeout=timeout, name='Share')
 
@@ -89,6 +92,13 @@ class ShowPage(BasePage):
         self.verify_exists(element=self.txt_episode_name())
         self.verify_exists(element=self.txt_air_date())
         self.verify_exists(element=self.btn_watch_episode())
+
+    def validate_more_options_menu(self):
+        self.verify_exists(element=self.btn_like_on_facebook(), screenshot=True)
+        self.verify_exists(element=self.btn_follow_on_twitter())
+        self.verify_exists(element=self.btn_share())
+        self.verify_exists(element=self.btn_add_to_calendar())
+        self.verify_exists(element=self.btn_show_info())
 
     def click_all_access_video(self):
         if self.exists(name='paid', timeout=10):

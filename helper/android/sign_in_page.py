@@ -35,6 +35,12 @@ class SignInPage(BasePage):
     def btn_terms_accept_submit(self, timeout=10):
         return self.get_element(timeout=timeout, name='SUBMIT')
 
+    def btn_terms_cancel_submit(self, timeout=10):
+        return self.get_element(timeout=timeout, name='CANCEL')
+
+    def txt_terms_have_changed(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Our Terms Have Changed')
+
     def btn_facebook_ok(self, timeout=10):
         return self.get_element(timeout=timeout, name='OK ')
 
