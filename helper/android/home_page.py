@@ -13,6 +13,27 @@ class HomePage(BasePage):
     def lst_home_video_icons(self, timeout=10):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ":id/videoImage")
 
+    def txt_welcome_to_cbs(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Welcome to the CBS app')
+
+    def txt_by_using_this_app(self, timeout=10):
+        return self.get_element(timeout=timeout, name='By using this CBS Application, you agree to our:')
+
+    def btn_terms_of_use(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Terms of Use')
+
+    def btn_mobile_user_agreement(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Mobile User Agreement')
+
+    def btn_privacy_policy(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Privacy Policy')
+
+    def btn_video_services(self, timeout=10):
+        return self.get_element(timeout=timeout, name='Video Services')
+
+    def btn_accept(self, timeout=10):
+        return self.get_element(timeout=timeout, name='ACCEPT')
+
     def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())
@@ -38,3 +59,13 @@ class HomePage(BasePage):
                     break
                 else:
                     count += 1
+
+    def validate_tou_page(self):
+
+        self.verify_exists(element=self.txt_welcome_to_cbs(), screenshot=True)
+        self.verify_exists(element=self.txt_by_using_this_app())
+        self.verify_exists(element=self.btn_terms_of_use())
+        self.verify_exists(element=self.btn_mobile_user_agreement())
+        self.verify_exists(element=self.btn_privacy_policy())
+        self.verify_exists(element=self.btn_video_services())
+        self.verify_exists(element=self.btn_accept())

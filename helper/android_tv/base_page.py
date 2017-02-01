@@ -80,7 +80,7 @@ class BasePage(CommonHelper):
         self.goto_discover(close_drawer=False)
         self.click(element=self.btn_search_icon())
 
-        self.send_keys(data=show_name, element=self.txt_search_field())
+        self.send_keys(data=show_name, element=self.txt_search_field(timeout=60))
         self._hide_keyboard()
         sleep(5)
 

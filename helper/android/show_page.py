@@ -38,6 +38,9 @@ class ShowPage(BasePage):
     def btn_follow_on_twitter(self, timeout=10):
         self.get_element(timeout=timeout, name='Follow on Twitter')
 
+    def btn_add_to_calendar(self, timeout=10):
+        self.get_element(timeout=timeout, name='Add to Calendar')
+
     def btn_share(self, timeout=10):
         self.get_element(timeout=timeout, name='Share')
 
@@ -68,17 +71,34 @@ class ShowPage(BasePage):
     def txt_episode_description(self, timeout=10):
         self.get_element(timeout=timeout, id=':id/txtDescription')
 
-    def validate_page(self, user_type="anonymous"):
+    def txt_season_episode(self, timeout=10):
+        self.get_element(timeout=timeout, id=':id/seasonEpisode')
+
+    def validate_page(self):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
-        # self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
-        self.verify_exists(name='More options')
-        # self.verify_exists(xpath="//*[@resource-id='" + self.com_cbs_app + ":id/imgMyCbsToggle']")
-        if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+        self.verify_exists(element=self.lst_video_icons())
+        self.verify_exists(element=self.btn_more_options())
+        self.verify_exists(element=self.btn_my_cbs())
+        if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
             self.verify_exists(element=self.btn_episode_indicator())
         else:
             self.verify_not_exists(element=self.btn_episode_indicator())
+
+    def validate_show_more_info_page(self):
+        self.verify_exists(element=self.show_name(), screenshot=True)
+        self.verify_exists(element=self.txt_season_episode())
+        self.verify_exists(element=self.txt_episode_name())
+        self.verify_exists(element=self.txt_air_date())
+        self.verify_exists(element=self.btn_watch_episode())
+
+    def validate_more_options_menu(self):
+        self.verify_exists(element=self.btn_like_on_facebook(), screenshot=True)
+        self.verify_exists(element=self.btn_follow_on_twitter())
+        self.verify_exists(element=self.btn_share())
+        self.verify_exists(element=self.btn_add_to_calendar())
+        self.verify_exists(element=self.btn_show_info())
 
     def click_all_access_video(self):
         if self.exists(name='paid', timeout=10):
