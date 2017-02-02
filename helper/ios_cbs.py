@@ -196,6 +196,14 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
+    def goto_show_with_extended_search(self, show_name):
+        self.search_for_extended(show_name)
+        self.safe_screenshot()
+        self.click_first_search_result()
+        t_f = self.exists(xpath="//UIAButton[contains(@name,'MyCBSStar')]", timeout=30)
+
+        self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
+
     def goto_sign_in(self):
         self.open_drawer()
         elems = self.driver.find_elements_by_xpath("//*[@name='Sign In']")
@@ -230,9 +238,25 @@ class CommonIOSHelper(TestlioAutomationTest):
         e = self.find_search_text()
         self.send_keys(element=e, data=what_to_search_for)
 
+    def enter_search_text_extended(self, what_to_search_for):
+        count = 0
+        e = self.find_search_text()
+        for i in range(0, len(what_to_search_for)):
+            self.send_keys(element=e, data=what_to_search_for[i])
+            if count >= 2:
+                if self.exists(element=self.get_element(id="No Shows Found", timeout=5)):
+                    self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
+                if len(self.get_elements(xpath="//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell")) == 1:
+                    break
+            count += 1
+
     def search_for(self, what_to_search_for):
         self.click_search_icon()
         self.enter_search_text(what_to_search_for)
+
+    def search_for_extended(self, what_to_search_for): # method to search by typing symbol by symbol
+        self.click_search_icon()
+        self.enter_search_text_extended(what_to_search_for)
 
     def click_first_search_result(self):
         element = self.get_search_result_episode_count_element()
