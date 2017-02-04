@@ -147,7 +147,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 except Exception:
                     pass
 
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
             continue_button.click()
 
             # wait for the login to happen
@@ -1004,7 +1004,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         e = self.find_on_page('accessibility_id', 'Primetime Episodes')
         if screenshot:
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
 
         if not e:
             raise RuntimeError('Failed finding "Primetime Episodes" on page.')
@@ -1020,7 +1020,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             sleep(.5)
 
             if screenshot:
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
 
             self.tap(.15, .53)
 
@@ -1715,7 +1715,6 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
-                self.event.screenshot(self.screenshot())
             except:
                 try:
                     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
@@ -1723,8 +1722,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                     self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                     self.click(accessibility_id='CONTINUE')
                     sleep(3)
-                    self.event.screenshot(self.screenshot())
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
             self.driver.implicitly_wait(30)
 
     ####################################################################################
