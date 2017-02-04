@@ -131,4 +131,4 @@ class LiveTvPage(BasePage):
             self.verify_exists(element=self.btn_get_started())
         if self.phone:
             self._short_swipe_down()
-        self.verify_exists(element=self.btn_verify_now())
+        # self.verify_exists(element=self.btn_verify_now()) TODO : should it be here?
