@@ -177,7 +177,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_live_tv(self):
         self.open_drawer()
-        self.click(id='Live TV')
+        self.event.screenshot(self.screenshot())
+        self.click(id='Live TV', screenshot=True)
         self._accept_alert(2)
 
     def goto_schedule(self):
@@ -207,7 +208,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_sign_in(self):
         self.open_drawer()
         elems = self.driver.find_elements_by_xpath("//*[@name='Sign In']")
-        self.click(element=elems[0])
+        self.click(element=elems[0], screenshot=True)
 
     def sign_out(self):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
@@ -1803,7 +1804,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # Live TV
 
     def select_verify_now(self):
-        self.click(id='VERIFY NOW')
+        self.click(id='VERIFY NOW', screenshot=True)
 
     def select_optimum_from_provider_page(self):
         self.click(xpath='//UIACollectionCell[2]')
