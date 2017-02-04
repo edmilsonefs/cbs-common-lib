@@ -108,24 +108,24 @@ class LiveTvPage(BasePage):
             self.driver.tap([(620, 710)])
         self.event.screenshot(self.screenshot())
 
-    def validate_page(self):
+    def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.lbl_title())
         if self.phone:
             self.verify_exists(element=self.btn_hamburger_menu())
         else:
             self.verify_exists(element=self.btn_navigate_up())
-        if self.user_type in [self.subscriber, self.cf_subscriber, self.trial]:
+        if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
             if self.phone:
                 self.verify_exists(element=self.btn_start_watching())
             else:
                 self.verify_exists(id=self.com_cbs_app + ':id/videoPlayerContainer', screenshot=True)
-        if self.user_type == self.anonymous:
+        if user_type == self.anonymous:
             self.verify_exists(element=self.lst_already_have_an_account_sign_in()[0])
-        if self.user_type in [self.anonymous, self.registered]:
+        if user_type in [self.anonymous, self.registered]:
             self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv())
             self.verify_exists(element=self.img_logo())
             self.verify_exists(element=self.btn_try_1_week_month_free())
-        elif self.user_type == self.ex_subscriber:
+        elif user_type == self.ex_subscriber:
             self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv())
             self.verify_exists(element=self.img_logo())
             self.verify_exists(element=self.btn_get_started())
