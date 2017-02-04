@@ -10,7 +10,7 @@ class SettingsPage(BasePage):
         if self.phone:
             return self.top_toolbar(timeout=timeout).find_element_by_name('Settings')
         else:
-            return self.top_toolbar(timeout=timeout).find_element_by_name('Subscription')
+            return self.top_toolbar(timeout=timeout).find_element_by_name('Manage Account')
 
     def btn_nielsen(self, timeout=10):
         return self.get_element(timeout=timeout, name='Nielsen Info & Your Choices')
