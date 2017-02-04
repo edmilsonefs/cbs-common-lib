@@ -74,14 +74,14 @@ class ShowPage(BasePage):
     def txt_season_episode(self, timeout=10):
         return self.get_element(timeout=timeout, id=':id/seasonEpisode')
 
-    def validate_page(self):
+    def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
         self.verify_exists(element=self.lst_video_icons())
         self.verify_exists(element=self.btn_more_options())
         self.verify_exists(element=self.btn_my_cbs())
-        if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+        if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
             self.verify_exists(element=self.btn_episode_indicator())
         else:
             self.verify_not_exists(element=self.btn_episode_indicator())
