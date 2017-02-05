@@ -109,6 +109,12 @@ class LiveTvPage(BasePage):
         self.event.screenshot(self.screenshot())
 
     def validate_page(self, user_type="anonymous"):
+        for i in range(2):
+            e = self.exists(element=self.get_element(name='Allow', timeout=5))
+            if e:
+                e.click()
+            else:
+                break
         self.verify_exists(element=self.lbl_title())
         if self.phone:
             self.verify_exists(element=self.btn_hamburger_menu())
