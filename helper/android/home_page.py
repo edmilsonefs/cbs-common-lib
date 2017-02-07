@@ -8,7 +8,7 @@ class HomePage(BasePage):
         super(HomePage, self).__init__(driver, event)
 
     def home_marquee_container(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/marqueeContainer')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/homeMarqueeContainer')
 
     def lst_home_video_icons(self, timeout=10):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ":id/videoImage")
