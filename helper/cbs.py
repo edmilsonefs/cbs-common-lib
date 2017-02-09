@@ -487,7 +487,7 @@ class CommonHelper(TestlioAutomationTest):
     def wait_for_show_page_to_load(self):
         count = 0
         while count < 10:
-            if self.exists(class_name='android.widget.ProgressBar', timeout=10):
+            if self.exists(class_name='android.widget.ProgressBar', timeout=5):
                 sleep(5)
                 count += 1
             else:
