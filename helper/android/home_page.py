@@ -48,7 +48,7 @@ class HomePage(BasePage):
             self.click(element=list_episodes[0])
         else:
             prime_container = self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
-            for _ in range(0, 40):
+            for _ in range(0, 60):
                 self._short_swipe_left(prime_container, 500)
             count = 0
             while count < 100:
@@ -60,6 +60,8 @@ class HomePage(BasePage):
                     break
                 else:
                     count += 1
+            if count == 100:
+                self.assertTrueWithScreenShot(False, msg="No All Access video is found on the home page", screenshot=True)
 
     def validate_tou_page(self):
 
