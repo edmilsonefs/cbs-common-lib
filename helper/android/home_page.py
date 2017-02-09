@@ -48,7 +48,7 @@ class HomePage(BasePage):
             self.click(element=list_episodes[0])
         else:
             prime_container = self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
-            for _ in range(0, 20):
+            for _ in range(0, 40):
                 self._short_swipe_left(prime_container, 500)
             count = 0
             while count < 100:
