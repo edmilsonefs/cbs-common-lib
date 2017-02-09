@@ -15,7 +15,7 @@ class UpsellPage(BasePage):
         return self.get_element(timeout=timeout, name='GET STARTED')
 
     def btn_already_a_subscriber_sign_in(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Already a subscriber? Sign In')
+        return self.get_element(timeout=timeout, xpath="//*[@text='Already a subscriber? Sign In']")
 
     def btn_take_the_tour(self, timeout=10):
         return self.get_element(timeout=timeout, name='Take the Tour')
