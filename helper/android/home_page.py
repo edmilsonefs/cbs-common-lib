@@ -56,6 +56,7 @@ class HomePage(BasePage):
                 if self.exists(name=PAID, timeout=5):
                     list_episodes = self.get_elements(name=PAID)
                     self.click(element=list_episodes[0])
+                    self.safe_screenshot()
                     break
                 else:
                     count += 1
