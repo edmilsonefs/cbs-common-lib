@@ -1764,7 +1764,7 @@ class CommonHelper(TestlioAutomationTest):
         location = element.location
         size = element.size
 
-        start_x = location['x'] + size['width'] - 20
+        start_x = location['x'] + size['width'] - 100
         end_x = 20
         y = location['y'] + size['height'] / 2
 
