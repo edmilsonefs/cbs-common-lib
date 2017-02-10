@@ -975,9 +975,9 @@ class CommonHelper(TestlioAutomationTest):
         for i in range(max_swipes):
             try:
                 if find_by == 'name':
-                    e = self.driver.find_element_by_name(find_key)
+                    e = self.driver.find_element_by_xpath("//*[contains(@text,'" + find_key + "') OR contains(@content-desc,'" + find_key + "')]")
                 else:
-                    e = self.driver.find_element_by_id(find_key)
+                    e = self.driver.find_element_by_xpath("//*[contains(@resource-id,'" + find_key + "')]")
                 self.set_implicit_wait()
                 return e
             except NoSuchElementException:
@@ -2028,9 +2028,9 @@ class CommonHelper(TestlioAutomationTest):
         for i in range(max_swipes):
             self.driver.page_source
             if find_by == 'name':
-                elems = self.driver.find_elements_by_name(find_value)
+                elems = self.driver.find_elements_by_xpath("//*[contains(@text,'" + find_value + "') OR contains(@content-desc,'" + find_value + "')]")
             else:
-                elems = self.driver.find_elements_by_id(find_value)
+                elems = self.driver.find_elements_by_xpath("//*[contains(@resource-id,'" + find_value + "')]")
 
             for elem in elems:
                 # if the elem is below the Category marker.  This is necessary in case the episode appears in the
