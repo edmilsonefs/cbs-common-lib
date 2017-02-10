@@ -1944,7 +1944,7 @@ class CommonHelper(TestlioAutomationTest):
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
-            self.swipe(.1, y, .9, y, 500)
+            self.swipe(.2, y, .9, y, 500)
             sleep(1)
 
         season_ep = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
@@ -1959,7 +1959,7 @@ class CommonHelper(TestlioAutomationTest):
             # Swipe it off the screen and try again...
             if season_ep_elem and not title_elem:
                 self.event.screenshot(self.screenshot())
-                self.swipe(.8, y, .1, y, 1500)
+                self.swipe(.8, y, .2, y, 1500)
                 self.event.screenshot(self.screenshot())
             else:
                 break
