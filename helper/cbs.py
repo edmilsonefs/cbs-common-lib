@@ -1959,7 +1959,7 @@ class CommonHelper(TestlioAutomationTest):
             # Swipe it off the screen and try again...
             if season_ep_elem and not title_elem:
                 self.event.screenshot(self.screenshot())
-                self.swipe(.9, y, .2, y, 1500)
+                self.swipe(.8, y, .1, y, 1500)
                 self.event.screenshot(self.screenshot())
             else:
                 break
