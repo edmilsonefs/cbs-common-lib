@@ -975,7 +975,7 @@ class CommonHelper(TestlioAutomationTest):
         for i in range(max_swipes):
             try:
                 if find_by == 'name':
-                    e = self.driver.find_element_by_xpath("//*[contains(@text,'" + find_key + "') OR contains(@content-desc,'" + find_key + "')]")
+                    e = self.driver.find_element_by_xpath("//*[contains(@text,'" + find_key + "')]")
                 else:
                     e = self.driver.find_element_by_xpath("//*[contains(@resource-id,'" + find_key + "')]")
                 self.set_implicit_wait()
@@ -2028,7 +2028,7 @@ class CommonHelper(TestlioAutomationTest):
         for i in range(max_swipes):
             self.driver.page_source
             if find_by == 'name':
-                elems = self.driver.find_elements_by_xpath("//*[contains(@text,'" + find_value + "') OR contains(@content-desc,'" + find_value + "')]")
+                elems = self.driver.find_elements_by_xpath("//*[contains(@text,'" + find_value + "')]")
             else:
                 elems = self.driver.find_elements_by_xpath("//*[contains(@resource-id,'" + find_value + "')]")
 
