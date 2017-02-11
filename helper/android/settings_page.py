@@ -140,4 +140,4 @@ class SettingsPage(BasePage):
         self.click(element=self.btn_sign_out())
         self.event.screenshot(self.screenshot())
         #  To go back to home page
-        self.btn_navigate_up()
+        self.click(element=self.btn_navigate_up())

@@ -106,6 +106,8 @@ class LiveTvPage(BasePage):
         self.click(element=self.btn_provider_logo())
         if self.IS_AMAZON:
             self.driver.tap([(620, 710)])
+        else:
+            self.click_allow_popup()
         self.event.screenshot(self.screenshot())
 
     def validate_page(self, user_type="anonymous"):
