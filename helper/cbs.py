@@ -970,21 +970,17 @@ class CommonHelper(TestlioAutomationTest):
         self.find_on_page('name', 'Settings')
         self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
         """
-        self.set_implicit_wait(3)
-
         for i in range(max_swipes):
-            try:
-                if find_by == 'name':
-                    e = self.driver.find_element_by_xpath('//*[contains(@text,"' + find_key + '")]')
-                else:
-                    e = self.driver.find_element_by_xpath('//*[contains(@resource-id,"' + find_key + '")]')
-                self.set_implicit_wait()
-                return e
-            except NoSuchElementException:
-                self.swipe(x, .5, x, 10, 1500)
-                pass
+            if find_by == 'name':
+                e = self.get_element(xpath='//*[contains(@text,"' + find_key + '")]', timeout=10)
+            else:
+                e = self.get_element(xpath='//*[contains(@resource-id,"' + find_key + '")]', timeout=10)
 
-        self.set_implicit_wait()
+            if e is False:
+                self.swipe(x, .5, x, 10, 1500)
+            else:
+                return e
+
         return False
         # raise NoSuchElementException("find_on_page failed looking for '%s'" % elem_id)
 
