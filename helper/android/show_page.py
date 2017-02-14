@@ -87,7 +87,7 @@ class ShowPage(BasePage):
             self.verify_not_exists(element=self.btn_episode_indicator())
 
     def validate_show_more_info_page(self):
-        self.verify_exists(element=self.show_name(), screenshot=True)
+        self.verify_exists(element=self.txt_show_name(), screenshot=True)
         self.verify_exists(element=self.txt_season_episode())
         self.verify_exists(element=self.txt_episode_name())
         self.verify_exists(element=self.txt_air_date())
