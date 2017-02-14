@@ -11,7 +11,7 @@ class HomePage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/marqueeContainer')
 
     def lst_home_video_icons(self, timeout=10):
-        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ":id/videoImage")
+        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ":id/imgThumbnail")
 
     def txt_welcome_to_cbs(self, timeout=10):
         return self.get_element(timeout=timeout, name='Welcome to the CBS app')
