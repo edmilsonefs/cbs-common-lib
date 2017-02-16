@@ -800,6 +800,21 @@ class CommonHelper(TestlioAutomationTest):
         else:
             self.click_safe(name='Navigate up')
 
+    def verify_exists_element_video_page(self, poll_every=5, **kwargs):
+        count = 0
+        result = False
+        while count < kwargs['timeout']:
+            if self.exists(element=self.get_element(**kwargs)):
+                result = True
+                #self.unpause_video()
+                break
+            else:
+                sleep(poll_every)
+                #self.pause_video()
+                count += poll_every
+
+        self.assertTrueWithScreenShot(result, screenshot=True, msg="Should see element on video page")
+
     def back_while_open_drawer_is_visible(self):
         counter = 0
         while not self.exists(element=self.get_element(timeout=10, name='Open navigation drawer')):
