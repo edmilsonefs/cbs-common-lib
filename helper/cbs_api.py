@@ -201,7 +201,7 @@ class CBSAPI(object):
 
             # hack - filter out some shows
             filter_list = ['The Bold and the Beautiful (En Espanol)', 'Face The Nation', 'CBS Fall Preview 2016',
-                           'Sunday Morning', 'CBSN']
+                           'Sunday Morning', 'CBSN', 'CBS Evening News']
             self.show_dict_array = filter(lambda x: x['show_title'] not in filter_list, self.show_dict_array)
 
         return self.show_dict_array
