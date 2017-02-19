@@ -47,6 +47,7 @@ class HomePage(BasePage):
             list_episodes = self.get_elements(name=PAID)
             self.click(element=list_episodes[0])
         else:
+            self.swipe_element_to_top_of_screen(elem=self.get_element(name='Recently Watched', timeout=10), endy=150)
             prime_container = self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
             for _ in range(0, 60):
                 self._short_swipe_left(prime_container, 500)
