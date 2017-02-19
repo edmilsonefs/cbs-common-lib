@@ -742,8 +742,9 @@ class CommonHelper(TestlioAutomationTest):
             list_episodes = self.driver.find_elements_by_name('paid')
             self.click(element=list_episodes[0])
         else:
-            self.swipe_element_to_top_of_screen(elem=self.get_element(name='Recently Watched', timeout=10), endy=150)
-            prime_container = self._find_element(
+            if self.exists(name='Recently Watched', timeout=5):
+                self.swipe_element_to_top_of_screen(elem=self.get_element(name='Recently Watched', timeout=10), endy=150)
+                prime_container = self._find_element(
                 xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
             for _ in range(0, 40):
                 self._short_swipe_left(prime_container, 500)
