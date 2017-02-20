@@ -1010,6 +1010,7 @@ class CommonHelper(TestlioAutomationTest):
         self.find_on_page('name', 'Settings')
         self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
         """
+        reverse_swipe = 0
         for i in range(max_swipes):
             if find_by == 'name':
                 e = self.get_element(xpath='//*[contains(@text,"' + find_key + '")]', timeout=10)
@@ -1017,7 +1018,11 @@ class CommonHelper(TestlioAutomationTest):
                 e = self.get_element(xpath='//*[contains(@resource-id,"' + find_key + '")]', timeout=10)
 
             if e is False:
-                self.swipe(x, .5, x, 10, 1500)
+                if reverse_swipe <= 3:
+                    self.swipe(x, .5, x, .9, 1500)
+                    reverse_swipe += 1
+                else:
+                    self.swipe(x, .5, x, 10, 1500)
             else:
                 return e
 
