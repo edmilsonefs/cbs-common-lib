@@ -242,6 +242,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def search_for_extended(self, what_to_search_for): # method to search by typing symbol by symbol
         self.click_search_icon()
+        self.wait_for_show_page_to_load()
         self.enter_search_text_extended(what_to_search_for)
 
     def enter_search_text_extended(self, what_to_search_for):
