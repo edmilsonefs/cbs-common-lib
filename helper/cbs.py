@@ -1964,7 +1964,7 @@ class CommonHelper(TestlioAutomationTest):
         show_category = show_dict['show_category']
 
         category_elem = self.find_on_page('name', show_category)
-        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert our category exists")
+        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert category '" + show_category + "' not exists")
         y_orig = category_elem.location['y']
 
         self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
