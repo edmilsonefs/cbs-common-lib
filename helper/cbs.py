@@ -234,6 +234,28 @@ class CommonHelper(TestlioAutomationTest):
         self.click_first_search_result()
         sleep(10)
 
+    def goto_show_with_extended_search(self, show_name):
+        self.search_for_extended(show_name)
+        self.safe_screenshot()
+        self.click_first_search_result()
+        sleep(10)
+
+    def search_for_extended(self, what_to_search_for): # method to search by typing symbol by symbol
+        self.click_search_icon()
+        self.enter_search_text_extended(what_to_search_for)
+
+    def enter_search_text_extended(self, what_to_search_for):
+        count = 0
+        e = self.click(id=self.com_cbs_app + ':id/search_src_text')
+        for i in range(0, len(what_to_search_for)):
+            self.send_keys(element=e, data=what_to_search_for[i])
+            if count >= 2:
+                if self.exists(element=self.get_element(name="No Shows Found.", timeout=5)):
+                    self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
+                if len(self.get_elements(id=self.com_cbs_app + ":id/showImage", timeout=5)) == 1:
+                    break
+            count += 1
+
     # def goto_show(self, show_title):
     #     """
     #     Uses search functionality, goes to show page, verifies it's on a show page
