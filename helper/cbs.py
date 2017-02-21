@@ -1010,6 +1010,7 @@ class CommonHelper(TestlioAutomationTest):
         self.find_on_page('name', 'Settings')
         self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
         """
+        sleep(20) # need to wait while page will be loaded correctly
         reverse_swipe = 0
         for i in range(max_swipes):
             if find_by == 'name':
@@ -1019,10 +1020,10 @@ class CommonHelper(TestlioAutomationTest):
 
             if e is False:
                 if reverse_swipe <= 3:
-                    self.swipe(x, .5, x, .9, 1500)
+                    self.swipe(x, .5, x, .9, 2000)
                     reverse_swipe += 1
                 else:
-                    self.swipe(x, .5, x, 10, 1500)
+                    self.swipe(x, .5, x, 10, 2000)
             else:
                 return e
 
