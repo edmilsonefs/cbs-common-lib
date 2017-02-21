@@ -1004,7 +1004,7 @@ class CommonHelper(TestlioAutomationTest):
             if time() - start_time > timeout:
                 return False
 
-    def find_on_page(self, find_by, find_key, max_swipes=10, x=.5):
+    def find_on_page(self, find_by, find_key, max_swipes=15, x=.5):
         """
         Scrolls down the page looking for an element.  Call the method like this:
         self.find_on_page('name', 'Settings')
@@ -1020,10 +1020,10 @@ class CommonHelper(TestlioAutomationTest):
 
             if e is False:
                 if reverse_swipe <= 3:
-                    self.swipe(x, .5, x, .9, 2000)
+                    self.swipe(x, .5, x, .9, 4000)
                     reverse_swipe += 1
                 else:
-                    self.swipe(x, .5, x, 10, 2000)
+                    self.swipe(x, .5, x, .2, 4000)
             else:
                 return e
 
