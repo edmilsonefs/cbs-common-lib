@@ -8,9 +8,9 @@ class SettingsPage(BasePage):
 
     def lbl_title(self, timeout=10):
         if self.phone:
-            return self.top_toolbar(timeout=timeout).find_element_by_name('Settings')
+            return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Settings']")
         else:
-            return self.top_toolbar(timeout=timeout).find_element_by_name('Manage Account')
+            return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Manage Account']")
 
     def btn_nielsen(self, timeout=10):
         return self.get_element(timeout=timeout, name='Nielsen Info & Your Choices')

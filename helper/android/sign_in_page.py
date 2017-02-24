@@ -6,7 +6,7 @@ class SignInPage(BasePage):
         super(SignInPage, self).__init__(driver, event)
 
     def lbl_title(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Sign In')
+        return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Sign In']")
 
     def btn_facebook_button(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgFacebook')

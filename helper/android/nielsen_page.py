@@ -10,7 +10,7 @@ class NielsenPage(BasePage):
         self.settings_page = SettingsPage(self.driver, self.event)
 
     def lbl_title(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Nielsen Info & Your Choices')
+        return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Nielsen Info & Your Choices']")
 
     def btn_opt_out(self, timeout=10):
         return self.get_element(timeout=timeout, xpath="//android.view.View[contains(@content-desc,'click here')][1]")

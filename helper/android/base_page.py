@@ -40,31 +40,31 @@ class BasePage(CommonHelper):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/userStatusTextView')
 
     def btn_home_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Home')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Home']")
 
     def btn_shows_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Shows')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Shows']")
 
     def btn_live_tv_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Live TV')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Live TV']")
 
     def btn_schedule_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Schedule')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Schedule']")
 
     def btn_shop_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Shop')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Shop']")
 
     def btn_settings_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Settings')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Settings']")
 
     def btn_upgrade_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Upgrade')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Upgrade']")
 
     def btn_subscribe_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('Subscribe')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Subscribe']")
 
     def get_menu_item_with_text(self, text, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name(text)
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='" + text + "']")
 
     def get_element_with_text(self, text, timeout=10):
         return self.get_element(timeout=timeout, name=text)

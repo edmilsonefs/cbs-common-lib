@@ -102,12 +102,12 @@ class ShowPage(BasePage):
 
     def click_all_access_video(self):
         if self.exists(name='paid', timeout=10):
-            list_episodes = self.driver.find_elements_by_name('paid')
+            list_episodes = self.driver.find_elements_by_xpath("//*[@text='paid' or @content-desc='paid']")
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
         else:
             self._short_swipe_down(duration=3000)
             self._short_swipe_down(duration=3000)
-            list_episodes = self.driver.find_elements_by_name('paid')
+            list_episodes = self.driver.find_elements_by_xpath("//*[@text='paid' or @content-desc='paid']")
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
