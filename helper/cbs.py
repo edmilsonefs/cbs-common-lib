@@ -216,6 +216,8 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
         self._go_to('Live TV')
         self.click_allow_popup()
+        self.click_allow_popup()
+        self.click_allow_popup()
         self.driver.implicitly_wait(120)
 
     def goto_schedule(self):
@@ -609,7 +611,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.press_keycode(i, metastate)
 
     def click_allow_popup(self):
-        if self.exists(name='Allow', timeout=10):
+        if self.exists(name='Allow', timeout=7):
             try:
                 if self.phone:
                     self.click_until_element_is_visible("Open navigation drawer", "Allow")
