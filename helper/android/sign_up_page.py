@@ -175,9 +175,9 @@ class SignUpPage(BasePage):
 
             self.driver.implicitly_wait(10)
             try:
-                elem = self.driver.find_element_by_name('Set')
+                elem = self.get_element(name='Set')
             except:
-                elem = self.driver.find_element_by_name('Done')
+                elem = self.get_element(name='Done')
 
             self.click(element=elem, data='Choose the date')
 

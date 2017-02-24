@@ -7,7 +7,7 @@ class LiveTvPage(BasePage):
         super(LiveTvPage, self).__init__(driver, event)
 
     def lbl_title(self, timeout=10):
-        return self.top_toolbar(timeout=timeout).find_element_by_name('Live TV')
+        return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Live TV']")
 
     def btn_try_1_week_month_free(self, timeout=10):
         return self.get_element(timeout=timeout, xpath="//*[contains(@text,'Try 1 ') and contains(@text,' free') "

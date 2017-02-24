@@ -32,10 +32,10 @@ class BasePage(CommonHelper):
         return self.get_element(timeout=timeout, name='LIVE TV')
 
     def btn_settings_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name('SETTINGS')
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='SETTINGS']")
 
     def get_menu_item_with_text(self, text, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_name(text)
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='" + text + "']")
 
     def get_element_with_text(self, text, timeout=10):
         return self.get_element(timeout=timeout, name=text)
