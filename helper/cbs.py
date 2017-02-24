@@ -105,7 +105,7 @@ class CommonHelper(TestlioAutomationTest):
         count = 0
         while element is None and count < 10:
             try:
-                element = self.driver.find_element_by_id(element_to_be_visible)
+                element = self.driver.find_element_by_accessibility_id(element_to_be_visible)
             except:
                 self.click(name=element_to_click)
                 count += 1
@@ -117,8 +117,8 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(10)
         while count < 30:
             try:
-                self.driver.find_element_by_id('Open navigation drawer').click()
-                self.driver.find_element_by_id(menu_option).click()
+                self.driver.find_element_by_accessibility_id('Open navigation drawer').click()
+                self.driver.find_element_by_accessibility_id(menu_option).click()
                 break
             except:
                 pass
@@ -177,7 +177,7 @@ class CommonHelper(TestlioAutomationTest):
     def _go_to(self, menu):
         self.driver.implicitly_wait(8)
         drawer = self._find_element(id=self.com_cbs_app + ':id/navigation_drawer')
-        self.click(element=drawer.find_element_by_id(menu), data='Click on menu item %s' % menu)
+        self.click(element=drawer.find_element_by_accessibility_id(menu), data='Click on menu item %s' % menu)
         self.driver.implicitly_wait(20)
 
     def goto_sign_in(self):
@@ -185,7 +185,7 @@ class CommonHelper(TestlioAutomationTest):
 
         # on some screens (live tv), the text 'Sign In' appears twice, so be sure we get the right one...
         drawer = self.driver.find_element_by_id(self.com_cbs_app + ':id/userInfoHolder')
-        sign_in = drawer.find_element_by_id('Sign In')
+        sign_in = drawer.find_element_by_accessibility_id('Sign In')
         self.click(element=sign_in, data='Click on menu item Sign In')
         self._hide_keyboard()
 
@@ -756,7 +756,7 @@ class CommonHelper(TestlioAutomationTest):
     def click_on_first_video(self):
         try:
             self.driver.implicitly_wait(10)
-            self.driver.find_element_by_id('Free Episodes')
+            self.driver.find_element_by_accessibility_id('Free Episodes')
             self._short_swipe_down(duration=3000)
         except:
             self.driver.implicitly_wait(60)
@@ -920,7 +920,7 @@ class CommonHelper(TestlioAutomationTest):
             try:
                 if kwargs.has_key('name'):
                     try:
-                        e = d.find_element_by_id(kwargs['name'])
+                        e = d.find_element_by_accessibility_id(kwargs['name'])
                     except:
                         e = d.find_element_by_xpath('//*[contains(@text,"%s")]' % kwargs['name'])
                 elif kwargs.has_key('class_name'):
@@ -1126,7 +1126,7 @@ class CommonHelper(TestlioAutomationTest):
                     self.driver.find_elements_by_class_name(element_css)
                     break
                 if element_name:
-                    self.driver.find_element_by_id(element_name)
+                    self.driver.find_element_by_accessibility_id(element_name)
                     break
                 if element_id:
                     self.driver.find_element_by_id(element_id)
@@ -1166,8 +1166,8 @@ class CommonHelper(TestlioAutomationTest):
     def logout(self):
         self.goto_settings()
         if self.phone:
-            origin = self.driver.find_element_by_id('Video Services')
-            destination = self.driver.find_element_by_id('Send Feedback')
+            origin = self.driver.find_element_by_accessibility_id('Video Services')
+            destination = self.driver.find_element_by_accessibility_id('Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
         self.click(name='Sign Out', data='Sign Out 1')
@@ -1181,7 +1181,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_already_have_account_sign_in(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
-        elem = self.driver.find_element_by_id('Already have an account? Sign In')
+        elem = self.driver.find_element_by_accessibility_id('Already have an account? Sign In')
         self.click_by_location(elem, side='right')
 
     #### LIVE TV and NIELSEN
@@ -1196,8 +1196,8 @@ class CommonHelper(TestlioAutomationTest):
     def go_to_debug_page(self):
         self.goto_settings()
         if self.phone:
-            origin = self.driver.find_element_by_id('Nielsen Info & Your Choices')
-            destination = self.driver.find_element_by_id('Send Feedback')
+            origin = self.driver.find_element_by_accessibility_id('Nielsen Info & Your Choices')
+            destination = self.driver.find_element_by_accessibility_id('Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
             self.click(name='Debug')
@@ -1214,7 +1214,7 @@ class CommonHelper(TestlioAutomationTest):
 
         try:
             self.driver.implicitly_wait(5)
-            self.driver.find_element_by_id(name=city)
+            self.driver.find_element_by_accessibility_id(name=city)
             self.click(name=city, screenshot=True)
         except:
             if swipe_up:
@@ -1225,12 +1225,12 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, 600, 500, window_size_y - 400)  # Nexus 7
             else:
                 if self.phone:
-                    origin = self.driver.find_element_by_id('Philadelphia')
-                    destination = self.driver.find_element_by_id('Denver KCNC')
+                    origin = self.driver.find_element_by_accessibility_id('Philadelphia')
+                    destination = self.driver.find_element_by_accessibility_id('Denver KCNC')
                     self.driver.drag_and_drop(origin, destination)
                     self.event.screenshot(self.screenshot())
-                    origin = self.driver.find_element_by_id('College Station, TX KBTX')
-                    destination = self.driver.find_element_by_id('Boston')
+                    origin = self.driver.find_element_by_accessibility_id('College Station, TX KBTX')
+                    destination = self.driver.find_element_by_accessibility_id('Boston')
                     self.driver.drag_and_drop(origin, destination)
                     self.event.screenshot(self.screenshot())
                 elif self.tablet:
@@ -1603,9 +1603,9 @@ class CommonHelper(TestlioAutomationTest):
     #
     #         self.driver.implicitly_wait(10)
     #         try:
-    #             elem = self.driver.find_element_by_id('Set')
+    #             elem = self.driver.find_element_by_accessibility_id('Set')
     #         except:
-    #             elem = self.driver.find_element_by_id('Done')
+    #             elem = self.driver.find_element_by_accessibility_id('Done')
     #
     #         self.click(element=elem, data='Choose the date')
     #
@@ -1613,7 +1613,7 @@ class CommonHelper(TestlioAutomationTest):
     #
     #     self.click(name='Male')
     #     try:
-    #         self.driver.find_element_by_id('Alaska')
+    #         self.driver.find_element_by_accessibility_id('Alaska')
     #         self.click(name='Alaska')
     #     except:
     #         self.click(id=self.com_cbs_app + ':id/spnState')
@@ -1679,7 +1679,7 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.driver.find_element_by_id(name=name)
+                    element = self.driver.find_element_by_accessibility_id(name=name)
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
                 elif class_name:
@@ -1717,7 +1717,7 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.driver.find_element_by_id(name=name)
+                    element = self.driver.find_element_by_accessibility_id(name=name)
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
             except NoSuchElementException:
