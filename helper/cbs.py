@@ -216,8 +216,6 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
         self._go_to('Live TV')
         self.click_allow_popup()
-        self.click_allow_popup()
-        self.click_allow_popup()
         self.driver.implicitly_wait(120)
 
     def goto_schedule(self):
