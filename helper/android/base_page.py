@@ -111,9 +111,12 @@ class BasePage(CommonHelper):
     def goto_live_tv(self):
         self.open_drawer()
         self.click(element=self.btn_live_tv_menu_item())
-        self.click_allow_popup()
-        self.click_allow_popup()
-        self.driver.implicitly_wait(120)
+        count = 0
+        while count < 5:
+            if self.exists(name='Allow', timeout=10):
+                self.click_allow_popup()
+            else:
+                break
 
     def goto_schedule(self):
         self.open_drawer()
