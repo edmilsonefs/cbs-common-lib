@@ -762,7 +762,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.implicitly_wait(60)
             pass
         if self.exists(name='paid', timeout=5):
-            list_episodes = self.driver.find_elements_by_name('paid')
+            list_episodes = self.get_elements(name='paid')
             self.click(element=list_episodes[0])
         else:
             if self.exists(name='Recently Watched', timeout=5):
@@ -775,7 +775,7 @@ class CommonHelper(TestlioAutomationTest):
             while count < 70:
                 self._short_swipe_left(prime_container, 1000)
                 if self.exists(name='paid', timeout=5):
-                    list_episodes = self.driver.find_elements_by_name('paid')
+                    list_episodes = self.get_elements(name='paid')
                     self.click(element=list_episodes[0])
                     break
                 else:
@@ -785,7 +785,7 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(xpath="//android.widget.TextView[@text='My CBS']", timeout=5):
             self.swipe_element_to_top_of_screen(elem=self.get_element(xpath="//android.widget.TextView[@text='My CBS']"), endy=100, startx=0)
         if self.exists(name='free', timeout=10):
-            list_episodes = self.driver.find_elements_by_name('free')
+            list_episodes = self.get_elements(name='free')
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
 
@@ -804,13 +804,13 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_any_aa_video(self):
         if self.exists(name='paid', timeout=10):
-            list_episodes = self.driver.find_elements_by_name('paid')
+            list_episodes = self.get_elements(name='paid')
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
         else:
             self._short_swipe_down(duration=3000)
             self._short_swipe_down(duration=3000)
-            list_episodes = self.driver.find_elements_by_name('paid')
+            list_episodes = self.get_elements(name='paid')
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
 
@@ -1451,7 +1451,7 @@ class CommonHelper(TestlioAutomationTest):
         raise RuntimeError('Could not find "GET..." button')
 
     def click_select_lc(self):
-        bs = self.driver.find_elements_by_name('SELECT')
+        bs = self.get_elements(name='SELECT')
         b0 = bs[0]
         b1 = bs[1]
 
@@ -1464,7 +1464,7 @@ class CommonHelper(TestlioAutomationTest):
             b1.click()
 
     def click_select_cf(self):
-        bs = self.driver.find_elements_by_name('SELECT')
+        bs = self.get_elements(name='SELECT')
         b0 = bs[0]
         b1 = bs[1]
 
