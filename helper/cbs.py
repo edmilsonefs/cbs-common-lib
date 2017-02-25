@@ -99,7 +99,6 @@ class CommonHelper(TestlioAutomationTest):
         return lookup[adb_device_name]
 
     def click_until_element_is_visible(self, element_to_be_visible, element_to_click):
-        self.driver.implicitly_wait(20)
 
         element = None
         count = 0
@@ -107,14 +106,13 @@ class CommonHelper(TestlioAutomationTest):
             try:
                 element = self.get_element(name=element_to_be_visible)
             except:
-                self.click(name=element_to_click)
+
+                self.get_element(name=element_to_click).click()
                 count += 1
-        self.driver.implicitly_wait(30)
 
     def go_to_menu_page_and_select_option(self, menu_option):
         # This is to avoid navigation drawer not being clicked properly
         count = 0
-        self.driver.implicitly_wait(10)
         while count < 30:
             try:
                 self.get_element(name='Open navigation drawer').click()
@@ -123,7 +121,6 @@ class CommonHelper(TestlioAutomationTest):
             except:
                 pass
             count += 1
-        self.driver.implicitly_wait(30)
 
     ################################################
     # HEADER
