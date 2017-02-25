@@ -111,7 +111,9 @@ class BasePage(CommonHelper):
     def goto_live_tv(self):
         self.open_drawer()
         self.click(element=self.btn_live_tv_menu_item())
+        self.safe_screenshot()
         self.click_allow_popup()
+        self.safe_screenshot()
 
     def goto_schedule(self):
         self.open_drawer()
