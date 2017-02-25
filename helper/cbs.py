@@ -341,7 +341,7 @@ class CommonHelper(TestlioAutomationTest):
         self.set_implicit_wait()
         sleep(10)
 
-        fields = self.driver.find_elements_by_class_name("android.widget.EditText")
+        fields = self.get_elements(class_name="android.widget.EditText")
         email = fields[0]
         password = fields[1]
 
@@ -352,7 +352,7 @@ class CommonHelper(TestlioAutomationTest):
         self._hide_keyboard()
         self.event.screenshot(self.screenshot())  # per spec
 
-        # login_button = self.driver.find_elements_by_class_name('android.widget.Button')[0]
+        # login_button = self.get_elements(class_name='android.widget.Button')[0]
         # self.click(element=login_button)
         self.click(class_name='android.widget.Button')
 
@@ -362,7 +362,7 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(class_name='android.webkit.WebView') or self.exists(name='You have already authorized CBS.com.',
                                                                            timeout=5):
             if self.exists(class_name='android.widget.Button', timeout=5):
-                bs = self.driver.find_elements_by_class_name("android.widget.Button")
+                bs = self.get_elements(class_name="android.widget.Button")
                 bs[1].click()
                 sleep(4)
 
@@ -433,7 +433,7 @@ class CommonHelper(TestlioAutomationTest):
 
         sleep(10)
 
-        fields = self.driver.find_elements_by_class_name('android.widget.EditText')
+        fields = self.get_elements(class_name='android.widget.EditText')
         email = fields[0]
         password = fields[1]
 
@@ -447,7 +447,7 @@ class CommonHelper(TestlioAutomationTest):
 
         # e = self._find_element(name='Username or email')
         # self.swipe_element_to_top_of_screen(e)
-        # login_button = self.driver.find_elements_by_class_name("android.widget.Button")[0]
+        # login_button = self.get_elements(class_name="android.widget.Button")[0]
         # self.click(element=login_button)
         self.click(class_name="android.widget.Button")
 
@@ -491,7 +491,7 @@ class CommonHelper(TestlioAutomationTest):
         This assumes you are on the Sign In screen.
         """
         self._hide_keyboard()
-        textfields = self.driver.find_elements_by_class_name('android.widget.EditText')
+        textfields = self.get_elements(class_name='android.widget.EditText')
         textfields[0].click()
         self.send_keys(element=textfields[0], data=username)
         self.driver.hide_keyboard('With Email')
@@ -1123,7 +1123,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.implicitly_wait(timeout)
             try:
                 if element_css:
-                    self.driver.find_elements_by_class_name(element_css)
+                    self.get_elements(class_name=element_css)
                     break
                 if element_name:
                     self.get_element(name=element_name)
@@ -1299,7 +1299,7 @@ class CommonHelper(TestlioAutomationTest):
             count = 0
             while count <= 5:
                 try:
-                    self.driver.find_elements_by_class_name('android.widget.EditText')
+                    self.get_elements(class_name='android.widget.EditText')
                     break
                 except:
                     count += 1
@@ -1313,7 +1313,7 @@ class CommonHelper(TestlioAutomationTest):
             if self.testdroid_device == 'samsung SM-T330NU':
                 self.driver.tap([(400, 400)])
                 self.screenshot()
-            fields = self.driver.find_elements_by_class_name('android.widget.EditText')
+            fields = self.get_elements(class_name='android.widget.EditText')
             email_field = fields[0]
             password_field = fields[1]
             # start from the bottom up
@@ -1418,7 +1418,7 @@ class CommonHelper(TestlioAutomationTest):
         self.click(xpath="//android.widget.Button[@text='Upgrade']")
 
     def click_upgrade_in_menu(self):
-        es = self.driver.find_elements_by_id(self.com_cbs_app + ':id/userStatusTextView')
+        es = self.get_elements(id=self.com_cbs_app + ':id/userStatusTextView')
         for e in es:
             if e.text == 'Upgrade':
                 e.click()
@@ -1427,7 +1427,7 @@ class CommonHelper(TestlioAutomationTest):
         raise RuntimeError('Could not find "Upgrade" in side menu')
 
     def click_upgrade_lc(self):
-        bs = self.driver.find_elements_by_id(self.com_cbs_app + ':id/button')
+        bs = self.get_elements(id=self.com_cbs_app + ':id/button')
 
         self.event.click('Upgrade Limited Comm button')
 
@@ -1439,7 +1439,7 @@ class CommonHelper(TestlioAutomationTest):
         raise RuntimeError('Could not find "FREE..." button')
 
     def click_upgrade_cf(self):
-        bs = self.driver.find_elements_by_id(self.com_cbs_app + ':id/button')
+        bs = self.get_elements(id=self.com_cbs_app + ':id/button')
 
         self.event.click('Upgrade Comm Free button')
 
@@ -1566,7 +1566,7 @@ class CommonHelper(TestlioAutomationTest):
     #         for _ in range(5):
     #             self.swipe_list_years(list_years)
     #
-    #         years = self.driver.find_elements_by_class_name("android.widget.TextView")
+    #         years = self.get_elements(class_name="android.widget.TextView")
     #
     #         self.click(element=years[5], data='Choose year from the list')
     #         self.click(name='OK')
@@ -1577,12 +1577,12 @@ class CommonHelper(TestlioAutomationTest):
     #         for _ in range(5):
     #             self.swipe_list_years(list_years)
     #
-    #         years = self.driver.find_elements_by_class_name("android.widget.TextView")
+    #         years = self.get_elements(class_name="android.widget.TextView")
     #
     #         self.click(element=years[5], data='Choose year from the list')
     #         self.click(name='OK')
     #     else:
-    #         pickers = self.driver.find_elements_by_class_name('android.widget.NumberPicker')
+    #         pickers = self.get_elements(class_name='android.widget.NumberPicker')
     #
     #         year_picker = pickers[2]
     #
@@ -1595,7 +1595,7 @@ class CommonHelper(TestlioAutomationTest):
     #
     #         for i in range(10):
     #             self.swipe_datepicker_down(year_but)
-    #             year_picker = self.driver.find_elements_by_class_name('android.widget.NumberPicker')[2]
+    #             year_picker = self.get_elements(class_name='android.widget.NumberPicker')[2]
     #             current_year = year_picker.find_element_by_class_name('android.widget.Button').text
     #
     #             if current_year < '1996':
@@ -2070,9 +2070,9 @@ class CommonHelper(TestlioAutomationTest):
         for i in range(max_swipes):
             self.driver.page_source
             if find_by == 'name':
-                elems = self.driver.find_elements_by_xpath('//*[contains(@text,"' + find_value + '")]')
+                elems = self.get_elements(xpath='//*[contains(@text,"' + find_value + '")]')
             else:
-                elems = self.driver.find_elements_by_xpath('//*[contains(@resource-id,"' + find_value + '")]')
+                elems = self.get_elements(xpath='//*[contains(@resource-id,"' + find_value + '")]')
 
             for elem in elems:
                 # if the elem is below the Category marker.  This is necessary in case the episode appears in the
@@ -2299,7 +2299,7 @@ class CommonHelper(TestlioAutomationTest):
         if not self.exists(name='Open navigation drawer', timeout=0):
             self.hw_back()
 
-        for elem in self.driver.find_elements_by_id(self.com_cbs_app + ':id/infoIcon'):
+        for elem in self.get_elements(id=self.com_cbs_app + ':id/infoIcon'):
             if elem.location['y'] > y:
                 elem.click()
                 return
@@ -2459,7 +2459,7 @@ class CommonHelper(TestlioAutomationTest):
         # Try this two times.  This is verbose and there are cleaner ways of doing this, but I want the
         # NoSuchElementException to get raised if it's thrown twice, not the assertTrueWithSS exception
         try:
-            elems = self.driver.find_elements_by_class_name(class_name)
+            elems = self.get_elements(class_name=class_name)
             for elem in elems:
                 size = elem.size
                 loc = elem.location
@@ -2472,7 +2472,7 @@ class CommonHelper(TestlioAutomationTest):
         except NoSuchElementException:
             sleep(60)
             self.driver.page_source
-            elems = self.driver.find_elements_by_class_name(class_name)
+            elems = self.get_elements(class_name=class_name)
             for elem in elems:
                 size = elem.size
                 loc = elem.location
@@ -2502,7 +2502,7 @@ class CommonHelper(TestlioAutomationTest):
         # # Try this two times.  This is verbose and there are cleaner ways of doing this, but I want the
         # # NoSuchElementException to get raised if it's thrown twice, not the assertTrueWithSS exception
         # try:
-        #     elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
+        #     elems = self.get_elements(class_name='android.widget.ImageView')
         #     for elem in elems:
         #         size = elem.size
         #         loc = elem.location
@@ -2516,7 +2516,7 @@ class CommonHelper(TestlioAutomationTest):
         #     sleep(45)
         #     self.driver.page_source
         #     sleep(15)
-        #     elems = self.driver.find_elements_by_class_name('android.widget.ImageView')
+        #     elems = self.get_elements(class_name='android.widget.ImageView')
         #     for elem in elems:
         #         size = elem.size
         #         ratio = float(size['height']) / float(size['width'])
@@ -2651,14 +2651,14 @@ class CommonHelper(TestlioAutomationTest):
         """
         if type(txt_or_list) == str:
             overall_t_f = False
-            for elem in self.driver.find_elements_by_class_name(class_name):
+            for elem in self.get_elements(class_name=class_name):
                 elem_txt = elem.text
                 if txt_or_list in elem_txt:
                     overall_t_f = True
                     break
         else:
             overall_t_f = False
-            for elem in self.driver.find_elements_by_class_name(class_name):
+            for elem in self.get_elements(class_name=class_name):
                 # If the first string is in there, make sure all the rest are as well.
                 # This logic is complex because there's a slim chance the [0] element may exist in 2 elements,
                 # so we may need to check several
