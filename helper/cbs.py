@@ -423,7 +423,7 @@ class CommonHelper(TestlioAutomationTest):
         while count < 5:
             try:
                 sleep(10)
-                self.driver.find_element_by_class_name('android.widget.EditText')
+                self.get_element(class_name='android.widget.EditText')
                 break
             except:
                 self.hw_back()
@@ -898,7 +898,7 @@ class CommonHelper(TestlioAutomationTest):
         Finds element by name or xpath
         advanced:
             call using an element:
-            my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
+            my_layout = self.get_element(class_name='android.widget.LinearLayout')
             self.exists(name='Submit', driver=my_layout)
         """
 
@@ -1683,7 +1683,7 @@ class CommonHelper(TestlioAutomationTest):
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
                 elif class_name:
-                    element = self.driver.find_element_by_class_name(class_name=class_name)
+                    element = self.get_element(class_name=class_name)
             except:
                 if self.phone:
                     if long_swipe:
