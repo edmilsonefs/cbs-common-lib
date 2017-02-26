@@ -132,11 +132,12 @@ class SettingsPage(BasePage):
                 pass
 
     def sign_out(self):
-        window_height = self.driver.get_window_size()["height"]
         self.goto_settings()
         if self.phone:
-            for i in range(2):
-                self.driver.swipe(35, window_height - 500, 35, 200)
+            origin = self.driver.find_element_by_name('Video Services')
+            destination = self.driver.find_element_by_name('Send Feedback')
+            self.driver.drag_and_drop(origin, destination)
+            self.event.screenshot(self.screenshot())
         self.event.screenshot(self.screenshot())
         self.click(element=self.btn_sign_out_settings())
         self.click(element=self.btn_sign_out())
