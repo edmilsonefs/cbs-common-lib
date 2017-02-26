@@ -173,15 +173,12 @@ class SignUpPage(BasePage):
                 if current_year < year:
                     break
 
-            self.driver.implicitly_wait(10)
             if self.get_element(name='Done', timeout=5) is True:
                 elem = self.get_element(name='Done')
             else:
                 elem = self.get_element(name='Set')
 
             self.click(element=elem, data='Choose the date')
-
-            self.driver.implicitly_wait(self.default_implicit_wait)
 
     def _register_user_part_3(self):
         self.click(name='Male')
