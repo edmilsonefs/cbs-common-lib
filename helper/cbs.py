@@ -103,11 +103,8 @@ class CommonHelper(TestlioAutomationTest):
         element = None
         count = 0
         while element is None and count < 10:
-            try:
-                element = self.get_element(name=element_to_be_visible)
-            except:
-
-                self.get_element(name=element_to_click).click()
+            if self.get_element(name=element_to_be_visible, timeout=5) is not True:
+                self.get_element(name=element_to_click, timeout=5).click()
                 count += 1
 
     def go_to_menu_page_and_select_option(self, menu_option):
