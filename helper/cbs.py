@@ -603,12 +603,12 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.press_keycode(i, metastate)
 
     def click_allow_popup(self):
-        if self.exists(name='Allow', timeout=7):
+        sleep(5)
+        for i in range(2):
             try:
-                if self.phone:
-                    self.click_until_element_is_visible("Open navigation drawer", "Allow")
-                else:
-                    self.click_until_element_is_visible("Navigate up", "Allow")
+                self.get_element(timeout=10, name='Allow')
+                self.click(xpath=("//*[@text='Allow']"))
+                break
             except:
                 pass
 
