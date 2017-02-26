@@ -174,10 +174,10 @@ class SignUpPage(BasePage):
                     break
 
             self.driver.implicitly_wait(10)
-            try:
-                elem = self.get_element(name='Set')
-            except:
+            if self.get_element(name='Done', timeout=5) is True:
                 elem = self.get_element(name='Done')
+            else:
+                elem = self.get_element(name='Set')
 
             self.click(element=elem, data='Choose the date')
 
