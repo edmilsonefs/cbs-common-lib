@@ -134,7 +134,7 @@ class CommonHelper(TestlioAutomationTest):
 
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
-                self.click(name='Open navigation drawer')
+                self.get_element(name='Open navigation drawer').click()
 
         sleep(1.5)
 
@@ -145,7 +145,7 @@ class CommonHelper(TestlioAutomationTest):
         self.back()
 
     def navigate_up(self):
-        self.click(name='Navigate up')
+        self.click(xpath=("//*[@text='Navigate up']"))
 
     def select_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
@@ -189,7 +189,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1)
 
         if not self.click_safe(name="Don't have an account? Sign Up"):
-            self.click(name="Sign Up")
+            self.click(xpath=("//*[@text='Sign Up']"))
 
         self.verify_exists(name='Sign up with your email')
         sleep(1)
@@ -603,12 +603,12 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.press_keycode(i, metastate)
 
     def click_allow_popup(self):
-        if self.exists(name='Allow', timeout=7):
+        sleep(5)
+        for i in range(2):
             try:
-                if self.phone:
-                    self.click_until_element_is_visible("Open navigation drawer", "Allow")
-                else:
-                    self.click_until_element_is_visible("Navigate up", "Allow")
+                self.get_element(timeout=10, name='Allow')
+                self.click(xpath=("//*[@text='Allow']"))
+                break
             except:
                 pass
 
@@ -1151,7 +1151,7 @@ class CommonHelper(TestlioAutomationTest):
             sleep(5)
             self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
             self.event.screenshot(self.screenshot())
-            self.click(name='SUBMIT')
+            self.click(xpath=("//*[@text='SUBMIT']"))
         except Exception:
             self.event._log_info(self.event._event_data('complete registration not needed'))
         self.event.screenshot(self.screenshot())
@@ -1164,7 +1164,7 @@ class CommonHelper(TestlioAutomationTest):
             destination = self.get_element(name='Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
-        self.click(name='Sign Out', data='Sign Out 1')
+        self.click(xpath=("//*[@text='Sign Out']"), data='Sign Out 1')
         self.click(id=self.com_cbs_app + ':id/signOutButton', data="Sign out 2")
         if "LGE Nexus 5X" == self.testdroid_device:
             self.event._log_info(self.event._event_data('Sign out 2'))
@@ -1184,7 +1184,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1)
         if self.phone:
             self.swipe_down_if_element_is_not_visible(name='Nielsen Info & Your Choices')
-        self.click(name='Nielsen Info & Your Choices')
+        self.click(xpath=("//*[@text='Nielsen Info & Your Choices']"))
         sleep(15)  # waiting for page to load
 
     def go_to_debug_page(self):
@@ -1194,22 +1194,21 @@ class CommonHelper(TestlioAutomationTest):
             destination = self.get_element(name='Send Feedback')
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
-            self.click(name='Debug')
+            self.click(xpath=("//*[@text='Debug']"))
             self.screenshot()
         else:
-            self.click(name='Debug')
+            self.click(xpath=("//*[@text='Debug']"))
 
     def choose_location(self, city, swipe_up=False):
         self.go_to_debug_page()
 
         window_size_y = self.driver.get_window_size()["height"]
-
-        self.click(name='Location Set')
+        self.click(xpath=("//*[@text='Location Set']"))
 
         try:
             self.driver.implicitly_wait(5)
-            self.get_element(name=city)
-            self.click(name=city, screenshot=True)
+            self.get_element(name=city).click()
+            # self.click(name=city, screenshot=True)
         except:
             if swipe_up:
                 for i in range(3):
@@ -1230,7 +1229,7 @@ class CommonHelper(TestlioAutomationTest):
                 elif self.tablet:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
-            self.click(name=city, screenshot=True)
+            self.get_element(name=city).click()
 
             self.driver.implicitly_wait(30)
         self.navigate_up()
@@ -1483,7 +1482,7 @@ class CommonHelper(TestlioAutomationTest):
         self.click(xpath="//android.widget.Button[@text='Get Started']")
 
     def click_submit(self):
-        self.click(name='SUBMIT')
+        self.click(xpath="//android.widget.Button[@text='SUBMIT']")
 
     def click_price(self):
         # on Google billing screen, clicks the down arrow to show full text of billing agreement
@@ -1491,11 +1490,11 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_subscription(self):
         # On settings screen
-        self.click(name='Manage Account')
+        self.click(xpath="//android.widget.Button[@text='Manage Account']")
 
     def click_subscribe(self):
         # On settings screen
-        self.click(name='Subscribe')
+        self.click(xpath="//android.widget.Button[@text='Subscribe']")
 
         ####################################################################################
 

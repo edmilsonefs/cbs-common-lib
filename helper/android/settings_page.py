@@ -134,7 +134,10 @@ class SettingsPage(BasePage):
     def sign_out(self):
         self.goto_settings()
         if self.phone:
-            self.swipe_down_if_element_is_not_visible(name='Sign Out')
+            origin = self.btn_video_services()
+            destination = self.btn_send_feedback()
+            self.driver.drag_and_drop(origin, destination)
+            self.event.screenshot(self.screenshot())
         self.event.screenshot(self.screenshot())
         self.click(element=self.btn_sign_out_settings())
         self.click(element=self.btn_sign_out())
