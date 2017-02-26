@@ -132,9 +132,11 @@ class SettingsPage(BasePage):
                 pass
 
     def sign_out(self):
+        window_height = self.driver.get_window_size()["height"]
         self.goto_settings()
         if self.phone:
-            self.swipe_down_if_element_is_not_visible(name='Sign Out')
+            for i in range(2):
+                self.driver.swipe(35, window_height - 500, 35, 200)
         self.event.screenshot(self.screenshot())
         self.click(element=self.btn_sign_out_settings())
         self.click(element=self.btn_sign_out())
