@@ -24,7 +24,7 @@ class ShowPage(BasePage):
         return self.get_element(timeout=timeout, name='Clips')
 
     def btn_free(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Free')
+        return self.get_element(timeout=timeout, name='Free ')
 
     def btn_full_episodes(self, timeout=10):
         return self.get_element(timeout=timeout, name='Full Episodes')
