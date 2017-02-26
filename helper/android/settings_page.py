@@ -134,8 +134,8 @@ class SettingsPage(BasePage):
     def sign_out(self):
         self.goto_settings()
         if self.phone:
-            origin = self.driver.find_element_by_name('Video Services')
-            destination = self.driver.find_element_by_name('Send Feedback')
+            origin = self.btn_video_services()
+            destination = self.btn_send_feedback()
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
         self.event.screenshot(self.screenshot())
