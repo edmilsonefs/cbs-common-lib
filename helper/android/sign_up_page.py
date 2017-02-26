@@ -173,12 +173,10 @@ class SignUpPage(BasePage):
                 if current_year < year:
                     break
 
-            if self.get_element(name='Done', timeout=5) is True:
-                elem = self.get_element(name='Done')
+            if self.exists(name='Done', timeout=10):
+                self.get_element(name='Done').click()
             else:
-                elem = self.get_element(name='Set')
-
-            self.click(element=elem, data='Choose the date')
+                self.get_element(name='Set').click()
 
     def _register_user_part_3(self):
         self.click(name='Male')
