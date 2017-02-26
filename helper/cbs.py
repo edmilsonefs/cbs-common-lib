@@ -145,7 +145,7 @@ class CommonHelper(TestlioAutomationTest):
         self.back()
 
     def navigate_up(self):
-        self.click(xpath=("//*[@text='Navigate up']"))
+        self.get_element(name="Navigate up").click()
 
     def select_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
@@ -178,7 +178,7 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
 
         # on some screens (live tv), the text 'Sign In' appears twice, so be sure we get the right one...
-        drawer = self.driver.find_element_by_id(self.com_cbs_app + ':id/userInfoHolder')
+        drawer = self.get_element(id=self.com_cbs_app + ':id/userInfoHolder')
         sign_in = drawer.find_element_by_xpath("//*[@text='Sign In' or @content-desc='Sign In']")
         self.click(element=sign_in, data='Click on menu item Sign In')
         self._hide_keyboard()
