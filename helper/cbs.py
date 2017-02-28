@@ -1196,19 +1196,24 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.drag_and_drop(origin, destination)
             self.event.screenshot(self.screenshot())
             self.click(xpath=("//*[@text='Debug']"))
-            self.screenshot()
         else:
             self.click(xpath=("//*[@text='Debug']"))
+        self.event.screenshot(self.screenshot())
 
     def choose_location(self, city, swipe_up=False):
+        window_size_y = self.driver.get_window_size()["height"]
         self.go_to_debug_page()
 
-        window_size_y = self.driver.get_window_size()["height"]
-        self.click(xpath=("//*[@text='Location Set']"))
-
+        if "Nexus 7" in self.testdroid_device:
+            # The new appium is not clicking on the right selector
+            self.driver.tap([(450, 745)])
+        else:
+            self.click(xpath=("//*[@text='Location Set']"))
+        self.event.screenshot(self.screenshot())
         try:
             self.driver.implicitly_wait(5)
-            self.get_element(name=city).click()
+            city = self.get_element(name=city)
+            self.click(city)
             # self.click(name=city, screenshot=True)
         except:
             if swipe_up:
