@@ -1235,7 +1235,8 @@ class CommonHelper(TestlioAutomationTest):
                 elif self.tablet:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
-            self.get_element(name=city).click()
+            city = self.get_element(name=city)
+            self.click(city)
 
             self.driver.implicitly_wait(30)
         self.navigate_up()
