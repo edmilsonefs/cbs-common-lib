@@ -74,6 +74,9 @@ class LiveTvPage(BasePage):
     def optimum_sign_in(self, user, password):
         if self.testdroid_device == 'asus Nexus 7':
             self.driver.tap([(600, 600)])
+        if self.IS_AMAZON:
+            self.driver.tap([(350, 290)])
+        self.event.screenshot(self.screenshot())
         fields = self.lst_optimum_sign_in_fields()
         email_field = fields[0]
         password_field = fields[1]
