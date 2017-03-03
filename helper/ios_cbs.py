@@ -41,7 +41,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.phone = True
 
         # wait for the splash screen to disappear
-        self.not_exists(accessibility_id='SplashEyeLogo', timeout=180)
+        self._accept_alert(1)
+        self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
+        self._accept_alert(1)
         self.goto_home()
 
     def teardown_method(self, method):
