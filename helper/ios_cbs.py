@@ -44,6 +44,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._accept_alert(1)
         self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
         self._accept_alert(1)
+        self.safe_screenshot()
         self.goto_home()
 
     def teardown_method(self, method):
