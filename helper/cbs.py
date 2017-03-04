@@ -676,6 +676,8 @@ class CommonHelper(TestlioAutomationTest):
             if not self.click_safe(name='ACCEPT', timeout=300):
                 self.click_safe(name='Accept', timeout=10)
 
+        self.mvpd_logout()
+
     def click_safe(self, **kwargs):
         """
         Waits for element to exist before trying to click.  Default wait = current implicit wait
