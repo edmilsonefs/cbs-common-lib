@@ -175,8 +175,8 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(20)
 
     def goto_sign_in(self):
+        self.back_while_open_drawer_is_visible()
         self.open_drawer()
-
         # on some screens (live tv), the text 'Sign In' appears twice, so be sure we get the right one...
         drawer = self.get_element(id=self.com_cbs_app + ':id/userInfoHolder')
         sign_in = drawer.find_element_by_xpath("//*[@text='Sign In' or @content-desc='Sign In']")
