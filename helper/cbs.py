@@ -13,9 +13,6 @@ from testlio.base import TestlioAutomationTest
 
 
 class CommonHelper(TestlioAutomationTest):
-    created_email_from_address = 'jfreight33@gmail.com'
-    created_email_from_password = 'testing789'
-    created_email_to_address_list = 'valdo@testlio.com'
     phone = False
     tablet = False
     IS_AMAZON = False
