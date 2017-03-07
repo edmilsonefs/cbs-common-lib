@@ -96,6 +96,7 @@ class BasePage(CommonHelper):
         self.back()
 
     def goto_home(self):
+        self.back_while_open_drawer_is_visible()
         self.open_drawer()
         self.click(element=self.btn_home_menu_item())
 
