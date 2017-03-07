@@ -612,6 +612,11 @@ class CommonHelper(TestlioAutomationTest):
                 break
             except:
                 pass
+        if self.IS_AMAZON:
+            if self.get_element(name="Enable", timeout=10):
+                self.get_element(name="Enable", timeout=10).click()
+            elif self.get_element(name="ENABLE", timeout=10):
+                self.get_element(name="ENABLE", timeout=10).click()
 
     def click_by_location(self, elem, msg=None, **kwargs):
         """
