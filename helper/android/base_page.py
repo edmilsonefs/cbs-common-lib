@@ -101,6 +101,7 @@ class BasePage(CommonHelper):
         self.click(element=self.btn_home_menu_item())
 
     def goto_shows(self):
+        self.back_while_open_drawer_is_visible()
         self.open_drawer()
         self.click(element=self.btn_shows_menu_item())
         self.wait_for_show_page_to_load()
@@ -110,6 +111,7 @@ class BasePage(CommonHelper):
         self.click(element=self.btn_user_status_menu_item())
 
     def goto_live_tv(self):
+        self.back_while_open_drawer_is_visible()
         self.open_drawer()
         self.click(element=self.btn_live_tv_menu_item())
         self.safe_screenshot()
@@ -121,6 +123,7 @@ class BasePage(CommonHelper):
         self.click(element=self.btn_schedule_menu_item())
 
     def goto_settings(self):
+        self.back_while_open_drawer_is_visible()
         self.open_drawer()
         self.click(element=self.btn_settings_menu_item())
 
