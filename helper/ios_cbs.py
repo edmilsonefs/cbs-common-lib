@@ -312,12 +312,10 @@ class CommonIOSHelper(TestlioAutomationTest):
             elem.click()
 
     def open_drawer(self, native=False):
-        e = self.exists_and_visible(id='Main Menu', timeout=10)
-
-        if not e:
+        while not self.exists_and_visible(id='Main Menu', timeout=10):
             self.go_back()
             sleep(1)
-            e = self.exists_and_visible(id='Main Menu', timeout=3)
+        e = self.exists_and_visible(id='Main Menu', timeout=3)
 
         if e.location['x'] > 80:
             return
