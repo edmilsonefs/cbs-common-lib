@@ -7,7 +7,7 @@ class VideoPage(BasePage):
         super(VideoPage, self).__init__(driver, event)
 
     def btn_play_from_beginning(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Play From Beginning')
+        return self.get_element(timeout=timeout, name='PLAY FROM BEGINNING')
 
     def btn_continue_playing(self, timeout=10):
         return self.get_element(timeout=timeout, name='Continue Playing')
