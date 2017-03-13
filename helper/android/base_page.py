@@ -51,6 +51,9 @@ class BasePage(CommonHelper):
     def btn_schedule_menu_item(self, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Schedule']")
 
+    def btn_movies_menu_item(self, timeout=10):
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Movies']")
+
     def btn_shop_menu_item(self, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@text='Shop']")
 
@@ -121,6 +124,10 @@ class BasePage(CommonHelper):
     def goto_schedule(self):
         self.open_drawer()
         self.click(element=self.btn_schedule_menu_item())
+
+    def goto_movies(self):
+        self.open_drawer()
+        self.click(element=self.btn_movies_menu_item())
 
     def goto_settings(self):
         self.back_while_open_drawer_is_visible()
