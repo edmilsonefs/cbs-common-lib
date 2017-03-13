@@ -8,8 +8,12 @@ class MoviesPage(BasePage):
     def lbl_title(self, timeout=10):
         return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Movies']")
 
-    def validate_page(self):
+    def validate_page(self, user_type='anonymous'):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
         self.verify_exists(element=self.lbl_title())
+        if user_type in [self.cf_subscriber, self.subscriber, self.trial]:
+            pass
+        else:
+            pass
