@@ -192,6 +192,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.open_drawer()
         self.click(xpath="//UIATableCell[@name='Settings']")
 
+    def goto_movies(self):
+        self.open_drawer()
+        self.click(id='Movies')
+
+    def goto_subscribe(self):
+        self.open_drawer()
+        self.click(id='Subscribe')
+
     def goto_show(self, show_name):
         self.search_for(show_name)
         self.safe_screenshot()
