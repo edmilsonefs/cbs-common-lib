@@ -38,7 +38,7 @@ class LiveTvPage(BasePage):
         return self.get_element(timeout=timeout, name='GET NOTIFIED')
 
     def btn_video_no_local_station_page(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/ivVideoThumbnail')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/imgThumbnail')
 
     def btn_learn_more(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtLearnMore')
