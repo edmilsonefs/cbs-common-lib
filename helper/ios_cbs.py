@@ -223,7 +223,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def sign_out(self):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
-        self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
+        # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
+        self.click(xpath="//UIAStaticText[@name='Sign Out']")
 
     def goto_sign_out(self):
         self.goto_settings()
@@ -1050,6 +1051,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.tap(.15, .53)
 
         sleep(5)
+
+    def click_movies_poster(self):
+        self.click(xpath='//UIACollectionView[1]/UIACollectionCell[1]')
 
     def find_show_on_home_page(self, show_dict):
         """
