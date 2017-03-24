@@ -879,6 +879,21 @@ class CommonIOSHelper(TestlioAutomationTest):
         action = TouchAction(self.driver)
         action.tap(x=x, y=y).perform()
 
+    def click_movies_episode_on_home_page(self):
+        self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
+        self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
+        self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
+        self.click(element=self.get_element(xpath="//UIATableCell[@name='Movies']//UIACollectionView[1]//UIACollectionCell[1]"))
+
+    def click_watch_movie(self):
+        self.click(element=self.get_element(id="Watch Movie", timeout=20))
+
+    def click_watch_trailer(self):
+        self.click(element=self.get_element(id="Preview Trailer", timeout=20))
+
+    def click_subscribe_to_watch(self):
+        self.click(element=self.get_element(id="Subscribe to Watch", timeout=20))
+
     def click_on_first_aa_video(self):
         # elFrom = self._find_element(id='Free Episodes')
         # elTo = self._find_element(id='Main Menu')
