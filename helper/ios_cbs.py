@@ -884,6 +884,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
         self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
         self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
+        self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
+        self.swipe(0.5, 0.5, 0.5, 0.1, 1000)
         self.click(element=self.get_element(xpath="//UIATableCell[@name='Movies']//UIACollectionView[1]//UIACollectionCell[1]"))
 
     def click_watch_movie(self):
