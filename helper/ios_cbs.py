@@ -881,15 +881,19 @@ class CommonIOSHelper(TestlioAutomationTest):
         action.tap(x=x, y=y).perform()
 
     def click_movies_episode_on_home_page(self):
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
+        # self.swipe(0.5, 0.5, 0.5, 0.1, 500)
+        # sleep(2)
+        # self.swipe(0.5, 0.5, 0.5, 0.1, 500)
+        # sleep(2)
+        # self.swipe(0.5, 0.5, 0.5, 0.1, 500)
+        # sleep(2)
+        # self.swipe(0.5, 0.5, 0.5, 0.1, 500)
+        # sleep(2)
+        # self.swipe(0.5, 0.5, 0.5, 0.1, 500)
+        # sleep(2)
+        # self.swipe(0.5, 0.5, 0.5, 0.1, 500)
+        movies = self.find_on_page('id', 'Movies')
+        self.swipe_element_to_top_of_screen(elem=movies, endy=100)
         self.click(element=self.get_element(xpath="//UIATableCell[@name='Movies']//UIACollectionView[1]//UIACollectionCell[1]"))
 
     def click_watch_movie(self):
