@@ -65,6 +65,16 @@ class HomePage(BasePage):
             if count == 100:
                 self.assertTrueWithScreenShot(False, msg="No All Access video is found on the home page", screenshot=True)
 
+    def click_movies_episode(self):
+        if not self.exists(name='Movies', timeout=4):
+            self._short_swipe_down(duration=500)
+            self._short_swipe_down(duration=500)
+            self.swipe_element_to_top_of_screen(elem=self.get_element(name='Movies', timeout=10), endy=150)
+        else:
+            if self.exists(name='Movies', timeout=5):
+                self.swipe_element_to_top_of_screen(elem=self.get_element(name='Movies', timeout=10), endy=150)
+        self.click(element=self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[@text='Movies']]//android.widget.FrameLayout[1]//android.widget.ImageView[@resource-id='com.cbs.app:id/imgThumbnail']"))
+
     def validate_tou_page(self):
 
         self.verify_exists(element=self.txt_welcome_to_cbs(), screenshot=True)
