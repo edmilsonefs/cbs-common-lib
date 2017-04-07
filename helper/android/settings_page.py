@@ -120,8 +120,13 @@ class SettingsPage(BasePage):
         self.event.screenshot(self.screenshot())
         try:
             self.click(element=self.btn_disconnect_from_optimum(), screenshot=True)
-            self.click(element=self.btn_mvpd_disconnect())
-            self.click(element=self.btn_mvpd_disconnect_yes())
+            if self.exists(element=self.btn_mvpd_disconnect()):
+                self.click(element=self.btn_mvpd_disconnect())
+            else:
+                self.click(element=self.btn_disconnect_from_optimum())
+                self.click(element=self.btn_mvpd_disconnect())
+            if self.exists(element=self.btn_mvpd_disconnect_yes()):
+                self.click(element=self.btn_mvpd_disconnect_yes())
         except:
             self.log_info('Optimum was not connected')
         self.click(element=self.btn_navigate_up())
