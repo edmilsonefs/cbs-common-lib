@@ -129,7 +129,8 @@ class SettingsPage(BasePage):
                 self.click(element=self.btn_mvpd_disconnect_yes())
         except:
             self.log_info('Optimum was not connected')
-        self.click(element=self.btn_navigate_up())
+        sleep(5)
+        self.navigate_up()
         if self.IS_AMAZON:
             try:
                 self.click(element=self.btn_navigate_up())
