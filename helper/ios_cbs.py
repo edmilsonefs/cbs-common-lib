@@ -2,6 +2,8 @@ import os
 import random
 import re
 from time import sleep, time
+
+import subprocess
 from xml.etree import ElementTree
 
 
@@ -1715,10 +1717,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         return x, y
 
     def safe_screenshot(self):
-        try:
-            self.event.screenshot(self.screenshot())
-        except:
-            pass
+        # try:
+        #     self.event.screenshot(self.screenshot())
+        # except:
+        #     pass
+        #os.system("idevicescreenshot -u $UDID ./screenshots/screenshot.tiff | sips -s format png ./screenshots/screenshot.tiff --out ./screenshots/screenshot.png")
+        subprocess.call("idevicescreenshot -u $UDID ./screenshots/screenshot.tiff", shell=True)
+        subprocess.call("sips -s format png ./screenshots/screenshot.tiff --out ./screenshots/screenshot.png", shell=True)
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
