@@ -1724,15 +1724,16 @@ class CommonIOSHelper(TestlioAutomationTest):
         #     self.event.screenshot(self.screenshot())
         # except:
         #     pass
-        #os.system("idevicescreenshot -u $UDID ./screenshots/screenshot.tiff | sips -s format png ./screenshots/screenshot.tiff --out ./screenshots/screenshot.png")
+
         import time
         if not os.path.exists('./screenshots'):
             os.makedirs('./screenshots')
 
         path = "{dir}/{name}-{time}.tiff".format(dir='./screenshots', name=self.name, time=time.mktime(time.gmtime()))
 
-        subprocess.call("idevicescreenshot -u $UDID " + path, shell=True)
-        subprocess.call("sips -s format png " + path + " --out " + path.replace('tiff', 'png'), shell=True)
+        # subprocess.call("idevicescreenshot -u $UDID " + path, shell=True)
+        # subprocess.call("sips -s format png " + path + " --out " + path.replace('tiff', 'png'), shell=True)
+        os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
 
 
     def log_info(self, info):
