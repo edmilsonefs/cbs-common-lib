@@ -2,7 +2,6 @@ import os
 import random
 import re
 from time import sleep, time
-import time
 
 import subprocess
 from xml.etree import ElementTree
@@ -1726,6 +1725,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # except:
         #     pass
         #os.system("idevicescreenshot -u $UDID ./screenshots/screenshot.tiff | sips -s format png ./screenshots/screenshot.tiff --out ./screenshots/screenshot.png")
+        import time
         if not os.path.exists('./screenshots'):
             os.makedirs('./screenshots')
 
