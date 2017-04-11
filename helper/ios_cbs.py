@@ -1729,11 +1729,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         if not os.path.exists('./screenshots'):
             os.makedirs('./screenshots')
 
-        path = "{dir}/{name}-{time}.tiff".format(dir='./screenshots', name=self.name, time=time.mktime(time.gmtime()))
+        path = "{dir}/{name}-{time}".format(dir='./screenshots', name=self.name, time=time.mktime(time.gmtime()))
 
-        # subprocess.call("idevicescreenshot -u $UDID " + path, shell=True)
-        # subprocess.call("sips -s format png " + path + " --out " + path.replace('tiff', 'png'), shell=True)
-        os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
+        subprocess.call("idevicescreenshot -u $UDID " + path + ".tiff", shell=True)
+        subprocess.call("sips -s format png " + path + ".tiff" + " --out " + path + ".png", shell=True)
+        subprocess.call("rm " + path + ".tiff", shell=True)
+        # os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
 
 
     def log_info(self, info):
