@@ -1726,10 +1726,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         #     pass
 
         import time
-        if not os.path.exists('./screenshots'):
-            os.makedirs('./screenshots')
+        if not os.path.exists('screenshots'):
+            os.makedirs('screenshots')
 
-        path = "{dir}/{name}-{time}".format(dir='./screenshots', name=self.name, time=time.mktime(time.gmtime()))
+        path = "{dir}/{name}-{time}".format(dir='screenshots', name=self.name, time=time.mktime(time.gmtime()))
 
         self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID \"" + path + ".png\"")
         subprocess.call("idevicescreenshot -u $UDID \"" + path + ".png\"", shell=True)
