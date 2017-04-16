@@ -29,8 +29,9 @@ class CommonHelper(TestlioAutomationTest):
     com_cbs_app = 'com.cbs.app'
 
     def setup_method(self, method, caps=False):
-        # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
+        # Just in case previous test left device with airplane mode on
+        self.driver.mobile.set_network_connection(self.driver.mobile.ALL_NETWORK)
 
         self.init_variables()
 
