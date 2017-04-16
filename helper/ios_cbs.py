@@ -1001,7 +1001,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.driver.tap([(size['width'] - 30, size['height'] - 30)])
 
     def close_big_advertisement(self):
-        self.click_safe(id='Close Advertisement', timeout=10)
+        self.click_safe(element=self.get_element(id='Close Advertisement', timeout=10))
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
