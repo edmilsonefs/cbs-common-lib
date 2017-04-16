@@ -2168,9 +2168,9 @@ class CommonHelper(TestlioAutomationTest):
         ps2 = self.driver.page_source
 
         if len(ps1) > len(ps2):
-            return ElementTree.fromstring(ps1)
+            return ElementTree.fromstring(ps1.encode('utf-8'))
         else:
-            return ElementTree.fromstring(ps2)
+            return ElementTree.fromstring(ps2.encode('utf-8'))
 
     def _exists_element_using_xml(self, root=False, find_by=None, find_key=None, class_name='*'):
         """
