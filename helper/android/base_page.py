@@ -127,7 +127,7 @@ class BasePage(CommonHelper):
 
     def goto_movies(self):
         self.open_drawer()
-        self.click(element=self.btn_movies_menu_item())
+        self.click(element=self.btn_movies_menu_item(), screenshot=True)
 
     def goto_settings(self):
         self.back_while_open_drawer_is_visible()
