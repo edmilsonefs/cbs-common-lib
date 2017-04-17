@@ -93,6 +93,12 @@ class SignInPage(BasePage):
         if self.exists(name='Ok', timeout=5):
             self.click(element=self.get_element(name='Ok'))
 
+        # Need to handle the error
+        if self.exists(name='Ok', timeout=5):
+            self.click(element=self.get_element(name='Ok'))
+        elif self.exists(name='OK', timeout=5):
+            self.click(element=self.get_element(name='OK'))
+
     def validate_page(self):
         self._hide_keyboard()
         self._hide_keyboard()
