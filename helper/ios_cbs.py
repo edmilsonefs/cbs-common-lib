@@ -1731,7 +1731,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         path = "{dir}/{name}-{time}".format(dir='screenshots', name=self.name, time=time.mktime(time.gmtime()))
 
-        # self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID \"" + path + ".png\"")
+        self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID \"" + path + ".png\"")
         # subprocess.call("idevicescreenshot -u $UDID \"" + path + ".png\"", shell=True)
         subprocess.call("ls -la", shell=True)
         subprocess.call("sips -s format png " + path + ".tiff" + " --out " + path + ".png", shell=True)
