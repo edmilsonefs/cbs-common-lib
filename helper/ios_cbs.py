@@ -1716,8 +1716,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         return x, y
 
-    # def screenshot(self):
-    #     self.safe_screenshot()
+    def screenshot(self):
+        self.safe_screenshot()
 
     def safe_screenshot(self):
         # try:
