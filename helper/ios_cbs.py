@@ -1716,28 +1716,27 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         return x, y
 
-    def screenshot(self):
-        self.safe_screenshot()
+    # def screenshot(self):
+    #     self.safe_screenshot()
 
     def safe_screenshot(self):
-        # try:
-        #     self.event.screenshot(self.screenshot())
-        # except:
-        #     pass
+        try:
+            self.event.screenshot(self.screenshot())
+        except:
+            pass
 
-        import time
-        if not os.path.exists('screenshots'):
-            os.makedirs('screenshots')
-
-        path = "{dir}/{name}-{time}".format(dir='screenshots', name=self.name, time=time.mktime(time.gmtime()))
-
-        self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID \"" + path + ".png\"")
-        # subprocess.call("idevicescreenshot -u $UDID \"" + path + ".png\"", shell=True)
-        subprocess.call("ls -la", shell=True)
-        subprocess.call("sips -s format png " + path + ".tiff" + " --out " + path + ".png", shell=True)
-        subprocess.call("rm " + path + ".tiff", shell=True)
-        os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
-
+        # import time
+        # if not os.path.exists('screenshots'):
+        #     os.makedirs('screenshots')
+        #
+        # path = "{dir}/{name}-{time}".format(dir='screenshots', name=self.name, time=time.mktime(time.gmtime()))
+        #
+        # self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID \"" + path + ".png\"")
+        # # subprocess.call("idevicescreenshot -u $UDID \"" + path + ".png\"", shell=True)
+        # subprocess.call("ls -la", shell=True)
+        # subprocess.call("sips -s format png " + path + ".tiff" + " --out " + path + ".png", shell=True)
+        # subprocess.call("rm " + path + ".tiff", shell=True)
+        # os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
