@@ -96,7 +96,7 @@ class LiveTvPage(BasePage):
     def goto_providers_page(self):
         self.goto_live_tv()
         if self.phone:
-            self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
+            self.swipe_down_on_live_tv_page()
         self.click(element=self.btn_verify_now())
         sleep(5)
         self.event.screenshot(self.screenshot())
@@ -111,6 +111,12 @@ class LiveTvPage(BasePage):
             self.driver.tap([(620, 710)])
         else:
             self.click_allow_popup()
+        self.event.screenshot(self.screenshot())
+
+    def swipe_down_on_live_tv_page(self):
+        origin = self.get_element(name='TV PROVIDER')
+        destination = self.get_element(name=self.lbl_two_ways_to_watch_live_tv())
+        self.driver.drag_and_drop(origin, destination)
         self.event.screenshot(self.screenshot())
 
     def validate_page(self, user_type="anonymous"):
