@@ -1726,11 +1726,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         #     pass
 
         import time
-    
+
         path = "{dir}/{name}-{time}".format(dir='screenshots', name=self.name, time=time.mktime(time.gmtime()))
 
-        self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID " + path + ".png")
-        subprocess.call("idevicescreenshot -u $UDID " + path + ".png", shell=True)
+        # self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID " + path + ".png")
+        # subprocess.call("idevicescreenshot -u $UDID " + path + ".png", shell=True)
+        subprocess.call("echo $UDID")
+        subprocess.call("idevicescreenshot -u $UDID \"" + path + ".png\"", shell=True)
+        # subprocess.call("sips -s format png " + path + ".tiff" + " --out " + path + ".png", shell=True)
         # subprocess.call("rm " + path + ".tiff", shell=True)
         # os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
 
