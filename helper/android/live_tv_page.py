@@ -94,9 +94,10 @@ class LiveTvPage(BasePage):
         self.event.screenshot(self.screenshot())
 
     def goto_providers_page(self):
+        window_size_y = self.driver.get_window_size()["height"]
         self.goto_live_tv()
         if self.phone:
-            self.swipe_down_on_live_tv_page()
+            self.driver.swipe(35, window_size_y - 600, 35, 700)
         self.click(element=self.btn_verify_now())
         sleep(5)
         self.event.screenshot(self.screenshot())
