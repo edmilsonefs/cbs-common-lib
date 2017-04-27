@@ -1717,7 +1717,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         return x, y
 
     def screenshot(self):
-        self.safe_screenshot()
+        return self.safe_screenshot()
 
     def safe_screenshot(self):
         # try:
@@ -1737,6 +1737,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         subprocess.call("sips -s format png " + path + ".tiff" + " --out " + path + ".png", shell=True)
         subprocess.call("rm " + path + ".tiff", shell=True)
         os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
+
+        return path
 
 
     def log_info(self, info):
