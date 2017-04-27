@@ -1732,7 +1732,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.log_info("SCREENSHOT COMMAND: idevicescreenshot -u $UDID " + path + ".png")
         # subprocess.call("idevicescreenshot -u $UDID " + path + ".png", shell=True)
         subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
-        subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + ".png\" &> consoleoutput.txt", shell=True)
+        subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + ".png\" &> consoleoutput2.txt", shell=True)
         # subprocess.call("sips -s format png " + path + ".tiff" + " --out " + path + ".png", shell=True)
         # subprocess.call("rm " + path + ".tiff", shell=True)
         # os.system("idevicescreenshot -u $UDID " + path + " | sips -s format png " + path + " --out " + str(path).replace('tiff', 'png'))
