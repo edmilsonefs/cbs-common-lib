@@ -1720,7 +1720,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(1)  # wait for animations to complete before taking a screenshot
         import time
 
-        path = "{dir}/{name}-{time}".format(dir='screenshots', name=self.name, time=time.mktime(time.gmtime()))
+        path = "{dir}/{name}-{time}".format(dir='./screenshots', name=self.name, time=time.mktime(time.gmtime()))
 
         subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
         subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + ".png\" &> consoleoutput2.txt", shell=True)
