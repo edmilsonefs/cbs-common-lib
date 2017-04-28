@@ -1717,14 +1717,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         return x, y
 
     def screenshot(self):
-        return self.safe_screenshot()
-
-    def safe_screenshot(self):
-        # try:
-        #     self.event.screenshot(self.screenshot())
-        # except:
-        #     pass
-
+        sleep(1)  # wait for animations to complete before taking a screenshot
         import time
 
         path = "{dir}/{name}-{time}".format(dir='screenshots', name=self.name, time=time.mktime(time.gmtime()))
@@ -1733,6 +1726,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + ".png\" &> consoleoutput2.txt", shell=True)
 
         return path
+
+    def safe_screenshot(self):
+        try:
+            self.event.screenshot(self.screenshot())
+        except:
+            pass
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
