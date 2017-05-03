@@ -777,9 +777,10 @@ class CommonHelper(TestlioAutomationTest):
     def click_any_free_video(self):
         if self.exists(xpath="//android.widget.TextView[@text='My CBS']", timeout=5):
             self.swipe_element_to_top_of_screen(elem=self.get_element(xpath="//android.widget.TextView[@text='My CBS']"), endy=100, startx=0)
+            sleep(5)
         if self.exists(name='free', timeout=10):
             list_episodes = self.get_elements(name='free')
-            self.click(element=list_episodes[0])
+            self.click(element=list_episodes[0].find_element_by_id(self.com_cbs_app + ':id/imgThumbnail'))
             self.click_play_from_beginning()
 
     def click_play_from_beginning(self):
