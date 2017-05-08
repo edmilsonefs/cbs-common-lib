@@ -309,7 +309,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.log_info("Fail to press back")
 
     def go_back(self):
-        elem = self.exists(id='BackArrow_white', timeout=2)
+        elem = self.exists(id='BackArrow_white', timeout=6)
         if not elem:
             elem = self._find_element(xpath="//UIAButton[@name='Back']")
 
@@ -326,7 +326,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         while not self.exists_and_visible(id='Main Menu', timeout=10):
             self.go_back()
             sleep(1)
-        e = self.exists_and_visible(id='Main Menu', timeout=3)
+        e = self.exists_and_visible(id='Main Menu', timeout=6)
 
         if e.location['x'] > 80:
             return
