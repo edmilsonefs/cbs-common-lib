@@ -16,6 +16,7 @@ class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
     IS_AMAZON = False
+    accepted_video_popup = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     passed = False
     user_type = 'anonymous'
@@ -657,22 +658,27 @@ class CommonHelper(TestlioAutomationTest):
         self.tap(x=x, y=y, msg=msg)
 
     def accept_start_popup(self):
-        # Allow CBS to see your location?
-        if "5 6.0" in self.testdroid_device:
-            self.click_safe(name='Allow', timeout=300)
-        if 'HTC' in self.testdroid_device:
-            name = 'ACCEPT'
-            self.click_safe(name=name, timeout=480)
-            sleep(3)
-            self.click_safe(id='android:id/button1', timeout=5)
-        elif 'Nexus' in self.testdroid_device:
-            name = 'ACCEPT'
-            self.click_safe(name=name, timeout=300)
-        else:
-            if not self.click_safe(name='ACCEPT', timeout=300):
-                self.click_safe(name='Accept', timeout=10)
+        # # Allow CBS to see your location?
+        # if "5 6.0" in self.testdroid_device:
+        #     self.click_safe(name='Allow', timeout=300)
+        # if 'HTC' in self.testdroid_device:
+        #     name = 'ACCEPT'
+        #     self.click_safe(name=name, timeout=480)
+        #     sleep(3)
+        #     self.click_safe(id='android:id/button1', timeout=5)
+        # elif 'Nexus' in self.testdroid_device:
+        #     name = 'ACCEPT'
+        #     self.click_safe(name=name, timeout=300)
+        # else:
+        #     if not self.click_safe(name='ACCEPT', timeout=300):
+        #         self.click_safe(name='Accept', timeout=10)
 
         self.mvpd_logout()
+
+    def accept_popup_video_click(self):
+        if not self.accepted_video_popup:
+            self.click_safe(name='ACCEPT', timeout=10)
+            self.accepted_video_popup = True
 
     def click_safe(self, **kwargs):
         """
@@ -785,6 +791,7 @@ class CommonHelper(TestlioAutomationTest):
             self.click_play_from_beginning()
 
     def click_play_from_beginning(self):
+        self.accept_popup_video_click()
         self.click_safe(name='PLAY FROM BEGINNING', timeout=10)
 
     def select_first_show_option(self):
