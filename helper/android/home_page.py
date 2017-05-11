@@ -59,12 +59,13 @@ class HomePage(BasePage):
                     list_episodes = self.get_elements(name=PAID)
                     self.click(element=list_episodes[0])
                     self.safe_screenshot()
-                    self.accept_popup_video_click()
                     break
                 else:
                     count += 1
             if count == 100:
                 self.assertTrueWithScreenShot(False, msg="No All Access video is found on the home page", screenshot=True)
+
+        self.accept_popup_video_click()
 
     def click_movies_episode(self):
         if not self.exists(name='Movies', timeout=4):
