@@ -9,7 +9,7 @@ class BasePage(CommonHelper):
         self.event = event
         self.init_variables()
 
-    def top_toolbar(self, timeout=10):
+    def top_toolbar(self, timeout=60):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/toolbar')
 
     def btn_search_icon(self, timeout=10):
