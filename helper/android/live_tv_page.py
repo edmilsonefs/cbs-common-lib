@@ -6,7 +6,7 @@ class LiveTvPage(BasePage):
     def __init__(self, driver, event):
         super(LiveTvPage, self).__init__(driver, event)
 
-    def lbl_title(self, timeout=30):
+    def lbl_title(self, timeout=60):
         return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Live TV']")
 
     def btn_try_1_week_month_free(self, timeout=10):
