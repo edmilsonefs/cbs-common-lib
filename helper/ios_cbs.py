@@ -48,6 +48,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._accept_alert(1)
         self.safe_screenshot()
         self.goto_home()
+        self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
         if self.passed:
@@ -175,6 +176,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_home(self):
         self.open_drawer()
         self.click(id='Home')
+
 
     def goto_shows(self):
         self.open_drawer()
