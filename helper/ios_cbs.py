@@ -1722,6 +1722,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
 
+        if not os.environ['IOS_UDID']:
+            raise Exception('screenshot failed. IOS_UDID not provided')
+
         subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
         subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
 
@@ -1884,6 +1887,3 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click(xpath='//UIAImage[2]')
         self.event.screenshot(self.screenshot())
         sleep(5)
-
-
-
