@@ -47,8 +47,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
         self._accept_alert(1)
         self.safe_screenshot()
-        self.goto_home()
         self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
+        self.goto_home()
+        # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
         if self.passed:
