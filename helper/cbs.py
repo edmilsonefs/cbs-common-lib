@@ -677,8 +677,8 @@ class CommonHelper(TestlioAutomationTest):
 
     def accept_popup_video_click(self):
         if not self.accepted_video_popup:
-            self.click_safe(name='ACCEPT', timeout=10)
-            self.accepted_video_popup = True
+            if self.click_safe(name='ACCEPT', timeout=10):
+                self.accepted_video_popup = True
 
     def click_safe(self, **kwargs):
         """
