@@ -1069,10 +1069,8 @@ class CommonHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
-        elif kwargs.has_key('element'):
-            selector = kwargs['element']
         else:
-            selector = ''
+            selector = 'Element not found'
 
         self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should see element with text or selector: '%s'" % selector)
