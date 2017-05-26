@@ -69,8 +69,8 @@ class HomePage(BasePage):
 
     def click_movies_episode(self):
         if not self.exists(name='Movies', timeout=4):
-            self._short_swipe_down(duration=500)
-            self._short_swipe_down(duration=500)
+            self._short_swipe_down(duration=2000)
+            self._short_swipe_down(duration=2000)
             self.swipe_element_to_top_of_screen(elem=self.get_element(name='Movies', timeout=10), endy=150)
         else:
             if self.exists(name='Movies', timeout=5):
