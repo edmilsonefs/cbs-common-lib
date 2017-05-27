@@ -455,9 +455,9 @@ class CommonHelper(TestlioAutomationTest):
         Deals with Term & Conditions popup and calls click_submit
         """
         # Complete registration if required
-        self.exists(id=self.com_cbs_app + ':id/terms_accept_checkBox', timeout=300)
-        self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
-        self.click_submit()
+        if self.exists(id=self.com_cbs_app + ':id/terms_accept_checkBox', timeout=300):
+            self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
+            self.click_submit()
 
     def _post_login(self):
         """
