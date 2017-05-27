@@ -1,3 +1,5 @@
+from time import sleep
+
 from helper.android.base_page import BasePage
 
 PAID = "paid"
@@ -68,14 +70,15 @@ class HomePage(BasePage):
         self.accept_popup_video_click()
 
     def click_movies_episode(self):
-        if not self.exists(name='Movies', timeout=4):
-            self._short_swipe_down(duration=2000)
-            self._short_swipe_down(duration=2000)
-            self.swipe_element_to_top_of_screen(elem=self.get_element(name='Movies', timeout=10), endy=150)
+        if not self.exists(xpath="//android.widget.TextView[@text='Movies']", timeout=5):
+            element = self.find_on_the_page(direction='down', xpath="//android.widget.TextView[@text='Movies']", timeout=5)
+            self.swipe_element_to_top_of_screen(elem=element, endy=150)
+            sleep(3)
+            self.tap(0.3, 0.3, "Open Movies episode on the Home Page")
         else:
-            if self.exists(name='Movies', timeout=5):
-                self.swipe_element_to_top_of_screen(elem=self.get_element(name='Movies', timeout=10), endy=150)
-        self.click(element=self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[@text='Movies']]//android.widget.FrameLayout[1]//android.widget.ImageView[@resource-id='com.cbs.app:id/imgThumbnail']"))
+            self.swipe_element_to_top_of_screen(elem=self.get_element(xpath="//android.widget.TextView[@text='Movies']", timeout=10), endy=150)
+            sleep(3)
+            self.tap(0.3, 0.3, "Open Movies episode on the Home Page")
 
     def validate_tou_page(self):
 

@@ -1038,7 +1038,26 @@ class CommonHelper(TestlioAutomationTest):
                 return e
 
         return False
-        # raise NoSuchElementException("find_on_page failed looking for '%s'" % elem_id)
+
+    def find_on_the_page(self, direction='down',max_swipes=15, **kwargs):
+        """
+        Scrolls down the page looking for an element.  Call the method like this:
+        self.find_on_page('name', 'Settings')
+        self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
+        """
+        sleep(5) # need to wait while page will be loaded correctly
+        for i in range(max_swipes):
+            e = self.get_element(**kwargs)
+
+            if e is False:
+                if direction == 'down':
+                    self._short_swipe_down()
+                else:
+                    self._short_swipe_up()
+            else:
+                return e
+
+        return False
 
     def find_one_of(self, *args):
         """
