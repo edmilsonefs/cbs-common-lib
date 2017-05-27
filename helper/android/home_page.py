@@ -72,7 +72,7 @@ class HomePage(BasePage):
     def click_movies_episode(self):
         if not self.exists(xpath="//android.widget.TextView[@text='Movies']", timeout=5):
             element = self.find_on_the_page(direction='down', xpath="//android.widget.TextView[@text='Movies']", timeout=5)
-            self.swipe_element_to_top_of_screen(elem=element, endy=150)
+            self.swipe_element_to_top_of_screen(elem=element, endy=0)
             sleep(3)
             self.tap(0.3, 0.3, "Open Movies episode on the Home Page")
         else:
