@@ -2417,6 +2417,7 @@ class CommonHelper(TestlioAutomationTest):
                 self.click_safe(element=self.get_element(name='Got It'))
                 self.click_safe(element=self.get_element(name='Got it'))
                 self.click_safe(element=self.get_element(name='GOT IT'))
+            self._short_swipe_up(duration=1000)
 
         root = self.get_page_source_xml()
 
