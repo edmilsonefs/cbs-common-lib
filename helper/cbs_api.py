@@ -103,7 +103,7 @@ class CBSAPI(object):
             test_count = 0
             for node_item in node_items:
                 test_count += 1
-                if test_count > 3:
+                if test_count > 20:
                     break
                 show_dict = {}
 
