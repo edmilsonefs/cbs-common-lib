@@ -2406,14 +2406,17 @@ class CommonHelper(TestlioAutomationTest):
         """
         root = self.get_page_source_xml()
 
-        if self.IS_AMAZON:
-            self.click_safe(element=self.get_element(name='ok'))
-            self.click_safe(element=self.get_element(name='OK'))
-            self.click_safe(element=self.get_element(name='Ok'))
-        else:
-            self.click_safe(element=self.get_element(name='Got It'))
-            self.click_safe(element=self.get_element(name='Got it'))
-            self.click_safe(element=self.get_element(name='GOT IT'))
+        try:
+            self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
+        except:
+            if self.IS_AMAZON:
+                self.click_safe(element=self.get_element(name='ok'))
+                self.click_safe(element=self.get_element(name='OK'))
+                self.click_safe(element=self.get_element(name='Ok'))
+            else:
+                self.click_safe(element=self.get_element(name='Got It'))
+                self.click_safe(element=self.get_element(name='Got it'))
+                self.click_safe(element=self.get_element(name='GOT IT'))
 
         root = self.get_page_source_xml()
 
