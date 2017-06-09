@@ -2404,8 +2404,16 @@ class CommonHelper(TestlioAutomationTest):
         Tap in the seek bar to jump over.  jump_time is in seconds.
         Find where to tap by dividing jump_time by total_time as found in the screen element
         """
-        self.click_safe(element=self.get_element(name='OK'))
         root = self.get_page_source_xml()
+
+        if self.IS_AMAZON:
+            self.click_safe(element=self.get_element(name='ok'))
+            self.click_safe(element=self.get_element(name='OK'))
+            self.click_safe(element=self.get_element(name='Ok'))
+        else:
+            self.click_safe(element=self.get_element(name='Got It'))
+            self.click_safe(element=self.get_element(name='Got it'))
+            self.click_safe(element=self.get_element(name='GOT IT'))
 
         total_time_elem = self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
         total_time_text = total_time_elem.attrib['text']
