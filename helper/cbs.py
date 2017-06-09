@@ -2415,6 +2415,8 @@ class CommonHelper(TestlioAutomationTest):
             self.click_safe(element=self.get_element(name='Got it'))
             self.click_safe(element=self.get_element(name='GOT IT'))
 
+        root = self.get_page_source_xml()
+
         total_time_elem = self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
         total_time_text = total_time_elem.attrib['text']
 
