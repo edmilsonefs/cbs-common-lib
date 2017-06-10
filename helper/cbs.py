@@ -2419,6 +2419,8 @@ class CommonHelper(TestlioAutomationTest):
                 self.click_safe(element=self.get_element(name='GOT IT'))
             self._short_swipe_up(duration=1000)
 
+        self._short_swipe_up(duration=1000)
+        self.tap(0.5, 0.5, "Tap in the center")
         root = self.get_page_source_xml()
 
         total_time_elem = self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
