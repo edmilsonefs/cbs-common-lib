@@ -912,14 +912,14 @@ class CommonHelper(TestlioAutomationTest):
             self.exists(name='Submit', driver=my_layout)
         """
 
-        if kwargs.has_key('timeout'):
-            self.driver.implicitly_wait(kwargs['timeout'])
-        else:
-            self.driver.implicitly_wait(20)
-        if kwargs.has_key('driver'):
-            d = kwargs['driver']
-        else:
-            d = self.driver
+        # if kwargs.has_key('timeout'):
+        #     self.driver.implicitly_wait(kwargs['timeout'])
+        # else:
+        #     self.driver.implicitly_wait(20)
+        # if kwargs.has_key('driver'):
+        #     d = kwargs['driver']
+        # else:
+        #     d = self.driver
 
         if kwargs.has_key('element'):
             try:
@@ -928,25 +928,11 @@ class CommonHelper(TestlioAutomationTest):
                 return False
         else:
             try:
-                if kwargs.has_key('name'):
-                    try:
-                        e = d.find_element_by_xpath("//*[@text='{0}' or @content-desc='{1}']".format(kwargs['name'], kwargs['name']))
-                    except:
-                        e = d.find_element_by_xpath('//*[contains(@text,"%s")]' % kwargs['name'])
-                elif kwargs.has_key('class_name'):
-                    e = d.find_element_by_class_name(kwargs['class_name'])
-                elif kwargs.has_key('id'):
-                    e = d.find_element_by_id(kwargs['id'])
-                elif kwargs.has_key('xpath'):
-                    e = d.find_element_by_xpath(kwargs['xpath'])
-                else:
-                    raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
-
-                return e
+                return self.get_element(kwargs)
             except NoSuchElementException:
                 return False
-            finally:
-                self.driver.implicitly_wait(self.default_implicit_wait)
+            # finally:
+            #     self.driver.implicitly_wait(self.default_implicit_wait)
 
     def not_exists(self, **kwargs):
         """
