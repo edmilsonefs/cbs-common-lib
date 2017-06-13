@@ -928,7 +928,7 @@ class CommonHelper(TestlioAutomationTest):
                 return False
         else:
             try:
-                return self.get_element(kwargs)
+                return self.get_element(**kwargs)
             except NoSuchElementException:
                 return False
             # finally:
