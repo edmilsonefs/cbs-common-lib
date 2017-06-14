@@ -33,7 +33,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
-        super(CommonIOSHelper, self).setup_method(method, {'waitForAppScript': '$.delay(5000); $.acceptAlert();'})
+        super(CommonIOSHelper, self).setup_method(method, {'waitForAppScript': '$.delay(5000); $.acceptAlert();', 'autoDismissAlerts': 'true'})
 
         if 'iPad' in self.driver.capabilities['deviceName']:
             self.tablet = True
