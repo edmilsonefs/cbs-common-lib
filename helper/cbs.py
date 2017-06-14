@@ -31,6 +31,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def setup_method(self, method, caps=False):
         super(CommonHelper, self).setup_method(method, caps)
+        self.name = type(self).__name__ + '.' + method.__name__
         # Just in case previous test left device with airplane mode on
         self.driver.mobile.set_network_connection(self.driver.mobile.ALL_NETWORK)
 
