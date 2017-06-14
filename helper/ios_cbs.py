@@ -1144,13 +1144,13 @@ class CommonIOSHelper(TestlioAutomationTest):
             my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
             self.exists(id='Submit', driver=my_layout)
         """
-        if 'timeout' in kwargs:
-            self.set_implicit_wait(kwargs['timeout'])
-
-        if 'driver' in kwargs:
-            d = kwargs['driver']
-        else:
-            d = self.driver
+        # if 'timeout' in kwargs:
+        #     self.set_implicit_wait(kwargs['timeout'])
+        #
+        # if 'driver' in kwargs:
+        #     d = kwargs['driver']
+        # else:
+        #     d = self.driver
 
         if kwargs.has_key('element'):
             try:
@@ -1159,18 +1159,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 return False
         else:
             try:
-                if 'accessibility_id' in kwargs:
-                    e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
-                elif 'class_name' in kwargs:
-                    e = d.find_element_by_class_name(kwargs['class_name'])
-                elif 'id' in kwargs:
-                    e = d.find_element_by_id(kwargs['id'])
-                elif 'xpath' in kwargs:
-                    e = d.find_element_by_xpath(kwargs['xpath'])
-                else:
-                    raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
-
-                return e
+               return self.get_element(**kwargs)
             except NoSuchElementException:
                 return False
             finally:
