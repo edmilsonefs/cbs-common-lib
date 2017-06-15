@@ -120,6 +120,8 @@ class BasePage(CommonHelper):
         self.safe_screenshot()
         self.click_allow_popup()
         self.safe_screenshot()
+        self.click_allow_popup()
+        self.safe_screenshot()
 
     def goto_schedule(self):
         self.open_drawer()
