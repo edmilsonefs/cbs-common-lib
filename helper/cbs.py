@@ -599,7 +599,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(5)
         for i in range(2):
             try:
-                self.click_safe(name='Allow')
+                self.click_safe(xpath="//*[@text='Allow']")
                 break
             except:
                 pass
