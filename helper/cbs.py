@@ -211,6 +211,10 @@ class CommonHelper(TestlioAutomationTest):
         self.click_allow_popup()
         self.driver.implicitly_wait(120)
 
+    def goto_movies(self):
+        self.open_drawer()
+        self._go_to('Movies')
+
     def goto_schedule(self):
         self.open_drawer()
         self._go_to('Schedule')
