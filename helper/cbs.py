@@ -87,6 +87,7 @@ class CommonHelper(TestlioAutomationTest):
         lookup['?'] = 'samsung GT-N7100'
         lookup['GT-N7100'] = 'samsung GT-N7100'
         lookup['SAMSUNG-SM-N900A'] = 'samsung SAMSUNG-SM-N900A'
+        lookup['SAMSUNG-SM-N910A'] = 'samsung SAMSUNG-SM-N910A'
         lookup['SM-N920R4'] = 'Samsung Galaxy Note 5'
         lookup['SAMSUNG-SGH-I747'] = 'samsung SAMSUNG-SGH-I747'
         lookup['GT-I9500'] = 'samsung GT-I9500'
@@ -1433,6 +1434,32 @@ class CommonHelper(TestlioAutomationTest):
         #     # the screen turned landscape and we tapped out of bounds
         #     pass
 
+    def click_preview_trailer(self):
+        """
+        On the individual movie popup
+        On the individual movie popup
+        """
+        self.click(name='PREVIEW TRAILER')
+
+    def click_watch_movie(self):
+        """
+        On the individual movie popup
+        """
+        self.click(name='WATCH MOVIE')
+
+        # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
+        # max_y = self.driver.get_window_size()['height']
+        # y = max_y / 4
+        # y_increment = (max_y - y) / 25
+        #
+        # try:
+        #     while y < max_y:
+        #         self.tap(.5, y)
+        #         y += y_increment
+        # except WebDriverException:
+        #     # the screen turned landscape and we tapped out of bounds
+        #     pass
+
     def click_upgrade(self):
         self.click(xpath="//android.widget.Button[@text='Upgrade']")
 
@@ -2654,6 +2681,9 @@ class CommonHelper(TestlioAutomationTest):
 
     def verify_show_page_tabs(self, screenshot=False):
         self.verify_exists(class_name='android.widget.HorizontalScrollView', screenshot=screenshot)
+
+    def verify_movie_poster(self, screenshot=False):
+        self.verify_exists(id=self.com_cbs_app + ':id/movieBrowseCardItem', screenshot=screenshot)
 
     def verify_text_exists(self, txt_or_list, class_name='android.widget.TextView'):
         """
