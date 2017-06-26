@@ -32,7 +32,7 @@ class CommonHelper(TestlioAutomationTest):
     def setup_method(self, method, caps=False):
         super(CommonHelper, self).setup_method(method, caps)
         # Just in case previous test left device with airplane mode on
-        self.driver.mobile.set_network_connection(self.driver.mobile.ALL_NETWORK)
+        # self.driver.mobile.set_network_connection(self.driver.mobile.ALL_NETWORK)
 
         self.init_variables()
 
