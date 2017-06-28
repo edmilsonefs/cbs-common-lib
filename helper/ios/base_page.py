@@ -1,3 +1,4 @@
+import os
 from time import sleep
 
 from helper.ios_cbs import CommonIOSHelper
@@ -28,7 +29,10 @@ class BasePage(CommonIOSHelper):
         return self.get_element(timeout=timeout, id='CBSLogo_white')
 
     def navigation_drawer(self, timeout=10):
-        return self.get_element(timeout=timeout, xpath='//UIATableView[1]')
+        if os.environ['AUTOMATION_NAME'] == 'XCUITest':
+            return self.get_element(timeout=timeout, name='Main Menu')
+        else:
+            return self.get_element(timeout=timeout, xpath='//UIATableView[1]')
 
     def btn_sign_in_menu_item(self, timeout=10):
         return self.get_elements(timeout=timeout, id='Sign In')[0]
@@ -37,25 +41,25 @@ class BasePage(CommonIOSHelper):
         return self.get_elements(timeout=timeout, id='Subscribe')[0]
 
     def btn_home_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//UIATableCell[@name='Home']")
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@name='Home']")
 
     def btn_shows_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//UIATableCell[@name='Shows']")
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@name='Shows']")
 
     def btn_live_tv_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//UIATableCell[@name='Live TV']")
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@name='Live TV']")
 
     def btn_schedule_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//UIATableCell[@name='Schedule']")
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@name='Schedule']")
 
     def btn_store_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//UIATableCell[@name='Store']")
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@name='Store']")
 
     def btn_settings_menu_item(self, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//UIATableCell[@name='Settings']")
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@name='Settings']")
 
     def get_menu_item_with_text(self, text, timeout=10):
-        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//UIATableCell[@name='" + text + "']")
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath("//*[@name='" + text + "']")
 
     def get_element_with_text(self, text, timeout=10):
         return self.get_element(timeout=timeout, id=text)
