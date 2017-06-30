@@ -1749,7 +1749,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.set_sign_in_email(email)
         self.set_sign_in_password(password)
 
-        self.click(xpath='(//UIAButton[@name="SIGN IN"])')
+        self.click(xpath='(//*[@name="SIGN IN"])')
 
         self.finish_login()
 
@@ -1758,6 +1758,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(10)
         if self.exists(id='CONTINUE', timeout=10):
+            if os.environ['AUTOMATION_NAME'] == 'XCUITest':    #iOS 10 switch
+                self.tap_element(xpath="//XCUIElementTypeButton[not(@name)")
             try:
                 self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 self.click(accessibility_id='CONTINUE')
