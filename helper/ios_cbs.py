@@ -1764,10 +1764,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.exists(id='CONTINUE', timeout=10):
             if os.environ['AUTOMATION_NAME'] == 'XCUITest':    #iOS 10 switch
                 self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
-                sleep(4)
+                sleep(2)
             try:
-                self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 self.click(accessibility_id='CONTINUE')
+                self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 sleep(3)
             except:
                 try:
