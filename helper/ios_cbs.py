@@ -1715,7 +1715,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
 
-        if not os.environ['IOS_UDID']:
+        if not os.environ['IOS_UDID'] and not os.environ['UDID']:
             raise Exception('screenshot failed. IOS_UDID not provided')
 
         subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
