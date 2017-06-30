@@ -1718,12 +1718,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         if not os.environ['IOS_UDID'] and not os.environ['UDID']:
             raise Exception('screenshot failed. IOS_UDID not provided')
 
-        if os.environ['UDID']:
-            os.environ['IOS_UDID'] = os.environ['UDID']
-            subprocess.call("export IOS_UDID=$UDID", shell=True)
-            
-        subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
-        subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+        if os.environ['IOS_UDID']:
+            subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
+            subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+        else:
+            subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
+            subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
 
         return path
 
