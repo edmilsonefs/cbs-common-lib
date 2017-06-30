@@ -315,7 +315,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def go_back(self):
         elem = self.exists(id='BackArrow_white', timeout=6)
         if not elem:
-            elem = self._find_element(xpath="//UIAButton[@name='Back']")
+            elem = self._find_element(xpath="//*[@name='Back']")
 
         # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
         # use click_by_location)
