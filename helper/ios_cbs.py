@@ -1766,8 +1766,8 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
                 sleep(2)
             try:
-                self.click(accessibility_id='CONTINUE')
                 self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                self.click(accessibility_id='CONTINUE')
                 sleep(3)
             except:
                 try:
