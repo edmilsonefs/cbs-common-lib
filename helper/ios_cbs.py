@@ -47,7 +47,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
         self._accept_alert(1)
         self.safe_screenshot()
-        self.click_safe(xpath="//UIAButton[@name='OK']", timeout=60)
+        self.click_safe(xpath="//*[@name='OK']", timeout=60)
         self.click_safe(id="START NOW", timeout=30)
         self.goto_home()
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
@@ -89,7 +89,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.phone:
             user_elem = self._find_element(class_name='UIATextField')
         else:
-            for e in self.driver.find_elements_by_xpath("//UIATextField[@value='Email']"):
+            for e in self.driver.find_elements_by_xpath("//*[@value='Email']"):
                 if e.is_displayed():
                     user_elem = e
                     break
@@ -101,7 +101,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.phone:
             pwd_elem = self._find_element(class_name='UIASecureTextField')
         else:
-            for e in self.driver.find_elements_by_xpath("//UIASecureTextField[@value='Password']"):
+            for e in self.driver.find_elements_by_xpath("//*[@value='Password']"):
                 if e.is_displayed():
                     pwd_elem = e
                     break
@@ -111,9 +111,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # sign in button
         if self.phone:
-            sign_in_button = self._find_element(xpath="//UIAButton[@name='SIGN IN']")
+            sign_in_button = self._find_element(xpath="//*[@name='SIGN IN']")
         else:
-            for e in self.driver.find_elements_by_xpath("//UIAButton[@name='SIGN IN']"):
+            for e in self.driver.find_elements_by_xpath("//*[@name='SIGN IN']"):
                 if e.is_displayed():
                     sign_in_button = e
                     break
@@ -186,7 +186,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_live_tv(self):
         self.open_drawer()
-        self.click(xpath="//UIATableCell[@name='Live TV']")
+        self.click(xpath="//*[@name='Live TV']")
         # self.click(id='Live TV')
         self._accept_alert(2)
 
@@ -196,7 +196,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_settings(self):
         self.open_drawer()
-        self.click(xpath="//UIATableCell[@name='Settings']")
+        self.click(xpath="//*[@name='Settings']")
 
     def goto_movies(self):
         self.open_drawer()
@@ -210,7 +210,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        t_f = self.exists(xpath="//UIAButton[contains(@name,'MyCBSStar')]", timeout=30)
+        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -218,7 +218,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        t_f = self.exists(xpath="//UIAButton[contains(@name,'MyCBSStar')]", timeout=30)
+        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -230,7 +230,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def sign_out(self):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
-        self.click(xpath="//UIAStaticText[@name='Sign Out']")
+        self.click(xpath="//*[@name='Sign Out']")
 
     def goto_sign_out(self):
         self.goto_settings()
@@ -289,10 +289,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_search_icon(self):
         try:
-            self.click(xpath="//UIAButton[@name='Search']")
+            self.click(xpath="//*[@name='Search']")
         except:
             self.close_drawer()
-            self.click(xpath="//UIAButton[@name='Search']")
+            self.click(xpath="//*[@name='Search']")
 
     def click_search_text(self):
         self.find_search_text().click()
