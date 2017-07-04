@@ -315,7 +315,10 @@ class CommonIOSHelper(TestlioAutomationTest):
     def go_back(self):
         elem = self.exists(id='BackArrow_white', timeout=6)
         if not elem:
-            elem = self._find_element(xpath="//*[@name='Back']")
+            try:
+                elem = self._find_element(xpath="//*[@name='Back']")
+            except:
+                pass
 
         # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
         # use click_by_location)
@@ -1766,14 +1769,14 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
                 sleep(3)
             try:
-                self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
             except:
                 try:
                     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
                 except:
-                    self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                     self.click(accessibility_id='CONTINUE')
                     sleep(3)
                 self.safe_screenshot()
