@@ -757,11 +757,21 @@ class CommonIOSHelper(TestlioAutomationTest):
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
-                self.wait_and_accept_alert()
+                self.wait_and_accept_alert(timeout=10)
                 sleep(5)
-                break
+                return True
             except:
-                pass
+                return False
+
+    def _dismiss_alert(self, count):
+        for x in range(0, count):
+            try:
+                # Accepts terms of service & other popups there may be
+                self.wait_and_dismiss_alert(timeout=10)
+                sleep(5)
+                return True
+            except:
+                return False
 
     ####################################################################################
     # LOW LEVEL METHODS
