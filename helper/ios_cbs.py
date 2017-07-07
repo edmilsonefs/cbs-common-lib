@@ -1785,14 +1785,20 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
                 sleep(3)
             try:
-                self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                else:
+                    self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
             except:
                 try:
                     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
                 except:
-                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                    if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                        self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                    else:
+                        self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                     self.click(accessibility_id='CONTINUE')
                     sleep(3)
                 self.safe_screenshot()
