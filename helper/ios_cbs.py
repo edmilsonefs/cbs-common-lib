@@ -754,24 +754,30 @@ class CommonIOSHelper(TestlioAutomationTest):
     #                                   msg="Should see element with text or selector: '%s'" % selector)
 
     def _accept_alert(self, count):
+        action = False
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
                 self.wait_and_accept_alert(timeout=10)
                 sleep(5)
-                return True
+                action = True
+                break
             except:
-                return False
+                action = False
+        return action
 
     def _dismiss_alert(self, count):
+        action = False
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
                 self.wait_and_dismiss_alert(timeout=10)
                 sleep(5)
-                return True
+                action = True
+                break
             except:
-                return False
+                action = False
+        return action
 
     ####################################################################################
     # LOW LEVEL METHODS
