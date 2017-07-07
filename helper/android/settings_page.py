@@ -82,10 +82,10 @@ class SettingsPage(BasePage):
         # validation Q
         if self.user_type in [self.anonymous, self.ex_subscriber, self.registered]:
             self.verify_exists(element=self.btn_subscribe)
-        if self.user_type in [self.subscriber, self.trial]:
+        if self.user_type in [self.subscriber, self.trial]:    # TODO add lc subscriber user type
             self.verify_exists(element=self.btn_manage_account())
             if self.phone:
-                self.verify_exists(element=self.btn_limited_commercials())
+                self.verify_exists(element=self.btn_limited_commercials())  # TODO - not in spec
         if self.user_type == self.cf_subscriber:
             self.verify_exists(element=self.btn_manage_account())
             if self.phone:
@@ -107,6 +107,8 @@ class SettingsPage(BasePage):
         self.verify_exists(element=self.btn_video_services())
         self.verify_exists(element=self.btn_nielsen())
         self.verify_exists(element=self.btn_closed_captions())
+        #TODO add push notifications
+        #TODO add sign out
 
     def goto_nielsen_info_page(self):
         self.goto_settings()
