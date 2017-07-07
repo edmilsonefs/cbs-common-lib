@@ -129,9 +129,7 @@ class CommonHelper(TestlioAutomationTest):
         if el:
             el.click()
         else:
-            # maybe we're a level deeper.  Try going back.
-            self.go_back()
-
+            self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
                 self.get_element(name='Open navigation drawer').click()
