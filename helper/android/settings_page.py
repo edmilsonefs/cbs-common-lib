@@ -79,6 +79,7 @@ class SettingsPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/appIcon')
 
     def validate_page(self):
+        # validation Q
         if self.user_type in [self.anonymous, self.ex_subscriber, self.registered]:
             self.verify_exists(element=self.btn_subscribe)
         if self.user_type in [self.subscriber, self.trial]:
