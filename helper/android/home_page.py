@@ -37,6 +37,7 @@ class HomePage(BasePage):
         return self.get_element(timeout=timeout, name='ACCEPT')
 
     def validate_page(self):
+        # Validation B
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
