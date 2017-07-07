@@ -82,7 +82,7 @@ class HomePage(BasePage):
             self.click(element=self.get_elements(id='com.cbs.app:id/movieImage')[0])
 
     def validate_tou_page(self):
-
+        # Validation A
         self.verify_exists(element=self.txt_welcome_to_cbs(), screenshot=True)
         self.verify_exists(element=self.txt_by_using_this_app())
         self.verify_exists(element=self.btn_terms_of_use())
