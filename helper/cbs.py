@@ -244,7 +244,7 @@ class CommonHelper(TestlioAutomationTest):
             e.clear()
             self.send_keys(element=e, data=what_to_search_for[:i])
             if count >= 2:
-                if self.exists(element=self.get_element(name="No Shows Found.", timeout=5)):
+                if self.exists(element=self.get_element(name="No Content Found.", timeout=5)):
                     self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
                 if len(self.get_elements(id=self.com_cbs_app + ":id/showImage", timeout=5)) == 1:
                     break
@@ -2672,7 +2672,7 @@ class CommonHelper(TestlioAutomationTest):
         self.verify_exists(id=self.com_cbs_app + ':id/mycbsButton', screenshot=screenshot)
 
     def verify_no_shows_found_text(self, screenshot=False):
-        self.verify_exists(name="No Shows Found.", screenshot=screenshot)
+        self.verify_exists(name="No Content Found.", screenshot=screenshot)
 
     def verify_show_card(self, screenshot=False):
         self.verify_exists(id=self.com_cbs_app + ':id/showBrowseCardItem', screenshot=screenshot)
