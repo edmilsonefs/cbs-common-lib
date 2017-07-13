@@ -352,7 +352,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(30)
         self.event.screenshot(self.screenshot())  # per spec
 
-        if self.exists(class_name='android.webkit.WebView') or self.exists(name='You have already authorized CBS.com.',
+        if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
                                                                            timeout=5):
             if self.exists(class_name='android.widget.Button', timeout=5):
                 bs = self.get_elements(class_name="android.widget.Button")
