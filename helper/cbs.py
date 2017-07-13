@@ -356,7 +356,7 @@ class CommonHelper(TestlioAutomationTest):
                                                                            timeout=5):
             if self.exists(class_name='android.widget.Button', timeout=5):
                 bs = self.get_elements(class_name="android.widget.Button")
-                bs[1].click()
+                bs[0].click()
                 sleep(4)
 
             else:
