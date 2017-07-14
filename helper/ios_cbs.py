@@ -332,6 +332,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             elem.click()
 
     def open_drawer(self, native=False):
+        #TODO add counter, otherwise possible infinite loop.
         while not self.exists_and_visible(id='Main Menu', timeout=10):
             self.go_back()
             sleep(1)
@@ -1035,6 +1036,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         except:
             pass
         while counter < 10:
+            #TODO AllAccess logo is not used anymore. Unified for all users.
             try:
                 if self.user_type in [self.subscriber, self.cf_subscriber, self.trial]:
                     self.driver.find_element_by_id("CBSLogo_AllAccess_white").is_displayed()
