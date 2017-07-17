@@ -112,96 +112,98 @@ class CBSAPI(object):
                 # We just want:
                 # 'The Late Late Show'
                 # so we'll use SeriesTitle
-                show_dict['show_title'] = node_item.find('{http://xml.cbs.com/field}SeriesTitle').text
 
-                # exception for news shows: get episode_title from <title> instead of <label>
-                if show_dict['show_title'] in ['CBS Evening News', '60 Minutes', '48 Hours']:
-                    show_dict['episode_title'] = node_item.find('title').text
-                else:
-                    # title can look like a few things:
-                    #   'The Young and The Restless - 8/3/2016'
-                    #   We just want:
-                    #   '8/3/2016'
-                    temp_ep_title = node_item.find('{http://xml.cbs.com/field}Label').text
-                    if '(SAP) - ' in temp_ep_title:
-                        temp_ep_title = temp_ep_title[len('(SAP) - '):]
-                    show_dict['episode_title'] = temp_ep_title
+                if node_item.find('{http://xml.cbs.com/field}SeriesTitle').text is not None:
+                    show_dict['show_title'] = node_item.find('{http://xml.cbs.com/field}SeriesTitle').text
 
-                # PrimaryCategoryName looks like:
-                #   'Late Night/Late Late Show/Full Episodes'
-                #   But we just want:
-                #   'Late Night'
-                # For the following
-                #   'Specials', 'Primetime', and 'Primetime Episodes'
-                #   We want:
-                #   'Primetime Episodes'
-                cat = node_item.find('{http://xml.cbs.com/field}PrimaryCategoryName').text
-                try:
-                    show_dict['show_category'] = cat[0:cat.index('/')]
-                except ValueError:
-                    # some bad shows have no '/' so just take the whole thing
-                    show_dict['show_category'] = cat
+                    # exception for news shows: get episode_title from <title> instead of <label>
+                    if show_dict['show_title'] in ['CBS Evening News', '60 Minutes', '48 Hours']:
+                        show_dict['episode_title'] = node_item.find('title').text
+                    else:
+                        # title can look like a few things:
+                        #   'The Young and The Restless - 8/3/2016'
+                        #   We just want:
+                        #   '8/3/2016'
+                        temp_ep_title = node_item.find('{http://xml.cbs.com/field}Label').text
+                        if '(SAP) - ' in temp_ep_title:
+                            temp_ep_title = temp_ep_title[len('(SAP) - '):]
+                        show_dict['episode_title'] = temp_ep_title
 
-                if show_dict['show_category'] in ['Specials', 'Primetime']:
-                    show_dict['show_category'] = 'Primetime Episodes'
+                    # PrimaryCategoryName looks like:
+                    #   'Late Night/Late Late Show/Full Episodes'
+                    #   But we just want:
+                    #   'Late Night'
+                    # For the following
+                    #   'Specials', 'Primetime', and 'Primetime Episodes'
+                    #   We want:
+                    #   'Primetime Episodes'
+                    cat = node_item.find('{http://xml.cbs.com/field}PrimaryCategoryName').text
+                    try:
+                        show_dict['show_category'] = cat[0:cat.index('/')]
+                    except ValueError:
+                        # some bad shows have no '/' so just take the whole thing
+                        show_dict['show_category'] = cat
 
-                if show_dict['show_category'] in ['Daytime']:
-                    show_dict['show_category'] = 'Daytime Episodes'
+                    if show_dict['show_category'] in ['Specials', 'Primetime']:
+                        show_dict['show_category'] = 'Primetime Episodes'
 
-                # pubDate looks like:
-                # 'Thu, 04 Aug 2016 22:30:00 GMT'
-                # We just want:
-                # '8/4/2016'
-                air_date = node_item.find('pubDate').text
-                struct_time = time.strptime(air_date, "%a, %d %b %Y %H:%M:%S %Z")
+                    if show_dict['show_category'] in ['Daytime']:
+                        show_dict['show_category'] = 'Daytime Episodes'
 
-                # The app is based on Eastern Standard Time, so we need to offset GMT (also known as UTC) -> EST
-                # testDroid servers run on GMT so we temporarily change to Pacific time to see if
-                #   daylight savings is active.  tm_isdst == 1 when daylight savings time is active
-                #   when daylight savings time is active, GMT -> PST is 4 hours, when NOT active, it is 5 hours.
-                os.environ['TZ'] = 'US/Eastern'
-                dst = time.localtime().tm_isdst
-                os.environ['TZ'] = 'GMT'
-                offset = (5 - dst) * 3600
-                struct_time = time.localtime(time.mktime(struct_time) - offset)
+                    # pubDate looks like:
+                    # 'Thu, 04 Aug 2016 22:30:00 GMT'
+                    # We just want:
+                    # '8/4/2016'
+                    air_date = node_item.find('pubDate').text
+                    struct_time = time.strptime(air_date, "%a, %d %b %Y %H:%M:%S %Z")
 
-                year = time.strftime("%y", struct_time)
-                month = time.strftime("%m", struct_time).lstrip('0')
-                day = time.strftime("%d", struct_time).lstrip('0')
-                show_dict['air_date'] = "%s/%s/%s" % (month, day, year)
+                    # The app is based on Eastern Standard Time, so we need to offset GMT (also known as UTC) -> EST
+                    # testDroid servers run on GMT so we temporarily change to Pacific time to see if
+                    #   daylight savings is active.  tm_isdst == 1 when daylight savings time is active
+                    #   when daylight savings time is active, GMT -> PST is 4 hours, when NOT active, it is 5 hours.
+                    os.environ['TZ'] = 'US/Eastern'
+                    dst = time.localtime().tm_isdst
+                    os.environ['TZ'] = 'GMT'
+                    offset = (5 - dst) * 3600
+                    struct_time = time.localtime(time.mktime(struct_time) - offset)
 
-                # There are several chapters, with start times (in seconds).  We want to go just past the first mid-roll,
-                # so we'll get the start time of the second chapter and add a couple minutes just to be safe
-                # This will be an int, not string
-                chapters = node_item.findall('{http://xml.theplatform.com/media/data/Media}chapter')
-                if chapters:
-                    chapter_2_items = chapters[1].items()
-                    for item in chapter_2_items:
-                        if item[0] == 'startTime':
-                            start_time = item[1]
-                            show_dict['mid_roll'] = int(start_time) + 120
-                            break
-                else:
-                    # If mid_roll > total video length, we'll just skip to 90% of the total video length
-                    show_dict['mid_roll'] = 99999
+                    year = time.strftime("%y", struct_time)
+                    month = time.strftime("%m", struct_time).lstrip('0')
+                    day = time.strftime("%d", struct_time).lstrip('0')
+                    show_dict['air_date'] = "%s/%s/%s" % (month, day, year)
 
-                # EpisodeNumber and SeasonNumber are good
-                # Both are strings
-                if node_item.find('{http://xml.cbs.com/field}EpisodeNumber') is not None:
-                    show_dict['episode_number'] = node_item.find('{http://xml.cbs.com/field}EpisodeNumber').text
-                else:
-                    show_dict['episode_number'] = None
+                    # There are several chapters, with start times (in seconds).  We want to go just past the first mid-roll,
+                    # so we'll get the start time of the second chapter and add a couple minutes just to be safe
+                    # This will be an int, not string
+                    chapters = node_item.findall('{http://xml.theplatform.com/media/data/Media}chapter')
+                    if chapters:
+                        chapter_2_items = chapters[1].items()
+                        for item in chapter_2_items:
+                            if item[0] == 'startTime':
+                                start_time = item[1]
+                                show_dict['mid_roll'] = int(start_time) + 120
+                                break
+                    else:
+                        # If mid_roll > total video length, we'll just skip to 90% of the total video length
+                        show_dict['mid_roll'] = 99999
 
-                if node_item.find('{http://xml.cbs.com/field}SeasonNumber') is not None:
-                    show_dict['season_number'] = node_item.find('{http://xml.cbs.com/field}SeasonNumber').text
-                else:
-                    show_dict['season_number'] = None
+                    # EpisodeNumber and SeasonNumber are good
+                    # Both are strings
+                    if node_item.find('{http://xml.cbs.com/field}EpisodeNumber') is not None:
+                        show_dict['episode_number'] = node_item.find('{http://xml.cbs.com/field}EpisodeNumber').text
+                    else:
+                        show_dict['episode_number'] = None
 
-                self.show_dict_array.append(show_dict)
+                    if node_item.find('{http://xml.cbs.com/field}SeasonNumber') is not None:
+                        show_dict['season_number'] = node_item.find('{http://xml.cbs.com/field}SeasonNumber').text
+                    else:
+                        show_dict['season_number'] = None
+
+                    self.show_dict_array.append(show_dict)
 
             # hack - filter out some shows
             filter_list = ['The Bold and the Beautiful (En Espanol)', 'Face The Nation', 'CBS Fall Preview 2016',
-                           'Sunday Morning', 'CBSN', 'CBS Evening News']
+                           'Sunday Morning', 'CBSN', 'CBSN Red and Blue', 'CBSN Evening News', 'CBSN The Takeout', 'CBS All Access Movies']
             self.show_dict_array = filter(lambda x: x['show_title'] not in filter_list, self.show_dict_array)
 
         return self.show_dict_array

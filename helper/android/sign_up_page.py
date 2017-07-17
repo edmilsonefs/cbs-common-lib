@@ -262,4 +262,5 @@ class SignUpPage(BasePage):
         elem = self.btn_already_have_an_account_sign_in()
         self.click_by_location(elem, side='right')
         sleep(3)
+        self.verify_exists(name='Sign in with your email', timeout=10)
         self._hide_keyboard()

@@ -1,7 +1,11 @@
+#TODO rename file to common_ios.py
+
 import os
 import random
 import re
 from time import sleep, time
+
+import subprocess
 from xml.etree import ElementTree
 
 
@@ -9,7 +13,7 @@ from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.common.by import By
 
-from testlio.base import TestlioAutomationTest
+from testlio.base import TestlioAutomationTest, SCREENSHOTS_DIR
 
 
 class CommonIOSHelper(TestlioAutomationTest):
@@ -45,7 +49,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
         self._accept_alert(1)
         self.safe_screenshot()
+        self.click_safe(xpath="//*[@name='OK']", timeout=60)
+        self.click_safe(id="START NOW", timeout=30)
         self.goto_home()
+        # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
         if self.passed:
@@ -84,7 +91,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.phone:
             user_elem = self._find_element(class_name='UIATextField')
         else:
-            for e in self.driver.find_elements_by_xpath("//UIATextField[@value='Email']"):
+            for e in self.driver.find_elements_by_xpath("//*[@value='Email']"):
                 if e.is_displayed():
                     user_elem = e
                     break
@@ -96,7 +103,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.phone:
             pwd_elem = self._find_element(class_name='UIASecureTextField')
         else:
-            for e in self.driver.find_elements_by_xpath("//UIASecureTextField[@value='Password']"):
+            for e in self.driver.find_elements_by_xpath("//*[@value='Password']"):
                 if e.is_displayed():
                     pwd_elem = e
                     break
@@ -106,9 +113,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # sign in button
         if self.phone:
-            sign_in_button = self._find_element(xpath="//UIAButton[@name='SIGN IN']")
+            sign_in_button = self._find_element(xpath="//*[@name='SIGN IN']")
         else:
-            for e in self.driver.find_elements_by_xpath("//UIAButton[@name='SIGN IN']"):
+            for e in self.driver.find_elements_by_xpath("//*[@name='SIGN IN']"):
                 if e.is_displayed():
                     sign_in_button = e
                     break
@@ -174,13 +181,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.open_drawer()
         self.click(id='Home')
 
+
     def goto_shows(self):
         self.open_drawer()
         self.click(id='Shows')
 
     def goto_live_tv(self):
         self.open_drawer()
-        self.click(xpath="//UIATableCell[@name='Live TV']")
+        self.click(xpath="//*[@name='Live TV']")
         # self.click(id='Live TV')
         self._accept_alert(2)
 
@@ -190,7 +198,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_settings(self):
         self.open_drawer()
-        self.click(xpath="//UIATableCell[@name='Settings']")
+        self.click(xpath="//*[@name='Settings']")
 
     def goto_movies(self):
         self.open_drawer()
@@ -204,7 +212,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        t_f = self.exists(xpath="//UIAButton[contains(@name,'MyCBSStar')]", timeout=30)
+        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -212,7 +220,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        t_f = self.exists(xpath="//UIAButton[contains(@name,'MyCBSStar')]", timeout=30)
+        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -224,7 +232,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def sign_out(self):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
-        self.click(xpath="//UIAStaticText[@name='Sign Out']")
+        self.click(xpath="//*[@name='Sign Out']")
 
     def goto_sign_out(self):
         self.goto_settings()
@@ -283,10 +291,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_search_icon(self):
         try:
-            self.click(xpath="//UIAButton[@name='Search']")
+            self.click(xpath="//*[@name='Search']")
         except:
             self.close_drawer()
-            self.click(xpath="//UIAButton[@name='Search']")
+            self.click(xpath="//*[@name='Search']")
 
     def click_search_text(self):
         self.find_search_text().click()
@@ -307,24 +315,30 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.log_info("Fail to press back")
 
     def go_back(self):
-        elem = self.exists(id='BackArrow_white', timeout=2)
+        elem = self.exists(id='BackArrow_white', timeout=6)
         if not elem:
-            elem = self._find_element(xpath="//UIAButton[@name='Back']")
-
-        # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
-        # use click_by_location)
-        loc = elem.location
-        if loc['x'] < 0 or loc['y'] < 0:
-            elem = self._find_element(id='Main Menu')
-            self.click_by_location(elem, side='middle')
+            try:
+                elem = self._find_element(xpath="//*[@name='Back']")
+            except:
+                pass
         else:
             elem.click()
 
+        # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
+        # use click_by_location)
+        # loc = elem.location
+        # if loc['x'] < 0 or loc['y'] < 0:
+          #  elem = self._find_element(id='Main Menu')
+          #  self.click_by_location(elem, side='middle')
+        # else:
+          #  elem.click()
+
     def open_drawer(self, native=False):
+        #TODO add counter, otherwise possible infinite loop.
         while not self.exists_and_visible(id='Main Menu', timeout=10):
             self.go_back()
             sleep(1)
-        e = self.exists_and_visible(id='Main Menu', timeout=3)
+        e = self.exists_and_visible(id='Main Menu', timeout=6)
 
         if e.location['x'] > 80:
             return
@@ -573,7 +587,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # VIDEO PLAYER
 
     def restart_from_the_beggining(self):
-        self.click(id='Restart From Beginning')
+        self.click_safe(id='Restart From Beginning')
 
     def close_video(self):
         count = 0
@@ -745,14 +759,30 @@ class CommonIOSHelper(TestlioAutomationTest):
     #                                   msg="Should see element with text or selector: '%s'" % selector)
 
     def _accept_alert(self, count):
+        action = False
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
-                self.wait_and_accept_alert()
+                self.wait_and_accept_alert(timeout=10)
                 sleep(5)
+                action = True
                 break
             except:
-                pass
+                action = False
+        return action
+
+    def _dismiss_alert(self, count):
+        action = False
+        for x in range(0, count):
+            try:
+                # Accepts terms of service & other popups there may be
+                self.wait_and_dismiss_alert(timeout=10)
+                sleep(5)
+                action = True
+                break
+            except:
+                action = False
+        return action
 
     ####################################################################################
     # LOW LEVEL METHODS
@@ -999,8 +1029,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.driver.tap([(size['width'] - 30, size['height'] - 30)])
 
     def close_big_advertisement(self):
-        if self.exists(id='Close Advertisement', timeout=10):
-            self.click(id='Close Advertisement')
+        self.click_safe(element=self.get_element(id='Close Advertisement', timeout=10))
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
@@ -1009,6 +1038,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         except:
             pass
         while counter < 10:
+            #TODO AllAccess logo is not used anymore. Unified for all users.
             try:
                 if self.user_type in [self.subscriber, self.cf_subscriber, self.trial]:
                     self.driver.find_element_by_id("CBSLogo_AllAccess_white").is_displayed()
@@ -1140,13 +1170,13 @@ class CommonIOSHelper(TestlioAutomationTest):
             my_layout = self.driver.find_element_by_class_name('android.widget.LinearLayout')
             self.exists(id='Submit', driver=my_layout)
         """
-        if 'timeout' in kwargs:
-            self.set_implicit_wait(kwargs['timeout'])
-
-        if 'driver' in kwargs:
-            d = kwargs['driver']
-        else:
-            d = self.driver
+        # if 'timeout' in kwargs:
+        #     self.set_implicit_wait(kwargs['timeout'])
+        #
+        # if 'driver' in kwargs:
+        #     d = kwargs['driver']
+        # else:
+        #     d = self.driver
 
         if kwargs.has_key('element'):
             try:
@@ -1155,18 +1185,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 return False
         else:
             try:
-                if 'accessibility_id' in kwargs:
-                    e = d.find_element_by_accessibility_id(kwargs['accessibility_id'])
-                elif 'class_name' in kwargs:
-                    e = d.find_element_by_class_name(kwargs['class_name'])
-                elif 'id' in kwargs:
-                    e = d.find_element_by_id(kwargs['id'])
-                elif 'xpath' in kwargs:
-                    e = d.find_element_by_xpath(kwargs['xpath'])
-                else:
-                    raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
-
-                return e
+               return self.get_element(**kwargs)
             except NoSuchElementException:
                 return False
             finally:
@@ -1715,6 +1734,24 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         return x, y
 
+    def screenshot(self):
+        sleep(1)  # wait for animations to complete before taking a screenshot
+        import time
+
+        path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
+
+        if not os.environ['IOS_UDID'] and not os.environ['UDID']:
+            raise Exception('screenshot failed. IOS_UDID not provided')
+
+        if os.environ['IOS_UDID']:
+            subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
+            subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+        else:
+            subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
+            subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+
+        return path
+
     def safe_screenshot(self):
         try:
             self.event.screenshot(self.screenshot())
@@ -1741,7 +1778,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.set_sign_in_email(email)
         self.set_sign_in_password(password)
 
-        self.click(xpath='(//UIAButton[@name="SIGN IN"])')
+        self.click(xpath='(//*[@name="SIGN IN"])')
 
         self.finish_login()
 
@@ -1750,15 +1787,24 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(10)
         if self.exists(id='CONTINUE', timeout=10):
+            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':    #iOS 10 switch
+                self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
+                sleep(3)
             try:
-                self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                else:
+                    self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
             except:
                 try:
                     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
                 except:
-                    self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                    if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                        self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                    else:
+                        self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
                     self.click(accessibility_id='CONTINUE')
                     sleep(3)
                 self.safe_screenshot()
@@ -1843,7 +1889,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(id='VERIFY NOW', screenshot=True)
 
     def select_optimum_from_provider_page(self):
-        self.click(xpath='//UIACollectionCell[2]')
+        self.click(xpath='//UIACollectionCell[3]')
 
     def go_to_optimum_page(self):
         self.go_to_providers_page()
@@ -1872,6 +1918,3 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click(xpath='//UIAImage[2]')
         self.event.screenshot(self.screenshot())
         sleep(5)
-
-
-

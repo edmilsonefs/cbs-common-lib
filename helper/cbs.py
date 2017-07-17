@@ -1,3 +1,5 @@
+#TODO rename file to common_android.py
+
 import os
 import random
 import re
@@ -16,6 +18,7 @@ class CommonHelper(TestlioAutomationTest):
     phone = False
     tablet = False
     IS_AMAZON = False
+    accepted_video_popup = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
     passed = False
     user_type = 'anonymous'
@@ -29,8 +32,9 @@ class CommonHelper(TestlioAutomationTest):
     com_cbs_app = 'com.cbs.app'
 
     def setup_method(self, method, caps=False):
-        # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
         super(CommonHelper, self).setup_method(method, caps)
+        # Just in case previous test left device with airplane mode on
+        # self.driver.mobile.set_network_connection(self.driver.mobile.ALL_NETWORK)
 
         self.init_variables()
 
@@ -85,6 +89,7 @@ class CommonHelper(TestlioAutomationTest):
         lookup['?'] = 'samsung GT-N7100'
         lookup['GT-N7100'] = 'samsung GT-N7100'
         lookup['SAMSUNG-SM-N900A'] = 'samsung SAMSUNG-SM-N900A'
+        lookup['SAMSUNG-SM-N910A'] = 'samsung SAMSUNG-SM-N910A'
         lookup['SM-N920R4'] = 'Samsung Galaxy Note 5'
         lookup['SAMSUNG-SGH-I747'] = 'samsung SAMSUNG-SGH-I747'
         lookup['GT-I9500'] = 'samsung GT-I9500'
@@ -122,13 +127,11 @@ class CommonHelper(TestlioAutomationTest):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
         """
-        el = self.exists(name='Open navigation drawer', timeout=3)
+        el = self.exists(name='Open navigation drawer', timeout=10)
         if el:
             el.click()
         else:
-            # maybe we're a level deeper.  Try going back.
-            self.go_back()
-
+            self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
                 self.get_element(name='Open navigation drawer').click()
@@ -243,7 +246,7 @@ class CommonHelper(TestlioAutomationTest):
             e.clear()
             self.send_keys(element=e, data=what_to_search_for[:i])
             if count >= 2:
-                if self.exists(element=self.get_element(name="No Shows Found.", timeout=5)):
+                if self.exists(element=self.get_element(name="No Content Found.", timeout=5)):
                     self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
                 if len(self.get_elements(id=self.com_cbs_app + ":id/showImage", timeout=5)) == 1:
                     break
@@ -351,11 +354,11 @@ class CommonHelper(TestlioAutomationTest):
         sleep(30)
         self.event.screenshot(self.screenshot())  # per spec
 
-        if self.exists(class_name='android.webkit.WebView') or self.exists(name='You have already authorized CBS.com.',
+        if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
                                                                            timeout=5):
             if self.exists(class_name='android.widget.Button', timeout=5):
                 bs = self.get_elements(class_name="android.widget.Button")
-                bs[1].click()
+                bs[0].click()
                 sleep(4)
 
             else:
@@ -453,9 +456,9 @@ class CommonHelper(TestlioAutomationTest):
         Deals with Term & Conditions popup and calls click_submit
         """
         # Complete registration if required
-        self.exists(id=self.com_cbs_app + ':id/terms_accept_checkBox', timeout=300)
-        self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
-        self.click_submit()
+        if self.exists(id=self.com_cbs_app + ':id/terms_accept_checkBox', timeout=300):
+            self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
+            self.click_submit()
 
     def _post_login(self):
         """
@@ -464,13 +467,6 @@ class CommonHelper(TestlioAutomationTest):
         Verifies that login was successful
         Also closes nav drawer if it's open
         """
-        if self.exists(name='CBS All Access', timeout=30) or self.exists(name='Upgrade Account', timeout=5):
-            self.hw_back()
-
-        if self.exists(name='Use location?', timeout=5):
-            if not self.click_safe(name='Yes', timeout=5):
-                self.click(name='YES')
-
         self.back_while_open_drawer_is_visible()
         self.open_drawer()
         self.assertTrueWithScreenShot(self.not_exists(name='Sign In', timeout=1), screenshot=True,
@@ -604,8 +600,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(5)
         for i in range(2):
             try:
-                self.get_element(timeout=10, name='Allow')
-                self.click(xpath=("//*[@text='Allow']"))
+                self.click_safe(xpath="//*[@text='Allow']")
                 break
             except:
                 pass
@@ -663,22 +658,27 @@ class CommonHelper(TestlioAutomationTest):
         self.tap(x=x, y=y, msg=msg)
 
     def accept_start_popup(self):
-        # Allow CBS to see your location?
-        if "5 6.0" in self.testdroid_device:
-            self.click_safe(name='Allow', timeout=300)
-        if 'HTC' in self.testdroid_device:
-            name = 'ACCEPT'
-            self.click_safe(name=name, timeout=480)
-            sleep(3)
-            self.click_safe(id='android:id/button1', timeout=5)
-        elif 'Nexus' in self.testdroid_device:
-            name = 'ACCEPT'
-            self.click_safe(name=name, timeout=300)
-        else:
-            if not self.click_safe(name='ACCEPT', timeout=300):
-                self.click_safe(name='Accept', timeout=10)
+        # # Allow CBS to see your location?
+        # if "5 6.0" in self.testdroid_device:
+        #     self.click_safe(name='Allow', timeout=300)
+        # if 'HTC' in self.testdroid_device:
+        #     name = 'ACCEPT'
+        #     self.click_safe(name=name, timeout=480)
+        #     sleep(3)
+        #     self.click_safe(id='android:id/button1', timeout=5)
+        # elif 'Nexus' in self.testdroid_device:
+        #     name = 'ACCEPT'
+        #     self.click_safe(name=name, timeout=300)
+        # else:
+        #     if not self.click_safe(name='ACCEPT', timeout=300):
+        #         self.click_safe(name='Accept', timeout=10)
 
         self.mvpd_logout()
+
+    def accept_popup_video_click(self):
+        if not self.accepted_video_popup:
+            if self.click_safe(name='ACCEPT', timeout=10):
+                self.accepted_video_popup = True
 
     def click_safe(self, **kwargs):
         """
@@ -783,13 +783,16 @@ class CommonHelper(TestlioAutomationTest):
     def click_any_free_video(self):
         if self.exists(xpath="//android.widget.TextView[@text='My CBS']", timeout=5):
             self.swipe_element_to_top_of_screen(elem=self.get_element(xpath="//android.widget.TextView[@text='My CBS']"), endy=100, startx=0)
+            sleep(5)
         if self.exists(name='free', timeout=10):
             list_episodes = self.get_elements(name='free')
-            self.click(element=list_episodes[0])
+            self.set_implicit_wait(10)
+            self.click(element=list_episodes[0].find_element_by_id(self.com_cbs_app + ':id/imgThumbnail'))
             self.click_play_from_beginning()
 
     def click_play_from_beginning(self):
-        self.click_safe(name='PLAY FROM BEGINNING', timeout=20)
+        self.accept_popup_video_click()
+        self.click_safe(name='PLAY FROM BEGINNING', timeout=10)
 
     def select_first_show_option(self):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
@@ -841,7 +844,11 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
-        while not self.exists(element=self.get_element(timeout=10, name='Open navigation drawer')):
+        the_timeout = 5
+        if self.IS_AMAZON:
+            the_timeout = 8
+
+        while not self.exists(element=self.get_element(timeout=the_timeout, name='Open navigation drawer')):
             self.back()
             counter += 1
             if counter > 10:
@@ -849,7 +856,11 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_navigate_up_is_visible(self):
         counter = 0
-        while not self.exists(element=self.get_element(timeout=10, name='Navigate up')):
+        the_timeout = 5
+        if self.IS_AMAZON:
+            the_timeout = 8
+
+        while not self.exists(element=self.get_element(timeout=the_timeout, name='Navigate up')):
             self.back()
             counter += 1
             if counter > 10:
@@ -901,14 +912,14 @@ class CommonHelper(TestlioAutomationTest):
             self.exists(name='Submit', driver=my_layout)
         """
 
-        if kwargs.has_key('timeout'):
-            self.driver.implicitly_wait(kwargs['timeout'])
-        else:
-            self.driver.implicitly_wait(20)
-        if kwargs.has_key('driver'):
-            d = kwargs['driver']
-        else:
-            d = self.driver
+        # if kwargs.has_key('timeout'):
+        #     self.driver.implicitly_wait(kwargs['timeout'])
+        # else:
+        #     self.driver.implicitly_wait(20)
+        # if kwargs.has_key('driver'):
+        #     d = kwargs['driver']
+        # else:
+        #     d = self.driver
 
         if kwargs.has_key('element'):
             try:
@@ -917,25 +928,11 @@ class CommonHelper(TestlioAutomationTest):
                 return False
         else:
             try:
-                if kwargs.has_key('name'):
-                    try:
-                        e = d.find_element_by_xpath("//*[@text='{0}' or @content-desc='{1}']".format(kwargs['name'], kwargs['name']))
-                    except:
-                        e = d.find_element_by_xpath('//*[contains(@text,"%s")]' % kwargs['name'])
-                elif kwargs.has_key('class_name'):
-                    e = d.find_element_by_class_name(kwargs['class_name'])
-                elif kwargs.has_key('id'):
-                    e = d.find_element_by_id(kwargs['id'])
-                elif kwargs.has_key('xpath'):
-                    e = d.find_element_by_xpath(kwargs['xpath'])
-                else:
-                    raise RuntimeError("exists() called with incorrect param. kwargs = %s" % kwargs)
-
-                return e
+                return self.get_element(**kwargs)
             except NoSuchElementException:
                 return False
-            finally:
-                self.driver.implicitly_wait(self.default_implicit_wait)
+            # finally:
+            #     self.driver.implicitly_wait(self.default_implicit_wait)
 
     def not_exists(self, **kwargs):
         """
@@ -1027,7 +1024,26 @@ class CommonHelper(TestlioAutomationTest):
                 return e
 
         return False
-        # raise NoSuchElementException("find_on_page failed looking for '%s'" % elem_id)
+
+    def find_on_the_page(self, direction='down',max_swipes=15, **kwargs):
+        """
+        Scrolls down the page looking for an element.  Call the method like this:
+        self.find_on_page('name', 'Settings')
+        self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
+        """
+        sleep(5) # need to wait while page will be loaded correctly
+        for i in range(max_swipes):
+            e = self.get_element(**kwargs)
+
+            if e is False:
+                if direction == 'down':
+                    self._short_swipe_down()
+                else:
+                    self._short_swipe_up()
+            else:
+                return e
+
+        return False
 
     def find_one_of(self, *args):
         """
@@ -1059,7 +1075,7 @@ class CommonHelper(TestlioAutomationTest):
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
         else:
-            selector = ''
+            selector = 'Element not found'
 
         self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should see element with text or selector: '%s'" % selector)
@@ -1404,6 +1420,32 @@ class CommonHelper(TestlioAutomationTest):
         """
         e = self._find_element(name='Watch Episode')
         self.click_by_location(e, 'Watch Episode')
+
+        # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
+        # max_y = self.driver.get_window_size()['height']
+        # y = max_y / 4
+        # y_increment = (max_y - y) / 25
+        #
+        # try:
+        #     while y < max_y:
+        #         self.tap(.5, y)
+        #         y += y_increment
+        # except WebDriverException:
+        #     # the screen turned landscape and we tapped out of bounds
+        #     pass
+
+    def click_preview_trailer(self):
+        """
+        On the individual movie popup
+        On the individual movie popup
+        """
+        self.click(name='PREVIEW TRAILER')
+
+    def click_watch_movie(self):
+        """
+        On the individual movie popup
+        """
+        self.click(name='WATCH MOVIE')
 
         # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
         # max_y = self.driver.get_window_size()['height']
@@ -2168,9 +2210,9 @@ class CommonHelper(TestlioAutomationTest):
         ps2 = self.driver.page_source
 
         if len(ps1) > len(ps2):
-            return ElementTree.fromstring(ps1)
+            return ElementTree.fromstring(ps1.encode('utf-8'))
         else:
-            return ElementTree.fromstring(ps2)
+            return ElementTree.fromstring(ps2.encode('utf-8'))
 
     def _exists_element_using_xml(self, root=False, find_by=None, find_key=None, class_name='*'):
         """
@@ -2374,6 +2416,23 @@ class CommonHelper(TestlioAutomationTest):
         Tap in the seek bar to jump over.  jump_time is in seconds.
         Find where to tap by dividing jump_time by total_time as found in the screen element
         """
+        root = self.get_page_source_xml()
+
+        try:
+            self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
+        except:
+            if self.IS_AMAZON:
+                self.click_safe(element=self.get_element(name='ok'))
+                self.click_safe(element=self.get_element(name='OK'))
+                self.click_safe(element=self.get_element(name='Ok'))
+            else:
+                self.click_safe(element=self.get_element(name='Got It'))
+                self.click_safe(element=self.get_element(name='Got it'))
+                self.click_safe(element=self.get_element(name='GOT IT'))
+            self._short_swipe_up(duration=1000)
+
+        self._short_swipe_up(duration=1000)
+        self.tap(0.5, 0.5, "Tap in the center")
         root = self.get_page_source_xml()
 
         total_time_elem = self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
@@ -2615,13 +2674,16 @@ class CommonHelper(TestlioAutomationTest):
         self.verify_exists(id=self.com_cbs_app + ':id/mycbsButton', screenshot=screenshot)
 
     def verify_no_shows_found_text(self, screenshot=False):
-        self.verify_exists(name="No Shows Found.", screenshot=screenshot)
+        self.verify_exists(name="No Content Found.", screenshot=screenshot)
 
     def verify_show_card(self, screenshot=False):
         self.verify_exists(id=self.com_cbs_app + ':id/showBrowseCardItem', screenshot=screenshot)
 
     def verify_show_page_tabs(self, screenshot=False):
         self.verify_exists(class_name='android.widget.HorizontalScrollView', screenshot=screenshot)
+
+    def verify_movie_poster(self, screenshot=False):
+        self.verify_exists(id=self.com_cbs_app + ':id/movieBrowseCardItem', screenshot=screenshot)
 
     def verify_text_exists(self, txt_or_list, class_name='android.widget.TextView'):
         """

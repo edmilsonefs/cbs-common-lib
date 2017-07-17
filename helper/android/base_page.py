@@ -9,7 +9,7 @@ class BasePage(CommonHelper):
         self.event = event
         self.init_variables()
 
-    def top_toolbar(self, timeout=10):
+    def top_toolbar(self, timeout=60):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/toolbar')
 
     def btn_search_icon(self, timeout=10):
@@ -76,12 +76,12 @@ class BasePage(CommonHelper):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
         """
-        el = self.exists(element=self.btn_hamburger_menu(timeout=3))
+        el = self.exists(element=self.btn_hamburger_menu(timeout=10))
         if el:
             el.click()
         else:
             # maybe we're a level deeper.  Try going back.
-            self.go_back()
+            self.back_while_open_drawer_is_visible()
 
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
@@ -120,6 +120,8 @@ class BasePage(CommonHelper):
         self.safe_screenshot()
         self.click_allow_popup()
         self.safe_screenshot()
+        self.click_allow_popup()
+        self.safe_screenshot()
 
     def goto_schedule(self):
         self.open_drawer()
@@ -127,7 +129,7 @@ class BasePage(CommonHelper):
 
     def goto_movies(self):
         self.open_drawer()
-        self.click(element=self.btn_movies_menu_item())
+        self.click(element=self.btn_movies_menu_item(), screenshot=True)
 
     def goto_settings(self):
         self.back_while_open_drawer_is_visible()

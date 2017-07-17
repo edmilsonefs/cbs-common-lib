@@ -1,3 +1,5 @@
+from time import sleep
+
 from helper.android.base_page import BasePage
 
 PAID = "paid"
@@ -35,6 +37,7 @@ class HomePage(BasePage):
         return self.get_element(timeout=timeout, name='ACCEPT')
 
     def validate_page(self):
+        # Validation B
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
@@ -65,18 +68,21 @@ class HomePage(BasePage):
             if count == 100:
                 self.assertTrueWithScreenShot(False, msg="No All Access video is found on the home page", screenshot=True)
 
+        self.accept_popup_video_click()
+
     def click_movies_episode(self):
-        if not self.exists(name='Movies', timeout=4):
-            self._short_swipe_down(duration=500)
-            self._short_swipe_down(duration=500)
-            self.swipe_element_to_top_of_screen(elem=self.get_element(name='Movies', timeout=10), endy=150)
+        if not self.exists(xpath="//android.widget.TextView[@text='Movies']", timeout=5):
+            self.find_on_the_page(direction='down', xpath="//android.widget.TextView[@text='Movies']", timeout=5)
+            sleep(3)
+            self._short_swipe_down()
+            self.click(element=self.get_elements(id='com.cbs.app:id/movieImage')[0])
         else:
-            if self.exists(name='Movies', timeout=5):
-                self.swipe_element_to_top_of_screen(elem=self.get_element(name='Movies', timeout=10), endy=150)
-        self.click(element=self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[@text='Movies']]//android.widget.FrameLayout[1]//android.widget.ImageView[@resource-id='com.cbs.app:id/imgThumbnail']"))
+            sleep(3)
+            self._short_swipe_down()
+            self.click(element=self.get_elements(id='com.cbs.app:id/movieImage')[0])
 
     def validate_tou_page(self):
-
+        # Validation A
         self.verify_exists(element=self.txt_welcome_to_cbs(), screenshot=True)
         self.verify_exists(element=self.txt_by_using_this_app())
         self.verify_exists(element=self.btn_terms_of_use())

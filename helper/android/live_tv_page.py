@@ -6,7 +6,7 @@ class LiveTvPage(BasePage):
     def __init__(self, driver, event):
         super(LiveTvPage, self).__init__(driver, event)
 
-    def lbl_title(self, timeout=10):
+    def lbl_title(self, timeout=60):
         return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Live TV']")
 
     def btn_try_1_week_month_free(self, timeout=10):
@@ -94,9 +94,10 @@ class LiveTvPage(BasePage):
         self.event.screenshot(self.screenshot())
 
     def goto_providers_page(self):
+        window_size_y = self.driver.get_window_size()["height"]
         self.goto_live_tv()
         if self.phone:
-            self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
+            self.driver.swipe(35, window_size_y - 600, 35, 700)
         self.click(element=self.btn_verify_now())
         sleep(5)
         self.event.screenshot(self.screenshot())
@@ -113,13 +114,16 @@ class LiveTvPage(BasePage):
             self.click_allow_popup()
         self.event.screenshot(self.screenshot())
 
+    def swipe_down_on_live_tv_page(self):
+        origin = self.get_element(name='TV PROVIDER')
+        destination = self.get_element(name=self.lbl_two_ways_to_watch_live_tv())
+        self.driver.drag_and_drop(origin, destination)
+        self.event.screenshot(self.screenshot())
+
     def validate_page(self, user_type="anonymous"):
         for i in range(2):
-            e = self.exists(element=self.get_element(name='Allow', timeout=5))
-            if e:
-                e.click()
-            else:
-                break
+            self.click_safe(xpath="//*[@text='Allow']", timeout=10)
+
         self.verify_exists(element=self.lbl_title())
         if self.phone:
             self.verify_exists(element=self.btn_hamburger_menu())
