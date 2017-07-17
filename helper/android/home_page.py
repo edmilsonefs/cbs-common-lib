@@ -8,6 +8,7 @@ PAID = "paid"
 class HomePage(BasePage):
     def __init__(self, driver, event):
         super(HomePage, self).__init__(driver, event)
+        
 
     def home_marquee_container(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/marqueeContainer')
