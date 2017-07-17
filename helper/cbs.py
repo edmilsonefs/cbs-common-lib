@@ -1683,7 +1683,7 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(name=name)
+                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
                 elif class_name:
@@ -1721,7 +1721,7 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(name=name)
+                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
             except NoSuchElementException:
