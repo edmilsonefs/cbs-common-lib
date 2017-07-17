@@ -76,12 +76,12 @@ class BasePage(CommonHelper):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
         """
-        el = self.exists(element=self.btn_hamburger_menu(timeout=3))
+        el = self.exists(element=self.btn_hamburger_menu(timeout=10))
         if el:
             el.click()
         else:
             # maybe we're a level deeper.  Try going back.
-            self.go_back()
+            self.back_while_open_drawer_is_visible()
 
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
