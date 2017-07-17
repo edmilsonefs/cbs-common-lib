@@ -321,6 +321,8 @@ class CommonIOSHelper(TestlioAutomationTest):
                 elem = self._find_element(xpath="//*[@name='Back']")
             except:
                 pass
+        else:
+            elem.click()
 
         # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
         # use click_by_location)
