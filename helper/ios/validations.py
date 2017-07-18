@@ -1,5 +1,7 @@
 class Validations():
-
+    ################
+    ###   iOS    ###
+    ################
     def validation_b(self): #TODO update validation
         if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
             self.verify_exists(id='CBSLogo_AllAccess_white', screenshot=False)
