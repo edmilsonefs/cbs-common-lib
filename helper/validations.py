@@ -131,8 +131,103 @@ class Validations():
         self.verify_exists(name='CANCEL')
         self.verify_exists(name='SUBMIT')
 
+    def validation_ae(self):
+        #TODO uncomment
+        # self.verify_cbs_logo()
+        self.verify_exists(id=self.com_cbs_app + ':id/action_search')
+        self.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
+        #TODO add flow depending on MVPD on not for this validation
+        self.verify_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
+        self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
+
+    def validation_ag(self, anonymous=False, ex_subscriber=False):
+        #TODO remove. This is not in the spec
+        self.live_tv_page.btn_check_availability()
+        #TODO this if-else flow not in the spec, but need to check if this is applicable
+        if self.tablet:
+            self.verify_exists(name='Navigate up', screenshot=True)
+        else:
+            self.verify_exists(name='Open navigation drawer', screenshot=True)
+            #TODO uncomment and change indentation <-
+            # self.verify_cbs_logo()
+        self.verify_exists(name='Live TV')
+        self.verify_exists(id=self.com_cbs_app + ':id/action_search')
+        self.verify_exists(name='Two ways to watch Live TV')
+        self.verify_exists(name='Instantly watch your local CBS station at home or on the go!')
+        self.verify_exists(id=self.com_cbs_app + ':id/imageView')  # cbs all access
+        #TODO should be substituted with 'Get Live TV plus thousands of full episodes on demand.'
+        self.verify_exists(name='Stream Live TV plus thousands of full episodes on demand.')
+
+        # <user-state specific values> step starts here
+        #TODO add flow for registered user:
+        #TRY 1 WEEK FREE [button] → Should NOT have text: “Already have CBS ALL ACCESS? Sign In”
+        if anonymous:
+            self.verify_exists(name='Already have an account? Sign In')
+
+            self.verify_exists(id=self.com_cbs_app + ':id/btnTryOneWeekFree')
+            # self.verify_exists(xpath="//android.widget.Button[contains(@text,'Try 1')] and [contains(@text,'free')]")
+            #TODO Remove. This is not in the spec
+            self.verify_exists(id=self.com_cbs_app + ':id/txtTakeTour')
+        elif ex_subscriber:
+            self.verify_exists(name='Get Started')
+            #TODO Remove next 3 lines. Not in the spec
+            self.verify_exists(name='Note: CBS All Access subscription required to enjoy Live TV')
+            self.verify_exists(id=self.com_cbs_app + ':id/txtTakeTour')
+            self.verify_not_exists(name='Already have an account? Sign In')
+            #TODO add verify_not_exists 'Already have CBS ALL ACCESS? Sign In'
+            #TODO add Should NOT have text: 'TRY 1 WEEK FREE'
+
+        else:
+            #TODO remove next line. It is not in the spec
+            self.verify_exists(id=self.com_cbs_app + ':id/btnTryOneWeekFree')
+            self.verify_exists(id=self.com_cbs_app + ':id/txtTakeTour')
+            self.verify_not_exists(name='Already have an account? Sign In')
+        #TODO There is no info in spec on special flow for phones. This is part of flow for non-subscriber. Even if it is phone only, it should be added to 'else' flow
+        if self.phone:
+            self.swipe_down_and_verify_if_exists(name='OR')
+            self.swipe_down_and_verify_if_exists(name='TV PROVIDER')
+            #TODO text should be changed to 'Stream CBS live with your cable or satellite provider'
+            self.swipe_down_and_verify_if_exists(name='Stream Live TV with your cable, satellite or telco provider.', screenshot=True)
+            self.swipe_down_and_verify_if_exists(name='Verify Now')
+            #TODO remove next line comment
+            # self.swipe_down_and_verify_if_exists(id_element='com.cbs.app:id/txtLearnMore')
+            #TODO add next flow:
+            # Learn More → Where is Live TV Available →
+            # Live TV is available in many markets across the country and through select TV providers. →
+            # CHECK AVAILABILITY [button] → What You Get with Live TV → You don’t have to worry
+            # about missing a minute of your favorite shows. Stream your local news, hit CBS shows, special
+            # events like The GRAMMYs and select sporting events at home or on the go across devices. →
+            # SEE DEVICES [button] → Questions? → READ OUR FAQ → Disclaimer → Some
+            # programming is not available for live streaming through CBS All Access. We are continuing to
+            # work towards offering more live programming. In the meantime, when a program is not
+            # available to you via CBS All Access, you will see a message that states that the program is
+            # currently not available.
+
     def validation_at(self, category): #TODO update validation
         self.verify_exists(id="Main Menu", screenshot=False)
         self.verify_exists(id='Movies')
         self.verify_exists(id='Search')
         self.verify_exists(id='I want to see: %s' % category)
+
+    def validation_al(self, anonymous=False):
+
+        self.verify_exists(id=self.com_cbs_app + ':id/gridRecyclerView', screenshot=True)
+        #TODO remove 'if' flow. Not in the spec.
+        if not anonymous:
+            self.verify_not_exists(xpath="//android.widget.TextView[contains(@text,'free CBS account.')]")
+        self.verify_exists(name='Questions?')
+        self.verify_exists(name='READ OUR FAQ')
+        #TODO there is '+ <below user state validations>' in validations.pdf, but it is not clear.
+
+    def validation_am(self):
+        self.event.screenshot(self.screenshot())
+        #TODO substitute with 'Your account has been verified!'
+        self.verify_exists(name='Complete the verification process', screenshot=True)
+        self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
+        self.verify_exists(name='Personalize experience with My CBS')
+        self.verify_exists(name='Resume video across apps and web')
+        self.verify_exists(name='Exclusive content')
+        self.verify_exists(name='Fan votes and sweepstakes')
+        self.verify_exists(name='Latest content delivered right to your inbox')
+        self.verify_exists(name='Sign Up')
+        self.verify_exists(name='Already have an account? Sign In')
