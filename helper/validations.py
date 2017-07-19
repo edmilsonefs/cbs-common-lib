@@ -1,7 +1,53 @@
-class Validations():
-    ################
-    ###   iOS    ###
-    ################
+from time import sleep
+
+from helper.cbs import CommonHelper
+from helper.ios_cbs import CommonIOSHelper
+from helper.android.home_page import HomePage as HomePageAndroid
+from helper.android.settings_page import SettingsPage as SettingsPageAndroid
+from helper.android.shows_page import ShowsPage as ShowPageAndroid
+from helper.android.show_page import ShowPage as ShowPageAndroid
+from helper.android.live_tv_page import LiveTvPage as LiveTvPageAndroid
+from helper.android.upsell_page import UpsellPage as UpsellPageAndroid
+from helper.android.sign_in_page import SignInPage as SignInPageAndroid
+from helper.android.sign_up_page import SignUpPage as SignUpPageAndroid
+from helper.android.schedule_page import SchedulePage as SchedulePageAndroid
+
+class Validations(CommonHelper, CommonIOSHelper):
+
+    home_page_android = None
+    settings_page_android = None
+    shows_page_android = None
+    show_page_android = None
+    live_tv_page_android = None
+    upsell_page_android = None
+    sign_in_page_android = None
+    sign_up_page_android = None
+    schedule_page_android = None
+
+    def __init__(self, driver, event):
+        self.driver = driver
+        self.event = event
+        self.init_variables()
+        self.home_page_android = HomePageAndroid(self.driver, self.event)
+        self.settings_page_android = SettingsPageAndroid(self.driver, self.event)
+        self.shows_page_android = ShowPageAndroid(self.driver, self.event)
+        self.show_page_android = ShowPageAndroid(self.driver, self.event)
+        self.live_tv_page_android = LiveTvPageAndroid(self.driver, self.event)
+        self.upsell_page_android = UpsellPageAndroid(self.driver, self.event)
+        self.sign_in_page_android = SignInPageAndroid(self.driver, self.event)
+        self.sign_up_page_android = SignUpPageAndroid(self.driver, self.event)
+        self.schedule_page_android = SchedulePageAndroid(self.driver, self.event)
+
+    def validation_a(self):
+        if self.IS_ANDROID:
+            CommonHelper.verify_exists(name='Welcome to the CBS app')
+            CommonHelper.verify_exists(name='By using this CBS Application, you agree to our:')
+            CommonHelper.verify_exists(name='Terms of Use')
+            CommonHelper.verify_exists(name='Mobile User Agreement')
+            CommonHelper.verify_exists(name='Privacy Policy')
+            CommonHelper.verify_exists(name='Video Services')
+            CommonHelper.verify_exists(name='ACCEPT')
+
     def validation_b(self): #TODO update validation
         if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
             self.verify_exists(id='CBSLogo_AllAccess_white', screenshot=False)
@@ -76,34 +122,36 @@ class Validations():
         self.verify_exists(name='Show Info')
 
     def validation_q(self, name): #TODO update validation
+        if self.IS_ANDROID:
+            self.settings_page_android.validate_page()
+        elif self.IS_IOS:
+            sleep(3)
+            # if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
+            #     self.verify_exists(name='Subscription')
+            # else:
+            #     self.verify_exists(name='Subscribe')
 
-        sleep(3)
-        # if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
-        #     self.verify_exists(name='Subscription')
-        # else:
-        #     self.verify_exists(name='Subscribe')
-
-        if self.phone:
-            if self.user_type == self.anonymous:
-                self.verify_not_exists(id="Sign Out", timeout=10, screenshot=True)
+            if self.phone:
+                if self.user_type == self.anonymous:
+                    self.verify_not_exists(id="Sign Out", timeout=10, screenshot=True)
+                else:
+                    self.verify_exists(id="Sign Out", screenshot=True)
             else:
-                self.verify_exists(id="Sign Out", screenshot=True)
-        else:
-            if self.user_type != self.anonymous:
-                self.verify_exists(id="Sign Out", screenshot=True)
-        self.verify_exists(xpath="//UIATableCell[contains(@name,'App Version')]")
-        if self.phone:
-            self.verify_exists(xpath="//UIATableCell[@name='Send Feedback']")
-        else:
-            self.verify_exists(xpath="//UIATableCell[@name='Help']")
-        self.verify_exists(xpath="//UIATableCell[@name='Terms Of Use']")
-        self.verify_exists(xpath="//UIATableCell[@name='Privacy Policy']")
-        self.verify_exists(xpath="//UIATableCell[@name='Mobile User Agreement']")
-        self.verify_exists(xpath="//UIATableCell[@name='Video Services']")
-        # if self.phone:
-        #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info & Your Choices']")
-        # else:
-        #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info']")
+                if self.user_type != self.anonymous:
+                    self.verify_exists(id="Sign Out", screenshot=True)
+            self.verify_exists(xpath="//UIATableCell[contains(@name,'App Version')]")
+            if self.phone:
+                self.verify_exists(xpath="//UIATableCell[@name='Send Feedback']")
+            else:
+                self.verify_exists(xpath="//UIATableCell[@name='Help']")
+            self.verify_exists(xpath="//UIATableCell[@name='Terms Of Use']")
+            self.verify_exists(xpath="//UIATableCell[@name='Privacy Policy']")
+            self.verify_exists(xpath="//UIATableCell[@name='Mobile User Agreement']")
+            self.verify_exists(xpath="//UIATableCell[@name='Video Services']")
+            # if self.phone:
+            #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info & Your Choices']")
+            # else:
+            #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info']")
 
     def validation_u(self): #TODO update validation
         if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
