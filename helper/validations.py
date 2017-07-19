@@ -176,18 +176,19 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_u(self, user_type="anonymous"): #TODO update validation
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(user_type=user_type)
-        if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
-            self.verify_exists(id="Schedule", screenshot=False)
-            self.verify_exists(id="Start Watching")
-            self.verify_exists(id="Already have an account? Sign In")
-            self.verify_exists(id="VERIFY NOW")
-            self.verify_exists(id="TV PROVIDER")
-            self.verify_exists(id="Stream Live TV with your cable")
-            self.verify_exists(id="satellite or telco provider.")
-        else:
-            self.verify_exists(id="Two ways to watch Live TV", screenshot=False)
-            self.verify_exists(id="Instantly watch your local CBS station at home or on the go!")
-            self.verify_exists(xpath="//UIAStaticText[contains(@name,'Get Live TV plus thousands')]")
+        elif self.IS_IOS:
+            if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
+                self.verify_exists(id="Schedule", screenshot=False)
+                self.verify_exists(id="Start Watching")
+                self.verify_exists(id="Already have an account? Sign In")
+                self.verify_exists(id="VERIFY NOW")
+                self.verify_exists(id="TV PROVIDER")
+                self.verify_exists(id="Stream Live TV with your cable")
+                self.verify_exists(id="satellite or telco provider.")
+            else:
+                self.verify_exists(id="Two ways to watch Live TV", screenshot=False)
+                self.verify_exists(id="Instantly watch your local CBS station at home or on the go!")
+                self.verify_exists(xpath="//UIAStaticText[contains(@name,'Get Live TV plus thousands')]")
 
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
