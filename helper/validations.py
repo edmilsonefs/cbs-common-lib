@@ -121,7 +121,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(name='Add to Calendar')
         self.verify_exists(name='Show Info')
 
-    def validation_q(self, name): #TODO update validation
+    def validation_q(self): #TODO update validation
         if self.IS_ANDROID:
             self.settings_page_android.validate_page()
         elif self.IS_IOS:
