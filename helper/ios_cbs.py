@@ -322,16 +322,16 @@ class CommonIOSHelper(TestlioAutomationTest):
             except:
                 pass
         
-        elem.click()
+        # elem.click() # add, if below element loc click is removed.
 
         # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
         # use click_by_location)
-        # loc = elem.location
-        # if loc['x'] < 0 or loc['y'] < 0:
-          #  elem = self._find_element(id='Main Menu')
-          #  self.click_by_location(elem, side='middle')
-        # else:
-          #  elem.click()
+        loc = elem.location
+        if loc['x'] < 0 or loc['y'] < 0:
+            elem = self._find_element(id='Main Menu')
+            self.click_by_location(elem, side='middle')
+        else:
+            elem.click()
 
     def open_drawer(self, native=False):
         #TODO add counter, otherwise possible infinite loop.
