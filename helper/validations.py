@@ -89,17 +89,28 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(id='More From Show')
         self.verify_exists(id='Close')
 
+    # Schedule Page
+    def validation_k(self):
+        if self.IS_ANDROID:
+            self.schedule_page_android.validate_page()
+        elif self.IS_IOS:
+            pass
+
     def validation_l(self): # TODO update validation
         self.close_big_advertisement()
         self.verify_exists(xpath="//UIAButton[@name='Add to My CBS' or @name='Remove from My CBS']", screenshot=True)
         self.verify_exists(id='Share')
         self.verify_exists(id='Cancel')
 
+    # Shows Page
     def validation_m(self, category): #TODO update validation
-        self.verify_exists(id="Main Menu", screenshot=False)
-        self.verify_exists(id='Shows')
-        self.verify_exists(id='Search')
-        self.verify_exists(id='I want to see: %s' % category)
+        if self.IS_ANDROID:
+            self.shows_page_android.validate_page()
+        elif self.IS_IOS:
+            self.verify_exists(id="Main Menu", screenshot=False)
+            self.verify_exists(id='Shows')
+            self.verify_exists(id='Search')
+            self.verify_exists(id='I want to see: %s' % category)
 
     def validation_n(self):
         self.verify_exists(name='All Shows', screenshot=False)
@@ -121,6 +132,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(name='Add to Calendar')
         self.verify_exists(name='Show Info')
 
+    # Settings Page
     def validation_q(self): #TODO update validation
         if self.IS_ANDROID:
             self.settings_page_android.validate_page()
@@ -153,8 +165,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             # else:
             #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info']")
 
-    def validation_u(self): #TODO update validation
-        if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
+    # Live TV Page
+    def validation_u(self, user_type): #TODO update validation
+        if self.IS_ANDROID:
+            self.live_tv_page_android.validate_page(user_type)
+        if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
             self.verify_exists(id="Schedule", screenshot=False)
             self.verify_exists(id="Start Watching")
             self.verify_exists(id="Already have an account? Sign In")
