@@ -4,7 +4,7 @@ from helper.cbs import CommonHelper
 from helper.ios_cbs import CommonIOSHelper
 from helper.android.home_page import HomePage as HomePageAndroid
 from helper.android.settings_page import SettingsPage as SettingsPageAndroid
-from helper.android.shows_page import ShowsPage as ShowPageAndroid
+from helper.android.shows_page import ShowsPage as ShowsPageAndroid
 from helper.android.show_page import ShowPage as ShowPageAndroid
 from helper.android.live_tv_page import LiveTvPage as LiveTvPageAndroid
 from helper.android.upsell_page import UpsellPage as UpsellPageAndroid
@@ -30,7 +30,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.init_variables()
         self.home_page_android = HomePageAndroid(self.driver, self.event)
         self.settings_page_android = SettingsPageAndroid(self.driver, self.event)
-        self.shows_page_android = ShowPageAndroid(self.driver, self.event)
+        self.shows_page_android = ShowsPageAndroid(self.driver, self.event)
         self.show_page_android = ShowPageAndroid(self.driver, self.event)
         self.live_tv_page_android = LiveTvPageAndroid(self.driver, self.event)
         self.upsell_page_android = UpsellPageAndroid(self.driver, self.event)
@@ -83,6 +83,13 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(id='Schedule')
         # self.verify_exists(name='My CBS')
         self.verify_exists(id='Store')
+
+    # Show Page
+    def validation_h(self, user_type):
+        if self.IS_ANDROID:
+            self.show_page_android.validate_page(user_type=user_type)
+        elif self.IS_IOS:
+            pass
 
     def validation_i(self): #TODO update validation
         self.verify_exists(id='Watch Episode', screenshot=False)
@@ -168,7 +175,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     # Live TV Page
     def validation_u(self, user_type): #TODO update validation
         if self.IS_ANDROID:
-            self.live_tv_page_android.validate_page(user_type)
+            self.live_tv_page_android.validate_page(user_type=user_type)
         if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
             self.verify_exists(id="Schedule", screenshot=False)
             self.verify_exists(id="Start Watching")
@@ -181,6 +188,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id="Two ways to watch Live TV", screenshot=False)
             self.verify_exists(id="Instantly watch your local CBS station at home or on the go!")
             self.verify_exists(xpath="//UIAStaticText[contains(@name,'Get Live TV plus thousands')]")
+
+    def validation_v(self, user_type):
+        if self.IS_ANDROID:
+            self.upsell_page_android.validate_page(user_type=user_type)
+        elif self.IS_IOS:
+            pass
 
     def validation_y(self): #TODO update validation
 
