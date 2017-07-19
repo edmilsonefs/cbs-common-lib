@@ -85,7 +85,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(id='Store')
 
     # Show Page
-    def validation_h(self, user_type):
+    def validation_h(self, user_type="anonymous"):
         if self.IS_ANDROID:
             self.show_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
@@ -173,7 +173,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info']")
 
     # Live TV Page
-    def validation_u(self, user_type): #TODO update validation
+    def validation_u(self, user_type="anonymous"): #TODO update validation
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(user_type=user_type)
         if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
@@ -189,7 +189,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id="Instantly watch your local CBS station at home or on the go!")
             self.verify_exists(xpath="//UIAStaticText[contains(@name,'Get Live TV plus thousands')]")
 
-    def validation_v(self, user_type):
+    def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
