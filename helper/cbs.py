@@ -787,7 +787,8 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(name='free', timeout=10):
             list_episodes = self.get_elements(name='free')
             self.set_implicit_wait(10)
-            self.click(element=list_episodes[0].find_element_by_id(self.com_cbs_app + ':id/imgThumbnail'))
+            self.click_by_location(list_episodes[0], "Open free video on Home page")
+            # self.click(element=list_episodes[0].find_element_by_id(self.com_cbs_app + ':id/imgThumbnail'))
             self.click_play_from_beginning()
 
     def click_play_from_beginning(self):
