@@ -264,19 +264,37 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self._short_swipe_down()
             CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
-    def validation_y(self): #TODO update validation
+    def validation_y(self, error_number): #TODO update validation
+        if self.IS_ANDROID:
+            dict_errors = {"a": "You must provide an email.",
+                           "b": "You must provide a valid email.",
+                           "c": "You must provide a password.",
+                           "d": "Invalid username/password.",
+                           "e": "You need to accept our terms in order to continue.",
+                           "f": "Our Terms Have Changed",
+                           "g": "By registering you become a member of the CBS Interactive family of sites and you have "
+                                "read and agree to the Terms of Use, Privacy Policy and Video Services Policy. "
+                                "You understand that on occasion, you will receive updates, alerts and promotions from "
+                                "CBS. You agree that CBS may share information about you with companies that provide "
+                                "content, products or services featured on CBS sites so that they may contact "
+                                "you about their products or services."}
 
-        self.verify_exists(name='Our Terms Have Changed', screenshot=False)
-        self.verify_exists(id='com.cbs.app:id/terms_accept_checkBox')
-        self.verify_exists(
-            name="By registering you become a member of the CBS Interactive family of sites and you have "
-                 "read and agree to the Terms of Use, Privacy Policy and Video Services Policy. "
-                 "You understand that on occasion, you will receive updates, alerts and promotions from "
-                 "CBS. You agree that CBS may share information about you with companies that provide "
-                 "content, products or services featured on CBS sites so that they may contact "
-                 "you about their products or services.")
-        self.verify_exists(name='CANCEL')
-        self.verify_exists(name='SUBMIT')
+            CommonHelper.verify_exists(name=dict_errors[error_number], screenshot=True)
+        elif self.IS_IOS:
+            dict = {
+                "a": "Invalid email and/or password.",
+            }
+
+            counter = 0
+            page_source = self.driver.page_source
+            for error in error_number:
+                if counter == 0:
+                    self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=True,
+                                                  msg="Error message %s is absent" % dict[error])
+                else:
+                    self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=False,
+                                                  msg="Error message %s is absent" % dict[error])
+                counter += 1
 
     def validation_ab(self, fn, ln):
         self.open_drawer()
