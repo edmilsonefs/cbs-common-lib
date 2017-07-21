@@ -190,6 +190,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id="Instantly watch your local CBS station at home or on the go!")
                 self.verify_exists(xpath="//UIAStaticText[contains(@name,'Get Live TV plus thousands')]")
 
+    # Upsell Page
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
