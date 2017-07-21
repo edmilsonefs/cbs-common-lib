@@ -231,17 +231,17 @@ class Validations(CommonHelper, CommonIOSHelper):
                 # "o": "This email has already been registered. Please sign In to your account to enjoy watching All Access.",
             }
 
-        page_source = self.driver.page_source
+            page_source = self.driver.page_source
 
-        counter = 0
-        for error in error_number:
-            if counter == 0:
-                self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=True,
-                                              msg="Error message %s should be visible" % dict[error])
-            else:
-                self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=False,
-                                              msg="Error message %s should be visible" % dict[error])
-            counter += 1
+            counter = 0
+            for error in error_number:
+                if counter == 0:
+                    self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=True,
+                                                  msg="Error message %s should be visible" % dict[error])
+                else:
+                    self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=False,
+                                                  msg="Error message %s should be visible" % dict[error])
+                counter += 1
 
     def validation_xf(self):
         if self.IS_ANDROID:
