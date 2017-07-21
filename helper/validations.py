@@ -244,22 +244,25 @@ class Validations(CommonHelper, CommonIOSHelper):
             counter += 1
 
     def validation_xf(self):
-        CommonHelper.verify_exists(name='Sign up with your Facebook account', screenshot=True)
-        for _ in range(0, 3):
-            self._short_swipe_down()
-            CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+        if self.IS_ANDROID:
+            CommonHelper.verify_exists(name='Sign up with your Facebook account', screenshot=True)
+            for _ in range(0, 3):
+                self._short_swipe_down()
+                CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
     def validation_xt(self):
-        CommonHelper.verify_exists(name='Sign up with your Twitter account', screenshot=True)
-        for _ in range(0, 3):
-            self._short_swipe_down()
-        CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+        if self.IS_ANDROID:
+            CommonHelper.verify_exists(name='Sign up with your Twitter account', screenshot=True)
+            for _ in range(0, 3):
+                self._short_swipe_down()
+            CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
     def validation_xg(self):
-        CommonHelper.verify_exists(name='Sign up with your Google account', screenshot=True)
-        for _ in range(0, 3):
-            self._short_swipe_down()
-        CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+        if self.IS_ANDROID:
+            CommonHelper.verify_exists(name='Sign up with your Google account', screenshot=True)
+            for _ in range(0, 3):
+                self._short_swipe_down()
+            CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
     def validation_y(self): #TODO update validation
 
