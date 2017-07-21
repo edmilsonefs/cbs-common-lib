@@ -58,19 +58,16 @@ class Validations(CommonHelper, CommonIOSHelper):
             # self.verify_exists(id='Marquee', timeout=60) TODO impossible to verify because of sliding
 
     def validation_d(self): #TODO update validation
-        self.verify_exists(name='Sign In', screenshot=False)
-        self.verify_exists(name='Sign in with your email')
+        if self.IS_ANDROID:
+            self.sign_in_page_android.validate_page()
+        elif self.IS_IOS:
+            pass
 
     def validation_e(self): #TODO update validation
-        self.verify_exists(id="Sign in with your social account", screenshot=False)
-        self.verify_exists(id="FacebookLogo")
-        self.verify_exists(id="TwitterLogo")
-        self.verify_exists(id="GooglePlusLogo")
-        self.verify_exists(id="Sign in with your email")
-        self.verify_exists(id="Forgot Password?")
-        self.verify_exists(id="SIGN IN")
-        self.verify_exists(id="Subscribed through iTunes? Restore Purchase")
-        self.verify_exists(id="Don\'t have an account? Sign Up")
+        if self.IS_ANDROID:
+            self.sign_up_page_android.validate_page()
+        elif self.IS_IOS:
+            pass
 
     def validation_f(self): #TODO update Validation.
         if self.user_type == self.anonymous:
@@ -196,6 +193,52 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             pass
 
+    def validation_w(self, error_number):
+        if self.IS_ANDROID:
+            dict_errors = {"a": "You must provide a first name.",
+                           "b": "You must provide a last name.",
+                           "c": "You must provide an email.",
+                           "d": "You must provide a valid email.",
+                           "e": "Your email must match your confirmation email.",
+                           "f": "You must provide a password.",
+                           "g": "Your password must match your confirmation password.",
+                           "h": "You must provide a zip code.",
+                           "i": "You must accept the terms and conditions.",
+                           "j": "Password must contain at least 6 characters.",
+                           "k": "You must provide a ZIP Code.",
+                           "l": "Email already exists."}
+
+            CommonHelper.verify_exists(name=dict_errors[error_number], screenshot=True)
+        elif self.IS_IOS:
+            dict = {
+                "a": "First Name Required",
+                "b": "Last Name Required",
+                "c": "Valid Email Required",
+                "e": "Password Required",
+                "g": "Birthday Required",
+                "h": "Gender Requested",
+                "j": "Valid ZIP Required",
+                "k": "Emails Must Match",
+                "l": "Password Must Be At Least 6 Characters",
+                "m": "Passwords Must Match",
+                "n": "We found the following errors with your registration",
+                "o": "The email you entered is already associated with an account. Please click below to sign into your account",
+                # "n": "Account Already Exists",
+                # "o": "This email has already been registered. Please sign In to your account to enjoy watching All Access.",
+            }
+
+        page_source = self.driver.page_source
+
+        counter = 0
+        for error in error_number:
+            if counter == 0:
+                self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=True,
+                                              msg="Error message %s should be visible" % dict[error])
+            else:
+                self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=False,
+                                              msg="Error message %s should be visible" % dict[error])
+            counter += 1
+
     def validation_y(self): #TODO update validation
 
         self.verify_exists(name='Our Terms Have Changed', screenshot=False)
@@ -209,6 +252,14 @@ class Validations(CommonHelper, CommonIOSHelper):
                  "you about their products or services.")
         self.verify_exists(name='CANCEL')
         self.verify_exists(name='SUBMIT')
+
+    def validation_ab(self, fn, ln):
+        self.open_drawer()
+        name = fn + ' ' + ln[0]
+        if self.IS_ANDROID:
+            CommonHelper.verify_exists(name=name, screenshot=True)
+        elif self.IS_IOS:
+            pass #TODO
 
     def validation_ae(self):
         #TODO uncomment
