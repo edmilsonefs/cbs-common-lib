@@ -642,7 +642,7 @@ class CommonHelper(TestlioAutomationTest):
                 y = loc['y'] + size['height'] / 2
 
             elif kwargs['side'] == 'right':
-                x = loc['x'] + size['width'] - size['width'] / 4
+                x = loc['x'] + size['width'] - size['width'] / 6
                 y = loc['y'] + size['height'] / 2
 
         if not msg:
