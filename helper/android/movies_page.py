@@ -29,12 +29,14 @@ class MoviesPage(BasePage):
     def btn_watch_movie(self, timeout=10):
         return self.get_element(timeout=timeout, name="WATCH MOVIE")
 
-    def validate_page(self, user_type='anonymous'):
+    def validate_page(self, user_type='anonymous', category='All Shows'):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
         self.verify_exists(element=self.img_logo())
         self.verify_exists(element=self.btn_search_icon())
         self.verify_exists(element=self.lbl_title())
         self.verify_exists(element=self.btn_movie_poster())
+        self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
+        self.verify_exists(xpath="//*[@text='" + category + "']")
         if user_type in [self.cf_subscriber, self.subscriber, self.trial]:
             pass
         else:

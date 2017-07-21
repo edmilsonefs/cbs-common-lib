@@ -11,6 +11,7 @@ from helper.android.upsell_page import UpsellPage as UpsellPageAndroid
 from helper.android.sign_in_page import SignInPage as SignInPageAndroid
 from helper.android.sign_up_page import SignUpPage as SignUpPageAndroid
 from helper.android.schedule_page import SchedulePage as SchedulePageAndroid
+from helper.android.movies_page import MoviesPage as MoviesPageAndroid
 
 class Validations(CommonHelper, CommonIOSHelper):
 
@@ -23,6 +24,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     sign_in_page_android = None
     sign_up_page_android = None
     schedule_page_android = None
+    movies_page_android = None
 
     def __init__(self, driver, event):
         self.driver = driver
@@ -37,6 +39,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.sign_in_page_android = SignInPageAndroid(self.driver, self.event)
         self.sign_up_page_android = SignUpPageAndroid(self.driver, self.event)
         self.schedule_page_android = SchedulePageAndroid(self.driver, self.event)
+        self.movies_page_android = MoviesPageAndroid(self.driver, self.event)
 
     def validation_a(self):
         if self.IS_ANDROID:
@@ -333,11 +336,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             # available to you via CBS All Access, you will see a message that states that the program is
             # currently not available.
 
-    def validation_at(self, category): #TODO update validation
-        self.verify_exists(id="Main Menu", screenshot=False)
-        self.verify_exists(id='Movies')
-        self.verify_exists(id='Search')
-        self.verify_exists(id='I want to see: %s' % category)
+    def validation_at(self, user_type="anonymous", category="All Shows"): #TODO update validation
+        if self.IS_ANDROID:
+            self.movies_page_android.validate_page(user_type=user_type, category=category)
+        elif self.IS_IOS:
+            pass
 
     def validation_al(self, anonymous=False):
 
