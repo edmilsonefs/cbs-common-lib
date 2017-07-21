@@ -35,8 +35,8 @@ class MoviesPage(BasePage):
         self.verify_exists(element=self.btn_search_icon())
         self.verify_exists(element=self.lbl_title())
         self.verify_exists(element=self.btn_movie_poster())
-        self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
-        self.verify_exists(xpath="//*[@text='" + category + "']")
+        # self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
+        # self.verify_exists(xpath="//*[@text='" + category + "']")
         if user_type in [self.cf_subscriber, self.subscriber, self.trial]:
             pass
         else:
