@@ -209,7 +209,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                            "i": "You must accept the terms and conditions.",
                            "j": "Password must contain at least 6 characters.",
                            "k": "You must provide a ZIP Code.",
-                           "l": "Email already exists."}
+                           "l": "Email already exists.",
+                           "m": "We are sorry, but we are unable to create an account for you at this time."}
 
             CommonHelper.verify_exists(name=dict_errors[error_number], screenshot=True)
         elif self.IS_IOS:
@@ -241,6 +242,24 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=False,
                                               msg="Error message %s should be visible" % dict[error])
             counter += 1
+
+    def validation_xf(self):
+        self.verify_exists(name='Sign up with your Facebook account', screenshot=True)
+        for _ in range(0, 3):
+            self._short_swipe_down()
+            CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+
+    def validation_xt(self):
+        self.verify_exists(name='Sign up with your Twitter account', screenshot=True)
+        for _ in range(0, 3):
+            self._short_swipe_down()
+        CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+
+    def validation_xg(self):
+        self.verify_exists(name='Sign up with your Google account', screenshot=True)
+        for _ in range(0, 3):
+            self._short_swipe_down()
+        CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
     def validation_y(self): #TODO update validation
 
