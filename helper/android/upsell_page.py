@@ -15,7 +15,7 @@ class UpsellPage(BasePage):
         return self.get_element(timeout=timeout, name='GET STARTED')
 
     def btn_already_a_subscriber_sign_in(self, timeout=10):
-        return self.get_element(timeout=timeout, xpath="//*[@text='Already a subscriber? Sign In']")
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/txtAlreadyHaveAnAccount")
 
     def btn_take_the_tour(self, timeout=10):
         return self.get_element(timeout=timeout, name='Take the Tour')
@@ -48,8 +48,13 @@ class UpsellPage(BasePage):
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
         elem = self.btn_already_a_subscriber_sign_in()
-        self.click_by_location(elem, side='right')
+        page_source_before = self.driver.page_source
+        self.click(element=elem)
         sleep(3)
+        page_source_after = self.driver.page_source
+        if page_source_after == page_source_before:
+            self.click_by_location(elem, side='right')
+            sleep(3)
         self._hide_keyboard()
 
 

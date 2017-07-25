@@ -1,3 +1,5 @@
+#TODO rename file to common_android.py
+
 import os
 import random
 import re
@@ -352,11 +354,11 @@ class CommonHelper(TestlioAutomationTest):
         sleep(30)
         self.event.screenshot(self.screenshot())  # per spec
 
-        if self.exists(class_name='android.webkit.WebView') or self.exists(name='You have already authorized CBS.com.',
+        if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
                                                                            timeout=5):
             if self.exists(class_name='android.widget.Button', timeout=5):
                 bs = self.get_elements(class_name="android.widget.Button")
-                bs[1].click()
+                bs[0].click()
                 sleep(4)
 
             else:
@@ -640,7 +642,7 @@ class CommonHelper(TestlioAutomationTest):
                 y = loc['y'] + size['height'] / 2
 
             elif kwargs['side'] == 'right':
-                x = loc['x'] + size['width'] - size['width'] / 4
+                x = loc['x'] + size['width'] - size['width'] / 6
                 y = loc['y'] + size['height'] / 2
 
         if not msg:
@@ -785,7 +787,8 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(name='free', timeout=10):
             list_episodes = self.get_elements(name='free')
             self.set_implicit_wait(10)
-            self.click(element=list_episodes[0].find_element_by_id(self.com_cbs_app + ':id/imgThumbnail'))
+            self.click_by_location(list_episodes[0], msg="Open free video on Home page", side='middle')
+            # self.click(element=list_episodes[0].find_element_by_id(self.com_cbs_app + ':id/imgThumbnail'))
             self.click_play_from_beginning()
 
     def click_play_from_beginning(self):
@@ -1723,7 +1726,7 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(name=name)
+                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
                 elif class_name:
@@ -1761,7 +1764,7 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(name=name)
+                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
             except NoSuchElementException:
