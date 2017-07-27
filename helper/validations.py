@@ -310,6 +310,12 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             pass
 
+    def validation_ad(self):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            pass
+
     def validation_ae(self):
         #TODO uncomment
         # self.verify_cbs_logo()
