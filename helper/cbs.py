@@ -337,19 +337,35 @@ class CommonHelper(TestlioAutomationTest):
         sleep(10)
 
         fields = self.get_elements(class_name="android.widget.EditText")
-        email = fields[0]
-        password = fields[1]
 
-        # start from the bottom up
-        self.send_keys(data=email_text, element=email)
-        self._hide_keyboard()
-        self.send_keys(data=password_text, element=password)
-        self._hide_keyboard()
-        self.event.screenshot(self.screenshot())  # per spec
+        if len(fields) > 1:
+            email = fields[0]
+            password = fields[1]
 
-        # login_button = self.get_elements(class_name='android.widget.Button')[0]
-        # self.click(element=login_button)
-        self.click(class_name='android.widget.Button')
+            # start from the bottom up
+            self.send_keys(data=email_text, element=email)
+            self._hide_keyboard()
+            self.send_keys(data=password_text, element=password)
+            self._hide_keyboard()
+            self.event.screenshot(self.screenshot())  # per spec
+
+            # login_button = self.get_elements(class_name='android.widget.Button')[0]
+            # self.click(element=login_button)
+            self.click(class_name='android.widget.Button')
+        else:
+            email = fields[0]
+            self.send_keys(data=email_text, element=email)
+            self._hide_keyboard()
+            self.click(class_name='android.widget.Button')
+            self.event.screenshot(self.screenshot())  # per spec
+            password = fields[0]
+            self.send_keys(data=password_text, element=password)
+            self._hide_keyboard()
+            self.event.screenshot(self.screenshot())  # per spec
+            self.click(class_name='android.widget.Button')
+
+            # login_button = self.get_elements(class_name='android.widget.Button')[0]
+            # self.click(element=login_button)
 
         sleep(30)
         self.event.screenshot(self.screenshot())  # per spec
