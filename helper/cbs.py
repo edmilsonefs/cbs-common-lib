@@ -1437,6 +1437,7 @@ class CommonHelper(TestlioAutomationTest):
         """
         e = self._find_element(name='Watch Episode')
         self.click_by_location(e, 'Watch Episode')
+        self.accept_popup_video_click()
 
         # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
         # max_y = self.driver.get_window_size()['height']

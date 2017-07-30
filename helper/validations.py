@@ -297,6 +297,12 @@ class Validations(CommonHelper, CommonIOSHelper):
                                                   msg="Error message %s is absent" % dict[error])
                 counter += 1
 
+    def validation_aa(self):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            pass #TODO
+
     def validation_ab(self, name):
         self.open_drawer()
         if self.IS_ANDROID:
