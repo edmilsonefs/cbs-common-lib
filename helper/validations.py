@@ -52,13 +52,16 @@ class Validations(CommonHelper, CommonIOSHelper):
             CommonHelper.verify_exists(name='ACCEPT')
 
     def validation_b(self): #TODO update validation
-        if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
-            self.verify_exists(id='CBSLogo_AllAccess_white', screenshot=False)
-        else:
-            self.verify_exists(id='CBSLogo_white', screenshot=False)
-            self.verify_exists(id="Main Menu")
-            self.verify_exists(id='Search')
-            # self.verify_exists(id='Marquee', timeout=60) TODO impossible to verify because of sliding
+        if self.IS_ANDROID:
+            self.home_page_android.validate_page()
+        elif self.IS_IOS:
+            if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
+                self.verify_exists(id='CBSLogo_AllAccess_white', screenshot=False)
+            else:
+                self.verify_exists(id='CBSLogo_white', screenshot=False)
+                self.verify_exists(id="Main Menu")
+                self.verify_exists(id='Search')
+                # self.verify_exists(id='Marquee', timeout=60) TODO impossible to verify because of sliding
 
     def validation_d(self): #TODO update validation
         if self.IS_ANDROID:
@@ -296,6 +299,12 @@ class Validations(CommonHelper, CommonIOSHelper):
                     self.assertTrueWithScreenShot(dict[error] in page_source, screenshot=False,
                                                   msg="Error message %s is absent" % dict[error])
                 counter += 1
+
+    def validation_z(self):
+        if self.IS_ANDROID:
+            self.verify_not_exists(name='paid')
+        elif self.IS_IOS:
+            pass
 
     def validation_aa(self):
         if self.IS_ANDROID:
