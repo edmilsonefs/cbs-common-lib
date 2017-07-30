@@ -1435,7 +1435,9 @@ class CommonHelper(TestlioAutomationTest):
         On the episode info page - the page you see by tapping the (i) icon
         Page acts weird, page_source() causes hanging and test failure, so we'll use tap_by_locatin()
         """
-        e = self._find_element(name='Watch Episode')
+        e = self.get_element(name='Watch Episode')
+        if not e:
+            e = self.get_element(name='WATCH EPISODE')
         self.click_by_location(e, 'Watch Episode')
         self.accept_popup_video_click()
 
