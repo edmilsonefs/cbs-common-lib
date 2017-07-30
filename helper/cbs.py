@@ -1438,7 +1438,7 @@ class CommonHelper(TestlioAutomationTest):
         e = self.get_element(name='Watch Episode')
         if not e:
             e = self.get_element(name='WATCH EPISODE')
-        self.click_by_location(e, 'Watch Episode')
+        self.click_by_location(e, 'Watch Episode', side='middle')
         self.accept_popup_video_click()
 
         # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
