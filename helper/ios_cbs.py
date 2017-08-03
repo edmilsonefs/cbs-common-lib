@@ -321,7 +321,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 elem = self._find_element(xpath="//*[@name='Back']")
             except:
                 pass
-        
+
         # elem.click() # add, if below element loc click is removed.
 
         # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
@@ -988,13 +988,20 @@ class CommonIOSHelper(TestlioAutomationTest):
     # GET WRAPPERS
 
     def get_search_result_episode_count_element(self):
-        collection_views = self.driver.find_elements_by_xpath("//*[@value='page 1 of 1']")
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':    #iOS 10 switch
+            target_cell = self.driver.find_element_by_xpath('//XCUIElementTypeWindow[1]/XCUIElementTypeOther[2]/XCUIElementTypeCollectionView/XCUIElementTypeCell')
 
-        for cell in collection_views:
-            static_texts = cell.find_elements_by_class_name('UIAStaticText')
-            for static_text in static_texts:
-                if ' Episode' in static_text.text:
-                    return static_text
+            static_text = target_cell.find_element_by_xpath('//XCUIElementTypeStaticText')
+            if ' Episode' in static_text.text:
+                return static_text
+        else:  # backwards iOS 9 code
+            collection_views = self.driver.find_elements_by_xpath("//*[@value='page 1 of 1']")
+
+            for cell in collection_views:
+                static_texts = cell.find_elements_by_class_name('UIAStaticText')
+                for static_text in static_texts:
+                    if ' Episode' in static_text.text:
+                        return static_text
 
     ####################################################################################
     # SWIPE / TAP / CLICK / SEND_KEYS
@@ -1313,7 +1320,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def verify_share_icon(self, screenshot=False):
         self.click_more()
-        self.verify_exists(id='Share', screenshot=screenshot)
+        self.verify_exists(xpath='//*[@name="Share"]', screenshot=screenshot)
         if self.phone:
             self.click(id='Close')
         else:
