@@ -1,7 +1,7 @@
 from time import sleep
 
-from helper.cbs import CommonHelper
-from helper.ios_cbs import CommonIOSHelper
+from helper.cbs import CommonHelper as CommonHelperAndroid
+from helper.ios_cbs import CommonIOSHelper as CommonHelperIOS
 from helper.android.home_page import HomePage as HomePageAndroid
 from helper.android.settings_page import SettingsPage as SettingsPageAndroid
 from helper.android.shows_page import ShowsPage as ShowsPageAndroid
@@ -13,8 +13,8 @@ from helper.android.sign_up_page import SignUpPage as SignUpPageAndroid
 from helper.android.schedule_page import SchedulePage as SchedulePageAndroid
 from helper.android.movies_page import MoviesPage as MoviesPageAndroid
 
-class Validations(CommonHelper, CommonIOSHelper):
 
+class Validations(CommonHelperAndroid, CommonHelperIOS):
     home_page_android = None
     settings_page_android = None
     shows_page_android = None
@@ -43,15 +43,15 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_a(self):
         if self.IS_ANDROID:
-            CommonHelper.verify_exists(name='Welcome to the CBS app')
-            CommonHelper.verify_exists(name='By using this CBS Application, you agree to our:')
-            CommonHelper.verify_exists(name='Terms of Use')
-            CommonHelper.verify_exists(name='Mobile User Agreement')
-            CommonHelper.verify_exists(name='Privacy Policy')
-            CommonHelper.verify_exists(name='Video Services')
-            CommonHelper.verify_exists(name='ACCEPT')
+            CommonHelperAndroid.verify_exists(name=' Welcome to the CBS app ', screenshot=True)
+            CommonHelperAndroid.verify_exists(name='By using this CBS Application, you agree to our:')
+            CommonHelperAndroid.verify_exists(name=' Terms of Use ')
+            CommonHelperAndroid.verify_exists(name=' Mobile User Agreement ')
+            CommonHelperAndroid.verify_exists(name=' Privacy Policy ')
+            CommonHelperAndroid.verify_exists(name=' Video Services ')
+            CommonHelperAndroid.verify_exists(name='Accept')
 
-    def validation_b(self): #TODO update validation
+    def validation_b(self):  # TODO update validation
         if self.IS_ANDROID:
             self.home_page_android.validate_page()
         elif self.IS_IOS:
@@ -63,19 +63,19 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id='Search')
                 # self.verify_exists(id='Marquee', timeout=60) TODO impossible to verify because of sliding
 
-    def validation_d(self): #TODO update validation
+    def validation_d(self):  # TODO update validation
         if self.IS_ANDROID:
             self.sign_in_page_android.validate_page()
         elif self.IS_IOS:
             pass
 
-    def validation_e(self): #TODO update validation
+    def validation_e(self):  # TODO update validation
         if self.IS_ANDROID:
             self.sign_up_page_android.validate_page()
         elif self.IS_IOS:
             pass
 
-    def validation_f(self): #TODO update Validation.
+    def validation_f(self):  # TODO update Validation.
         if self.user_type == self.anonymous:
             self.verify_exists(id='Sign In', screenshot=False)
         self.verify_exists(id="Settings")
@@ -94,7 +94,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             pass
 
-    def validation_i(self): #TODO update validation
+    def validation_i(self):  # TODO update validation
         self.verify_exists(id='Watch Episode', screenshot=False)
         self.verify_exists(id='More From Show')
         self.verify_exists(id='Close')
@@ -106,14 +106,14 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             pass
 
-    def validation_l(self): # TODO update validation
+    def validation_l(self):  # TODO update validation
         self.close_big_advertisement()
         self.verify_exists(xpath="//UIAButton[@name='Add to My CBS' or @name='Remove from My CBS']", screenshot=True)
         self.verify_exists(id='Share')
         self.verify_exists(id='Cancel')
 
     # Shows Page
-    def validation_m(self, category): #TODO update validation
+    def validation_m(self, category):  # TODO update validation
         if self.IS_ANDROID:
             self.shows_page_android.validate_page()
         elif self.IS_IOS:
@@ -132,7 +132,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(name='News')
         self.verify_exists(name='Classics')
 
-    def validation_o(self): #TODO update validation
+    def validation_o(self):  # TODO update validation
         self.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
 
     def validation_p(self):
@@ -143,7 +143,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(name='Show Info')
 
     # Settings Page
-    def validation_q(self): #TODO update validation
+    def validation_q(self):  # TODO update validation
         if self.IS_ANDROID:
             self.settings_page_android.validate_page()
         elif self.IS_IOS:
@@ -176,7 +176,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info']")
 
     # Live TV Page
-    def validation_u(self, user_type="anonymous"): #TODO update validation
+    def validation_u(self, user_type="anonymous"):  # TODO update validation
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
@@ -216,7 +216,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                            "l": "Email already exists.",
                            "m": "We are sorry, but we are unable to create an account for you at this time."}
 
-            CommonHelper.verify_exists(name=dict_errors[error_number], screenshot=True)
+            CommonHelperAndroid.verify_exists(name=dict_errors[error_number], screenshot=True)
         elif self.IS_IOS:
             dict = {
                 "a": "First Name Required",
@@ -249,26 +249,26 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_xf(self):
         if self.IS_ANDROID:
-            CommonHelper.verify_exists(name='Sign up with your Facebook account', screenshot=True)
+            CommonHelperAndroid.verify_exists(name='Sign up with your Facebook account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
-                CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+                CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
     def validation_xt(self):
         if self.IS_ANDROID:
-            CommonHelper.verify_exists(name='Sign up with your Twitter account', screenshot=True)
+            CommonHelperAndroid.verify_exists(name='Sign up with your Twitter account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
-            CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
     def validation_xg(self):
         if self.IS_ANDROID:
-            CommonHelper.verify_exists(name='Sign up with your Google account', screenshot=True)
+            CommonHelperAndroid.verify_exists(name='Sign up with your Google account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
-            CommonHelper.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
 
-    def validation_y(self, error_number): #TODO update validation
+    def validation_y(self, error_number):  # TODO update validation
         if self.IS_ANDROID:
             dict_errors = {"a": "You must provide an email.",
                            "b": "You must provide a valid email.",
@@ -283,7 +283,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                                 "content, products or services featured on CBS sites so that they may contact "
                                 "you about their products or services."}
 
-            CommonHelper.verify_exists(name=dict_errors[error_number], screenshot=True)
+            CommonHelperAndroid.verify_exists(name=dict_errors[error_number], screenshot=True)
         elif self.IS_IOS:
             dict = {
                 "a": "Invalid email and/or password.",
@@ -310,14 +310,14 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
-            pass #TODO
+            pass  # TODO
 
     def validation_ab(self, name):
         self.open_drawer()
         if self.IS_ANDROID:
-            CommonHelper.verify_exists(name=name, screenshot=True)
+            CommonHelperAndroid.verify_exists(name=name, screenshot=True)
         elif self.IS_IOS:
-            pass #TODO
+            pass  # TODO
 
     def validation_ac(self):
         if self.IS_ANDROID:
@@ -333,7 +333,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ae(self, mvpd=False):
         self.verify_exists(
-            xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']") # cbs logo
+            xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs logo
         self.verify_exists(id=self.com_cbs_app + ':id/action_search')
         self.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
         if mvpd:
@@ -354,7 +354,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.verify_exists(name='Two ways to watch Live TV')
         self.verify_exists(name='Instantly watch your local CBS station at home or on the go!')
         self.verify_exists(id=self.com_cbs_app + ':id/imageView')  # cbs all access
-        #TODO should be substituted with 'Get Live TV plus thousands of full episodes on demand.'
+        # TODO should be substituted with 'Get Live TV plus thousands of full episodes on demand.'
         self.verify_exists(name='Stream Live TV plus thousands of full episodes on demand.')
         self.verify_exists(id=self.com_cbs_app + ':id/txtTakeTour')
         if anonymous:
@@ -369,27 +369,30 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_not_exists(id=self.com_cbs_app + ':id/btnTryOneWeekFree')
         self.swipe_down_and_verify_if_exists(name='OR')
         self.swipe_down_and_verify_if_exists(name='TV PROVIDER')
-        #TODO text should be changed to 'Stream CBS live with your cable or satellite provider'
+        # TODO text should be changed to 'Stream CBS live with your cable or satellite provider'
         # TODO still checking swipping down to verify all texts on all devices
-        self.swipe_down_and_verify_if_exists(name='Stream Live TV with your cable, satellite or telco provider.', screenshot=True)
+        self.swipe_down_and_verify_if_exists(name='Stream Live TV with your cable, satellite or telco provider.',
+                                             screenshot=True)
         self.swipe_down_and_verify_if_exists(name='Verify Now')
         self.swipe_down_and_verify_if_exists(id_element='com.cbs.app:id/txtLearnMore')
         self.swipe_down_and_verify_if_exists(name='Where is Live TV Available')
         self.swipe_down_and_verify_if_exists(name='Live TV is available for over 90% of the country and growing. ')
         self.swipe_down_and_verify_if_exists(id_element=self.com_cbs_app + ':id/btnCheckAvailability')
         self.swipe_down_and_verify_if_exists(name='How to Watch Live TV')
-        self.swipe_down_and_verify_if_exists(name="You don't have to worry about missing a minute of your favorite shows. Stream your local news, hit CBS shows, special events like The GRAMMY's and select sporting events at home or on the go across devices.")
+        self.swipe_down_and_verify_if_exists(
+            name="You don't have to worry about missing a minute of your favorite shows. Stream your local news, hit CBS shows, special events like The GRAMMY's and select sporting events at home or on the go across devices.")
         self.swipe_down_and_verify_if_exists(name='SEE DEVICES')
         self.swipe_down_and_verify_if_exists(name='Questions?')
         self.swipe_down_and_verify_if_exists(name='READ OUR FAQ')
         self.swipe_down_and_verify_if_exists(name='Disclaimer')
-        self.swipe_down_and_verify_if_exists(name='Some programming may not be available for live streaming. However, we are continuing to work towards offering more live programming. When a program is not available, you will see a message that states that the program is not currently available.')
+        self.swipe_down_and_verify_if_exists(
+            name='Some programming may not be available for live streaming. However, we are continuing to work towards offering more live programming. When a program is not available, you will see a message that states that the program is not currently available.')
 
-    def validation_at(self, user_type="anonymous", category="All Shows"): #TODO update validation
-            if self.IS_ANDROID:
-                self.movies_page_android.validate_page(user_type=user_type, category=category)
-            elif self.IS_IOS:
-                pass
+    def validation_at(self, user_type="anonymous", category="All Shows"):  # TODO update validation
+        if self.IS_ANDROID:
+            self.movies_page_android.validate_page(user_type=user_type, category=category)
+        elif self.IS_IOS:
+            pass
 
     def validation_al(self):
         self.verify_exists(name='Sign in with your TV provider to start streaming')
@@ -399,7 +402,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_am(self):
         self.event.screenshot(self.screenshot())
-        #TODO substitute with 'Your account has been verified!'
+        # TODO substitute with 'Your account has been verified!'
         self.verify_exists(name='Complete the verification process', screenshot=True)
         self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
         self.verify_exists(name='Personalize experience with My CBS')
