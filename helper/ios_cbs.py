@@ -987,6 +987,11 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # GET WRAPPERS
 
+    def get_show_cards(self):
+        static_texts = self.driver.find_elements_by_xpath('//XCUIElementTypeStaticText')
+        show_cards = [x for x in static_texts if ' Episode' in x.text or ' Clip' in x.text]
+        return show_cards
+
     def get_search_result_episode_count_element(self):
         if os.environ.get('AUTOMATION_NAME') == 'XCUITest':    #iOS 10 switch
             target_cell = self.driver.find_element_by_xpath('//XCUIElementTypeWindow[1]/XCUIElementTypeOther[2]/XCUIElementTypeCollectionView/XCUIElementTypeCell')
@@ -1362,6 +1367,22 @@ class CommonIOSHelper(TestlioAutomationTest):
         element = self.get_search_result_episode_count_element()
         self.assertTrueWithScreenShot(element, screenshot=screenshot, msg='Should see "X Episodes" text in search results')
 
+    def verify_show_cards_exist(self, screenshot=False):
+        show_cards = self.get_show_cards()
+        show_cards_count = len(show_cards)
+        self.verify_not_equal(show_cards_count, 0, screenshot)
+
+    def verify_show_episode_indicator(self, screenshot=False):
+        text_cells = self.driver.find_elements_by_xpath('//XCUIElementTypeStaticText')
+        indicator = None
+        for cell in text_cells:
+            if cell.text is not None:
+                if 'Full Episodes' in cell.text and 'Free' in cell.text and 'With CBS All Access' in cell.text:
+                    indicator = cell
+                    break
+        self.assertTrueWithScreenShot(indicator, screenshot=screenshot, msg='Should see episode indicator')
+
+
     ####################################################################################
     # RANDOM HELPER METHODS
 
@@ -1472,7 +1493,10 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.tap(size['width'] - 30, size['height'] - 30)
 
     def is_keyboard_displayed(self):
-        return self.exists(xpath='//UIAKeyboard', timeout=2)
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest': #iOS 10
+            return self.exists(xpath='//XCUIElementTypeKeyboard', timeout=2)
+        else:
+            return self.exists(xpath='//UIAKeyboard', timeout=2)
 
     def convert_season_episode(self, se_input):
         """
