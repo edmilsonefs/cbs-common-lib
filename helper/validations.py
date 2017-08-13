@@ -343,10 +343,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
 
     def validation_af(self):
-        CommonHelperAndroid.verify_exists(name='CBS', screenshot=True)
-        CommonHelperAndroid.verify_exists(
-            name='Sorry, the video you would like to watch is not available in the CBS app at this time.')
-        CommonHelperAndroid.verify_exists(name='OK')
+        if self.IS_ANDROID:
+            CommonHelperAndroid.verify_exists(name='CBS', screenshot=True)
+            CommonHelperAndroid.verify_exists(
+                name='Sorry, the video you would like to watch is not available in the CBS app at this time.')
+            CommonHelperAndroid.verify_exists(name='OK')
 
     def validation_ag(self, anonymous=False, ex_subscriber=False, registered=False):
         # Tablet has the navigate up icon instead of open navigation drawer icon
