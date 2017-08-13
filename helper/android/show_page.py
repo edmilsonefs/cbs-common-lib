@@ -6,7 +6,7 @@ class ShowPage(BasePage):
         super(ShowPage, self).__init__(driver, event)
 
     def btn_episode_indicator(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/allAccessEpisodesContainer')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/episodeIndicatorContainer')
 
     def lbl_total_episode_count(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/totalEpisodeCount')
@@ -81,10 +81,10 @@ class ShowPage(BasePage):
         self.verify_exists(element=self.lst_video_icons())
         self.verify_exists(element=self.btn_more_options())
         self.verify_exists(element=self.btn_my_cbs())
-        # if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
-        #     self.verify_exists(element=self.btn_episode_indicator())
-        # else:
-        #     self.verify_not_exists(element=self.btn_episode_indicator())
+        if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+            self.verify_exists(element=self.btn_episode_indicator())
+        else:
+            self.verify_not_exists(element=self.btn_episode_indicator())
 
     def validate_show_more_info_page(self):
         self.verify_exists(element=self.txt_show_name(), screenshot=True)

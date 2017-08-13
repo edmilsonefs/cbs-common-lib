@@ -113,9 +113,9 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         self.verify_exists(id='Cancel')
 
     # Shows Page
-    def validation_m(self, category):  # TODO update validation
+    def validation_m(self, category='All Shows'):  # TODO update validation
         if self.IS_ANDROID:
-            self.shows_page_android.validate_page()
+            self.shows_page_android.validate_page(category)
         elif self.IS_IOS:
             self.verify_exists(id="Main Menu", screenshot=False)
             self.verify_exists(id='Shows')
@@ -342,6 +342,12 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
         self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
 
+    def validation_af(self):
+        CommonHelperAndroid.verify_exists(name='CBS', screenshot=True)
+        CommonHelperAndroid.verify_exists(
+            name='Sorry, the video you would like to watch is not available in the CBS app at this time.')
+        CommonHelperAndroid.verify_exists(name='OK')
+
     def validation_ag(self, anonymous=False, ex_subscriber=False, registered=False):
         # Tablet has the navigate up icon instead of open navigation drawer icon
         if self.tablet:
@@ -412,3 +418,19 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         self.verify_exists(name='Latest content delivered right to your inbox')
         self.verify_exists(name='Sign Up')
         self.verify_exists(name='Already have an account? Sign In')
+
+    # Video Validation
+    def validation_video(self):
+        if self.IS_ANDROID:
+            CommonHelperAndroid.accept_popup_video_click()
+            try:
+                CommonHelperAndroid.click_play_from_beginning()
+            except:
+                pass
+            self.driver.implicitly_wait(60)
+            CommonHelperAndroid.verify_exists(id=CommonHelperAndroid.com_cbs_app + ':id/player_activity_frame', screenshot=True)
+
+            self.driver.back()
+        elif self.IS_IOS:
+            pass
+
