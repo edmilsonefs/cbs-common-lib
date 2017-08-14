@@ -353,11 +353,13 @@ class CommonHelper(TestlioAutomationTest):
             # self.click(element=login_button)
             self.click(class_name='android.widget.Button')
         else:
+            fields = self.get_elements(class_name="android.widget.EditText")
             email = fields[0]
             self.send_keys(data=email_text, element=email)
             self._hide_keyboard()
             self.click(class_name='android.widget.Button')
             self.event.screenshot(self.screenshot())  # per spec
+            fields = self.get_elements(class_name="android.widget.EditText")
             password = fields[0]
             self.send_keys(data=password_text, element=password)
             self._hide_keyboard()
