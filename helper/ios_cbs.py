@@ -89,7 +89,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # username
         if self.phone:
-            user_elem = self._find_element(class_name='UIATextField')
+            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                user_elem = self._find_element(class_name='XCUIElementTypeTextField')
+            else:
+                user_elem = self._find_element(class_name='UIATextField')
         else:
             for e in self.driver.find_elements_by_xpath("//*[@value='Email']"):
                 if e.is_displayed():
@@ -101,7 +104,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # password
         if self.phone:
-            pwd_elem = self._find_element(class_name='UIASecureTextField')
+            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                pwd_elem = self._find_element(class_name='XCUIElementTypeSecureTextField')
+            else:
+                pwd_elem = self._find_element(class_name='UIASecureTextField')
         else:
             for e in self.driver.find_elements_by_xpath("//*[@value='Password']"):
                 if e.is_displayed():
@@ -113,7 +119,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # sign in button
         if self.phone:
-            sign_in_button = self._find_element(xpath="//*[@name='SIGN IN']")
+            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                sign_in_button = self._find_element(accessibility_id='SIGN IN')
+            else:
+                sign_in_button = self._find_element(xpath="//*[@name='SIGN IN']")
         else:
             for e in self.driver.find_elements_by_xpath("//*[@name='SIGN IN']"):
                 if e.is_displayed():
@@ -188,8 +197,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_live_tv(self):
         self.open_drawer()
-        self.click(xpath="//*[@name='Live TV']")
-        # self.click(id='Live TV')
+        #self.click(xpath="//*[@name='Live TV']")
+        self.click(accessibility_id='Live TV')
         self._accept_alert(2)
 
     def goto_schedule(self):
@@ -198,7 +207,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_settings(self):
         self.open_drawer()
-        self.click(xpath="//*[@name='Settings']")
+        self.click(accessibility_id='Settings')
+        #self.click(xpath="//*[@name='Settings']")
 
     def goto_movies(self):
         self.open_drawer()
@@ -212,7 +222,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
+        if self.phone:
+            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+        else:
+            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -220,19 +233,24 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
+        if self.phone:
+            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+        else:
+            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
     def goto_sign_in(self):
         self.open_drawer()
-        elems = self.driver.find_elements_by_xpath("//*[@name='Sign In']")
+        #elems = self.driver.find_elements_by_xpath("//*[@name='Sign In']")
+        elems = self.driver.find_elements_by_accessibility_id('Sign In')
         self.click(element=elems[0])
 
     def sign_out(self):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
-        self.click(xpath="//*[@name='Sign Out']")
+        #self.click(xpath="//*[@name='Sign Out']")
+        self.click(accessibility_id='Sign Out')
 
     def goto_sign_out(self):
         self.goto_settings()
@@ -291,10 +309,12 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_search_icon(self):
         try:
-            self.click(xpath="//*[@name='Search']")
+            self.click(accessibility_id='Search')
+            #self.click(xpath="//*[@name='Search']")
         except:
             self.close_drawer()
-            self.click(xpath="//*[@name='Search']")
+            self.click(accessibility_id='Search')
+#            self.click(xpath="//*[@name='Search']")
 
     def click_search_text(self):
         self.find_search_text().click()
@@ -304,7 +324,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.clear_text_field(e, 'Search')
 
     def click_search_back(self):
-        self.driver.find_elements_by_xpath("//UIAButton[@name='Cancel']")[-1].click()
+        #self.driver.find_elements_by_xpath("//UIAButton[@name='Cancel']")[-1].click()
+        self.driver.find_element_by_accessibility_id('Cancel').click()
 
     def back(self):
         try:
@@ -318,10 +339,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         elem = self.exists(id='BackArrow_white', timeout=6)
         if not elem:
             try:
-                elem = self._find_element(xpath="//*[@name='Back']")
+                if self.phone:
+                    elem = self._find_element(xpath="//*[@name='Back']")
+                else:
+                    elem = self._find_element(xpath="//*[@name='Back ']")
             except:
                 pass
-
+        
         # elem.click() # add, if below element loc click is removed.
 
         # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
@@ -366,7 +390,11 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # SHOW PAGE
     def click_first_show_page_episode(self):
-        self.tap_element(xpath='//UIACollectionCell[1]')
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            show_cells = self.find_elements_by_class_name('XCUIElementTypeCell')
+            show_cells[0].click()
+        else:
+            self.tap_element(xpath='//UIACollectionCell[1]')
 
     def click_info_icon_on_found_on_show_page(self, show_elem):
         # swipe it to the middle of the screen
@@ -986,20 +1014,24 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # GET WRAPPERS
-
+    
     def get_show_cards(self):
-        static_texts = self.driver.find_elements_by_xpath('//XCUIElementTypeStaticText')
+
+        self.verify_exists(class_name='XCUIElementTypeStaticText')
+        static_texts = self.driver.find_elements_by_class_name('XCUIElementTypeStaticText')
         show_cards = [x for x in static_texts if ' Episode' in x.text or ' Clip' in x.text]
         return show_cards
 
-    def get_search_result_episode_count_element(self):
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':    #iOS 10 switch
-            target_cell = self.driver.find_element_by_xpath('//XCUIElementTypeWindow[1]/XCUIElementTypeOther[2]/XCUIElementTypeCollectionView/XCUIElementTypeCell')
 
-            static_text = target_cell.find_element_by_xpath('//XCUIElementTypeStaticText')
+    def get_search_result_episode_count_element(self):
+
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            target_cell = self.driver.find_element_by_xpath('//XCUIElementTypeWindow[1]/XCUIElementTypeOther[2]/XCUIElementTypeCollectionView/XCUIElementTypeCell')
+    
+            static_text = target_cell.find_element_by_class_name('XCUIElementTypeStaticText')
             if ' Episode' in static_text.text:
-                return static_text
-        else:  # backwards iOS 9 code
+                return static_text     
+        else:
             collection_views = self.driver.find_elements_by_xpath("//*[@value='page 1 of 1']")
 
             for cell in collection_views:
@@ -1007,6 +1039,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 for static_text in static_texts:
                     if ' Episode' in static_text.text:
                         return static_text
+            
 
     ####################################################################################
     # SWIPE / TAP / CLICK / SEND_KEYS
@@ -1321,11 +1354,15 @@ class CommonIOSHelper(TestlioAutomationTest):
     def verify_navigation_back_button(self, screenshot=False):
         # "verify menu icon"
         # "verify hamburger"
-        self.verify_exists(accessibility_id='Back', screenshot=screenshot)
+        if self.phone:
+            self.verify_exists(accessibility_id='Back', screenshot=screenshot)
+        else:
+            self.verify_exists(accessibility_id='Back ', screenshot=screenshot)
 
     def verify_share_icon(self, screenshot=False):
         self.click_more()
-        self.verify_exists(xpath='//*[@name="Share"]', screenshot=screenshot)
+        #self.verify_exists(xpath='//*[@name="Share"]', screenshot=screenshot)
+        self.verify_exists(accessibility_id='Share', screenshot=screenshot)
         if self.phone:
             self.click(id='Close')
         else:
@@ -1343,7 +1380,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(t_f, screenshot=screenshot, msg="Should see 'favorite star'")
 
     def verify_search_icon(self, screenshot=False):
-        self.verify_exists(xpath="//UIAButton[@name='Search']", screenshot=screenshot)
+        self.verify_exists(accessibility_id='Search', screenshot=screenshot)
+#        self.verify_exists(xpath="//UIAButton[@name='Search']", screenshot=screenshot)
 
     def verify_search_field(self, screenshot=False):
         pass
@@ -1366,22 +1404,22 @@ class CommonIOSHelper(TestlioAutomationTest):
         # there is 1 UIACollectionCell with 1 Cell with our staticText, this is the one we want. name = 'page 1 of 21'
         element = self.get_search_result_episode_count_element()
         self.assertTrueWithScreenShot(element, screenshot=screenshot, msg='Should see "X Episodes" text in search results')
-
+        
     def verify_show_cards_exist(self, screenshot=False):
         show_cards = self.get_show_cards()
         show_cards_count = len(show_cards)
         self.verify_not_equal(show_cards_count, 0, screenshot)
-
+        
     def verify_show_episode_indicator(self, screenshot=False):
-        text_cells = self.driver.find_elements_by_xpath('//XCUIElementTypeStaticText')
+        text_cells = self.driver.find_elements_by_class_name('XCUIElementTypeStaticText')
         indicator = None
         for cell in text_cells:
             if cell.text is not None:
                 if 'Full Episodes' in cell.text and 'Free' in cell.text and 'With CBS All Access' in cell.text:
                     indicator = cell
                     break
-        self.assertTrueWithScreenShot(indicator, screenshot=screenshot, msg='Should see episode indicator')
-
+        self.assertTrueWithScreenShot(indicator, screenshot=screenshot, msg='Should see episode indicator')        
+        
 
     ####################################################################################
     # RANDOM HELPER METHODS
@@ -1494,7 +1532,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def is_keyboard_displayed(self):
         if os.environ.get('AUTOMATION_NAME') == 'XCUITest': #iOS 10
-            return self.exists(xpath='//XCUIElementTypeKeyboard', timeout=2)
+            return self.exists(class_name='XCUIElementTypeKeyboard', timeout=2)
         else:
             return self.exists(xpath='//UIAKeyboard', timeout=2)
 
@@ -1809,7 +1847,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.set_sign_in_email(email)
         self.set_sign_in_password(password)
 
-        self.click(xpath='(//*[@name="SIGN IN"])')
+        self.click(accessibility_id='SIGN IN')
 
         self.finish_login()
 
