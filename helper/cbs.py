@@ -2102,6 +2102,8 @@ class CommonHelper(TestlioAutomationTest):
             # for specials, there's only one episode, or only one row of episodes anyway
             show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
             return show_elem
+        elif exception_hack == '60 Minutes':
+            season_name = "Latest Full Episodes"
         else:
             season_name = "Season " + str(show_dict['season_number'])
 
