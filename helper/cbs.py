@@ -245,7 +245,7 @@ class CommonHelper(TestlioAutomationTest):
         for i in range(0, len(what_to_search_for)):
             # e.clear()
             self.click_clear_search()
-            self.send_keys(element=e, data=what_to_search_for[:i])
+            self.send_text(element=e, data=what_to_search_for[:i])
             if count >= 2:
                 if self.exists(element=self.get_element(name="No Content Found.", timeout=5)):
                     self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
