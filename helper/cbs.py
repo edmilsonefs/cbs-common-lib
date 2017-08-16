@@ -158,7 +158,7 @@ class CommonHelper(TestlioAutomationTest):
         self.click(id=self.com_cbs_app + ':id/search_src_text')
 
     def click_clear_search(self):
-        self.click(id=self.com_cbs_app + ':id/search_close_btn')
+        self.click_safe(id=self.com_cbs_app + ':id/search_close_btn')
 
     def click_search_back(self):
         # self.click(id=self.com_cbs_app + ':id/closeButton')
