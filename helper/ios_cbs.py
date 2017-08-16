@@ -596,7 +596,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
             return show_elem
         elif exception_hack == '60 Minutes':
- +          season_name = "Latest Full Episodes"
+            season_name = "Latest Full Episodes"
         else:
             season_name = "Season " + str(show_dict['season_number'])
 
