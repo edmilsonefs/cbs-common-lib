@@ -222,10 +222,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        if self.phone:
-            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            if self.phone:
+                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+            else:
+                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
         else:
-            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
+            t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -233,10 +236,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        if self.phone:
-            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            if self.phone:
+                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+            else:
+                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
         else:
-            t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
+            t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
