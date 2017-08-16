@@ -240,17 +240,22 @@ class CommonHelper(TestlioAutomationTest):
         self.enter_search_text_extended(what_to_search_for)
 
     def enter_search_text_extended(self, what_to_search_for):
-        count = 0
         e = self.click(id=self.com_cbs_app + ':id/search_src_text')
-        for i in range(0, len(what_to_search_for)):
-            e.clear()
-            self.send_keys(element=e, data=what_to_search_for[:i])
-            if count >= 2:
-                if self.exists(element=self.get_element(name="No Shows Found.", timeout=5)):
-                    self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
-                if len(self.get_elements(id=self.com_cbs_app + ":id/showImage", timeout=5)) == 1:
-                    break
-            count += 1
+        e.click()
+        self.send_keys(element=e, data=what_to_search_for)
+
+        #older logic which worked until July 2017
+        #count = 0
+        #e = self.click(id=self.com_cbs_app + ':id/search_src_text')
+        #for i in range(0, len(what_to_search_for)):
+        #    e.clear()
+        #    self.send_keys(element=e, data=what_to_search_for[:i])
+        #    if count >= 2:
+        #        if self.exists(element=self.get_element(name="No Shows Found.", timeout=5)):
+        #            self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
+        #        if len(self.get_elements(id=self.com_cbs_app + ":id/showImage", timeout=5)) == 1:
+        #            break
+        #    count += 1
 
     # def goto_show(self, show_title):
     #     """
