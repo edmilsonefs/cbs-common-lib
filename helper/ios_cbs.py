@@ -351,23 +351,31 @@ class CommonIOSHelper(TestlioAutomationTest):
                     elem = self._find_element(xpath="//*[@name='Back ']")
             except:
                 pass
-        
-        # elem.click() # add, if below element loc click is removed.
+
+
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            elem.click() # add, if below element loc click is removed.
+        else:
 
         # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
         # use click_by_location)
-        loc = elem.location
-        if loc['x'] < 0 or loc['y'] < 0:
-            elem = self._find_element(id='Main Menu')
-            self.click_by_location(elem, side='middle')
-        else:
-            elem.click()
+            loc = elem.location
+            if loc['x'] < 0 or loc['y'] < 0:
+                elem = self._find_element(id='Main Menu')
+                self.click_by_location(elem, side='middle')
+            else:
+                elem.click()
 
     def open_drawer(self, native=False):
-        #TODO add counter, otherwise possible infinite loop.
+        number_of_tries = 0
         while not self.exists_and_visible(id='Main Menu', timeout=10):
+            number_of_tries += 1
+            if number_of_tries == 20:
+                break
+
             self.go_back()
             sleep(1)
+
         e = self.exists_and_visible(id='Main Menu', timeout=6)
 
         if e.location['x'] > 80:
@@ -1374,7 +1382,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.phone:
             self.click(id='Close')
         else:
-            self.click_more()
+            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                self.click(xpath='//*[@name="PopoverDismissRegion"]')
+            else:
+                self.click_more()
 
     def verify_cancel_button(self, screenshot=False):
         self.verify_exists(id='Cancel', screenshot=screenshot)
