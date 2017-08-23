@@ -1117,7 +1117,8 @@ class CommonHelper(TestlioAutomationTest):
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
         elif kwargs.has_key('element'):
-            selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
+            if kwargs['element'] is not list:
+                selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
         else:
             selector = ''
 
