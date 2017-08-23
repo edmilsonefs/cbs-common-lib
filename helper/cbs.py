@@ -1094,6 +1094,8 @@ class CommonHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
+        elif kwargs.has_key('element'):
+            selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
         else:
             selector = 'Element not found'
 
@@ -1113,6 +1115,8 @@ class CommonHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
+        elif kwargs.has_key('element'):
+            selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
         else:
             selector = ''
 
