@@ -238,9 +238,17 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_first_search_result()
         if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
             if self.phone:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+                try:
+                    t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=10)
+                except:
+                    t_f = self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=10)
+                    pass
             else:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
+                try:
+                    t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=10)
+                except:
+                    t_f = self.exists(accessibility_id='MyCBSStarFilled iPad', timeout=10)
+                    pass
         else:
             t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
@@ -1030,7 +1038,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # GET WRAPPERS
-    
+
     def get_show_cards(self):
 
         self.verify_exists(class_name='XCUIElementTypeStaticText')
@@ -1038,15 +1046,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         show_cards = [x for x in static_texts if ' Episode' in x.text or ' Clip' in x.text]
         return show_cards
 
-
     def get_search_result_episode_count_element(self):
 
         if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
             target_cell = self.driver.find_element_by_xpath('//XCUIElementTypeWindow[1]/XCUIElementTypeOther[2]/XCUIElementTypeCollectionView/XCUIElementTypeCell')
-    
+
             static_text = target_cell.find_element_by_class_name('XCUIElementTypeStaticText')
             if ' Episode' in static_text.text:
-                return static_text     
+                return static_text
         else:
             collection_views = self.driver.find_elements_by_xpath("//*[@value='page 1 of 1']")
 
@@ -1055,7 +1062,6 @@ class CommonIOSHelper(TestlioAutomationTest):
                 for static_text in static_texts:
                     if ' Episode' in static_text.text:
                         return static_text
-            
 
     ####################################################################################
     # SWIPE / TAP / CLICK / SEND_KEYS
@@ -1423,12 +1429,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         # there is 1 UIACollectionCell with 1 Cell with our staticText, this is the one we want. name = 'page 1 of 21'
         element = self.get_search_result_episode_count_element()
         self.assertTrueWithScreenShot(element, screenshot=screenshot, msg='Should see "X Episodes" text in search results')
-        
+
     def verify_show_cards_exist(self, screenshot=False):
         show_cards = self.get_show_cards()
         show_cards_count = len(show_cards)
         self.verify_not_equal(show_cards_count, 0, screenshot)
-        
+
     def verify_show_episode_indicator(self, screenshot=False):
         text_cells = self.driver.find_elements_by_class_name('XCUIElementTypeStaticText')
         indicator = None
@@ -1437,8 +1443,8 @@ class CommonIOSHelper(TestlioAutomationTest):
                 if 'Full Episodes' in cell.text and 'Free' in cell.text and 'With CBS All Access' in cell.text:
                     indicator = cell
                     break
-        self.assertTrueWithScreenShot(indicator, screenshot=screenshot, msg='Should see episode indicator')        
-        
+        self.assertTrueWithScreenShot(indicator, screenshot=screenshot, msg='Should see episode indicator')
+
 
     ####################################################################################
     # RANDOM HELPER METHODS
