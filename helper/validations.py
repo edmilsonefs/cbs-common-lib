@@ -113,7 +113,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 self.verify_search_episode_count()
                 self.verify_show_episode_indicator()
 
-            if self.user_type in [self.subscriber, self.trial_subscriber, self.cfs_subscriber]:
+            #if self.user_type in [self.subscriber, self.trial_subscriber, self.cfs_subscriber]:
                 #TODO add method verify_show_cards_not_exist() to ios_cbs
                 # def verify_show_cards_not_exist(self, screenshot=False):
                 #     show_cards = self.get_show_cards()
@@ -671,4 +671,3 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.driver.back()
         elif self.IS_IOS:
             pass
-
