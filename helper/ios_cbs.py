@@ -242,13 +242,11 @@ class CommonIOSHelper(TestlioAutomationTest):
                     t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=10)
                 except:
                     t_f = self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=10)
-                    pass
             else:
                 try:
                     t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=10)
                 except:
                     t_f = self.exists(accessibility_id='MyCBSStarFilled iPad', timeout=10)
-                    pass
         else:
             t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
