@@ -2036,11 +2036,18 @@ class CommonHelper(TestlioAutomationTest):
             'season': '28',
             'episode': '3'}
         """
+
+        if not isinstance(show_dict['season_number'], int):
+            raise ValueError('Season number needs to be numeric')
+        if not isinstance(show_dict['episode_number'], int):
+            raise ValueError('Episode number needs to be numeric')
+
         show_category = show_dict['show_category']
 
         category_elem = self.find_on_page('name', show_category)
-        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert category '" + show_category + "' not exists")
-        y_orig = category_elem.location['y']
+        self.assertTrueWithScreenShot(
+            category_elem, screenshot=True, msg="Assert category '" + show_category + "' not exists")
+        # y_orig = category_elem.location['y']
 
         self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
 
