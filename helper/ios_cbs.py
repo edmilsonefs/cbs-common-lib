@@ -621,6 +621,11 @@ class CommonIOSHelper(TestlioAutomationTest):
                 return False
 
     def find_episode_on_show_page(self, show_dict, exception_hack=False):
+        if not isinstance(show_dict['season_number'], int):
+            raise ValueError('Season number needs to be numeric')
+        if not isinstance(show_dict['episode_number'], int):
+            raise ValueError('Episode number needs to be numeric')
+
         episode_title = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
 
         if exception_hack == 'AFTER SHOW':
