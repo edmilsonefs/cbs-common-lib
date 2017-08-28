@@ -931,7 +931,7 @@ class CommonHelper(TestlioAutomationTest):
             my_layout = self.get_element(class_name='android.widget.LinearLayout')
             self.exists(name='Submit', driver=my_layout)
         """
-
+        self.dismiss_update_popup()
         # if kwargs.has_key('timeout'):
         #     self.driver.implicitly_wait(kwargs['timeout'])
         # else:
@@ -1124,6 +1124,10 @@ class CommonHelper(TestlioAutomationTest):
 
         self.assertTrueWithScreenShot(not self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
+
+    def dismiss_update_popup(self):
+        if "update your os" in str(self.driver.page_source).lower():
+            self.back()
 
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
