@@ -1754,7 +1754,7 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
+                    element = self.driver.find_element_by_xpath(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
                 elif class_name:
@@ -1792,10 +1792,10 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
+                    element = self.driver.find_element_by_xpath(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
-            except NoSuchElementException:
+            except:
                 if short_swipe:
                     self.driver.swipe(35, 600, 35, window_size_y - 400)
                 else:
@@ -1843,7 +1843,6 @@ class CommonHelper(TestlioAutomationTest):
 
         if screenshot:
             self.event.screenshot(self.screenshot())
-        self.driver.implicitly_wait(30)
 
     def _short_swipe_up(self, duration=1000, side='middle'):
         size = self.driver.get_window_size()
