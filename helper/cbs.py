@@ -1125,10 +1125,6 @@ class CommonHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(not self.exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
 
-    def dismiss_update_popup(self):
-        if "update your os" in str(self.driver.page_source).lower():
-            self.back()
-
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                          "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
