@@ -224,9 +224,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_first_search_result()
         if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
             if self.phone:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+                t_f = (self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30) or self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=5))
             else:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
+                t_f = (self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30) or self.exists(accessibility_id='MyCBSStarFilled  iPad', timeout=5))
         else:
             t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
@@ -238,9 +238,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_first_search_result()
         if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
             if self.phone:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
+                t_f = (self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30) or self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=5))
             else:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
+                t_f = (self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30) or self.exists(accessibility_id='MyCBSStarFilled  iPad', timeout=5))
         else:
             t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
@@ -613,9 +613,31 @@ class CommonIOSHelper(TestlioAutomationTest):
             season_name = "Latest Full Episodes"
         else:
             season_name = "Season " + str(show_dict['season_number'])
+            
+        if show_dict['show_title'] == 'Big Brother':
+            action = TouchAction(self.driver)
+            window_sizes = self.driver.get_window_size()
+            height = window_sizes['height']
+            width = window_sizes['width']
+            
+            #7 Plus
+            if width == 414 and height == 736:
+                action.press(x=200, y=300).release().perform()
+            #SE
+            elif width == 320 and height == 568:
+                action.press(x=200, y=220).release().perform()
+            #7
+            elif width ==375 and height == 667:
+                action.press(x=200, y=270).release().perform()
+            #ipad 9.7    
+            elif width == 768 and height == 1024:
+                action.press(x=300, y=400).release().perform()
+            #ipad 12.9    
+            elif width == 1024 and height == 1366:
+                action.press(x=300, y=400).release().perform()
 
         # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
-        season_elem = self.find_on_page('id', season_name)
+        season_elem = self.find_on_page('accessibility_id', season_name)
         self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists: %s" % season_name)
         # self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
 
@@ -631,7 +653,14 @@ class CommonIOSHelper(TestlioAutomationTest):
     # VIDEO PLAYER
 
     def restart_from_the_beggining(self):
-        self.click_safe(id='Restart From Beginning')
+        #self.click_safe(id='Restart From Beginning')
+        for x in range(10):
+            if self.exists(accessibility_id='Done'):
+                return
+            elif self.exists(id='Restart From Beginning'):
+                self.click(id='Restart From Beginning')
+                return
+                
 
     def close_video(self):
         count = 0
@@ -729,7 +758,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 2000)
             seek_bar_start_x += 15
             print seek_bar_start_x
-
+            
         self.unpause_video()
 
     def find_by_uiautomation(self, value, hide_keyboard=False):
@@ -770,9 +799,14 @@ class CommonIOSHelper(TestlioAutomationTest):
                     raise NoSuchElementException('pass')
             except NoSuchElementException:
                 if self.is_simulator():
-                    self.driver.swipe(500, 600, 0, -100, 1500)
+                    device_size = self.driver.get_window_size()
+                    device_height = device_size['height']
+                    device_width = device_size['width']
+                    pointX = device_width/4
+                    fromY = device_height - 100 #need to check with various devices
+                    self.driver.swipe(pointX, fromY, pointX, -device_height/4, 1500)
                 else:
-                    self.swipe(x, .6, x, .5, 1500)
+                    self.swipe(x, .9, x, .7, 1500) #need to verify that it works properly on testdroid
                 pass
 
         self.set_implicit_wait()
@@ -1173,7 +1207,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         """
         show_category = show_dict['show_category']
 
-        category_elem = self.find_on_page('id', show_category)
+        category_elem = self.find_on_page('accessibility_id', show_category)
         self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert '" + show_category + "' category exists")
         y_orig = category_elem.location['y']
 
@@ -1780,6 +1814,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             return self.driver.find_elements_by_class_name('UIATextField')[-1]
 
     def find_on_page_horizontal(self, find_value):
+        
         find_value_converted = ""
         if bool(re.search("S\d+ Ep\d+", find_value)):
             find_value_converted = find_value.replace("S", "Season ")
