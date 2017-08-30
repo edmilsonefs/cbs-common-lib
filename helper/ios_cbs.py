@@ -1,4 +1,4 @@
-#TODO rename file to common_ios.py
+# TODO rename file to common_ios.py
 
 import os
 import random
@@ -621,9 +621,14 @@ class CommonIOSHelper(TestlioAutomationTest):
                 return False
 
     def find_episode_on_show_page(self, show_dict, exception_hack=False):
-        if not isinstance(show_dict['season_number'], int):
+        try:
+            int(show_dict['season_number'])
+        except:
             raise ValueError('Season number needs to be numeric')
-        if not isinstance(show_dict['episode_number'], int):
+
+        try:
+            int(show_dict['episode_number'])
+        except:
             raise ValueError('Episode number needs to be numeric')
 
         episode_title = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
