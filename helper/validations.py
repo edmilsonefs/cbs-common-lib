@@ -99,33 +99,33 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         # self.verify_exists(name='My CBS')
         self.verify_exists(id='Store')
 
-    # Show Page
+        # Show Page
+
     def validation_h(self, user_type="anonymous"):
         if self.IS_ANDROID:
             self.show_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
+            # sleep(20)
             self.verify_exists(id='CBSEye_white')
             self.verify_exists(id="Search")
-            self.verify_exists(xpath='XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')  # ShowImage
+            # sleep(10)
+            self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')  # ShowImage
             # TODO Add to MyCBS button, not present in xml tree
-            self.verify_share_icon()
-            if self.user_type in [self.anonymous, self.registered, self.exsubscriber]:
+            # self.verify_share_icon()
+            if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_search_episode_count()
                 self.verify_show_episode_indicator()
 
-            #if self.user_type in [self.subscriber, self.trial_subscriber, self.cfs_subscriber]:
-                #TODO add method verify_show_cards_not_exist() to ios_cbs
-                # def verify_show_cards_not_exist(self, screenshot=False):
-                #     show_cards = self.get_show_cards()
-                #     show_cards_count = len(show_cards)
-                #     self.verify_equal(show_cards_count, 0, screenshot)
+            if self.user_type in [self.subscriber, self.trial, self.cfs_subscriber]:
+                self.verify_show_cards_not_exist()
 
     def validation_i(self):  # TODO update validation
         self.verify_exists(id='Watch Episode', screenshot=False)
         self.verify_exists(id='More From Show')
         self.verify_exists(id='Close')
 
-    # Schedule Page
+        # Schedule Page
+
     def validation_k(self):
         if self.IS_ANDROID:
             self.schedule_page_android.validate_page()
@@ -138,7 +138,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         self.verify_exists(id='Share')
         self.verify_exists(id='Cancel')
 
-    # Shows Page
+        # Shows Page
+
     def validation_m(self, category='All Shows'):  # TODO update validation
         if self.IS_ANDROID:
             self.shows_page_android.validate_page(category)
@@ -168,7 +169,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         self.verify_exists(name='Add to Calendar')
         self.verify_exists(name='Show Info')
 
-    # Settings Page
+        # Settings Page
+
     def validation_q(self):  # TODO update validation
         if self.IS_ANDROID:
             self.settings_page_android.validate_page()
@@ -200,13 +202,15 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info & Your Choices']")
             # else:
             #     self.verify_exists(xpath="//UIATableCell[@name='Nielsen Info']")
+
     def validation_t(self):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
             self.verify_show_cards_exist()
 
-    # Live TV Page
+            # Live TV Page
+
     def validation_u(self, user_type="anonymous"):  # TODO update validation, Updated for IOS
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(user_type=user_type)
@@ -244,10 +248,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                     self.verify_exist(id='Start Watching')
                 else:
                     self.verify_exist(id='Schedule')
-                    self.verify_exist(id='Video player')#TODO need to check with ipad
-                    self.mvpd_video_page_validation()#TODO need to check with ipad
+                    self.verify_exist(id='Video player')  # TODO need to check with ipad
+                    self.mvpd_video_page_validation()  # TODO need to check with ipad
 
-    # Upsell Page
+                    # Upsell Page
+
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
@@ -407,7 +412,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             else:
                 self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
             self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
-        if self.IS_IOS:#TODO update after getting  correct credentials for mvpd
+        if self.IS_IOS:
             self.verify_exists(id='CBSEye_white', screenshot=True)
             self.verify_exists(id="Search")
             self.verify_exists(
@@ -417,12 +422,15 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             else:
                 self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[2]')  # station icon
             if self.user_type == self.mvpd_auth:
-                self.verifyt_exists(
-                    xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')  # TODO provider logo mvpd failed login ios10
+                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                    self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
+                else:
+                    self.verifyt_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
             else:
-                self.verify_not_exists(
-                    xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')  # TODO provider logo locator detection ios10
-
+                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                    self.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
+                else:
+                    self.verifyt_not_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
 
     def validation_af(self):
         if self.IS_ANDROID:
@@ -441,7 +449,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.verify_exists(id='Two ways to watch Live TV')
             self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
             self.verify_exists(id='Stream Live TV plus thousands of full episodes on demand.', timeout=30)
-            self.verify_exists(id='Take the tour')#TODO Take the tour on Simulator, in Spec - Take a tour  (in spec for validation_u there is take the tour). Need clarification
+            self.verify_exists(
+                id='Take the tour')  # TODO Take the tour on Simulator, in Spec - Take a tour  (in spec for validation_u there is take the tour). Need clarification
             self.verify_exists(id='OR')
             self.verify_exists(id='TV PROVIDER')
             self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
@@ -451,17 +460,18 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.swipe_down_and_verify_if_exists(id='Live TV is available for over 90% of the country and growing.')
             self.swipe_down_and_verify_if_exists(id='CHECK AVAILABILITY')
             self.swipe_down_and_verify_if_exists(id='What You Get with Live TV')
-            self.swipe_down_and_verify_if_exists(id='You don\'t have to worry about missing a minute of'/
-                                                    'your favorite shows. Stream your local news, hit CBS shows, special events like The'/
+            self.swipe_down_and_verify_if_exists(id='You don\'t have to worry about missing a minute of' /
+                                                    'your favorite shows. Stream your local news, hit CBS shows, special events like The' /
                                                     'GRAMMYs and select sporting events at home or on the go across devices.')
             self.swipe_down_and_verify_if_exists(id='SEE DEVICES')
             self.swipe_down_and_verify_if_exists(id='Questions?')
             self.swipe_down_and_verify_if_exists(id='READ OUR FAQ')
             self.swipe_down_and_verify_if_exists(id='Disclaimer')
-            self.swipe_down_and_verify_if_exists(id='Some programming is not available for live streaming through CBS All Access.'/
-                                                    'We are continuing to work towards offering more live programming. In the meantime,'/
-                                                    'when a program is not available to you via CBS All Access, you will see a message that'/
-                                                    'states that the program is currently not available.')
+            self.swipe_down_and_verify_if_exists(
+                id='Some programming is not available for live streaming through CBS All Access.' /
+                   'We are continuing to work towards offering more live programming. In the meantime,' /
+                   'when a program is not available to you via CBS All Access, you will see a message that' /
+                   'states that the program is currently not available.')
             if self.user_type == self.anonymous:
                 self.verify_exists(id='TRY 1 WEEK FREE')
                 self.verify_exists(id='Already have an account? Sign In')
@@ -484,17 +494,20 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.verify_exists(id='CBSEye_white')
             self.verify_exists(id='Live TV')
             self.verify_exists(id="Search")
-            self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Is there an additional cost required to stream Live TV?"]')
+            self.verify_exists(
+                xpath='//XCUIElementTypeStaticText[@name="Is there an additional cost required to stream Live TV?"]')
             self.verify_exists(id='There is no additional cost to stream Live TV If you have an All Access '
                                   'subscription or if you verify with your TV provider credentials.')
-            self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="How do I find out if my TV provider is participating?"]')
-            self.verify_exists(id='To view participating TV providers available in your area, click \"Verify Now\" on the Live TV page')
-            self.verify_exists(id='If your TV provider is not listed, don\'t worry. We\'re working hard to add more providers.'/
-                                  'You can be notified when we add more providers by signing up for a free CBS account.')
+            self.verify_exists(
+                xpath='//XCUIElementTypeStaticText[@name="How do I find out if my TV provider is participating?"]')
+            self.verify_exists(
+                id='To view participating TV providers available in your area, click \"Verify Now\" on the Live TV page')
+            self.verify_exists(
+                id='If your TV provider is not listed, don\'t worry. We\'re working hard to add more providers.' /
+                   'You can be notified when we add more providers by signing up for a free CBS account.')
             self.select_verify_exists(xpath='//XCUIElementTypeStaticText[@name="Still have questions?"]')
-            self.verify_exists(id='If you have a question that hasn\'t been answered here, please visit our complete FAQ site at cbs.com/help.')
-
-
+            self.verify_exists(
+                id='If you have a question that hasn\'t been answered here, please visit our complete FAQ site at cbs.com/help.')
 
     def validation_ai(self):
         if self.IS_ANDROID:
@@ -521,19 +534,19 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.verify_exists(id='Live TV')
             self.verify_exists(id="Search")
             self.verify_exists(id='Check Live TV Availability')
-            self.verify_exists(id='CBS would like to use your current location to determine if Live TV is available in your area.'\
-                                  'If prompted, please share your location. By using this CBS application, you agree to our Terms of Use,'\
-                                  'Privacy Policy, and Video Service Policy.')
+            self.verify_exists(
+                id='CBS would like to use your current location to determine if Live TV is available in your area.' \
+                   'If prompted, please share your location. By using this CBS application, you agree to our Terms of Use,' \
+                   'Privacy Policy, and Video Service Policy.')
             self.verify_exists(id='CHECK AVAILABILITY')
-
-
 
     def validation_ak(self):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
             self.verify_exists(id='Success!', screenshot=True)
-            self.verify_exists(xpath="//XCUIElementTypeStaticText[@name='Choose an option below to start streaming live TV.'])[1]")
+            self.verify_exists(
+                xpath="//XCUIElementTypeStaticText[@name='Choose an option below to start streaming live TV.'])[1]")
             self.verify_exists(name='OR')
             self.verify_exists(name='TV PROVIDER')
             self.verify_exists(name='VERIFY NOW')
@@ -548,7 +561,6 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 self.verify_exists(id='TRY 1 WEEK FREE')
             else:
                 self.verify_not_exists(id='GET STARTED')
-
 
     def validation_al(self):
         if self.IS_ANDROID:
@@ -566,30 +578,28 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 else:
                     self.verify_exists(xpath="//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]", screenshot=True)
 
-
-    def validation_am(self):#TODO Account Verified Page - still open question
+    def validation_am(self):
         self.event.screenshot(self.screenshot())
-        # TODO substitute with 'Your account has been verified!'
-        self.verify_exists(name='Complete the verification process', screenshot=True)
-        self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
-        self.verify_exists(name='Personalize experience with My CBS')
-        self.verify_exists(name='Resume video across apps and web')
-        self.verify_exists(name='Exclusive content')
-        self.verify_exists(name='Fan votes and sweepstakes')
-        self.verify_exists(name='Latest content delivered right to your inbox')
-        self.verify_exists(name='Sign Up')
+        self.verify_exists(id='Complete the verification process', screenshot=True)
+        self.verify_exists(id='Register for a free CBS account to get exclusive benefits including:')
+        self.verify_exists(id='Personalize experience with My CBS')
+        self.verify_exists(id='Resume video across apps and web')
+        self.verify_exists(id='Exclusive content')
+        self.verify_exists(id='Fan votes and sweepstakes')
+        self.verify_exists(id='Latest content delivered right to your inbox')
+        self.verify_exists(id='Sign Up')
         self.verify_exists(name='Already have an account? Sign In')
 
-    def validation_ao(self):#TODO need clarification about TV Unavailable page
+    def validation_ao(self):  # TODO need clarification about TV Unavailable page
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
             if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(id="Sorry, your local CBS station is not currently available", screenshot=True)
-                self.verify_exists(id='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these videos.')
-                self.verify_exist()#TODO  video thumbnail
+                self.verify_exists(
+                    id='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these videos.')
+                self.verify_exist()  # TODO  video thumbnail
                 self.verify_not_exists(id='GET NOTIFIED')
-
 
     def validation_aq(self):
         if self.IS_ANDROID:
@@ -620,7 +630,6 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 self.verify_exists(id='but you can sign up for CBS All Access to watch now.')
                 self.verify_not_exists(id='TRY 1 WEEK FREE')
                 self.verify_exists(id='GET STARTED')
-
 
     def validation_as(self):
         if self.IS_ANDROID:
@@ -657,7 +666,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         elif self.IS_IOS:
             pass
 
-    # Video Validation
+            # Video Validation
+
     def validation_video(self):
         if self.IS_ANDROID:
             CommonHelperAndroid.accept_popup_video_click()
@@ -666,7 +676,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             except:
                 pass
             self.driver.implicitly_wait(60)
-            CommonHelperAndroid.verify_exists(id=CommonHelperAndroid.com_cbs_app + ':id/player_activity_frame', screenshot=True)
+            CommonHelperAndroid.verify_exists(id=CommonHelperAndroid.com_cbs_app + ':id/player_activity_frame',
+                                              screenshot=True)
 
             self.driver.back()
         elif self.IS_IOS:
