@@ -39,7 +39,7 @@ class CommonHelper(TestlioAutomationTest):
         self.init_variables()
 
     def init_variables(self):
-        if os.getenv('PLATFORM').lower() == "android":
+        if str(os.getenv('PLATFORM')).lower() == "android":
             if os.getenv('LOCAL') is None:
                 self.testdroid_device = self.get_testdroid_device_from_adb()
             self.activate_standard_keyboard()
