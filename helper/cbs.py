@@ -39,22 +39,25 @@ class CommonHelper(TestlioAutomationTest):
         self.init_variables()
 
     def init_variables(self):
-        if str(os.getenv('PLATFORM')).lower() != "ios":
-            if os.getenv('LOCAL') is None:
-                self.testdroid_device = self.get_testdroid_device_from_adb()
-            self.activate_standard_keyboard()
-            self.driver.orientation = 'PORTRAIT'
+        if str(os.getenv('PLATFORM')).lower() == "android":
+            try:
+                if os.getenv('LOCAL') is None:
+                    self.testdroid_device = self.get_testdroid_device_from_adb()
+                self.activate_standard_keyboard()
+                self.driver.orientation = 'PORTRAIT'
 
-            if 'Nexus 7' in self.testdroid_device \
-                    or 'KFTBWI' in self.testdroid_device:
-                self.tablet = True
-                self.phone = False
-            else:
-                self.tablet = False
-                self.phone = True
-            if 'KFTBWI' in self.testdroid_device:
-                self.com_cbs_app = 'com.cbs.ott'
-                self.IS_AMAZON = True
+                if 'Nexus 7' in self.testdroid_device \
+                        or 'KFTBWI' in self.testdroid_device:
+                    self.tablet = True
+                    self.phone = False
+                else:
+                    self.tablet = False
+                    self.phone = True
+                if 'KFTBWI' in self.testdroid_device:
+                    self.com_cbs_app = 'com.cbs.ott'
+                    self.IS_AMAZON = True
+            except:
+                pass
 
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
