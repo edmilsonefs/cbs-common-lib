@@ -507,25 +507,6 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(
                 xpath=self.element_type + 'StaticText[@name="Gaming consoles"]')
 
-            # CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
-            # CommonHelperIOS.verify_exists(id='CBSEye_white')
-            # CommonHelperIOS.verify_exists(id='Live TV')
-            # CommonHelperIOS.verify_exists(id="Search")
-            # CommonHelperIOS.verify_exists(
-            #     xpath='//XCUIElementTypeStaticText[@name="Is there an additional cost required to stream Live TV?"]')
-            # CommonHelperIOS.verify_exists(id='There is no additional cost to stream Live TV If you have an All Access '
-            #                       'subscription or if you verify with your TV provider credentials.')
-            # CommonHelperIOS.verify_exists(
-            #     xpath='//XCUIElementTypeStaticText[@name="How do I find out if my TV provider is participating?"]')
-            # CommonHelperIOS.verify_exists(
-            #     id='To view participating TV providers available in your area, click \"Verify Now\" on the Live TV page')
-            # CommonHelperIOS.verify_exists(
-            #     id='If your TV provider is not listed, don\'t worry. We\'re working hard to add more providers.' /
-            #        'You can be notified when we add more providers by signing up for a free CBS account.')
-            # CommonHelperIOS.select_verify_exists(xpath='//XCUIElementTypeStaticText[@name="Still have questions?"]')
-            # CommonHelperIOS.verify_exists(
-            #     id='If you have a question that hasn\'t been answered here, please visit our complete FAQ site at cbs.com/help.')
-
     def validation_ai(self):
         if self.IS_ANDROID:
             pass
