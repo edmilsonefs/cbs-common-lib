@@ -214,6 +214,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             # Live TV Page
 
     def validation_u(self, user_type="anonymous"):  # TODO update validation, Updated for IOS
+        # Upsell Page
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
@@ -230,7 +231,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='Learn More')
 
             if self.user_type == self.anonymous:
-                CommonHelperIOS.verify_exists(id='Already have an account? Sign In')  # not being able to get element id
+                # CommonHelperIOS.verify_exists(id='Already have an account? Sign In')  # not being able to get element id
                 CommonHelperIOS.verify_exists(id='TRY 1 WEEK FREE')
 
             if self.user_type == self.ex_subscriber:
@@ -241,19 +242,16 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperIOS.verify_exists(id='TRY 1 WEEK FREE')
                 CommonHelperIOS.verify_not_exists(id='Already have an account? Sign In')
             try:
-                CommonHelperIOS.driver.find_element_by_id('Learn More')
+                CommonHelperIOS.driver.find_element_by_id('Learn more')
             except:
                 CommonHelperIOS.short_swipe_down()
 
             if self.user_type == self.subscriber:
                 if self.phone:
-                    CommonHelperIOS.verify_exist(id='Start Watching')
+                    CommonHelperIOS.verify_exists(id='Start Watching')
                 else:
-                    CommonHelperIOS.verify_exist(id='Schedule')
-                    CommonHelperIOS.verify_exist(id='Video player')  # TODO need to check with ipad
-                    CommonHelperIOS.mvpd_video_page_validation()  # TODO need to check with ipad
-
-                    # Upsell Page
+                    CommonHelperIOS.verify_exists(id='Schedule')
+                    CommonHelperIOS.verify_exists(id='Video player')  # TODO need to check with ipad
 
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
