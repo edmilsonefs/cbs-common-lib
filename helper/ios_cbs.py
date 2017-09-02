@@ -32,9 +32,11 @@ class CommonIOSHelper(TestlioAutomationTest):
     trial = 'trial'
     already_accepted_terms = False
     passed = False
+    element_type = '//UIA'  # iOS 9
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
+
         super(CommonIOSHelper, self).setup_method(method, {'waitForAppScript': '$.delay(5000); $.acceptAlert();'})
 
         if 'iPad' in self.driver.capabilities['deviceName']:
@@ -43,6 +45,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             self.tablet = False
             self.phone = True
+        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            self.element_type = '//XCUIElementType' #iOS 10
 
         # wait for the splash screen to disappear
         self._accept_alert(1)
