@@ -572,10 +572,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperIOS.verify_exists(id='Sign in with your TV provider to start streaming')
                 CommonHelperIOS.verify_exists(id='Questions?')
                 CommonHelperIOS.verify_exists(id='READ OUR FAQ')
-                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
-                    CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')
-                else:
-                    CommonHelperIOS.verify_exists(xpath="//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]", screenshot=True)
+                CommonHelperIOS.verify_exists(xpath=self.element_type + "CollectionView", screenshot=True)
 
     def validation_am(self):
         self.event.screenshot(self.screenshot())
