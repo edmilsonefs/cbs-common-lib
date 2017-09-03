@@ -251,7 +251,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 if self.phone:
                     CommonHelperIOS.verify_exists(id='Start Watching')
                 else:
-                    if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                    if self.is_xcuitest():
                         CommonHelperIOS.verify_exists(
                             xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # Schedule
                         CommonHelperIOS.verify_exists(
@@ -313,7 +313,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
     def validation_x(self):
         if self.IS_ANDROID:
             pass
-        if self.IS_IOS:
+        elif self.IS_IOS:
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
             CommonHelperIOS.verify_exists(id='CBSEye_white')
             CommonHelperIOS.verify_exists(id='Sign Up')
@@ -417,13 +417,10 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             else:
                 CommonHelperAndroid.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
             CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
-        if self.IS_IOS:
+        elif self.IS_IOS:
             CommonHelperIOS.verify_exists(id='CBSEye_white', screenshot=True)
             CommonHelperIOS.verify_exists(id="Search")
             CommonHelperIOS.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
-            if self.is_xcuitest():  # iOS 10 switch
-            CommonHelperIOS.verify_exists(
-                xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # schedule table
             if self.is_xcuitest():  # iOS 10 switch
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
             else:
@@ -450,7 +447,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
     def validation_ag(self):
         if self.IS_ANDROID:
             pass
-        if self.IS_IOS:
+        elif self.IS_IOS:
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
             CommonHelperIOS.verify_exists(id='CBSEye_white')  # cbs icon
             CommonHelperIOS.verify_exists(id='Live TV')
@@ -496,7 +493,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
     def validation_ah(self):
         if self.IS_ANDROID:
             pass
-        if self.IS_IOS:
+        elif self.IS_IOS:
             sleep(8)
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
             CommonHelperIOS.verify_exists(id='CBSEye_white')
@@ -515,7 +512,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
     def validation_ai(self):
         if self.IS_ANDROID:
             pass
-        if self.IS_IOS:
+        elif self.IS_IOS:
             self.driver.implicitly_wait(5)
             sleep(5)
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
@@ -531,7 +528,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
     def validation_aj(self):
         if self.IS_ANDROID:
             pass
-        if self.IS_IOS:
+        elif self.IS_IOS:
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
             CommonHelperIOS.verify_exists(id='CBSEye_white')
             CommonHelperIOS.verify_exists(id='Live TV')
@@ -571,7 +568,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id=self.com_cbs_app + ':id/gridRecyclerView', screenshot=True)
             CommonHelperIOS.verify_exists(name='Questions?')
             CommonHelperIOS.verify_exists(name='READ OUR FAQ')
-        if self.IS_IOS:
+        elif self.IS_IOS:
             if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 CommonHelperIOS.verify_exists(id='Sign in with your TV provider to start streaming')
                 CommonHelperIOS.verify_exists(id='Questions?')
