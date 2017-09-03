@@ -264,7 +264,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
-            pass
+            CommonHelperIOS.verify_exists(xpath="//UIAButton[contains(@name, 'TRY 1') and contains(@name, 'FREE') and (contains(@name,'MONTH') or contains(@name,'WEEK'))]", timeout=30, screenshot=True)
+            CommonHelperIOS.verify_exists(id="Take the tour")
 
     def validation_w(self, error_number):
         if self.IS_ANDROID:
@@ -390,10 +391,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             pass  # TODO
 
     def validation_ab(self, name):
-        self.open_drawer()
         if self.IS_ANDROID:
+            CommonHelperAndroid.open_drawer()
             CommonHelperAndroid.verify_exists(name=name, screenshot=True)
         elif self.IS_IOS:
+            CommonHelperIOS.open_drawer()
             self.assertTrue(name in self.driver.page_source,
                             msg="Username should be visible in the menu after registration", screenshot=True)
 
