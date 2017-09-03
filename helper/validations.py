@@ -418,17 +418,17 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id="Search")
             CommonHelperIOS.verify_exists(
                 xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # schedule table
-            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':  # iOS 10 switch
+            if self.is_xcuitest():  # iOS 10 switch
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
             else:
                 CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[2]')  # station icon
             if self.user_type == self.mvpd_auth:
-                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                if self.is_xcuitest():
                     CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
                 else:
                     CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
             else:
-                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                if self.is_xcuitest():
                     CommonHelperIOS.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
                 else:
                     CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
@@ -547,7 +547,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(name='TV PROVIDER')
             CommonHelperIOS.verify_exists(name='VERIFY NOW')
 
-            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            if self.is_xcuitest():
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView')
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')
             else:
@@ -569,7 +569,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperIOS.verify_exists(id='Sign in with your TV provider to start streaming')
                 CommonHelperIOS.verify_exists(id='Questions?')
                 CommonHelperIOS.verify_exists(id='READ OUR FAQ')
-                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                if self.is_xcuitest():
                     CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')
                 else:
                     CommonHelperIOS.verify_exists(xpath="//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]", screenshot=True)

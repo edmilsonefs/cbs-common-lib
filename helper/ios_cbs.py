@@ -45,7 +45,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             self.tablet = False
             self.phone = True
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             self.element_type = '//XCUIElementType' #iOS 10
 
         # wait for the splash screen to disappear
@@ -86,6 +86,9 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # SETUP/LOGIN METHODS
 
+    def is_xcuitest(self):
+        return os.environ.get('AUTOMATION_NAME') == 'XCUITest'
+
     def login(self, username, password):
         """
         This assumes you are on the Sign In screen.
@@ -93,7 +96,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # username
         if self.phone:
-            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            if self.is_xcuitest():
                 user_elem = self._find_element(class_name='XCUIElementTypeTextField')
             else:
                 user_elem = self._find_element(class_name='UIATextField')
@@ -108,7 +111,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # password
         if self.phone:
-            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            if self.is_xcuitest():
                 pwd_elem = self._find_element(class_name='XCUIElementTypeSecureTextField')
             else:
                 pwd_elem = self._find_element(class_name='UIASecureTextField')
@@ -123,7 +126,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # sign in button
         if self.phone:
-            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            if self.is_xcuitest():
                 sign_in_button = self._find_element(accessibility_id='SIGN IN')
             else:
                 sign_in_button = self._find_element(xpath="//*[@name='SIGN IN']")
@@ -194,7 +197,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.open_drawer()
         self.click(id='Home')
 
-
     def goto_shows(self):
         self.open_drawer()
         self.click(id='Shows')
@@ -226,7 +228,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             if self.phone:
                 t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
             else:
@@ -240,7 +242,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        # if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        # if self.is_xcuitest():
         #     if self.phone:
         #         try:
         #             t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=10)
@@ -294,7 +296,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.send_keys(element=e, data=what_to_search_for)
 
     def enter_search_text_extended(self, what_to_search_for):
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             #TODO add back the logic of checking if only one show is available.
             e = self.find_search_text()
             for i in range(0, len(what_to_search_for)):
@@ -325,7 +327,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.enter_search_text_extended(what_to_search_for)
 
     def click_first_search_result(self):
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             #TODO add back the correct element click, instead of location tap
             self.tap_by_touchaction(.20, .20) # this works with only iPhone 7 HACK
         else:
@@ -378,7 +380,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 pass
 
 
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             elem.click() # add, if below element loc click is removed.
         else:
 
@@ -429,7 +431,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # SHOW PAGE
     def click_first_show_page_episode(self):
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             show_cells = self.find_elements_by_class_name('XCUIElementTypeCell')
             show_cells[0].click()
         else:
@@ -1079,7 +1081,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def get_search_result_episode_count_element(self):
 
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             target_cell = self.driver.find_element_by_xpath('//XCUIElementTypeWindow[1]/XCUIElementTypeOther[2]/XCUIElementTypeCollectionView/XCUIElementTypeCell')
 
             static_text = target_cell.find_element_by_class_name('XCUIElementTypeStaticText')
@@ -1418,7 +1420,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.phone:
             self.click(id='Close')
         else:
-            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+            if self.is_xcuitest():
                 self.click(xpath='//*[@name="PopoverDismissRegion"]')
             else:
                 self.click_more()
@@ -1586,7 +1588,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.tap(size['width'] - 30, size['height'] - 30)
 
     def is_keyboard_displayed(self):
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest': #iOS 10
+        if self.is_xcuitest(): #iOS 10
             return self.exists(class_name='XCUIElementTypeKeyboard', timeout=2)
         else:
             return self.exists(xpath='//UIAKeyboard', timeout=2)
@@ -1832,7 +1834,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 find_value = find_value.split(":")[0]
 
         #self.set_implicit_wait(30)
-        if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+        if self.is_xcuitest():
             return self.get_element(xpath="//*[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')][1]", timeout=60)
         else:
             return self.get_element(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')][1]", timeout=60)
@@ -1908,11 +1910,11 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(10)
         if self.exists(id='CONTINUE', timeout=10):
-            if os.environ.get('AUTOMATION_NAME') == 'XCUITest':    #iOS 10 switch
+            if self.is_xcuitest():    #iOS 10 switch
                 self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
                 sleep(3)
             try:
-                if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                if self.is_xcuitest():
                     self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 else:
                     self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
@@ -1922,7 +1924,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 try:
                     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
                 except:
-                    if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                    if self.is_xcuitest():
                         self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                     else:
                         self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")

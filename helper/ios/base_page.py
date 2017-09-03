@@ -8,7 +8,6 @@ class BasePage(CommonIOSHelper):
     def __init__(self, driver, event):
         self.driver = driver
         self.event = event
-        self.init_variables()
 
     def btn_search_icon(self, timeout=10):
         return self.get_element(timeout=timeout, id='Search')
@@ -29,7 +28,7 @@ class BasePage(CommonIOSHelper):
         return self.get_element(timeout=timeout, id='CBSLogo_white')
 
     def navigation_drawer(self, timeout=10):
-        if os.environ['AUTOMATION_NAME'] == 'XCUITest':
+        if self.is_xcuitest():
             return self.get_element(timeout=timeout, name='Main Menu')
         else:
             return self.get_element(timeout=timeout, xpath='//UIATableView[1]')
