@@ -69,8 +69,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id="Search")
             CommonHelperIOS.verify_exists(id='Sign in with your social account', screenshot=True)
             CommonHelperIOS.verify_exists(id='Sign in with your email')
-            CommonHelperIOS.verify_exists(
-                xpath='//XCUIElementTypeStaticText[@name="Don\'t have an account? Sign Up"])[2]')
+            if self.is_xcuitest():
+                CommonHelperIOS.verify_exists(
+                    xpath='//XCUIElementTypeStaticText[@name="Don\'t have an account? Sign Up"])[2]')
+            else:
+                CommonHelperIOS.verify_exists(id="Don\'t have an account? Sign Up")
 
     def validation_e(self):
         if self.IS_ANDROID:
