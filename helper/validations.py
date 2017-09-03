@@ -391,7 +391,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         if self.IS_ANDROID:
             CommonHelperAndroid.verify_exists(name=name, screenshot=True)
         elif self.IS_IOS:
-            pass  # TODO
+            self.assertTrue(name in self.driver.page_source,
+                            msg="Username should be visible in the menu after registration", screenshot=True)
 
     def validation_ac(self):
         if self.IS_ANDROID:
