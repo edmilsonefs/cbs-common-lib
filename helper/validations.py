@@ -250,8 +250,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 if self.phone:
                     CommonHelperIOS.verify_exists(id='Start Watching')
                 else:
-                    CommonHelperIOS.verify_exists(id='Schedule')
-                    CommonHelperIOS.verify_exists(id='Video player')  # TODO need to check with ipad
+                    if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
+                        CommonHelperIOS.verify_exists(
+                            xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # Schedule
+                        CommonHelperIOS.verify_exists(
+                            xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage')  # Video Image
 
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
@@ -404,20 +407,19 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
     def validation_ae(self, mvpd=False):
         if self.IS_ANDROID:
             # cbs logo
-            CommonHelperIOS.verify_exists(
+            CommonHelperAndroid.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
-            CommonHelperIOS.verify_exists(id=self.com_cbs_app + ':id/action_search')
-            CommonHelperIOS.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
             if mvpd:
-                CommonHelperIOS.verify_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
+                CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
             else:
-                CommonHelperIOS.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
-            CommonHelperIOS.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
+                CommonHelperAndroid.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
         if self.IS_IOS:
             CommonHelperIOS.verify_exists(id='CBSEye_white', screenshot=True)
             CommonHelperIOS.verify_exists(id="Search")
-            CommonHelperIOS.verify_exists(
-                xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # schedule table
+            CommonHelperIOS.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
             if os.environ.get('AUTOMATION_NAME') == 'XCUITest':  # iOS 10 switch
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
             else:
@@ -430,8 +432,9 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             else:
                 if os.environ.get('AUTOMATION_NAME') == 'XCUITest':
                     CommonHelperIOS.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
-                else:
-                    CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
+                    # else:
+                    #     CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
+                    # provider logo is not visible but element is on page source so it gives a false fail
 
     def validation_af(self):
         if self.IS_ANDROID:
