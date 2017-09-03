@@ -57,6 +57,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         elif self.IS_IOS:
             CommonHelperIOS.verify_exists(id='Main Menu', timeout=25, screenshot=True)
             CommonHelperIOS.verify_exists(id='CBSEye_white', timeout=25)
+            CommonHelperIOS.verify_exists(id='Marquee', timeout=10)
             CommonHelperIOS.verify_exists(id='Search', timeout=10)
 
     def validation_d(self):
@@ -319,6 +320,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id="Search")
             CommonHelperIOS.verify_exists(id='Please complete your registration')
             CommonHelperIOS.verify_exists(id='CONTINUE')
+
 
     def validation_xf(self):
         if self.IS_ANDROID:
