@@ -1931,6 +1931,26 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.safe_screenshot()
             self.driver.implicitly_wait(30)
 
+    def sign_in_facebook(self, username, password, finish_login=False):
+        try:
+            self.click(xpath="//UIAButton[@name='Continue']")
+        except:
+            email_field = self._find_element(xpath=self.element_type + "TextField")
+            self.send_text(data=username, element=email_field)
+
+            password_field = self._find_element(
+                xpath=self.element_type + "SecureTextField[@value='Facebook Password']")
+            self.send_text(data=password, element=password_field)
+
+            self.click(xpath=self.element_type + "Button[@name='Log In']")
+            self.event.screenshot(self.screenshot())
+
+            self.click(xpath=self.element_type + "Button[@name='Continue']")
+            self.event.screenshot(self.screenshot())
+        if finish_login:
+            self.finish_login()
+        self.event.screenshot(self.screenshot())
+
     ####################################################################################
     # CLICK WRAPPERS
 
