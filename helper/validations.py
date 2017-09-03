@@ -593,7 +593,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
     def validation_ao(self):  # TODO need clarification about TV Unavailable page
         if self.IS_ANDROID:
-            pass
+            CommonHelperAndroid.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True)
+            CommonHelperAndroid.verify_exists(
+                name='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these Videos:')
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
+            CommonHelperAndroid.verify_not_exists(name='GET NOTIFIED')
         elif self.IS_IOS:
             if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 CommonHelperIOS.verify_exists(id="Sorry, your local CBS station is not currently available", screenshot=True)
