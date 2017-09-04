@@ -264,8 +264,28 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
-            CommonHelperIOS.verify_exists(xpath="//UIAButton[contains(@name, 'TRY 1') and contains(@name, 'FREE') and (contains(@name,'MONTH') or contains(@name,'WEEK'))]", timeout=30, screenshot=True)
-            CommonHelperIOS.verify_exists(id="Take the tour")
+            if user_type in [self.anonymous, self.registered]:
+                CommonHelperIOS.verify_exists(
+                    xpath="//UIAStaticText[contains(@name,'LIMITED') and contains(@name,'COMMERCIALS')]")
+            CommonHelperIOS.verify_exists(element=self.get_element(id='TRY 1 WEEK FREE'))
+            CommonHelperIOS.verify_exists(xpath="//UIAStaticText[contains(@name,'COMMERCIAL FREE')]")
+            CommonHelperIOS.verify_exists(element=self.get_element(id='GET STARTED'))
+            if user_type == self.registered:
+                CommonHelperIOS.verify_not_exists(name='SELECT', timeout=10)
+            elif user_type in [self.subscriber, self.trial]:
+                CommonHelperIOS.verify_exists(xpath="//UIAStaticText[contains(@name,'COMMERCIAL FREE')]")
+                CommonHelperIOS.verify_exists(xpath="//UIButton[contains(@name,'UPGRADE')]")
+            elif user_type == self.cf_subscriber:
+                CommonHelperIOS.verify_exists(xpath="//UIAStaticText[contains(@name,'COMMERCIAL FREE')]")
+            else:
+                if user_type == self.ex_subscriber:
+                    CommonHelperIOS.verify_exists(
+                        xpath="//UIAStaticText[contains(@name,'LIMITED') and contains(@name,'COMMERCIALS')]", timeout=20)
+                    CommonHelperIOS.verify_exists(xpath="//UIAStaticText[contains(@name,'COMMERCIAL FREE')]", timeout=20)
+                    CommonHelperIOS.verify_exists(xpath="//UIAStaticText[contains(@name,'Only $5.99/month')]", timeout=20)
+                    CommonHelperIOS.verify_exists(id='SELECT', timeout=20)
+                    CommonHelperIOS.verify_not_exists(element=self.get_element(id='GET STARTED'), timeout=10)
+                    CommonHelperIOS.verify_not_exists(element=self.get_element(id='TRY 1 WEEK FREE'), timeout=10)
 
     def validation_w(self, error_number):
         if self.IS_ANDROID:
