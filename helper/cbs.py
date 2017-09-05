@@ -2042,11 +2042,6 @@ class CommonHelper(TestlioAutomationTest):
             'episode': '3'}
         """
 
-        if not isinstance(show_dict['season_number'], int):
-            raise ValueError('Season number needs to be numeric')
-        if not isinstance(show_dict['episode_number'], int):
-            raise ValueError('Episode number needs to be numeric')
-
         show_category = show_dict['show_category']
 
         category_elem = self.find_on_page('name', show_category)
