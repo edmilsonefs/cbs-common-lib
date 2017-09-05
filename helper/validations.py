@@ -235,7 +235,6 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='Learn More')
 
             if self.user_type == self.anonymous:
-                # CommonHelperIOS.verify_exists(id='Already have an account? Sign In')  # not being able to get element id
                 CommonHelperIOS.verify_exists(id='TRY 1 WEEK FREE')
 
             if self.user_type == self.ex_subscriber:
@@ -383,20 +382,17 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
             CommonHelperAndroid.verify_exists(name=dict_errors[error_number], screenshot=True)
         elif self.IS_IOS:
-            dict = {
-                "a": "Invalid email and/or password.",
+            dict_errors = {"a": "Invalid email and/or password.",
+                           "b": "By registering you become a member of the CBS Interactive family of sites and you have "
+                                "read and agree to the Terms of Use, Privacy Policy, and Video Services Policy. "
+                                "You agree to receive updates, alerts and promotions from CBS and that CBS may share "
+                                "information about you with our marketing partners so that they may contact you "
+                                "by email or otherwise about their products or services."
             }
 
-            counter = 0
             page_source = self.driver.page_source
-            for error in error_number:
-                if counter == 0:
-                    CommonHelperIOS.assertTrueWithScreenShot(dict[error] in page_source, screenshot=True,
-                                                  msg="Error message %s is absent" % dict[error])
-                else:
-                    CommonHelperIOS.assertTrueWithScreenShot(dict[error] in page_source, screenshot=False,
-                                                  msg="Error message %s is absent" % dict[error])
-                counter += 1
+            self.assertTrueWithScreenShot(dict_errors[error_number] in page_source, screenshot=True,
+                                              msg="Error message %s is absent" % dict_errors[error_number])
 
     def validation_z(self):
         if self.IS_ANDROID:
