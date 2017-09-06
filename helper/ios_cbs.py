@@ -677,7 +677,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def close_video(self):
         count = 0
         while count < 10:
-            if self.verify_exists(id="Search", timeout=5):
+            if self.exists(id="Search", timeout=5):
                 break
             else:
                 self.video_done_button()
