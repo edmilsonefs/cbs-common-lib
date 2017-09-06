@@ -1012,7 +1012,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(element=self.get_element(xpath="//UIATableCell[@name='Movies']//UIACollectionView[1]//UIACollectionCell[1]"))
 
     def click_watch_movie(self):
-        self.click(element=self.get_element(id="Watch Movie", timeout=20))
+        self.click_safe(element=self.get_element(id="Watch Movie", timeout=20))
 
     def click_watch_trailer(self):
         self.click(element=self.get_element(id="Preview Trailer", timeout=20))
@@ -1965,6 +1965,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_close_cta(self):
         self.click(id='upsell close')
+
+    def click_close_movies_popup(self):
+        self.click_safe(id='Close')
 
 
     ####################################################################################
