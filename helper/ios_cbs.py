@@ -1131,6 +1131,9 @@ class CommonIOSHelper(TestlioAutomationTest):
     def close_big_advertisement(self):
         self.click_safe(element=self.get_element(id='Close Advertisement', timeout=10))
 
+    def click_episode_indicator(self):
+        self.click(element=self.get_element(id='Watch Full Episodes on CBS All Access'))
+
     def back_while_open_drawer_is_visible(self):
         counter = 0
         try:
