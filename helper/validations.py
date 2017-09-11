@@ -598,7 +598,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperIOS.verify_exists(xpath=self.element_type + "CollectionView", screenshot=True)
 
     def validation_am(self):
-        self.event.screenshot(self.screenshot())
+        # self.event.screenshot(self.screenshot())
         CommonHelperIOS.verify_exists(id='Complete the verification process', screenshot=True)
         CommonHelperIOS.verify_exists(id='Register for a free CBS account to get exclusive benefits including:')
         CommonHelperIOS.verify_exists(id='Personalize experience with My CBS')
