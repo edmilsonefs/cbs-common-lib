@@ -2,7 +2,7 @@ from time import sleep
 
 from helper.cbs import CommonHelper
 
-
+# Only for inheritance
 class BasePage(CommonHelper):
     def __init__(self, driver, event):
         self.driver = driver

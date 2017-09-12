@@ -97,6 +97,8 @@ class SettingsPage(BasePage):
             self.verify_exists(element=self.btn_app_version_phone)
             self.verify_exists(element=self.txt_cbs)
             self.verify_exists(element=self.btn_update)
+        self.log_info("Problem with 'Send Feedback'")
+        self.safe_screenshot()
         self.verify_exists(element=self.btn_send_feedback())
         self.verify_exists(element=self.btn_faq())
         self.verify_exists(element=self.btn_terms_of_use())

@@ -1,4 +1,4 @@
-#TODO rename file to common_android.py
+# TODO rename file to common_android.py
 
 import os
 import random
@@ -39,20 +39,24 @@ class CommonHelper(TestlioAutomationTest):
         self.init_variables()
 
     def init_variables(self):
-        if os.getenv('LOCAL') is None:
-            self.testdroid_device = self.get_testdroid_device_from_adb()
-        self.activate_standard_keyboard()
-        #self.driver.orientation = 'PORTRAIT'
-        if 'Nexus 7' in self.testdroid_device \
-                or 'KFTBWI' in self.testdroid_device:
-            self.tablet = True
-            self.phone = False
-        else:
-            self.tablet = False
-            self.phone = True
-        if 'KFTBWI' in self.testdroid_device:
-            self.com_cbs_app = 'com.cbs.ott'
-            self.IS_AMAZON = True
+        try:
+            if os.getenv('LOCAL') is None:
+                self.testdroid_device = self.get_testdroid_device_from_adb()
+            self.activate_standard_keyboard()
+            self.driver.orientation = 'PORTRAIT'
+
+            if 'Nexus 7' in self.testdroid_device \
+                    or 'KFTBWI' in self.testdroid_device:
+                self.tablet = True
+                self.phone = False
+            else:
+                self.tablet = False
+                self.phone = True
+            if 'KFTBWI' in self.testdroid_device:
+                self.com_cbs_app = 'com.cbs.ott'
+                self.IS_AMAZON = True
+        except:
+            pass
 
     def teardown_method(self, method):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi on", shell=True)
@@ -171,7 +175,8 @@ class CommonHelper(TestlioAutomationTest):
     def _go_to(self, menu):
         self.driver.implicitly_wait(8)
         drawer = self._find_element(id=self.com_cbs_app + ':id/navigation_drawer')
-        self.click(element=drawer.find_element_by_xpath("//*[@text='{0}' or @content-desc='{1}']".format(menu, menu)), data='Click on menu item %s' % menu)
+        self.click(element=drawer.find_element_by_xpath("//*[@text='{0}' or @content-desc='{1}']".format(menu, menu)),
+                   data='Click on menu item %s' % menu)
         self.driver.implicitly_wait(20)
 
     def goto_sign_in(self):
@@ -234,7 +239,7 @@ class CommonHelper(TestlioAutomationTest):
         self.click_first_search_result()
         sleep(10)
 
-    def search_for_extended(self, what_to_search_for): # method to search by typing symbol by symbol
+    def search_for_extended(self, what_to_search_for):  # method to search by typing symbol by symbol
         self.click_search_icon()
         self.wait_for_show_page_to_load()
         self.enter_search_text_extended(what_to_search_for)
@@ -248,7 +253,8 @@ class CommonHelper(TestlioAutomationTest):
             self.send_keys(element=e, data=what_to_search_for[:i])
             if count >= 2:
                 if self.exists(element=self.get_element(name="No Content Found.", timeout=5)):
-                    self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found", screenshot=True)
+                    self.assertTrueWithScreenShot(False, msg="No show '" + what_to_search_for + "' found",
+                                                  screenshot=True)
                 if len(self.get_elements(id=self.com_cbs_app + ":id/showImage", timeout=5)) == 1:
                     break
             count += 1
@@ -784,9 +790,10 @@ class CommonHelper(TestlioAutomationTest):
             self.click(element=list_episodes[0])
         else:
             if self.exists(name='Recently Watched', timeout=5):
-                self.swipe_element_to_top_of_screen(elem=self.get_element(name='Recently Watched', timeout=10), endy=150)
+                self.swipe_element_to_top_of_screen(elem=self.get_element(name='Recently Watched', timeout=10),
+                                                    endy=150)
                 prime_container = self._find_element(
-                xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
+                    xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
             for _ in range(0, 40):
                 self._short_swipe_left(prime_container, 500)
             count = 0
@@ -801,7 +808,8 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_any_free_video(self):
         if self.exists(xpath="//android.widget.TextView[@text='My CBS']", timeout=5):
-            self.swipe_element_to_top_of_screen(elem=self.get_element(xpath="//android.widget.TextView[@text='My CBS']"), endy=100, startx=0)
+            self.swipe_element_to_top_of_screen(
+                elem=self.get_element(xpath="//android.widget.TextView[@text='My CBS']"), endy=100, startx=0)
             sleep(5)
         if self.exists(name='free', timeout=10):
             list_episodes = self.get_elements(name='free')
@@ -853,11 +861,11 @@ class CommonHelper(TestlioAutomationTest):
         while count < kwargs['timeout']:
             if self.exists(element=self.get_element(**kwargs)):
                 result = True
-                #self.unpause_video()
+                # self.unpause_video()
                 break
             else:
                 sleep(poll_every)
-                #self.pause_video()
+                # self.pause_video()
                 count += poll_every
 
         self.assertTrueWithScreenShot(result, screenshot=True, msg="Should see element on video page")
@@ -931,7 +939,7 @@ class CommonHelper(TestlioAutomationTest):
             my_layout = self.get_element(class_name='android.widget.LinearLayout')
             self.exists(name='Submit', driver=my_layout)
         """
-
+        self.dismiss_update_popup()
         # if kwargs.has_key('timeout'):
         #     self.driver.implicitly_wait(kwargs['timeout'])
         # else:
@@ -951,8 +959,8 @@ class CommonHelper(TestlioAutomationTest):
                 return self.get_element(**kwargs)
             except NoSuchElementException:
                 return False
-            # finally:
-            #     self.driver.implicitly_wait(self.default_implicit_wait)
+                # finally:
+                #     self.driver.implicitly_wait(self.default_implicit_wait)
 
     def not_exists(self, **kwargs):
         """
@@ -1026,7 +1034,7 @@ class CommonHelper(TestlioAutomationTest):
         self.find_on_page('name', 'Settings')
         self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
         """
-        sleep(20) # need to wait while page will be loaded correctly
+        sleep(20)  # need to wait while page will be loaded correctly
         reverse_swipe = 0
         for i in range(max_swipes):
             if find_by == 'name':
@@ -1045,13 +1053,13 @@ class CommonHelper(TestlioAutomationTest):
 
         return False
 
-    def find_on_the_page(self, direction='down',max_swipes=15, **kwargs):
+    def find_on_the_page(self, direction='down', max_swipes=15, **kwargs):
         """
         Scrolls down the page looking for an element.  Call the method like this:
         self.find_on_page('name', 'Settings')
         self.find_on_page('id', self.com_cbs_app + ':id/seasonEpisode')
         """
-        sleep(5) # need to wait while page will be loaded correctly
+        sleep(5)  # need to wait while page will be loaded correctly
         for i in range(max_swipes):
             e = self.get_element(**kwargs)
 
@@ -1094,6 +1102,9 @@ class CommonHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
+        # elif kwargs.has_key('element'):
+        #     if kwargs['element'] is not list:
+        #         selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
         else:
             selector = 'Element not found'
 
@@ -1113,6 +1124,9 @@ class CommonHelper(TestlioAutomationTest):
             selector = kwargs['id']
         elif kwargs.has_key('xpath'):
             selector = kwargs['xpath']
+        # elif kwargs.has_key('element'):
+        #     if kwargs['element'] is not list:
+        #         selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
         else:
             selector = ''
 
@@ -1299,12 +1313,7 @@ class CommonHelper(TestlioAutomationTest):
             sleep(3)
         except:
             self.event._log_info(self.event._event_data('Optimum was not connected'))
-        self.navigate_up()
-        if "KFTBWI" in self.testdroid_device:
-            try:
-                self.navigate_up()
-            except:
-                pass
+        self.back_while_open_drawer_is_visible()
 
     def go_to_providers_page(self):
         self.goto_live_tv()
@@ -1748,7 +1757,8 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
+                    element = self.driver.find_element_by_xpath(
+                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
                 elif class_name:
@@ -1786,10 +1796,11 @@ class CommonHelper(TestlioAutomationTest):
         while element is None and count <= 10:
             try:
                 if name:
-                    element = self.get_element(xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
+                    element = self.driver.find_element_by_xpath(
+                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
                 elif id_element:
                     element = self.driver.find_element_by_id(id_=id_element)
-            except NoSuchElementException:
+            except:
                 if short_swipe:
                     self.driver.swipe(35, 600, 35, window_size_y - 400)
                 else:
@@ -1837,7 +1848,6 @@ class CommonHelper(TestlioAutomationTest):
 
         if screenshot:
             self.event.screenshot(self.screenshot())
-        self.driver.implicitly_wait(30)
 
     def _short_swipe_up(self, duration=1000, side='middle'):
         size = self.driver.get_window_size()
@@ -2031,11 +2041,13 @@ class CommonHelper(TestlioAutomationTest):
             'season': '28',
             'episode': '3'}
         """
+
         show_category = show_dict['show_category']
 
         category_elem = self.find_on_page('name', show_category)
-        self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert category '" + show_category + "' not exists")
-        y_orig = category_elem.location['y']
+        self.assertTrueWithScreenShot(
+            category_elem, screenshot=True, msg="Assert category '" + show_category + "' not exists")
+        # y_orig = category_elem.location['y']
 
         self.swipe_element_to_top_of_screen(category_elem, endy=.25, startx=20)
 

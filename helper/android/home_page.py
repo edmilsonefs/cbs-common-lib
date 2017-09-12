@@ -76,11 +76,11 @@ class HomePage(BasePage):
             self.find_on_the_page(direction='down', xpath="//android.widget.TextView[@text='Movies']", timeout=5)
             sleep(3)
             self._short_swipe_down()
-            self.click(element=self.get_elements(id='com.cbs.app:id/movieImage')[0])
+            self.click(element=self.get_elements(id=self.com_cbs_app + ':id/movieImage')[0])
         else:
             sleep(3)
             self._short_swipe_down()
-            self.click(element=self.get_elements(id='com.cbs.app:id/movieImage')[0])
+            self.click(element=self.get_elements(id=self.com_cbs_app + ':id/movieImage')[0])
 
     def validate_tou_page(self):
         # Validation A
