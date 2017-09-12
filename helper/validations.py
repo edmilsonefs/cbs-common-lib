@@ -599,15 +599,18 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
     def validation_am(self):
         # self.event.screenshot(self.screenshot())
-        CommonHelperIOS.verify_exists(id='Complete the verification process', screenshot=True)
-        CommonHelperIOS.verify_exists(id='Register for a free CBS account to get exclusive benefits including:')
-        CommonHelperIOS.verify_exists(id='Personalize experience with My CBS')
-        CommonHelperIOS.verify_exists(id='Resume video across apps and web')
-        CommonHelperIOS.verify_exists(id='Exclusive content')
-        CommonHelperIOS.verify_exists(id='Fan votes and sweepstakes')
-        CommonHelperIOS.verify_exists(id='Latest content delivered right to your inbox')
-        CommonHelperIOS.verify_exists(id='Sign Up')
-        CommonHelperIOS.verify_exists(name='Already have an account? Sign In')
+        if self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='Complete the verification process', screenshot=True)
+            CommonHelperIOS.verify_exists(id='Register for a free CBS account to get exclusive benefits including:')
+            CommonHelperIOS.verify_exists(id='Personalize experience with My CBS')
+            CommonHelperIOS.verify_exists(id='Resume video across apps and web')
+            CommonHelperIOS.verify_exists(id='Exclusive content')
+            CommonHelperIOS.verify_exists(id='Fan votes and sweepstakes')
+            CommonHelperIOS.verify_exists(id='Latest content delivered right to your inbox')
+            CommonHelperIOS.verify_exists(id='Sign Up')
+            CommonHelperIOS.verify_exists(name='Already have an account? Sign In')
+        if self.IS_ANDROID:
+            pass
 
     def validation_ao(self):  # TODO need clarification about TV Unavailable page
         if self.IS_ANDROID:
