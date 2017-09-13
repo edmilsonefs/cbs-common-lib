@@ -939,7 +939,7 @@ class CommonHelper(TestlioAutomationTest):
             my_layout = self.get_element(class_name='android.widget.LinearLayout')
             self.exists(name='Submit', driver=my_layout)
         """
-        self.dismiss_update_popup()
+        # self.dismiss_update_popup()
         # if kwargs.has_key('timeout'):
         #     self.driver.implicitly_wait(kwargs['timeout'])
         # else:
