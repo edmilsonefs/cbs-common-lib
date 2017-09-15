@@ -59,7 +59,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
-        self.logout(True)
         if self.passed:
             self.event.start(data='Test completed successfully')
         else:
