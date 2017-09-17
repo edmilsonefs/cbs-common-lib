@@ -1852,7 +1852,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             return self.get_element(xpath="//UIACollectionCell[contains(@name,'" + find_value + "') or contains(@name,'" + find_value_converted + "')][1]", timeout=60)
 
     def tap_element(self, **kwargs):
-        elem = self._find_element(**kwargs)
+        elem = self.exists(**kwargs)
         action = TouchAction(self.driver)
         action.long_press(elem).perform()
 
