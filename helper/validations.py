@@ -160,7 +160,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='More From Show')
             CommonHelperIOS.verify_exists(id='Close')
 
-    def validation_j(self):  # TODO update validation
+    def validation_j(self):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
@@ -169,19 +169,23 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='More From Show')
             CommonHelperIOS.verify_exists(id='Close')
 
-        # Schedule Page
-
+    # Schedule Page
     def validation_k(self):
         if self.IS_ANDROID:
             self.schedule_page_android.validate_page()
         elif self.IS_IOS:
-            pass
+            CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
+            CommonHelperIOS.verify_exists(id='Schedule')
+            CommonHelperIOS.verify_exists(id='Search')
 
     def validation_l(self):  # TODO update validation
-        self.close_big_advertisement()
-        CommonHelperIOS.verify_exists(xpath="//UIAButton[@name='Add to My CBS' or @name='Remove from My CBS']", screenshot=True)
-        CommonHelperIOS.verify_exists(id='Share')
-        CommonHelperIOS.verify_exists(id='Cancel')
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            self.close_big_advertisement()
+            CommonHelperIOS.verify_exists(xpath="//UIAButton[@name='Add to My CBS' or @name='Remove from My CBS']", screenshot=True)
+            CommonHelperIOS.verify_exists(id='Share')
+            CommonHelperIOS.verify_exists(id='Cancel')
 
         # Shows Page
 
@@ -221,10 +225,10 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.settings_page_android.validate_page()
         elif self.IS_IOS:
             sleep(3)
-            # if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
-            #     CommonHelperIOS.verify_exists(name='Subscription')
-            # else:
-            #     CommonHelperIOS.verify_exists(name='Subscribe')
+            if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
+                CommonHelperIOS.verify_exists(name='Subscription')
+            else:
+                CommonHelperIOS.verify_exists(name='Subscribe')
 
             if self.phone:
                 if self.user_type == self.anonymous:
@@ -234,15 +238,17 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             else:
                 if self.user_type != self.anonymous:
                     CommonHelperIOS.verify_exists(id="Sign Out", screenshot=True)
-            CommonHelperIOS.verify_exists(xpath="//UIATableCell[contains(@name,'App Version')]")
             if self.phone:
-                CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Send Feedback']")
+                CommonHelperIOS.verify_exists(id="Send Feedback")
             else:
-                CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Help']")
-            CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Terms Of Use']")
-            CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Privacy Policy']")
-            CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Mobile User Agreement']")
-            CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Video Services']")
+                CommonHelperIOS.verify_exists(id="Help")
+
+            CommonHelperIOS.verify_exists(id="App Version")
+            CommonHelperIOS.verify_exists(id="Terms Of Use")
+            CommonHelperIOS.verify_exists(id="Privacy Policy")
+            CommonHelperIOS.verify_exists(id="Mobile User Agreement")
+            CommonHelperIOS.verify_exists(id="Video Services")
+            CommonHelperIOS.verify_exists(id="Nielsen Info & Your Choices")
             # if self.phone:
             #     CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Nielsen Info & Your Choices']")
             # else:
@@ -813,6 +819,15 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperIOS.verify_exists(id='Watch Movie')
                 CommonHelperIOS.verify_exists(id='Preview Trailer')
                 CommonHelperIOS.verify_exists(id='Close')
+
+    def validation_ax1(self):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='CBSEye_white', timeout=10)
+            CommonHelperIOS.verify_exists(id='App Version')
+            CommonHelperIOS.verify_exists(id='CBS')
+
 
     # Video Validation
     def validation_ay(self):
