@@ -50,6 +50,14 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperAndroid.verify_exists(name=' Privacy Policy ')
             CommonHelperAndroid.verify_exists(name=' Video Services ')
             CommonHelperAndroid.verify_exists(name='Accept')
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
+            CommonHelperIOS.verify_exists(id='Terms of Use')
+            CommonHelperIOS.verify_exists(id='Mobile User Agreement')
+            CommonHelperIOS.verify_exists(id='Privacy Policy')
+            CommonHelperIOS.verify_exists(id='Video Services')
+            CommonHelperIOS.verify_exists(id='Decline')
+            CommonHelperIOS.verify_exists(id='Accept')
 
     def validation_b(self):
         if self.IS_ANDROID:
@@ -59,6 +67,17 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='CBSEye_white', timeout=25)
             CommonHelperIOS.verify_exists(id='Marquee', timeout=10)
             CommonHelperIOS.verify_exists(id='Search', timeout=10)
+
+    def validation_c(self):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id="Search")
+            CommonHelperIOS.verify_exists(id="Sign In")
+            CommonHelperIOS.verify_exists(id="Our Terms Have Changed")
+            CommonHelperIOS.verify_exists(id="CONTINUE")
+            CommonHelperIOS.verify_exists(id="Already have an account? Sign In")
+
 
     def validation_d(self):
         if self.IS_ANDROID:
@@ -94,18 +113,25 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 print('could not swipe')
 
     def validation_f(self):  # TODO update Validation.
-        if self.user_type == self.anonymous:
-            CommonHelperIOS.verify_exists(id='Sign In', screenshot=False)
-        CommonHelperIOS.verify_exists(id="Settings")
-        CommonHelperIOS.verify_exists(id='Home')
-        CommonHelperIOS.verify_exists(id='Shows')
-        CommonHelperIOS.verify_exists(id='Live TV')
-        # CommonHelperIOS.verify_exists(id='Movies')
-        CommonHelperIOS.verify_exists(id='Schedule')
-        # CommonHelperIOS.verify_exists(name='My CBS')
-        CommonHelperIOS.verify_exists(id='Store')
+        if self.IS_IOS:
+            if self.user_type == self.anonymous:
+                CommonHelperIOS.verify_exists(id='Sign In', screenshot=False)
+            CommonHelperIOS.verify_exists(id="Settings")
+            CommonHelperIOS.verify_exists(id='Home')
+            CommonHelperIOS.verify_exists(id='Shows')
+            CommonHelperIOS.verify_exists(id='Live TV')
+            # CommonHelperIOS.verify_exists(id='Movies')
+            CommonHelperIOS.verify_exists(id='Schedule')
+            # CommonHelperIOS.verify_exists(name='My CBS')
+            CommonHelperIOS.verify_exists(id='Store')
 
         # Show Page
+
+    def validation_g(self):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='Marquee')
 
     def validation_h(self, user_type="anonymous"):
         if self.IS_ANDROID:
@@ -126,9 +152,22 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperIOS.verify_show_cards_not_exist()
 
     def validation_i(self):  # TODO update validation
-        CommonHelperIOS.verify_exists(id='Watch Episode', screenshot=False)
-        CommonHelperIOS.verify_exists(id='More From Show')
-        CommonHelperIOS.verify_exists(id='Close')
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
+            CommonHelperIOS.verify_exists(id='Watch Episode')
+            CommonHelperIOS.verify_exists(id='More From Show')
+            CommonHelperIOS.verify_exists(id='Close')
+
+    def validation_j(self):  # TODO update validation
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
+            CommonHelperIOS.verify_exists(id='Watch Clip')
+            CommonHelperIOS.verify_exists(id='More From Show')
+            CommonHelperIOS.verify_exists(id='Close')
 
         # Schedule Page
 
@@ -761,7 +800,38 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         elif self.IS_IOS:
             pass
 
-            # Video Validation
+    def validation_au(self, user_type):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+                CommonHelperIOS.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
+                CommonHelperIOS.verify_exists(id='Subscribe to Watch')
+                CommonHelperIOS.verify_exists(id='Preview Trailer')
+                CommonHelperIOS.verify_exists(id='Close')
+            else:
+                CommonHelperIOS.verify_exists(id='Watch Movie')
+                CommonHelperIOS.verify_exists(id='Preview Trailer')
+                CommonHelperIOS.verify_exists(id='Close')
+
+    # Video Validation
+    def validation_ay(self):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='Done', screenshot=True)
+            CommonHelperIOS.verify_exists(id='Learn More')
+            CommonHelperIOS.verify_exists(class_name=self.element_prefix() + 'Slider')
+            CommonHelperIOS.verify_exists(id='UVPSkinClosedCaptionOnButton')
+            CommonHelperIOS.verify_exists(id='UVPSkinShareOnButton')
+
+    def validation_az(self):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='Done', screenshot=True)
+            CommonHelperIOS.verify_exists(class_name=self.element_prefix() + 'Slider')
+            CommonHelperIOS.verify_exists(xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
 
     def validation_video(self):
         if self.IS_ANDROID:
@@ -776,4 +846,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
             self.driver.back()
         elif self.IS_IOS:
-            pass
+            CommonHelperIOS.verify_exists(id='Done', screenshot=True)
+            CommonHelperIOS.verify_exists(class_name=self.element_prefix() + 'Slider')
+            CommonHelperIOS.verify_exists(xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
+

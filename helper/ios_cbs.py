@@ -33,11 +33,15 @@ class CommonIOSHelper(TestlioAutomationTest):
     already_accepted_terms = False
     passed = False
     element_type = '//UIA'  # iOS 9
+    UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
 
-        super(CommonIOSHelper, self).setup_method(method, {'waitForAppScript': '$.delay(5000); $.acceptAlert();'})
+        if not caps:
+            super(CommonIOSHelper, self).setup_method(method, {'waitForAppScript': '$.delay(5000); $.acceptAlert();'})
+        else:
+            super(CommonIOSHelper, self).setup_method(method, caps=caps)
 
         if 'iPad' in self.driver.capabilities['deviceName']:
             self.tablet = True
@@ -49,12 +53,12 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.element_type = '//XCUIElementType' #iOS 10
 
         # wait for the splash screen to disappear
-        self._accept_alert(1)
+        # self._accept_alert(1)
         self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
-        self._accept_alert(1)
-        self.safe_screenshot()
-        self.click_safe(xpath="//*[@name='OK']", timeout=60)
-        self.click_safe(id="START NOW", timeout=30)
+        # self._accept_alert(1)
+        # self.safe_screenshot()
+        # self.click_safe(xpath="//*[@name='OK']", timeout=60)
+        # self.click_safe(id="START NOW", timeout=30)
         self.goto_home()
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
@@ -268,7 +272,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
         #self.click(xpath="//*[@name='Sign Out']")
-        self.click(accessibility_id='Sign Out')
+        self.click_safe(accessibility_id='Sign Out', timeout=5)
 
     def goto_sign_out(self):
         self.goto_settings()
@@ -290,6 +294,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # SEARCH
+    def select_sign_in_checkbox(self):
+        self.tap_element(xpath="//" + self.element_prefix() + "ScrollView[.//" + self.element_prefix() + "Button[@name='CONTINUE']]//" + self.element_prefix() + "Button[not(@name)]")
 
     def enter_search_text(self, what_to_search_for):
         e = self.find_search_text()
@@ -369,33 +375,36 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.log_info("Fail to press back")
 
     def go_back(self):
-        elem = self.exists(id='BackArrow_white', timeout=6)
-        if not elem:
-            try:
-                if self.phone:
-                    elem = self._find_element(xpath="//*[@name='Back']")
-                else:
-                    elem = self._find_element(xpath="//*[@name='Back ']")
-            except:
-                pass
+        try:
+            elem = self.exists(id='BackArrow_white', timeout=10)
+            if not elem:
+                try:
+                    if self.phone:
+                        elem = self.get_element(xpath="//*[@name='Back']", timeout=10)
+                    else:
+                        elem = self.get_element(xpath="//*[@name='Back ']", timeout=10)
+                except:
+                    pass
 
 
-        if self.is_xcuitest():
-            elem.click() # add, if below element loc click is removed.
-        else:
-
-        # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
-        # use click_by_location)
-            loc = elem.location
-            if loc['x'] < 0 or loc['y'] < 0:
-                elem = self._find_element(id='Main Menu')
-                self.click_by_location(elem, side='middle')
+            if self.is_xcuitest():
+                elem.click() # add, if below element loc click is removed.
             else:
-                elem.click()
+
+            # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
+            # use click_by_location)
+                loc = elem.location
+                if loc['x'] < 0 or loc['y'] < 0:
+                    elem = self._find_element(id='Main Menu')
+                    self.click_by_location(elem, side='middle')
+                else:
+                    elem.click()
+        except:
+            pass
 
     def open_drawer(self, native=False):
         number_of_tries = 0
-        while not self.exists_and_visible(id='Main Menu', timeout=10):
+        while not self.exists_and_visible(id='Main Menu', timeout=7):
             number_of_tries += 1
             if number_of_tries == 20:
                 break
@@ -699,7 +708,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 ta.press(x=100, y=100).release().perform()
             except:
                 pass
-            self.click(id="Done", timeout=5)
+            self.click_safe(id="Done", timeout=5)
         self.log_info("End of stream")
         self.safe_screenshot()
 
@@ -719,11 +728,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         # brings panel control up
         try:
             self.tap_by_touchaction(.25, .25)
-            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=60))
+            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
         except:
             try:
                 self.tap_by_touchaction(.25, .25)
-                self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=60))
+                self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
             except:
                 pass
 
@@ -996,20 +1005,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         action.tap(x=x, y=y).perform()
 
     def click_movies_episode_on_home_page(self):
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        sleep(2)
-        self.swipe(0.5, 0.5, 0.5, 0.1, 500)
-        # movies = self.find_on_page('id', 'Movies')
-        # self.swipe_element_to_top_of_screen(elem=movies, endy=100)
-        self.click(element=self.get_element(xpath="//UIATableCell[@name='Movies']//UIACollectionView[1]//UIACollectionCell[1]"))
+        movies = self.find_on_page('accessibility_id', 'Movies')
+        self.swipe_element_to_top_of_screen(elem=movies, endy=100)
+        if self.is_xcuitest() is True:
+            self.click(element=self.get_element(xpath="//XCUIElementTypeCell[./XCUIElementTypeStaticText[@name='Movies']]//XCUIElementTypeCell[1]"))
+        else:
+            self.click(element=self.get_element(xpath="//UIATableCell[@name='Movies']//UIACollectionView[1]//UIACollectionCell[1]"))
 
     def click_watch_movie(self):
         self.click_safe(element=self.get_element(id="Watch Movie", timeout=20))
@@ -1365,6 +1366,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.assertTrueWithScreenShot(self.not_exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
+
+    def verify_exists_in_xml(self, text, with_screenshot):
+        self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=with_screenshot,
+                                      msg="The element with text '%s' is absent" % text)
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
@@ -1809,7 +1814,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         x, y = self._convert_relative_x_y(x, y)
         self.driver.tap([(x, y)])
 
-
+    def element_prefix(self):
+        if self.is_xcuitest() is True:
+            return 'XCUIElementType'
+        else:
+            return 'UIA'
 
     ####################################################################################
     # FIND / EXISTS
