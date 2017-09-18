@@ -1005,6 +1005,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         action.tap(x=x, y=y).perform()
 
     def click_movies_episode_on_home_page(self):
+        if self.exists(id='Marquee'):
+            self.swipe_down(18, 100)
         movies = self.find_on_page('accessibility_id', 'Movies')
         self.swipe_element_to_top_of_screen(elem=movies, endy=100)
         label = self.get_element(id="Movies")
