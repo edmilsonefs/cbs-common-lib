@@ -1007,10 +1007,10 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_movies_episode_on_home_page(self):
         movies = self.find_on_page('accessibility_id', 'Movies')
         self.swipe_element_to_top_of_screen(elem=movies, endy=100)
-        if self.is_xcuitest() is True:
-            self.click(element=self.get_element(xpath="//XCUIElementTypeCell[./XCUIElementTypeStaticText[@name='Movies']]//XCUIElementTypeCell[1]"))
-        else:
-            self.click(element=self.get_element(xpath="//UIATableCell[@name='Movies']//UIACollectionView[1]//UIACollectionCell[1]"))
+        label = self.get_element(id="Movies")
+        x = label.location['x']
+        y = label.location['y']
+        self.tap(x + 50, y + label.size['height'] + 40)
 
     def click_watch_movie(self):
         self.click_safe(element=self.get_element(id="Watch Movie", timeout=20))
