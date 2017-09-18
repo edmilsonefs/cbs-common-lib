@@ -53,13 +53,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
         self._accept_alert(1)
         self.safe_screenshot()
-        self.click_safe(xpath="//*[@name='OK']", timeout=60)
-        self.click_safe(id="START NOW", timeout=30)
+        self.click_safe(xpath="//*[@name='OK']", timeout=10)
+        self.click_safe(id="START NOW", timeout=10)
         self.goto_home()
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
-        self.logout(True)
         if self.passed:
             self.event.start(data='Test completed successfully')
         else:
@@ -243,19 +242,19 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        # if self.is_xcuitest():
-        #     if self.phone:
-        #         try:
-        #             t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=10)
-        #         except:
-        #             t_f = self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=10)
-        #     else:
-        #         try:
-        #             t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=10)
-        #         except:
-        #             t_f = self.exists(accessibility_id='MyCBSStarFilled iPad', timeout=10)
+        if self.is_xcuitest():
+            if self.phone:
+                try:
+                    t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=10)
+                except:
+                    t_f = self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=10)
+            else:
+                try:
+                    t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=10)
+                except:
+                    t_f = self.exists(accessibility_id='MyCBSStarFilled iPad', timeout=10)
         # else:
-        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
+        #t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -626,6 +625,21 @@ class CommonIOSHelper(TestlioAutomationTest):
 
             if time() - start_time > timeout:
                 return False
+            
+    def get_hack_season_name(self, exception_hack):
+        if exception_hack == 'AFTER SHOW':
+            # for Big Brother After Show, there is no season, it just says "After Show"
+            season_name = 'AFTER SHOW'
+        elif exception_hack == 'Specials':
+            # for specials, there's only one episode, or only one row of episodes anyway
+            show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
+            return show_elem
+        elif exception_hack == '60 Minutes':
+            season_name = "Latest Full Episodes"
+        else:
+            raise NameError('Given hack is not handled')
+            
+        return season_name
 
     def find_episode_on_show_page(self, show_dict, exception_hack=False):
         try:
@@ -640,15 +654,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         episode_title = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
 
-        if exception_hack == 'AFTER SHOW':
-            # for Big Brother After Show, there is no season, it just says "After Show"
-            season_name = 'AFTER SHOW'
-        elif exception_hack == 'Specials':
-            # for specials, there's only one episode, or only one row of episodes anyway
-            show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
-            return show_elem
-        elif exception_hack == '60 Minutes':
-            season_name = "Latest Full Episodes"
+        if exception_hack:
+            season_name = self.get_hack_season_name(exception_hack)
         else:
             season_name = "Season " + str(show_dict['season_number'])
             
@@ -677,7 +684,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
         season_elem = self.find_on_page('accessibility_id', season_name)
         self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists: %s" % season_name)
-        # self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
+        #self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
 
         # may help get the position correctly
         sleep(2)
@@ -744,21 +751,21 @@ class CommonIOSHelper(TestlioAutomationTest):
     def pause_video(self):
         # brings panel control up
         try:
-            self.tap_by_touchaction(.25, .25)
-            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=60))
+#            self.tap_by_touchaction(.5, .5)
+            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=1))
         except:
             try:
-                self.tap_by_touchaction(.25, .25)
-                self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=60))
+                self.tap_by_touchaction(.5, .5)
+                self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
             except:
                 pass
 
     def unpause_video(self):
         try:
-            self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
+            self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=1))
         except:
             try:
-                self.tap_by_touchaction(.25, .25)
+                self.tap_by_touchaction(.5, .5)
                 self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
                 sleep(2)
             except:
@@ -770,33 +777,41 @@ class CommonIOSHelper(TestlioAutomationTest):
         We'll find where to tap by dividing jump_time by total_time as found in the screen element
         """
         self.pause_video()
-        current_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[1]')
+        current_time = self.driver.find_element_by_xpath('//XCUIElementTypeOther[2]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText[1]')
         current_time_text = current_time.text
-        total_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[2]')
-        total_time_text = total_time.text
+        remaining_time = self.driver.find_element_by_xpath('//XCUIElementTypeOther[2]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText[2]')
+        remaining_time_text = remaining_time.text
 
         # total_time = minutes*60 + seconds
-        total_time_text = float(total_time_text[-5:-3])*60 + float(total_time_text[-2:])
+        remaining_time_seconds = float(remaining_time_text[-5:-3])*60 + float(remaining_time_text[-2:])
+        current_time_seconds = float(current_time_text[-5:-3])*60 + float(current_time_text[-2:])
+        total_time_seconds = remaining_time_seconds + current_time_seconds
+        
+        # it is too precise. Maybe add some second to jump_time
+        seek_point = jump_time / total_time_seconds + 0.1
+        
 
-        seek_pct = jump_time / total_time_text
+        seek_bar = self._find_element(class_name='XCUIElementTypeSlider')
+        seek_bar.set_value(str(seek_point))
+        
+        #hopefully we won't need code below, it is not working anyways
+#        seek_bar_size = seek_bar.size['width'] - current_time.size['width'] - remaining_time.size['width']
+#        seek_bar_percentage = float(float(str(seek_bar.get_attribute("value"))[:-1]) / 100)
+#
+#        # width * seek_pct is how far over in the bar to tap
+#        seek_bar_end_x = seek_bar.location['x'] + (seek_bar.size['width'] * seek_pct) - remaining_time.size['width']
+#
+#        # this is just the vertical middle of the seek bar
+#        seek_bar_end_y = seek_bar.location['y'] + seek_bar.size['height']/2
+#
+#        seek_bar_start_x = seek_bar.location['x'] + current_time.size['width'] + (seek_bar_size * seek_bar_percentage)
+#
+#        while seek_bar_start_x < seek_bar_end_x:
+#            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 2000)
+#            seek_bar_start_x += 15
+#            print seek_bar_start_x
 
-        seek_bar = self._find_element(class_name='UIASlider')
-        seek_bar_size = seek_bar.size['width'] - current_time.size['width'] - total_time.size['width']
-        seek_bar_percentage = float(float(str(seek_bar.get_attribute("value"))[:-1]) / 100)
-
-        # width * seek_pct is how far over in the bar to tap
-        seek_bar_end_x = seek_bar.location['x'] + (seek_bar.size['width'] * seek_pct) - total_time.size['width']
-
-        # this is just the vertical middle of the seek bar
-        seek_bar_end_y = seek_bar.location['y'] + seek_bar.size['height']/2
-
-        seek_bar_start_x = seek_bar.location['x'] + current_time.size['width'] + (seek_bar_size * seek_bar_percentage)
-
-        while seek_bar_start_x < seek_bar_end_x:
-            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 2000)
-            seek_bar_start_x += 15
-            print seek_bar_start_x
-            
+        #unpause explicitly if needed
         self.unpause_video()
 
     def find_by_uiautomation(self, value, hide_keyboard=False):
@@ -818,6 +833,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.find_on_page('id', 'com.cbs.app:id/seasonEpisode')
         """
         self.set_implicit_wait(3)
+        device_size = self.driver.get_window_size()
 
         for i in range(max_swipes):
             try:
@@ -831,20 +847,20 @@ class CommonIOSHelper(TestlioAutomationTest):
                     raise RuntimeError("invalid 'find_by'")
 
                 if e.is_displayed():
+                    
                     self.set_implicit_wait()
                     return e
                 else:
                     raise NoSuchElementException('pass')
             except NoSuchElementException:
-                if self.is_simulator():
-                    device_size = self.driver.get_window_size()
+                if self.is_simulator():     
                     device_height = device_size['height']
                     device_width = device_size['width']
                     pointX = device_width/4
                     fromY = device_height - 100 #need to check with various devices
                     self.driver.swipe(pointX, fromY, pointX, -device_height/4, 1500)
                 else:
-                    self.swipe(x, .9, x, .7, 1500) #need to verify that it works properly on testdroid
+                    self.swipe(x, .9, x, -0.7, 1500) #need to verify that it works properly on testdroid
                 pass
 
         self.set_implicit_wait()
@@ -879,8 +895,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
-                self.wait_and_accept_alert(timeout=10)
-                sleep(5)
+                self.wait_and_accept_alert(timeout=5)
+                sleep(2)
                 action = True
                 break
             except:
@@ -1257,7 +1273,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         category_elem = self.exists(id=show_dict['show_category'], timeout=2)
         screen_height = self.driver.get_window_size()["height"]
         if not category_elem or category_elem.location['y'] < screen_height * .12:
-            self.swipe(.5, 0.5, .5, 0.2, 1500)
+            self.swipe(.5, 0.5, .5, -0.2, 1500)
         sleep(2)
         self.driver.page_source
 
@@ -1267,7 +1283,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
-            self.swipe(0.4, y, 0.7, y, 2000)
+            self.swipe(-0.4, y, 0.7, y, 2000)
             sleep(1)
 
         season_ep = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
@@ -1283,7 +1299,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             season_ep_elem = self.find_on_page_horizontal(season_ep)
             if not season_ep_elem:
                 self.safe_screenshot()
-                self.swipe(0.4, y, 0.1, y, 1500)
+                self.swipe(-0.4, y, 0.3, y, 1500)
                 season_ep_elem = self.find_on_page_horizontal(season_ep)
 
         self.assertTrueWithScreenShot(season_ep_elem, screenshot=True,
@@ -2019,7 +2035,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # in case it's behind the banner ad at the bottom, swipe up a little
         window_height = self.driver.get_window_size()['height']
         if starty > .8 * window_height:
-            self.swipe(.5, .5, .5, .3, 1500)
+            self.swipe(.5, .5, .5, -0.3, 1500)
             starty = starty - window_height * .2
             sleep(1)
 
@@ -2029,7 +2045,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             else:
                 endy = 180
 
-        self.swipe(startx, starty, startx, endy, 1500)
+        self.swipe(startx, starty, startx, -endy, 1500)
 
     def swipe_element_to_bottom_of_screen(self):
         """
