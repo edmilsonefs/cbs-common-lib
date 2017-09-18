@@ -1006,9 +1006,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_movies_episode_on_home_page(self):
         if self.exists(id='Marquee'):
-            self.swipe_down(5, 100)
+            self.swipe_down(6, 100)
 
-        while not self.exists(id='Movies', timeout=6):
+        while not self.exists(id='Movies', timeout=6).is_displayed():
             self.swipe_down(1, 100)
 
         self.assertTrueWithScreenShot(self.exists(id='Movies', timeout=6).is_displayed(), screenshot=True, msg='Movies Posters should be presented')
