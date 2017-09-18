@@ -1008,7 +1008,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.exists(id='Marquee'):
             self.swipe_down(18, 100)
         movies = self.find_on_page('accessibility_id', 'Movies')
-        self.swipe_element_to_top_of_screen(elem=movies, endy=300)
+        if movies.is_displayed():
+            self.short_swipe_down()
         label = self.get_element(id="Movies")
         x = label.location['x']
         y = label.location['y']
