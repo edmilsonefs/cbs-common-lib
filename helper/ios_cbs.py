@@ -1006,7 +1006,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_movies_episode_on_home_page(self):
         if self.exists(id='Marquee'):
-            self.swipe_down(15, 100)
+            self.swipe_down(7, 100)
 
         while not self.exists(id='Movies', timeout=6):
             self.swipe_down(1, 100)
