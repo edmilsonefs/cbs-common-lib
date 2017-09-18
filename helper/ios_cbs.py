@@ -1017,7 +1017,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         movies = self.exists(id='Movies', timeout=6)
 
-        while movies.location['y'] + movies.size['height'] > window_size_height / 2:
+        while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3):
             self.swipe_down(count=1, distance=50)
 
         label = self.get_element(id="Movies")
