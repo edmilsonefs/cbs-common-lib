@@ -1006,10 +1006,20 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_movies_episode_on_home_page(self):
         if self.exists(id='Marquee'):
-            self.swipe_down(18, 100)
-        movies = self.find_on_page('accessibility_id', 'Movies')
-        if movies.is_displayed():
-            self.short_swipe_down()
+            self.swipe_down(15, 100)
+
+        while not self.exists(id='Movies', timeout=6):
+            self.swipe_down(1, 100)
+
+        self.assertTrueWithScreenShot(self.exists(id='Movies', timeout=6).is_displayed(), screenshot=True, msg='Movies Posters should be presented')
+
+        window_size_height = self.driver.get_window_size()["height"]
+
+        movies = self.exists(id='Movies', timeout=6)
+
+        while movies.location['y'] + movies.size['height'] > window_size_height / 2:
+            self.swipe_down(count=1, distance=50)
+
         label = self.get_element(id="Movies")
         x = label.location['x']
         y = label.location['y']
