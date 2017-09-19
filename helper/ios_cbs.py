@@ -1020,10 +1020,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3):
             self.swipe_down(count=1, distance=50)
 
+        self.safe_screenshot()
         label = self.get_element(id="Movies")
         x = label.location['x']
         y = label.location['y']
         self.tap(x + 50, y + label.size['height'] + 40)
+        self.safe_screenshot()
+        self.click_safe(id='ACCEPT', timeout=6)
+        self.safe_screenshot()
 
     def click_watch_movie(self):
         self.click_safe(element=self.get_element(id="Watch Movie", timeout=20))
