@@ -701,14 +701,14 @@ class CommonIOSHelper(TestlioAutomationTest):
             pass
         self.safe_screenshot()
         try:
-            self.click(id="Done", timeout=2)
+            self.click(id="Done", timeout=6)
         except:
             try:
                 ta = TouchAction(self.driver)
                 ta.press(x=100, y=100).release().perform()
             except:
                 pass
-            self.click_safe(id="Done", timeout=5)
+            self.click_safe(id="Done", timeout=6)
         self.log_info("End of stream")
         self.safe_screenshot()
 
