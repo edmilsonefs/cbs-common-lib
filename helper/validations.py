@@ -378,9 +378,17 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                                                   msg="Error message %s should be visible" % dict[error])
                 counter += 1
 
-    def validation_x(self):
+    def validation_x(self, twitter=None, facebook=None):
         if self.IS_ANDROID:
-            pass
+            # third_party_signup_page
+            CommonHelperAndroid.verify_exists(name='Navigate up', screenshot=True)
+            if twitter:
+                CommonHelperAndroid.verify_exists(name='Sign up with your Twitter account')
+            if facebook:
+                CommonHelperAndroid.verify_exists(name='Sign up with your Facebook account')
+            CommonHelperAndroid.verify_exists(
+                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
+            CommonHelperAndroid.verify_exists(name='Sign Up')
         elif self.IS_IOS:
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
             CommonHelperIOS.verify_exists(id='CBSEye_white')
@@ -460,11 +468,43 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.assertTrue(name in self.driver.page_source,
                             msg="Username should be visible in the menu after registration", screenshot=True)
 
-    def validation_ac(self):
+    def validation_ac(self, ex_subscriber=False, registered=False):
         if self.IS_ANDROID:
+            # LCS Billing Popup
+            CommonHelperAndroid.wait_until_element_is_visible(element_id='com.android.vending:id/title')
+            CommonHelperAndroid.verify_exists(name='SUBSCRIBE', timeout=5, screenshot=True)
+            if ex_subscriber:
+                try:
+                    CommonHelperAndroid.get_element(name='CBS All Access (CBS)')
+                    CommonHelperAndroid.verify_exists(name='CBS All Access (CBS)', screenshot=True)
+                    CommonHelperAndroid.verify_exists(id='com.android.vending:id/logo')
+                    CommonHelperAndroid.verify_exists(name='SUBSCRIBE')
+                except:
+                    pass
+            if registered:
+                try:
+                    CommonHelperAndroid.get_element(name='CBS All Access 1 Week FREE (CBS)')
+                    CommonHelperAndroid.verify_exists(name='CBS All Access 1 Week FREE (CBS)', screenshot=True)
+                    CommonHelperAndroid.verify_exists(name='SUBSCRIBE')
+                except:
+                    pass
+        if self.IS_IOS:
             pass
-        elif self.IS_IOS:
-            pass
+
+    def validation_ar(self):
+        #multiple_channel_selector_page
+        if CommonHelperAndroid.tablet:
+            CommonHelperAndroid.verify_exists(name='Navigate up', screenshot=True)
+        else:
+            CommonHelperAndroid.verify_exists(name='Open navigation drawer', screenshot=True)
+        CommonHelperAndroid.verify_exists(xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
+        CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
+        # cbs all access
+        CommonHelperAndroid.verify_exists(name='Lucky you')
+        CommonHelperAndroid.verify_exists(name="You've got a few options!")
+        CommonHelperAndroid.verify_exists(name='Which station would you like to watch?')
+        CommonHelperAndroid.verify_exists(name='KBTX')
+        CommonHelperAndroid.verify_exists(name='KWTX')
 
     def validation_ad(self):
         if self.IS_ANDROID:
@@ -559,7 +599,24 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
     def validation_ah(self):
         if self.IS_ANDROID:
-            pass
+            # see_devices_web_view_page
+            sleep(5)
+
+            if CommonHelperAndroid.tablet:
+                CommonHelperAndroid.verify_exists(name='Navigate up', screenshot=True)
+            else:
+                CommonHelperAndroid.verify_exists(name='Open navigation drawer', screenshot=True)
+            CommonHelperAndroid.verify_exists(
+                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
+            CommonHelperAndroid.verify_exists(name='Live TV')
+            try:
+                if self.tablet:
+                    CommonHelperAndroid.verify_exists(xpath="//*[@class='android.webkit.WebView']")
+                else:
+                    CommonHelperAndroid.verify_exists(name='Desktops and Laptops')
+            except:
+                pass
         elif self.IS_IOS:
             sleep(8)
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
@@ -578,7 +635,16 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
     def validation_ai(self):
         if self.IS_ANDROID:
-            pass
+            # faq_web_view
+            sleep(5)
+            if CommonHelperAndroid.tablet:
+                CommonHelperAndroid.verify_exists(name='Navigate up', screenshot=True)
+            else:
+                CommonHelperAndroid.verify_exists(name='Open navigation drawer', screenshot=True)
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
+            CommonHelperAndroid.verify_exists(
+                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
+            CommonHelperAndroid.verify_exists(xpath="//*[@class='android.webkit.WebView']")
         elif self.IS_IOS:
             self.driver.implicitly_wait(5)
             sleep(5)
@@ -618,6 +684,17 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                    'If prompted, please share your location. By using this CBS application, you agree to our Terms of Use,' \
                    'Privacy Policy, and Video Service Policy.')
             CommonHelperIOS.verify_exists(id='CHECK AVAILABILITY')
+
+    def validation_ap(self):
+        #no_local_affiliate_page
+        CommonHelperAndroid.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True)
+        CommonHelperAndroid.verify_exists(
+            name='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these Videos:')
+        CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
+        CommonHelperAndroid.verify_exists(name='Questions?')
+        CommonHelperAndroid.verify_exists(name='READ OUR FAQ')
+        CommonHelperAndroid.verify_not_exists(name='Get notified when Live TV is available in your area.')
+        CommonHelperAndroid.verify_not_exists(name='GET NOTIFIED')
 
     def validation_ak(self):
         if self.IS_ANDROID:
