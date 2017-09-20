@@ -183,7 +183,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             pass
         elif self.IS_IOS:
             self.close_big_advertisement()
-            CommonHelperIOS.verify_exists(xpath="//UIAButton[@name='Add to My CBS' or @name='Remove from My CBS']", screenshot=True)
+            CommonHelperIOS.verify_exists(xpath="//" + self.element_prefix() + "Button[@name='Add to My CBS' or @name='Remove from My CBS']", screenshot=True)
             CommonHelperIOS.verify_exists(id='Share')
             CommonHelperIOS.verify_exists(id='Cancel')
 
