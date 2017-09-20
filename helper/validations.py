@@ -248,7 +248,10 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id="Privacy Policy")
             CommonHelperIOS.verify_exists(id="Mobile User Agreement")
             CommonHelperIOS.verify_exists(id="Video Services")
-            CommonHelperIOS.verify_exists(id="Nielsen Info & Your Choices")
+            if self.phone:
+                CommonHelperIOS.verify_exists(id="Nielsen Info & Your Choices")
+            elif self.tablet:
+                CommonHelperIOS.verify_exists(id="Nielsen Info")
             # if self.phone:
             #     CommonHelperIOS.verify_exists(xpath="//UIATableCell[@name='Nielsen Info & Your Choices']")
             # else:
