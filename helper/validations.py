@@ -472,7 +472,6 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         if self.IS_ANDROID:
             # LCS Billing Popup
             CommonHelperAndroid.wait_until_element_is_visible(element_id='com.android.vending:id/title')
-            CommonHelperAndroid.event._log_info(self.event._event_data('IAB'))
             CommonHelperAndroid.verify_exists(name='SUBSCRIBE', timeout=5, screenshot=True)
             if ex_subscriber:
                 try:
@@ -628,7 +627,6 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
             CommonHelperAndroid.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
-            CommonHelperAndroid.event._log_info(self.event._event_data('Faq page webview'))
             CommonHelperAndroid.verify_exists(xpath="//*[@class='android.webkit.WebView']")
         elif self.IS_IOS:
             self.driver.implicitly_wait(5)
