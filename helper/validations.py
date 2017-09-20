@@ -599,7 +599,24 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
     def validation_ah(self):
         if self.IS_ANDROID:
-            pass
+            # see_devices_web_view_page
+            sleep(5)
+
+            if CommonHelperAndroid.tablet:
+                CommonHelperAndroid.verify_exists(name='Navigate up', screenshot=True)
+            else:
+                CommonHelperAndroid.verify_exists(name='Open navigation drawer', screenshot=True)
+            CommonHelperAndroid.verify_exists(
+                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
+            CommonHelperAndroid.verify_exists(name='Live TV')
+            try:
+                if self.tablet:
+                    CommonHelperAndroid.verify_exists(xpath="//*[@class='android.webkit.WebView']")
+                else:
+                    CommonHelperAndroid.verify_exists(name='Desktops and Laptops')
+            except:
+                pass
         elif self.IS_IOS:
             sleep(8)
             CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
