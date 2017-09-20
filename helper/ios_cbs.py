@@ -1008,8 +1008,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.exists(id='Marquee'):
             self.swipe_down(5, (300 if self.tablet else 100))
 
-        while not self.exists(id='Movies', timeout=6).is_displayed():
+        count = 0
+        while not self.exists(id='Movies', timeout=6).is_displayed() and count < 50:
             self.swipe_down(1, (300 if self.tablet else 100))
+            count += 1
 
         self.assertTrueWithScreenShot(self.exists(id='Movies', timeout=6).is_displayed(), screenshot=True, msg='Movies Posters should be presented')
 
@@ -1017,8 +1019,10 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         movies = self.exists(id='Movies', timeout=6)
 
-        while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3):
+        count = 0
+        while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 10:
             self.swipe_down(count=1, distance=50)
+            count += 1
 
         self.safe_screenshot()
         label = self.get_element(id="Movies")
