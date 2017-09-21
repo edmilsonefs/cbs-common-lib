@@ -495,19 +495,24 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             pass
 
     def validation_ar(self):
-        #multiple_channel_selector_page
-        if CommonHelperAndroid.tablet:
-            CommonHelperAndroid.verify_exists(name='Navigate up', screenshot=True)
-        else:
-            CommonHelperAndroid.verify_exists(name='Open navigation drawer', screenshot=True)
-        CommonHelperAndroid.verify_exists(xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
-        CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
-        # cbs all access
-        CommonHelperAndroid.verify_exists(name='Lucky you')
-        CommonHelperAndroid.verify_exists(name="You've got a few options!")
-        CommonHelperAndroid.verify_exists(name='Which station would you like to watch?')
-        CommonHelperAndroid.verify_exists(name='KBTX')
-        CommonHelperAndroid.verify_exists(name='KWTX')
+        # multiple_channel_selector_page
+        if self.IS_ANDROID:
+            if CommonHelperAndroid.tablet:
+                CommonHelperAndroid.verify_exists(name='Navigate up', screenshot=True)
+            else:
+                CommonHelperAndroid.verify_exists(name='Open navigation drawer', screenshot=True)
+
+            CommonHelperAndroid.verify_exists(
+                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/action_search')
+            # cbs all access
+            CommonHelperAndroid.verify_exists(name='Lucky you')
+            CommonHelperAndroid.verify_exists(name="You've got a few options!")
+            CommonHelperAndroid.verify_exists(name='Which station would you like to watch?')
+            CommonHelperAndroid.verify_exists(name='KBTX')
+            CommonHelperAndroid.verify_exists(name='KWTX')
+        elif self.IS_IOS:
+            pass
 
     def validation_ad(self):
         if self.IS_ANDROID:
@@ -944,4 +949,3 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='Done', screenshot=True)
             CommonHelperIOS.verify_exists(class_name=self.element_prefix() + 'Slider')
             CommonHelperIOS.verify_exists(xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
-
