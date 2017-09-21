@@ -78,14 +78,15 @@ class CommonIOSHelper(TestlioAutomationTest):
                     self.event.start(data='in teardown: page source failed')
 
         self.event.stop()
-        sleep(60)
+        # sleep(60)
 
         try:
             self.driver.quit()
         except Exception:
             self.event.start(data='in teardown: driver.quit() failed')
 
-        sleep(80)
+        # sleep(80)
+        sleep(20)
 
     ####################################################################################
     # SETUP/LOGIN METHODS
@@ -1711,6 +1712,12 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         klass.screenshot = klass.screenshot_bak
 
+
+    def change_to_landscape(self):
+        self.driver.orientation = 'LANDSCAPE'
+
+    def change_to_portrait(self):
+        self.driver.orientation = 'PORTRAIT'
 
     # quick way to get page source.  In your interactive session, just do a self.src()
     def src(self, elem=None, tab_str='', full=False, recursing=False):
