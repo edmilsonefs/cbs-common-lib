@@ -1909,7 +1909,7 @@ class CommonHelper(TestlioAutomationTest):
         window_height = self.driver.get_window_size()['height']
         if starty > .8 * window_height:
             self.swipe(.5, .5, .5, .3, 1500)
-            starty = starty - window_height * .2
+            starty = starty - window_height * .3
             sleep(1)
 
         if not endy:
