@@ -1390,8 +1390,12 @@ class CommonIOSHelper(TestlioAutomationTest):
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
 
     def verify_exists_in_xml(self, text, with_screenshot):
-        self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=with_screenshot,
-                                      msg="The element with text '%s' is absent" % text)
+        if type(text) is list:
+            self.assertTrueWithScreenShot(any(x not in self.driver.page_source for x in text), screenshot=with_screenshot,
+                                          msg="One of the elements with text '%s' is absent" % text)
+        else:
+            self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=with_screenshot,
+                                          msg="The element with text '%s' is absent" % text)
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
