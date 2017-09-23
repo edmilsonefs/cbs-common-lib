@@ -371,7 +371,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         number_of_tries = 0
         while not self.exists_and_visible(id='Main Menu', timeout=7):
             number_of_tries += 1
-            if number_of_tries == 20:
+            if number_of_tries == 50:
                 break
 
             self.back()
