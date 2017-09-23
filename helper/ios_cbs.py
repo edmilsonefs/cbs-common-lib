@@ -93,7 +93,8 @@ class CommonIOSHelper(TestlioAutomationTest):
     # SETUP/LOGIN METHODS
 
     def is_xcuitest(self):
-        return os.environ.get('AUTOMATION_NAME') == 'XCUITest'
+        s = str(os.popen("xcodebuild -version").read())
+        return "8." in s or "9." in s
 
     def login(self, username, password):
         """
