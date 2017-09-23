@@ -157,7 +157,6 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         elif self.IS_IOS:
             CommonHelperIOS.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
             CommonHelperIOS.verify_exists(id='Watch Episode')
-            CommonHelperIOS.verify_exists(id='More From Show')
             CommonHelperIOS.verify_exists(id='Close')
 
     def validation_j(self):
@@ -199,24 +198,34 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='I want to see: %s' % category)
 
     def validation_n(self):
-        CommonHelperIOS.verify_exists(name='All Shows', screenshot=False)
-        CommonHelperIOS.verify_exists(name='Featured')
-        CommonHelperIOS.verify_exists(name='Primetime')
-        CommonHelperIOS.verify_exists(name='Daytime')
-        CommonHelperIOS.verify_exists(name='Late Night')
-        CommonHelperIOS.verify_exists(name='Specials')
-        CommonHelperIOS.verify_exists(name='News')
-        CommonHelperIOS.verify_exists(name='Classics')
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='All Shows', screenshot=False)
+            CommonHelperIOS.verify_exists(id='Featured')
+            CommonHelperIOS.verify_exists(id='Primetime')
+            CommonHelperIOS.verify_exists(id='Daytime')
+            CommonHelperIOS.verify_exists(id='Late Night')
+            CommonHelperIOS.verify_exists(id='Specials')
+            CommonHelperIOS.verify_exists(id='News')
+            CommonHelperIOS.verify_exists(id='Classics')
 
     def validation_o(self):  # TODO update validation
-        CommonHelperIOS.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
+            CommonHelperIOS.verify_exists(id='Close')
 
     def validation_p(self):
-        CommonHelperIOS.verify_exists(name='Like on Facebook', screenshot=False)
-        CommonHelperIOS.verify_exists(name='Follow on Twitter')
-        CommonHelperIOS.verify_exists(name='Share')
-        CommonHelperIOS.verify_exists(name='Add to Calendar')
-        CommonHelperIOS.verify_exists(name='Show Info')
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(name='Like on Facebook', screenshot=False)
+            CommonHelperIOS.verify_exists(name='Follow on Twitter')
+            CommonHelperIOS.verify_exists(name='Share')
+            CommonHelperIOS.verify_exists(name='Add to Calendar')
+            CommonHelperIOS.verify_exists(name='Show Info')
 
         # Settings Page
 
@@ -889,7 +898,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         if self.IS_ANDROID:
             self.movies_page_android.validate_page(user_type=user_type, category=category)
         elif self.IS_IOS:
-            pass
+            CommonHelperIOS.verify_exists(id="Main Menu", screenshot=False)
+            CommonHelperIOS.verify_exists(id='Movies')
+            CommonHelperIOS.verify_exists(id='Search')
+            if self.is_xcuitest():
+                self.assertTrueWithScreenShot(len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 3, msg="At least 3 Movies posters should be presented")
 
     def validation_au(self, user_type):
         if self.IS_ANDROID:
@@ -940,12 +953,13 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperAndroid.click_play_from_beginning()
             except:
                 pass
-            self.driver.implicitly_wait(60)
             CommonHelperAndroid.verify_exists(id=CommonHelperAndroid.com_cbs_app + ':id/player_activity_frame',
                                               screenshot=True)
 
             self.driver.back()
         elif self.IS_IOS:
+            CommonHelperIOS.accept_video_popup()
+            CommonHelperIOS.restart_from_the_beggining()
             CommonHelperIOS.verify_exists(id='Done', screenshot=True)
             CommonHelperIOS.verify_exists(class_name=self.element_prefix() + 'Slider')
             CommonHelperIOS.verify_exists(xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
