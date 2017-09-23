@@ -374,7 +374,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             if number_of_tries == 20:
                 break
 
-            self.go_back()
+            self.back()
             sleep(1)
 
         e = self.exists_and_visible(id='Main Menu', timeout=6)
