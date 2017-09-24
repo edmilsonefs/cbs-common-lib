@@ -1121,7 +1121,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.driver.tap([(size['width'] - 30, size['height'] - 30)])
 
     def close_big_advertisement(self):
-        self.click_safe(id='Close Advertisement', timeout=10)
+        self.click_safe(id='Close Advertisement', timeout=6)
 
     def click_episode_indicator(self):
         self.click(element=self.get_element(id='Watch Full Episodes on CBS All Access'))
