@@ -836,6 +836,36 @@ class CommonIOSHelper(TestlioAutomationTest):
             wait_time = self.default_implicit_wait
 
         self.driver.implicitly_wait(wait_time)
+        
+    def _choose_y_coordinate(self, ad):
+        """
+        Returns y coordinate located not in the ad area
+        """
+        s_height = self.driver.get_window_size()['height']
+        ad_y_start = ad.location['y']
+        ad_y_end = ad_y_start + ad.size['height']
+
+        if ad_y_end + 10 > s_height:
+            y = ad_y_start - 10
+        else:
+            y = ad_y_end + 10
+
+        return y
+    
+    def _smart_scroll_down(self):
+        """
+        Scrolls down while evading ads
+        """
+        ads = self.driver.find_elements_by_class_name('XCUIElementTypeLink')
+        displayed_ads = [x for x in ads if x.is_displayed()]
+        x_cord = 0.5
+        if len(displayed_ads) > 0:
+            ad = displayed_ads[len(displayed_ads)-1]
+            new_y = self._choose_y_coordinate(ad)
+            self.swipe(x_cord, new_y, x_cord, -0.7, 1500)
+        else:
+            self.swipe(x_cord, .9, x_cord, -0.7, 1500)
+        
 
     def find_on_page(self, find_by, find_key, max_swipes=10, x=.5):
         """
@@ -871,7 +901,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                     fromY = device_height - 100 #need to check with various devices
                     self.driver.swipe(pointX, fromY, pointX, -device_height/4, 1500)
                 else:
-                    self.swipe(x, .9, x, -0.7, 1500) #need to verify that it works properly on testdroid
+                    self._smart_scroll_down()
                 pass
 
         self.set_implicit_wait()
