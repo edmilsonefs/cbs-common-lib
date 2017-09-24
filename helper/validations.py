@@ -894,7 +894,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 CommonHelperIOS.verify_exists(id='GET STARTED')
                 CommonHelperIOS.verify_not_exists(id='Already have an account? Sign In')
 
-    def validation_at(self, user_type="anonymous", category="All Shows"):  # TODO update validation
+    def validation_at(self, user_type="anonymous", category="All Shows"):
         if self.IS_ANDROID:
             self.movies_page_android.validate_page(user_type=user_type, category=category)
         elif self.IS_IOS:
