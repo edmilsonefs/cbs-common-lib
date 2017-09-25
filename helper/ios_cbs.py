@@ -1004,14 +1004,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_safe(id='ACCEPT', timeout=6)
 
     def click_watch_movie(self):
-        self.click_safe(element=self.get_element(id="Watch Movie", timeout=20))
+        self.click(id="Watch Movie", timeout=7)
 
     def click_watch_trailer(self):
-        self.click(element=self.get_element(id="Preview Trailer", timeout=20))
+        self.click(id="Preview Trailer", timeout=7)
         self.accept_video_popup()
 
     def click_subscribe_to_watch(self):
-        self.click(element=self.get_element(id="Subscribe to Watch", timeout=20))
+        self.click(id="Subscribe to Watch", timeout=7)
         self.accept_video_popup()
 
     def click_on_first_aa_video(self):
