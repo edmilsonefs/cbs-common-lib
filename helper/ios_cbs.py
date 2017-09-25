@@ -375,6 +375,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 break
 
             self.back()
+            self.tap(3, 3)
             sleep(1)
 
         e = self.exists_and_visible(id='Main Menu', timeout=6)
@@ -385,6 +386,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if e:
             e.click()
         else:
+            self.tap(3, 3)
             self.go_back()
             sleep(1)
             self.click(id='Main Menu')

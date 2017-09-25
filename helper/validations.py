@@ -212,10 +212,9 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
 
     def validation_o(self):  # TODO update validation
         if self.IS_ANDROID:
-            pass
+            CommonHelperAndroid.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
         elif self.IS_IOS:
-            CommonHelperIOS.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
-            CommonHelperIOS.verify_exists(id='Close')
+            CommonHelperIOS.verify_exists(id='Show Info')
 
     def validation_p(self):
         if self.IS_ANDROID:
