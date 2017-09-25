@@ -479,24 +479,24 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             self.assertTrue(name in self.driver.page_source,
                             msg="Username should be visible in the menu after registration", screenshot=True)
 
-    def validation_ac(self, ex_subscriber=False, registered=False):
+    def validation_ac(self):
         if self.IS_ANDROID:
             # LCS Billing Popup
             CommonHelperAndroid.wait_until_element_is_visible(element_id='com.android.vending:id/title')
-            CommonHelperAndroid.verify_exists(name='SUBSCRIBE', timeout=5, screenshot=True)
-            if ex_subscriber:
+            CommonHelperAndroid.verify_exists(name='Subscribe', timeout=5, screenshot=True)
+            if CommonHelperAndroid.user_type == CommonHelperAndroid.ex_subscriber:
                 try:
                     CommonHelperAndroid.get_element(name='CBS All Access (CBS)')
                     CommonHelperAndroid.verify_exists(name='CBS All Access (CBS)', screenshot=True)
                     CommonHelperAndroid.verify_exists(id='com.android.vending:id/logo')
-                    CommonHelperAndroid.verify_exists(name='SUBSCRIBE')
+                    CommonHelperAndroid.verify_exists(name='Subscribe')
                 except:
                     pass
-            if registered:
+            if CommonHelperAndroid.user_type == CommonHelperAndroid.registered:
                 try:
                     CommonHelperAndroid.get_element(name='CBS All Access 1 Week FREE (CBS)')
                     CommonHelperAndroid.verify_exists(name='CBS All Access 1 Week FREE (CBS)', screenshot=True)
-                    CommonHelperAndroid.verify_exists(name='SUBSCRIBE')
+                    CommonHelperAndroid.verify_exists(name='Subscribe')
                 except:
                     pass
         if self.IS_IOS:
