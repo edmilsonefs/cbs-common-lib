@@ -34,6 +34,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     passed = False
     element_type = '//UIA'  # iOS 9
     UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
+    signed_out = False
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -92,7 +93,8 @@ class CommonIOSHelper(TestlioAutomationTest):
     # SETUP/LOGIN METHODS
 
     def is_xcuitest(self):
-        return os.environ.get('AUTOMATION_NAME') == 'XCUITest'
+        s = str(os.popen("xcodebuild -version").read())
+        return "8." in s or "9." in s
 
     def login(self, username, password):
         """
@@ -144,50 +146,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(3)
         sign_in_button.click()
 
-        # continue_button = self.exists(accessibility_id='CONTINUE', timeout=300)
-        # agreement = "By registering you become a member of the CBS Interactive family of sites and you have read and agree to the Terms of Use, Privacy Policy, and Video Services Policy. You agree to receive updates, alerts and promotions from CBS and that CBS may share information about you with our marketing partners so that they may contact you by email or otherwise about their products or services."
-        # agreement_elem = self._find_element(accessibility_id=agreement)
-        # loc = agreement_elem.location
-        #
-        # for button in self.driver.find_elements_by_xpath("//UIAButton[@name='']"):
-        #     button_loc = button.location
-        #     loc_y_above = loc['y'] - 15
-        #     loc_y_below = loc['y'] + 15
-        #     if (button_loc['x'] < loc['x'] and
-        #         loc_y_above < button_loc['y'] < loc_y_below):
-        #         self.click_by_location(button)
-        #         break
+        self.finish_login()
 
-        # continue_button = self.exists(accessibility_id='CONTINUE', timeout=300)
-        # loc = continue_button.location
-        #
-        # for button in self.driver.find_elements_by_xpath("//UIAButton[@name='']"):
-        #     button_loc = button.location
-        #     if (button_loc['x'] < loc['x'] and
-        #         button_loc['y'] < loc['y']):
-        #         self.click_by_location(button)
-        #         sleep(1)
-        #         break
-
-        continue_button = self.exists(accessibility_id='CONTINUE', timeout=180)
-
-        if continue_button:
-            for button in self.driver.find_elements_by_xpath("//UIAButton[@name='']"):
-                try:
-                    button.click()
-                except Exception:
-                    pass
-
-            self.safe_screenshot()
-            continue_button.click()
-
-            # wait for the login to happen
-            self.not_exists(accessibility_id='CONTINUE', timeout=300)
-
-        self.goto_settings()
-        self.assertTrueWithScreenShot(self.exists(accessibility_id='Sign Out', timeout=0),
-                                      screenshot=True,
-                                      msg="Verify 'Sign Out' button on Settings page.")
+        # self.goto_settings()
+        # self.assertTrueWithScreenShot(self.exists(accessibility_id='Sign Out', timeout=0),
+        #                               screenshot=True,
+        #                               msg="Verify 'Sign Out' button on Settings page.")
 
     def logout(self, safe=False):
         self.goto_settings()
@@ -247,19 +211,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        if self.is_xcuitest():
-            if self.phone:
-                try:
-                    t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=10)
-                except:
-                    t_f = self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=10)
-            else:
-                try:
-                    t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=10)
-                except:
-                    t_f = self.exists(accessibility_id='MyCBSStarFilled iPad', timeout=10)
-        # else:
-        #t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
+        
+        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
 
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
@@ -273,7 +226,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
         #self.click(xpath="//*[@name='Sign Out']")
-        self.click_safe(accessibility_id='Sign Out', timeout=5)
+        if self.click_safe(accessibility_id='Sign Out', timeout=5):
+            self.signed_out = True
 
     def goto_sign_out(self):
         self.goto_settings()
@@ -335,8 +289,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_first_search_result(self):
         if self.is_xcuitest():
-            #TODO add back the correct element click, instead of location tap
-            self.tap_by_touchaction(.20, .20) # this works with only iPhone 7 HACK
+            self.tap_by_touchaction(.3, .3)
         else:
             element = self.get_search_result_episode_count_element()
             element.click()
@@ -407,10 +360,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         number_of_tries = 0
         while not self.exists_and_visible(id='Main Menu', timeout=7):
             number_of_tries += 1
-            if number_of_tries == 20:
+            if number_of_tries == 5:
                 break
 
-            self.go_back()
+            self.back()
+            self.tap(3, 3)
             sleep(1)
 
         e = self.exists_and_visible(id='Main Menu', timeout=6)
@@ -421,6 +375,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if e:
             e.click()
         else:
+            self.tap(3, 3)
             self.go_back()
             sleep(1)
             self.click(id='Main Menu')
@@ -709,14 +664,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # VIDEO PLAYER
 
     def restart_from_the_beggining(self):
-        #self.click_safe(id='Restart From Beginning')
-        for x in range(10):
-            if self.exists(accessibility_id='Done'):
-                return
-            elif self.exists(id='Restart From Beginning'):
-                self.click(id='Restart From Beginning')
-                return
-                
+        self.click_safe(id='Restart From Beginning', timeout=6)
 
     def close_video(self):
         count = 0
@@ -1087,11 +1035,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         window_size_height = self.driver.get_window_size()["height"]
         movies = self.exists(id='Movies', timeout=6)
         if movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3):
-            self.swipe_down(5, (300 if self.tablet else 70))
+            self.swipe_down(5, (300 if self.tablet else 50))
 
         count = 0
-        while not self.exists(id='Movies', timeout=6).is_displayed() and count < 50:
-            self.swipe_down(1, (300 if self.tablet else 70))
+        while not self.exists(id='Movies', timeout=6).is_displayed() and count < 70:
+            self.swipe_down(1, (300 if self.tablet else 50))
             count += 1
 
         self.assertTrueWithScreenShot(self.exists(id='Movies', timeout=6).is_displayed(), screenshot=True, msg='Movies Posters should be presented')
@@ -1109,17 +1057,22 @@ class CommonIOSHelper(TestlioAutomationTest):
         y = label.location['y']
         self.tap(x + 50, y + label.size['height'] + 40)
         self.safe_screenshot()
-        self.click_safe(id='ACCEPT', timeout=6)
+        self.accept_video_popup()
         self.safe_screenshot()
 
+    def accept_video_popup(self):
+        self.click_safe(id='ACCEPT', timeout=6)
+
     def click_watch_movie(self):
-        self.click_safe(element=self.get_element(id="Watch Movie", timeout=20))
+        self.click(id="Watch Movie", timeout=7)
 
     def click_watch_trailer(self):
-        self.click(element=self.get_element(id="Preview Trailer", timeout=20))
+        self.click(id="Preview Trailer", timeout=7)
+        self.accept_video_popup()
 
     def click_subscribe_to_watch(self):
-        self.click(element=self.get_element(id="Subscribe to Watch", timeout=20))
+        self.click(id="Subscribe to Watch", timeout=7)
+        self.accept_video_popup()
 
     def click_on_first_aa_video(self):
         # elFrom = self._find_element(id='Free Episodes')
@@ -1230,7 +1183,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.driver.tap([(size['width'] - 30, size['height'] - 30)])
 
     def close_big_advertisement(self):
-        self.click_safe(element=self.get_element(id='Close Advertisement', timeout=10))
+        if self.tablet:
+            self.click_safe(id='Close Advertisement', timeout=6)
 
     def click_episode_indicator(self):
         self.click(element=self.get_element(id='Watch Full Episodes on CBS All Access'))
@@ -1299,6 +1253,12 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_movies_poster(self):
         self.click(xpath='//UIACollectionView[1]/UIACollectionCell[1]')
 
+    def click_my_cbs_star(self):
+        element = self.exists(xpath="//*[contains(@name,'MyCBSStar')]")
+        self.click(element=element)
+        self._dismiss_alert(1)
+        return element.get_attribute("name")
+
     def find_show_on_home_page(self, show_dict):
         """
         First scrolls down looking for the show category (Primetime, etc.)
@@ -1337,7 +1297,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # swipe left to right to reset to the beginning of the list
         for i in range(2):
-            self.swipe(-0.4, y, 0.7, y, 2000)
+            self.swipe(0.4, y, 0.7, y, 2000)
             sleep(1)
 
         season_ep = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
@@ -1353,7 +1313,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             season_ep_elem = self.find_on_page_horizontal(season_ep)
             if not season_ep_elem:
                 self.safe_screenshot()
-                self.swipe(-0.4, y, 0.3, y, 1500)
+                self.swipe(0.4, y, 0.1, y, 1500)
                 season_ep_elem = self.find_on_page_horizontal(season_ep)
 
         self.assertTrueWithScreenShot(season_ep_elem, screenshot=True,
@@ -1467,9 +1427,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(self.not_exists(**kwargs), screenshot=screenshot,
                                       msg="Should NOT see element with text or selector: '%s'" % selector)
 
-    def verify_exists_in_xml(self, text, with_screenshot):
-        self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=with_screenshot,
-                                      msg="The element with text '%s' is absent" % text)
+    def verify_exists_in_xml(self, text, screenshot):
+        if type(text) is list:
+            self.assertTrueWithScreenShot(any(x not in self.driver.page_source for x in text), screenshot=screenshot,
+                                          msg="One of the elements with text '%s' is absent" % text)
+        else:
+            self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=screenshot,
+                                          msg="The element with text '%s' is absent" % text)
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
@@ -2103,7 +2067,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # in case it's behind the banner ad at the bottom, swipe up a little
         window_height = self.driver.get_window_size()['height']
         if starty > .8 * window_height:
-            self.swipe(.5, .5, .5, -0.3, 1500)
+            self.swipe(.5, .5, .5, 0.3, 1500)
             starty = starty - window_height * .2
             sleep(1)
 
@@ -2113,7 +2077,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             else:
                 endy = 180
 
-        self.swipe(startx, starty, startx, -endy, 1500)
+        self.swipe(startx, starty, startx, endy, 1500)
 
     def swipe_element_to_bottom_of_screen(self):
         """
