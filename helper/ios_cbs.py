@@ -604,6 +604,21 @@ class CommonIOSHelper(TestlioAutomationTest):
             if time() - start_time > timeout:
                 return False
 
+    def get_hack_season_name(self, exception_hack):
+        if exception_hack == 'AFTER SHOW':
+            # for Big Brother After Show, there is no season, it just says "After Show"
+            season_name = 'AFTER SHOW'
+        elif exception_hack == 'Specials':
+            # for specials, there's only one episode, or only one row of episodes anyway
+            show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
+            return show_elem
+        elif exception_hack == '60 Minutes':
+            season_name = "Latest Full Episodes"
+        else:
+            raise NameError('Given hack is not handled')
+
+        return season_name
+
     def find_episode_on_show_page(self, show_dict, exception_hack=False):
         try:
             int(show_dict['season_number'])
@@ -617,26 +632,38 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         episode_title = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
 
-        if exception_hack == 'AFTER SHOW':
-            # for Big Brother After Show, there is no season, it just says "After Show"
-            season_name = 'AFTER SHOW'
-        elif exception_hack == 'Specials':
-            # for specials, there's only one episode, or only one row of episodes anyway
-            show_elem = self._find_element(id=self.com_cbs_app + ":id/showName")
-            return show_elem
-        elif exception_hack == '60 Minutes':
-            season_name = "Latest Full Episodes"
+        if exception_hack:
+            season_name = self.get_hack_season_name(exception_hack)
         else:
             season_name = "Season " + str(show_dict['season_number'])
 
-        # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
-        if show_dict['show_title'] == '60 Minutes':
-            season_elem = self.find_on_page('id', 'Latest Full Episodes')
-        else:
-            season_elem = self.find_on_page('id', season_name)
+        #no need in this hack currently
+#        if show_dict['show_title'] == 'Big Brother':
+#            action = TouchAction(self.driver)
+#            window_sizes = self.driver.get_window_size()
+#            height = window_sizes['height']
+#            width = window_sizes['width']
+#
+#            #7 Plus
+#            if width == 414 and height == 736:
+#                action.press(x=200, y=300).release().perform()
+#            #SE
+#            elif width == 320 and height == 568:
+#                action.press(x=200, y=220).release().perform()
+#            #7
+#            elif width ==375 and height == 667:
+#                action.press(x=200, y=270).release().perform()
+#            #ipad 9.7
+#            elif width == 768 and height == 1024:
+#                action.press(x=300, y=400).release().perform()
+#            #ipad 12.9
+#            elif width == 1024 and height == 1366:
+#                action.press(x=300, y=400).release().perform()
 
+        # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
+        season_elem = self.find_on_page('accessibility_id', season_name)
         self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists: %s" % season_name)
-        # self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
+        #self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
 
         # may help get the position correctly
         sleep(2)
@@ -696,21 +723,21 @@ class CommonIOSHelper(TestlioAutomationTest):
     def pause_video(self):
         # brings panel control up
         try:
-            self.tap_by_touchaction(.25, .25)
-            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
+#            self.tap_by_touchaction(.5, .5)
+            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=1))
         except:
             try:
-                self.tap_by_touchaction(.25, .25)
+                self.tap_by_touchaction(.5, .5)
                 self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
             except:
                 pass
 
     def unpause_video(self):
         try:
-            self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
+            self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=1))
         except:
             try:
-                self.tap_by_touchaction(.25, .25)
+                self.tap_by_touchaction(.5, .5)
                 self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
                 sleep(2)
             except:
@@ -722,33 +749,41 @@ class CommonIOSHelper(TestlioAutomationTest):
         We'll find where to tap by dividing jump_time by total_time as found in the screen element
         """
         self.pause_video()
-        current_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[1]')
+        current_time = self.driver.find_element_by_xpath('//XCUIElementTypeOther[2]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText[1]')
         current_time_text = current_time.text
-        total_time = self.driver.find_element_by_xpath('//UIAApplication[1]/UIAWindow[1]/UIAStaticText[2]')
-        total_time_text = total_time.text
+        remaining_time = self.driver.find_element_by_xpath('//XCUIElementTypeOther[2]/XCUIElementTypeOther[2]/XCUIElementTypeStaticText[2]')
+        remaining_time_text = remaining_time.text
 
         # total_time = minutes*60 + seconds
-        total_time_text = float(total_time_text[-5:-3])*60 + float(total_time_text[-2:])
+        remaining_time_seconds = float(remaining_time_text[-5:-3])*60 + float(remaining_time_text[-2:])
+        current_time_seconds = float(current_time_text[-5:-3])*60 + float(current_time_text[-2:])
+        total_time_seconds = remaining_time_seconds + current_time_seconds
 
-        seek_pct = jump_time / total_time_text
+        # it is too precise. Maybe add some second to jump_time
+        seek_point = jump_time / total_time_seconds + 0.1
 
-        seek_bar = self._find_element(class_name='UIASlider')
-        seek_bar_size = seek_bar.size['width'] - current_time.size['width'] - total_time.size['width']
-        seek_bar_percentage = float(float(str(seek_bar.get_attribute("value"))[:-1]) / 100)
 
-        # width * seek_pct is how far over in the bar to tap
-        seek_bar_end_x = seek_bar.location['x'] + (seek_bar.size['width'] * seek_pct) - total_time.size['width']
+        seek_bar = self._find_element(class_name='XCUIElementTypeSlider')
+        seek_bar.set_value(str(seek_point))
 
-        # this is just the vertical middle of the seek bar
-        seek_bar_end_y = seek_bar.location['y'] + seek_bar.size['height']/2
+        #hopefully we won't need code below, it is not working anyways
+#        seek_bar_size = seek_bar.size['width'] - current_time.size['width'] - remaining_time.size['width']
+#        seek_bar_percentage = float(float(str(seek_bar.get_attribute("value"))[:-1]) / 100)
+#
+#        # width * seek_pct is how far over in the bar to tap
+#        seek_bar_end_x = seek_bar.location['x'] + (seek_bar.size['width'] * seek_pct) - remaining_time.size['width']
+#
+#        # this is just the vertical middle of the seek bar
+#        seek_bar_end_y = seek_bar.location['y'] + seek_bar.size['height']/2
+#
+#        seek_bar_start_x = seek_bar.location['x'] + current_time.size['width'] + (seek_bar_size * seek_bar_percentage)
+#
+#        while seek_bar_start_x < seek_bar_end_x:
+#            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 2000)
+#            seek_bar_start_x += 15
+#            print seek_bar_start_x
 
-        seek_bar_start_x = seek_bar.location['x'] + current_time.size['width'] + (seek_bar_size * seek_bar_percentage)
-
-        while seek_bar_start_x < seek_bar_end_x:
-            self.swipe(seek_bar_start_x, seek_bar_end_y, seek_bar_end_x, seek_bar_end_y, 2000)
-            seek_bar_start_x += 15
-            print seek_bar_start_x
-
+        #unpause explicitly if needed
         self.unpause_video()
 
     def find_by_uiautomation(self, value, hide_keyboard=False):
@@ -763,6 +798,36 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(wait_time)
 
+    def _choose_y_coordinate(self, ad):
+        """
+        Returns y coordinate located not in the ad area
+        """
+        s_height = self.driver.get_window_size()['height']
+        ad_y_start = ad.location['y']
+        ad_y_end = ad_y_start + ad.size['height']
+
+        if ad_y_end + 10 > s_height:
+            y = ad_y_start - 10
+        else:
+            y = ad_y_end + 10
+
+        return y
+
+    def _smart_scroll_down(self):
+        """
+        Scrolls down while evading ads
+        """
+        ads = self.driver.find_elements_by_class_name('XCUIElementTypeLink')
+        displayed_ads = [x for x in ads if x.is_displayed()]
+        x_cord = 0.5
+        if len(displayed_ads) > 0:
+            ad = displayed_ads[len(displayed_ads)-1]
+            new_y = self._choose_y_coordinate(ad)
+            self.swipe(x_cord, new_y, x_cord, -0.7, 1500)
+        else:
+            self.swipe(x_cord, .9, x_cord, -0.7, 1500)
+
+
     def find_on_page(self, find_by, find_key, max_swipes=10, x=.5):
         """
         Scrolls down the page looking for an element.  Call the method like this:
@@ -770,6 +835,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.find_on_page('id', 'com.cbs.app:id/seasonEpisode')
         """
         self.set_implicit_wait(3)
+        device_size = self.driver.get_window_size()
 
         for i in range(max_swipes):
             try:
@@ -783,15 +849,20 @@ class CommonIOSHelper(TestlioAutomationTest):
                     raise RuntimeError("invalid 'find_by'")
 
                 if e.is_displayed():
+
                     self.set_implicit_wait()
                     return e
                 else:
                     raise NoSuchElementException('pass')
             except NoSuchElementException:
                 if self.is_simulator():
-                    self.driver.swipe(500, 600, 0, -100, 1500)
-                #else:
-                    # self.swipe(x, .6, x, .5, 1500)
+                    device_height = device_size['height']
+                    device_width = device_size['width']
+                    pointX = device_width/4
+                    fromY = device_height - 100 #need to check with various devices
+                    self.driver.swipe(pointX, fromY, pointX, -device_height/4, 1500)
+                else:
+                    self._smart_scroll_down()
                 pass
 
         self.set_implicit_wait()
@@ -826,8 +897,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
-                self.wait_and_accept_alert(timeout=10)
-                sleep(5)
+                self.wait_and_accept_alert(timeout=5)
+                sleep(2)
                 action = True
                 break
             except:
@@ -1218,7 +1289,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         """
         show_category = show_dict['show_category']
 
-        category_elem = self.find_on_page('id', show_category)
+        category_elem = self.find_on_page('accessibility_id', show_category)
         self.assertTrueWithScreenShot(category_elem, screenshot=True, msg="Assert '" + show_category + "' category exists")
         y_orig = category_elem.location['y']
 
@@ -1229,7 +1300,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         category_elem = self.exists(id=show_dict['show_category'], timeout=2)
         screen_height = self.driver.get_window_size()["height"]
         if not category_elem or category_elem.location['y'] < screen_height * .12:
-            self.swipe(.5, 0.5, .5, 0.2, 1500)
+            self.swipe(.5, 0.5, .5, -0.2, 1500)
         sleep(2)
         self.driver.page_source
 
@@ -2008,7 +2079,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # in case it's behind the banner ad at the bottom, swipe up a little
         window_height = self.driver.get_window_size()['height']
         if starty > .8 * window_height:
-            self.swipe(.5, .5, .5, .3, 1500)
+            self.swipe(.5, .5, .5, 0.3, 1500)
             starty = starty - window_height * .2
             sleep(1)
 
