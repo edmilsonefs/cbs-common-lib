@@ -872,26 +872,11 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='CBSEye_white')
             CommonHelperIOS.verify_exists(id="Search")
             CommonHelperIOS.verify_exists(id='We show that CBS is not authorized for you by your TV provider,')
-            CommonHelperIOS.verify_exists(id='but you can sign up for CBS All Access to watch now.')
-            CommonHelperIOS.verify_exists(id='CBSAllAccess')
-            CommonHelperIOS.verify_exists(id='Watch Live TV')
-            CommonHelperIOS.verify_exists(id='Over 8,500 Episodes on Demand')
-            CommonHelperIOS.verify_exists(id='TAKE A QUICK TOUR')
-            CommonHelperIOS.verify_exists(id='New Episodes on CBS App Next Day')
+            CommonHelperIOS.verify_exists(id='but you can sign in to CBS All Access to watch now.')
+            CommonHelperIOS.verify_exists(id='SIGN IN')
+            CommonHelperIOS.verify_exists(id='Take a quick tour')
             CommonHelperIOS.verify_exists(id='Questions?')
             CommonHelperIOS.verify_exists(id='READ OUR FAQ')
-
-            if self.user_type == self.anonymous:
-                CommonHelperIOS.verify_exists(id='TRY 1 WEEK FREE')
-                CommonHelperIOS.verify_exists(id='Already have an account? Sign In')
-
-            if self.user_type == self.registered:
-                CommonHelperIOS.verify_exists(id='TRY 1 WEEK FREE')
-                CommonHelperIOS.verify_not_exists(id='Already have an account? Sign In')
-
-            if self.user_type == self.ex_subscriber:
-                CommonHelperIOS.verify_exists(id='GET STARTED')
-                CommonHelperIOS.verify_not_exists(id='Already have an account? Sign In')
 
     def validation_at(self, user_type="anonymous", category="All Shows"):
         if self.IS_ANDROID:
