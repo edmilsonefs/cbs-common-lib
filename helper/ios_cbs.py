@@ -15,7 +15,6 @@ from selenium.webdriver.common.by import By
 
 from testlio.base import TestlioAutomationTest, SCREENSHOTS_DIR
 
-
 class CommonIOSHelper(TestlioAutomationTest):
     phone = False
     tablet = False
@@ -96,7 +95,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def is_xcuitest(self):
         v = int(str(str(os.popen("xcodebuild -version").read()).split(" ")[1]).split(".")[0])
-        return v < 8
+        return v > 7
 
     def login(self, username, password):
         """
