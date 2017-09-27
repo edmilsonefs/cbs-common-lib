@@ -28,7 +28,7 @@ class BasePage(CommonIOSHelper):
         return self.get_element(timeout=timeout, id='CBSLogo_white')
 
     def navigation_drawer(self, timeout=10):
-        if self.is_xcuitest():
+        if self.xcuitest:
             return self.get_element(timeout=timeout, name='Main Menu')
         else:
             return self.get_element(timeout=timeout, xpath='//UIATableView[1]')

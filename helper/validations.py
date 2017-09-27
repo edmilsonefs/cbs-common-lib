@@ -88,7 +88,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id="Search")
             CommonHelperIOS.verify_exists(id='Sign in with your social account', screenshot=True)
             CommonHelperIOS.verify_exists(id='Sign in with your email')
-            if self.is_xcuitest():
+            if self.xcuitest:
                 CommonHelperIOS.verify_exists(
                     xpath='//XCUIElementTypeStaticText[@name="Don\'t have an account? Sign Up"])[2]')
             else:
@@ -309,7 +309,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
                 if self.phone:
                     CommonHelperIOS.verify_exists(id='Start Watching')
                 else:
-                    if self.is_xcuitest():
+                    if self.xcuitest:
                         CommonHelperIOS.verify_exists(
                             xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # Schedule
                         CommonHelperIOS.verify_exists(
@@ -544,17 +544,17 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='CBSEye_white', screenshot=True)
             CommonHelperIOS.verify_exists(id="Search")
             CommonHelperIOS.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
-            if self.is_xcuitest():  # iOS 10 switch
+            if self.xcuitest:  # iOS 10 switch
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
             else:
                 CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[2]')  # station icon
             if self.user_type == self.mvpd_auth:
-                if self.is_xcuitest():
+                if self.xcuitest:
                     CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
                 else:
                     CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
             else:
-                if self.is_xcuitest():
+                if self.xcuitest:
                     CommonHelperIOS.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
                     # else:
                     #     CommonHelperIOS.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
@@ -733,7 +733,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(name='TV PROVIDER')
             CommonHelperIOS.verify_exists(name='VERIFY NOW')
 
-            if self.is_xcuitest():
+            if self.xcuitest:
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView')
                 CommonHelperIOS.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')
             else:
@@ -900,7 +900,7 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id="Main Menu", screenshot=False)
             CommonHelperIOS.verify_exists(id='Movies')
             CommonHelperIOS.verify_exists(id='Search')
-            if self.is_xcuitest():
+            if self.xcuitest:
                 self.assertTrueWithScreenShot(len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 3, msg="At least 3 Movies posters should be presented")
 
     def validation_au(self, user_type):
