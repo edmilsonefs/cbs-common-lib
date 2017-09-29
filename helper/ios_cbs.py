@@ -1182,17 +1182,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.swipe(startx, starty, startx, endy, time)
 
     def hide_keyboard(self):
-        if self.phone:
-            size = self.driver.get_window_size()
-
-            x = size['width'] / 2
-            start_y = size['height'] / 2
-            end_y = size['height']
-
-            self.driver.swipe(x, start_y, x, end_y, 500)
-        elif self.tablet:
-            size = self.driver.get_window_size()
-            self.driver.tap([(size['width'] - 30, size['height'] - 30)])
+        self.tap(0.95, 0.95)
 
     def close_big_advertisement(self):
         if self.tablet:
@@ -2051,8 +2041,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # CLICK WRAPPERS
 
     def click_return(self):
-        size = self.driver.get_window_size()
-        self.driver.tap(size['width'] - 30, size['height'] - 30)
+        self.tap(0.95, 0.95)
 
     def click_more(self):
         self.click(id='More Information')
