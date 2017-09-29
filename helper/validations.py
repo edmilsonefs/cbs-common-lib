@@ -748,9 +748,8 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
         if self.IS_ANDROID:
             CommonHelperAndroid.verify_exists(name='Sign in with your TV provider to start streaming')
             CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/gridRecyclerView', screenshot=True)
-            CommonHelperAndroid.verify_exists(name='Questions?')
-            CommonHelperAndroid.swipe_down_if_element_is_not_visible(name='READ OUR FAQ')
-            CommonHelperAndroid.verify_exists(name='READ OUR FAQ')
+            CommonHelperAndroid.swipe_down_and_verify_if_exists(name='Questions?')
+            CommonHelperAndroid.swipe_down_and_verify_if_exists(name='READ OUR FAQ')
         elif self.IS_IOS:
             if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 CommonHelperIOS.verify_exists(id='Sign in with your TV provider to start streaming')
