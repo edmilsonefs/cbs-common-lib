@@ -1249,7 +1249,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(5)
 
     def click_movies_poster(self):
-        self.click(xpath='//UIACollectionView[1]/UIACollectionCell[1]')
+        sleep(2)
+        self.tap(0.2, 0.2)
 
     def click_my_cbs_star(self):
         element = self.exists(xpath="//*[contains(@name,'MyCBSStar')]")
