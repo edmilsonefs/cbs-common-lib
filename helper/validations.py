@@ -702,16 +702,18 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             CommonHelperIOS.verify_exists(id='CHECK AVAILABILITY')
 
     def validation_ap(self):
+        if self.IS_ANDROID:
         #no_local_affiliate_page
-        CommonHelperAndroid.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True)
-        CommonHelperAndroid.verify_exists(
-            name='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these Videos:')
-        CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
-        CommonHelperAndroid.verify_exists(name='Questions?')
-        CommonHelperAndroid.verify_exists(name='READ OUR FAQ')
-        CommonHelperAndroid.verify_not_exists(name='Get notified when Live TV is available in your area.')
-        CommonHelperAndroid.verify_not_exists(name='GET NOTIFIED')
-
+            CommonHelperAndroid.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True)
+            CommonHelperAndroid.verify_exists(
+                name='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these Videos:')
+            CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
+            CommonHelperAndroid.verify_exists(name='Questions?')
+            CommonHelperAndroid.verify_exists(name='READ OUR FAQ')
+            CommonHelperAndroid.verify_not_exists(name='Get notified when Live TV is available in your area.')
+            CommonHelperAndroid.verify_not_exists(name='GET NOTIFIED')
+        if self.IS_IOS:
+            pass
     def validation_ak(self):
         if self.IS_ANDROID:
             CommonHelperAndroid.verify_exists(name='Success!', screenshot=True)
