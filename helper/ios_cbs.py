@@ -1046,12 +1046,15 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_movies_episode_on_home_page(self):
         window_size_height = self.driver.get_window_size()["height"]
         movies = self.exists(id='Movies', timeout=6)
-        if movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3):
-            self.swipe_down(5, (300 if self.tablet else 50))
+        count = 0
+        if movies:
+            while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+                self.swipe_down(1, (300 if self.tablet else 100))
+                count += 1
 
         count = 0
         while not self.exists(id='Movies', timeout=6).is_displayed() and count < 70:
-            self.swipe_down(1, (300 if self.tablet else 50))
+            self.swipe_down(1, (300 if self.tablet else 200))
             count += 1
 
         self.assertTrueWithScreenShot(self.exists(id='Movies', timeout=6).is_displayed(), screenshot=True, msg='Movies Posters should be presented')
@@ -1945,19 +1948,22 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(1)  # wait for animations to complete before taking a screenshot
         import time
 
-        path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
+        try:
+            path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
 
-        if not os.environ['IOS_UDID'] and not os.environ['UDID']:
-            raise Exception('screenshot failed. IOS_UDID not provided')
+            if not os.environ['IOS_UDID'] and not os.environ['UDID']:
+                raise Exception('screenshot failed. IOS_UDID not provided')
 
-        if os.environ['IOS_UDID']:
-            subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
-            subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
-        else:
-            subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
-            subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+            if os.environ['IOS_UDID']:
+                subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
+                subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+            else:
+                subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
+                subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
 
-        return path
+            return path
+        except:
+            return False
 
     def safe_screenshot(self):
         try:
