@@ -1974,13 +1974,13 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # LOGIN
     def set_sign_in_email(self, email):
-        elem = self._find_element(xpath="//UIATextField[@value='Email']")
+        elem = self.get_element(xpath='//XCUIElementTypeTextField[1]')
         elem.clear()
         self.send_text(element=elem, data=email)
         self.hide_keyboard()
 
     def set_sign_in_password(self, password):
-        elem = self._find_element(xpath="//UIASecureTextField[1]")
+        elem = self.get_element(xpath='//XCUIElementTypeSecureTextField[1]')
         elem.clear()
         self.send_text(element=elem, data=password)
         self.hide_keyboard()
