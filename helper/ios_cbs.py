@@ -1942,19 +1942,22 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(1)  # wait for animations to complete before taking a screenshot
         import time
 
-        path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
+        try:
+            path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
 
-        if not os.environ['IOS_UDID'] and not os.environ['UDID']:
-            raise Exception('screenshot failed. IOS_UDID not provided')
+            if not os.environ['IOS_UDID'] and not os.environ['UDID']:
+                raise Exception('screenshot failed. IOS_UDID not provided')
 
-        if os.environ['IOS_UDID']:
-            subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
-            subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
-        else:
-            subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
-            subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+            if os.environ['IOS_UDID']:
+                subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
+                subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+            else:
+                subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
+                subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
 
-        return path
+            return path
+        except:
+            return False
 
     def safe_screenshot(self):
         try:
@@ -1972,11 +1975,15 @@ class CommonIOSHelper(TestlioAutomationTest):
     # LOGIN
     def set_sign_in_email(self, email):
         elem = self._find_element(xpath="//UIATextField[@value='Email']")
+        elem.clear()
         self.send_text(element=elem, data=email)
+        self.hide_keyboard()
 
     def set_sign_in_password(self, password):
         elem = self._find_element(xpath="//UIASecureTextField[1]")
+        elem.clear()
         self.send_text(element=elem, data=password)
+        self.hide_keyboard()
 
     def login_(self, email, password):
         self.set_sign_in_email(email)
