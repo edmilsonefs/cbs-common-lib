@@ -198,14 +198,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        if self.xcuitest:
-            if self.phone:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=30)
-            else:
-                t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=30)
-        else:
-            t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
-
+        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
         self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
     def goto_show_with_extended_search(self, show_name):
