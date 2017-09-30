@@ -407,39 +407,32 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # SHOW PAGE
+    def get_table_with_show_episodes(self):
+        return self.get_element(xpath="//XCUIElementTypeScrollView[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElementTypeTable[1]")
+
     def click_first_show_page_episode(self):
         if self.xcuitest:
-            show_cells = self.find_elements_by_class_name('XCUIElementTypeCell')
-            show_cells[0].click()
+            video_container = self.get_table_with_show_episodes()
+            location = video_container.location
+            self.tap(location['x'] + 50, location['y'] + 50)
         else:
             self.tap_element(xpath='//UIACollectionCell[1]')
 
     def click_info_icon_on_found_on_show_page(self, show_elem):
-        # swipe it to the middle of the screen
-        loc = show_elem.location
-        x = loc['x']
-        y = loc['y']
+        self.click_show_info_icon()
 
-        size = show_elem.size
-        width = size['width']
-        height = size['height']
+    def click_show_info_icon(self):
+        video_container = self.get_table_with_show_episodes()
+        location = video_container.location
 
-        self.swipe(x, y, 10, y, 1500)
-        sleep(1)
+        episode_left_margin_px = 15 if self.phone else 20
+        episode_top_margin_px = 32 if self.phone else 50
+        episode_size_width = 207 if self.phone else 240
+        episode_size_height = 154 if self.phone else 177
+        x = (episode_left_margin_px + episode_size_width) - 20
+        y = location['y'] + (episode_top_margin_px + episode_size_height) - 10
 
-        # use offsets to tap the (i) icon
-        loc = show_elem.location
-        x = loc['x']
-        y = loc['y']
-
-        size = show_elem.size
-        width = size['width']
-        height = size['height']
-
-        tap_x = int(x + width*.88)
-        tap_y = int(y + height*.95)
-
-        self.tap(tap_x, tap_y)
+        self.tap(x, y)
 
     def verify_exists_using_xml(self, root=False, find_by=None, find_key=None, class_name='*', screenshot=False,
                                 timeout=0):
