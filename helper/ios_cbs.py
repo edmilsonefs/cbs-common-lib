@@ -294,7 +294,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_first_search_result(self):
         if self.xcuitest:
-            self.tap_by_touchaction(.3, .3)
+            self.tap(.25, .25)
         else:
             element = self.get_search_result_episode_count_element()
             element.click()
