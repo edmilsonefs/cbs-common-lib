@@ -55,7 +55,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.xcuitest = True
 
         # wait for the splash screen to disappear
-        # self._accept_alert(1)
+        self._accept_alert(1)
         self.not_exists(accessibility_id='SplashEyeLogo', timeout=60)
         # self._accept_alert(1)
         # self.safe_screenshot()
