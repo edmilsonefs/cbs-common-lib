@@ -1217,8 +1217,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         # Leave this here.  App was doing a weird thing were for a
         # split second "Primetime" existed, then it refreshed.
-        self.exists(class_name='UIACollectionView', timeout=30)
-        sleep(2)
+        # self.exists(class_name='UIACollectionView', timeout=30)
+        sleep(10)
 
         e = self.find_on_page('accessibility_id', 'Primetime Episodes')
         if screenshot:

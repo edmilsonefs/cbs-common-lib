@@ -414,6 +414,14 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             for _ in range(0, 3):
                 self._short_swipe_down()
                 CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
+            CommonHelperIOS.verify_exists(id='CBSEye_white')
+            CommonHelperIOS.verify_exists(id='Sign Up')
+            CommonHelperIOS.verify_exists(id="Search")
+            CommonHelperIOS.verify_exists(id='Please complete your registration')
+            CommonHelperIOS.verify_exists(id='Sign up with your Facebook account')
+            CommonHelperIOS.verify_exists(id='CONTINUE')
 
     def validation_xt(self):
         if self.IS_ANDROID:
@@ -421,6 +429,14 @@ class Validations(CommonHelperAndroid, CommonHelperIOS):
             for _ in range(0, 3):
                 self._short_swipe_down()
             CommonHelperAndroid.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
+        elif self.IS_IOS:
+            CommonHelperIOS.verify_exists(id='Main Menu', screenshot=True)
+            CommonHelperIOS.verify_exists(id='CBSEye_white')
+            CommonHelperIOS.verify_exists(id='Sign Up')
+            CommonHelperIOS.verify_exists(id="Search")
+            CommonHelperIOS.verify_exists(id='Please complete your registration')
+            CommonHelperIOS.verify_exists(id='Sign up with your Twitter account')
+            CommonHelperIOS.verify_exists(id='CONTINUE')
 
     def validation_xg(self):
         if self.IS_ANDROID:
