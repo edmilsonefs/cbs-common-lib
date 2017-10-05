@@ -89,7 +89,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id='Back', screenshot=True)
             self.verify_exists(id='SIGN IN')
-            self.verify_exists(id="Search")
+            # self.verify_exists(id="Search")
             self.verify_exists(id='Sign in with your social account', screenshot=True)
             self.verify_exists(id='Sign in with your email')
             if self.xcuitest:
@@ -109,11 +109,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='TwitterLogo')
             self.verify_exists(id="GooglePlusLogo")
             self.verify_exists(id='Sign up with your email')
-            self.swipe_down(3, 200)
-            try:
-                self.verify_exists(id='SIGN UP')
-            except:
-                print('could not swipe')
+            self.verify_exists(id='SIGN UP')
 
     def validation_f(self):  # TODO update Validation.
         if self.IS_IOS:
