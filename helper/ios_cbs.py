@@ -1976,7 +1976,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.swipe(startx, starty, startx, endy, 1500)
 
-    def swipe_element_to_bottom_of_screen(self):
+    def swipe_element_to_bottom_of_screen(self, elem=None, endy=None, startx=-20):
         """
         Swipe NEXT TO the element, to the top of the screen.
         Don't swipe directly ON the element because if it's a picker we'll just edit the value
