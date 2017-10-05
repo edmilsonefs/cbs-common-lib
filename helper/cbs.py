@@ -1823,7 +1823,7 @@ class CommonHelper(TestlioAutomationTest):
 
         self.swipe(startx, starty, startx, endy, 1500)
 
-    def swipe_element_to_bottom_of_screen(self, elem, endy=None, startx=-20):
+    def swipe_element_to_bottom_of_screen(self, elem=None, endy=None, startx=-20):
         """
         Uses element.location
         Default is to swipe NEXT TO the element, to the bottom of the screen.
