@@ -197,6 +197,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_show(self, show_name):
         self.search_for(show_name)
         self.safe_screenshot()
+        sleep(5)
         self.click_first_search_result()
         sleep(10) #wait for page is loaded
         # t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
