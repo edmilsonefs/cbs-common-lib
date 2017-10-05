@@ -289,6 +289,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def search_for(self, what_to_search_for):
         self.click_search_icon()
         self.enter_search_text(what_to_search_for)
+        self.hide_keyboard()
 
     def search_for_extended(self, what_to_search_for): # method to search by typing symbol by symbol
         self.click_search_icon()
