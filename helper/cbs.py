@@ -931,59 +931,6 @@ class CommonHelper(TestlioAutomationTest):
                 counter += 1
         self.driver.implicitly_wait(self.default_implicit_wait)
 
-    def exists(self, **kwargs):
-        """
-        Finds element by name or xpath
-        advanced:
-            call using an element:
-            my_layout = self.get_element(class_name='android.widget.LinearLayout')
-            self.exists(name='Submit', driver=my_layout)
-        """
-        # self.dismiss_update_popup()
-        # if kwargs.has_key('timeout'):
-        #     self.driver.implicitly_wait(kwargs['timeout'])
-        # else:
-        #     self.driver.implicitly_wait(20)
-        # if kwargs.has_key('driver'):
-        #     d = kwargs['driver']
-        # else:
-        #     d = self.driver
-
-        if kwargs.has_key('element'):
-            try:
-                return kwargs['element']
-            except:
-                return False
-        else:
-            try:
-                return self.get_element(**kwargs)
-            except NoSuchElementException:
-                return False
-                # finally:
-                #     self.driver.implicitly_wait(self.default_implicit_wait)
-
-    def not_exists(self, **kwargs):
-        """
-        Waits until element does not exist.  Waits up to <implicit_wait> seconds.
-        Optional parameter: timeout=3 if you only want to wait 3 seconds.  Default=30
-        Return: True or False
-        """
-        if 'timeout' in kwargs:
-            timeout = (kwargs['timeout'])
-        else:
-            timeout = 30
-
-        start_time = time()
-
-        kwargs['timeout'] = 0  # we want exists to return immediately
-        while True:
-            elem = self.exists(**kwargs)
-            if not elem:
-                return True
-
-            if time() - start_time > timeout:
-                return False
-
     def exists_one_of(self, *args):
         """
         Pass in a list of elements to search for.  This is very helpful for differences across devices such
@@ -1088,50 +1035,6 @@ class CommonHelper(TestlioAutomationTest):
             return elem
         else:
             raise NoSuchElementException("Could not find any of %s" % str(args))
-
-    def verify_exists(self, **kwargs):
-        screenshot = False
-        if kwargs.has_key('screenshot') and kwargs['screenshot']:
-            screenshot = True
-
-        if kwargs.has_key('name'):
-            selector = kwargs['name']
-        elif kwargs.has_key('class_name'):
-            selector = kwargs['class_name']
-        elif kwargs.has_key('id'):
-            selector = kwargs['id']
-        elif kwargs.has_key('xpath'):
-            selector = kwargs['xpath']
-        # elif kwargs.has_key('element'):
-        #     if kwargs['element'] is not list:
-        #         selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
-        else:
-            selector = 'Element not found'
-
-        self.assertTrueWithScreenShot(self.exists(**kwargs), screenshot=screenshot,
-                                      msg="Should see element with text or selector: '%s'" % selector)
-
-    def verify_not_exists(self, **kwargs):
-        screenshot = False
-        if kwargs.has_key('screenshot') and kwargs['screenshot']:
-            screenshot = True
-
-        if kwargs.has_key('name'):
-            selector = kwargs['name']
-        elif kwargs.has_key('class_name'):
-            selector = kwargs['class_name']
-        elif kwargs.has_key('id'):
-            selector = kwargs['id']
-        elif kwargs.has_key('xpath'):
-            selector = kwargs['xpath']
-        # elif kwargs.has_key('element'):
-        #     if kwargs['element'] is not list:
-        #         selector = kwargs['element'].get_attribute("text") if kwargs['element'] is not False else str(kwargs['element'])
-        else:
-            selector = ''
-
-        self.assertTrueWithScreenShot(not self.exists(**kwargs), screenshot=screenshot,
-                                      msg="Should NOT see element with text or selector: '%s'" % selector)
 
     def click_try_1_week_month_free(self):
         self.click(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
@@ -2530,13 +2433,6 @@ class CommonHelper(TestlioAutomationTest):
                         type(text) == str and elem_text != text):
             raise RuntimeError("verify_field_text failed: text of element '%s' was '%s' but should have been '%s'" % (
                 element.name, elem_text, text))
-
-    def verify_not_equal(self, obj1, obj2, screenshot=False):
-        self.assertTrueWithScreenShot(obj1 != obj2, screenshot=screenshot,
-                                      msg="'%s' should NOT equal '%s'" % (obj1, obj2))
-
-    def verify_equal(self, obj1, obj2, screenshot=False):
-        self.assertTrueWithScreenShot(obj1 == obj2, screenshot=screenshot, msg="'%s' should EQUAL '%s'" % (obj1, obj2))
 
     def verify_cbs_logo(self, special=None, screenshot=False):
         """
