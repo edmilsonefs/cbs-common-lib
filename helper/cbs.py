@@ -1712,7 +1712,7 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(30)
         self.screenshot()
 
-    def swipe(self, startx, starty, endx, endy, swipe_time):
+    def swipe(self, startx, starty, endx, endy, swipe_time=None):
         """
         Takes normal args or relative args such as swipe(.5, .5, .5, .2, 1000)
         """
