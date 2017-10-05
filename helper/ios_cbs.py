@@ -1033,12 +1033,12 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_movies_episode_on_home_page(self):
         window_size_height = self.driver.get_window_size()["height"]
         count = 0
-        while not self.is_element_on_screen_area(self.exists(id='Movies', timeout=6)) and count < 70:
+        while not self.is_element_visible(self.exists(id='Movies', timeout=6)) and count < 70:
             self.swipe_down(1, (400 if self.tablet else 200))
             count += 1
 
         count = 0
-        if self.is_element_on_screen_area(self.exists(id='Movies', timeout=6)):
+        if self.is_element_visible(self.exists(id='Movies', timeout=6)):
             movies = self.exists(id='Movies', timeout=6)
             while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
                 self.swipe_down(1, (400 if self.tablet else 100))
