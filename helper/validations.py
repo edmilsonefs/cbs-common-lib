@@ -70,7 +70,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id='Main Menu', timeout=25, screenshot=True)
             self.verify_exists(id='CBSLogo_white', timeout=25)
-            self.verify_exists(id='Marquee', timeout=10)
+            self.verify_exists(id='MarqueeCollectionView', timeout=10)
             self.verify_exists(id='Search', timeout=10)
 
     def validation_c(self):
@@ -134,7 +134,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
-            self.verify_exists(id='Marquee')
+            self.verify_exists(class_name='XCUIElementTypeImage')
 
     def validation_h(self, user_type="anonymous"):
         if self.IS_ANDROID:
