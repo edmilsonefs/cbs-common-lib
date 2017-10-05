@@ -48,7 +48,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_a(self):
         if self.IS_ANDROID:
-            type(CommonHelper)(self.instance).verify_exists(name=' Welcome to the CBS app ', screenshot=True)
+            self.verify_exists(name=' Welcome to the CBS app ', screenshot=True)
             self.verify_exists(name='By using this CBS Application, you agree to our:')
             self.verify_exists(name=' Terms of Use ')
             self.verify_exists(name=' Mobile User Agreement ')
@@ -109,7 +109,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='TwitterLogo')
             self.verify_exists(id="GooglePlusLogo")
             self.verify_exists(id='Sign up with your email')
-            self.swipe_element_to_bottom_of_screen()
+            self.swipe_down(3, 200)
             try:
                 self.verify_exists(id='SIGN UP')
             except:
@@ -303,10 +303,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             if self.user_type == self.registered:
                 self.verify_exists(id='TRY 1 WEEK FREE')
                 self.verify_not_exists(id='Already have an account? Sign In')
-            try:
-                self.driver.find_element_by_id('Learn more')
-            except:
-                self.short_swipe_down()
+            count = 0
+            while not self.is_element_visible(self.exists(id='Learn more')) and count < 20:
+                self.swipe_down(1, 200)
 
             if self.user_type == self.subscriber:
                 if self.phone:
@@ -567,14 +566,14 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
             else:
                 self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[2]')  # station icon
-            if self.user_type == self.mvpd_auth:
-                if self.xcuitest:
-                    self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
-                else:
-                    self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
-            else:
-                if self.xcuitest:
-                    self.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
+            # if self.user_type == self.mvpd_auth:
+            #     if self.xcuitest:
+            #         self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
+            #     else:
+            #         self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
+            # else:
+            #     if self.xcuitest:
+            #         self.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
                     # else:
                     #     self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
                     # provider logo is not visible but element is on page source so it gives a false fail
