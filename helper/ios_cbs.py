@@ -1039,6 +1039,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         count = 0
         if self.is_element_visible(self.exists(id='Movies', timeout=6)):
+            movies = self.exists(id='Movies', timeout=6)
             while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
                 self.swipe_down(1, (400 if self.tablet else 100))
                 count += 1
