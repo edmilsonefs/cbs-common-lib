@@ -69,7 +69,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.home_page_android.validate_page()
         elif self.IS_IOS:
             self.verify_exists(id='Main Menu', timeout=25, screenshot=True)
-            self.verify_exists(id='CBSLogo_white', timeout=25)
+            self.assertTrueWithScreenShot(self.exists(id='CBSLogo_white', timeout=6) or self.exists(id='CBSLogo_AllAccess_white', timeout=6), screenshot=True, msg='White CBS logo should be visible')
             # self.verify_exists(id='MarqueeCollectionView', timeout=10)
             self.verify_exists(id='Search', timeout=10)
 
