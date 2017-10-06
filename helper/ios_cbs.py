@@ -236,10 +236,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.click_safe(accessibility_id='Sign Out', timeout=5):
             self.signed_out = True
 
-    def goto_sign_out(self):
-        self.goto_settings()
-        self.sign_out()
-        self.goto_home()
+    def goto_sign_out(self, sign_out=True):
+        if not self.signed_out:
+            self.goto_settings()
+            if sign_out:
+                self.sign_out()
+                self.goto_home()
 
     def goto_sign_up(self):
         self.goto_sign_in()

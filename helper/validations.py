@@ -319,7 +319,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered]:
                 self.verify_exists(
-                    xpath="//UIAStaticText[contains(@name,'LIMITED') and contains(@name,'COMMERCIALS')]")
+                    xpath="//UIAStaticText[contains(@name,'LIMITED') and contains(@name,'COMMERCIALS')]", screenshot=True)
             self.verify_exists(element=self.get_element(id='TRY 1 WEEK FREE'))
             self.verify_exists(xpath="//UIAStaticText[contains(@name,'COMMERCIAL FREE')]")
             self.verify_exists(element=self.get_element(id='GET STARTED'))
@@ -489,9 +489,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.open_drawer()
             self.verify_exists(name=name, screenshot=True)
         elif self.IS_IOS:
-            self.open_drawer_ios()
-            self.assertTrueWithScreenShot(name in self.driver.page_source,
-                            msg="Username should be visible in the menu after registration", screenshot=True)
+            self.goto_sign_out(sign_out=False)
+            self.verify_exists(id='Sign Out')
 
     def validation_ac(self):
         if self.IS_ANDROID:
