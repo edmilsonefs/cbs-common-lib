@@ -366,7 +366,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         except:
             pass
 
-    def open_drawer(self, native=False):
+    def _open_drawer(self):
         number_of_tries = 0
         while not self.exists_and_visible(id='Main Menu', timeout=7):
             number_of_tries += 1
@@ -390,8 +390,11 @@ class CommonIOSHelper(TestlioAutomationTest):
             sleep(1)
             self.click(id='Main Menu')
 
+    def open_drawer(self, native=False):
+        self._open_drawer()
+
     def open_drawer_ios(self):
-        self.open_drawer()
+        self._open_drawer()
 
     def close_drawer(self):
         e = self.exists_and_visible(id='Main Menu')
