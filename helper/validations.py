@@ -87,8 +87,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.sign_in_page_android.validate_page()
         elif self.IS_IOS:
-            self.verify_exists(id='Back', screenshot=True)
-            self.verify_exists(id='SIGN IN')
+            # self.verify_exists(id='Back', screenshot=True)
+            self.verify_exists(id='SIGN IN', screenshot=True)
             # self.verify_exists(id="Search")
             self.verify_exists(id='Sign in with your social account', screenshot=True)
             self.verify_exists(id='Sign in with your email')
