@@ -490,7 +490,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name=name, screenshot=True)
         elif self.IS_IOS:
             self.open_drawer()
-            self.assertTrue(name in self.driver.page_source,
+            self.assertTrueWithScreenShot(name in self.driver.page_source,
                             msg="Username should be visible in the menu after registration", screenshot=True)
 
     def validation_ac(self):
