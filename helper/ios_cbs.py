@@ -237,11 +237,10 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.signed_out = True
 
     def goto_sign_out(self, sign_out=True):
-        if not self.signed_out:
-            self.goto_settings()
-            if sign_out:
-                self.sign_out()
-                self.goto_home()
+        self.goto_settings()
+        if sign_out:
+            self.sign_out()
+            self.goto_home()
 
     def goto_sign_up(self):
         self.goto_sign_in()
