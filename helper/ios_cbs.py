@@ -388,6 +388,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             sleep(1)
             self.click(id='Main Menu')
 
+    def open_drawer_ios(self):
+        self.open_drawer()
+
     def close_drawer(self):
         e = self.exists_and_visible(id='Main Menu')
 
