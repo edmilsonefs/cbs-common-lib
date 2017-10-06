@@ -491,7 +491,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.open_drawer_ios()
             self.click(id='Settings')
-            self.verify_not_exists(id='Sign Out')
+            self.verify_exists(id='Sign Out')
 
     def validation_ac(self):
         if self.IS_ANDROID:
