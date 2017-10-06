@@ -137,8 +137,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.show_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
             # sleep(20)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id="Search")
+            # self.verify_exists(id='CBSEye_white')
+            self.verify_exists(id="Search", screenshot=True)
             # sleep(10)
             self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')  # ShowImage
             # TODO Add to MyCBS button, not present in xml tree
