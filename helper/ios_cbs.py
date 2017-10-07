@@ -1189,7 +1189,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click_safe(id='Close Advertisement', timeout=6)
 
     def click_episode_indicator(self):
-        self.click(element=self.get_element(id='Watch Full Episodes on CBS All Access'))
+        self.click(element=self.get_element(xpath="//XCUIElementTypeStaticText[contains(@name,'Full Episodes:')]"))
 
     def back_while_open_drawer_is_visible(self):
         counter = 0
