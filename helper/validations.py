@@ -66,13 +66,14 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name=' Video Services ')
             self.verify_exists(name='Accept')
         elif self.IS_IOS:
-            self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
-            self.verify_exists(id='Terms of Use')
-            self.verify_exists(id='Mobile User Agreement')
-            self.verify_exists(id='Privacy Policy')
-            self.verify_exists(id='Video Services')
-            self.verify_exists(id='Decline')
-            self.verify_exists(id='Accept')
+            # self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
+            # self.verify_exists(id='Terms of Use')
+            # self.verify_exists(id='Mobile User Agreement')
+            # self.verify_exists(id='Privacy Policy')
+            # self.verify_exists(id='Video Services')
+            # self.verify_exists(id='Decline')
+            # self.verify_exists(id='Accept')
+            pass
 
     def validation_b(self):
         if self.IS_ANDROID:
