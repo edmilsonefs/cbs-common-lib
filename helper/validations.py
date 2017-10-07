@@ -29,7 +29,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.driver = driver
         self.event = event
         self.init_variables()
-        if 'iPad' in self.driver.capabilities['deviceName']:
+        if 'iPad' in self.capabilities['deviceName']:
             self.tablet = True
             self.phone = False
         else:
