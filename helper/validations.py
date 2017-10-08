@@ -90,7 +90,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id="Search")
             self.verify_exists(id="Sign In")
-            self.verify_exists(id="Our Terms Have Changed")
+            self.verify_exists(id="Our terms have changed")
             self.verify_exists(id="CONTINUE")
             self.verify_exists(id="Already have an account? Sign In")
 
