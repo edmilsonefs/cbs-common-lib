@@ -327,9 +327,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type in [self.anonymous, self.registered]:
                 self.verify_exists(
                     xpath="//UIAStaticText[contains(@name,'LIMITED') and contains(@name,'COMMERCIALS')]", screenshot=True)
-            self.verify_exists(element=self.get_element(id='TRY 1 WEEK FREE'))
-            self.verify_exists(xpath="//UIAStaticText[contains(@name,'COMMERCIAL FREE')]")
-            self.verify_exists(element=self.get_element(id='GET STARTED'))
             if user_type == self.registered:
                 self.verify_not_exists(name='SELECT', timeout=10)
             elif user_type in [self.subscriber, self.trial]:
