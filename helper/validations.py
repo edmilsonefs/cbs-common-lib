@@ -92,7 +92,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id="Sign In")
             self.verify_exists(id="Our terms have changed")
             self.verify_exists(id="CONTINUE")
-            self.verify_exists(id="Already have an account? Sign In")
 
     def validation_d(self):
         if self.IS_ANDROID:
