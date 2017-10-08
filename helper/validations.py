@@ -199,7 +199,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.shows_page_android.validate_page(category)
         elif self.IS_IOS:
             self.verify_exists(id="Main Menu", screenshot=False)
-            self.verify_exists(id='Shows')
             self.verify_exists(id='Search')
             self.verify_exists(id='I want to see: %s' % category)
 
