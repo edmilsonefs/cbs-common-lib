@@ -66,13 +66,13 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name=' Video Services ')
             self.verify_exists(name='Accept')
         elif self.IS_IOS:
-            # self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
-            # self.verify_exists(id='Terms of Use')
-            # self.verify_exists(id='Mobile User Agreement')
-            # self.verify_exists(id='Privacy Policy')
-            # self.verify_exists(id='Video Services')
-            # self.verify_exists(id='Decline')
-            # self.verify_exists(id='Accept')
+            self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
+            self.verify_exists(id='Terms of Use')
+            self.verify_exists(id='Mobile User Agreement')
+            self.verify_exists(id='Privacy Policy')
+            self.verify_exists(id='Video Services')
+            self.verify_exists(id='Decline')
+            self.verify_exists(id='Accept')
             pass
 
     def validation_b(self):
@@ -103,11 +103,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             # self.verify_exists(id="Search")
             self.verify_exists(id='Sign in with your social account', screenshot=True)
             self.verify_exists(id='Sign in with your email')
-            if self.xcuitest:
-                self.verify_exists(
-                    xpath='//XCUIElementTypeStaticText[@name="Don\'t have an account? Sign Up"])[2]')
-            else:
-                self.verify_exists(id="Don\'t have an account? Sign Up")
+            self.verify_exists(id="Don't have an account? Sign Up")
 
     def validation_e(self):
         if self.IS_ANDROID:
