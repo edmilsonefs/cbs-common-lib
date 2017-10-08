@@ -150,9 +150,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.assertTrueWithScreenShot(self.get_table_with_show_episodes(), screenshot=True, msg="Table with the episodes should be visible")
             # TODO Add to MyCBS button, not present in xml tree
             # self.verify_share_icon()
-            if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
-                self.verify_search_episode_count()
-                self.verify_show_episode_indicator()
+            # if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+            #     self.verify_search_episode_count()
+            #     self.verify_show_episode_indicator()
 
             # if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
             #     self.verify_show_cards_not_exist()
