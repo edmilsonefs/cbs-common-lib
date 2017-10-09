@@ -351,7 +351,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                            "e": "Your email must match your confirmation email.",
                            "f": "You must provide a password.",
                            "g": "Your password must match your confirmation password.",
-                           "h": "You must provide a zip code.",
+                           "h": "You must provide a ZIP Code.",
                            "i": "You must accept the terms and conditions.",
                            "j": "Password must contain at least 6 characters.",
                            "k": "You must provide a ZIP Code.",
