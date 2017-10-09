@@ -381,7 +381,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         e = self.exists_and_visible(id='Main Menu', timeout=6)
 
-        if e.location['x'] > 80:
+        if e and e.location['x'] > 80:
             return
 
         if e:
