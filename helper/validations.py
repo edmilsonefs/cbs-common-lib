@@ -11,6 +11,7 @@ from helper.android.sign_in_page import SignInPage as SignInPageAndroid
 from helper.android.sign_up_page import SignUpPage as SignUpPageAndroid
 from helper.android.schedule_page import SchedulePage as SchedulePageAndroid
 from helper.android.movies_page import MoviesPage as MoviesPageAndroid
+from helper.android.video_page import VideoPage as VideoPageAndroid
 
 
 class Validations(CommonHelper, CommonIOSHelper):
@@ -24,6 +25,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     sign_up_page_android = None
     schedule_page_android = None
     movies_page_android = None
+    video_page_android = None
 
     def __init__(self, driver, event):
         self.driver = driver
@@ -48,6 +50,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.sign_up_page_android = SignUpPageAndroid(self.driver, self.event)
         self.schedule_page_android = SchedulePageAndroid(self.driver, self.event)
         self.movies_page_android = MoviesPageAndroid(self.driver, self.event)
+        self.video_page_android = VideoPageAndroid(self.driver, self.event)
 
         if str(self.capabilities['platformName']).lower() == 'android':
             self.IS_ANDROID = True
@@ -954,7 +957,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.click_play_from_beginning()
             except:
                 pass
-            self.verify_exists(id=self.com_cbs_app + ':id/player_activity_frame',
+            self.verify_exists(element=self.video_page_android.video_player_screen(),
                                               screenshot=True)
 
             self.driver.back()
