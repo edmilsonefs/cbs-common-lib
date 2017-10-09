@@ -30,16 +30,6 @@ class Validations(CommonHelper, CommonIOSHelper):
     def __init__(self, driver, event):
         self.driver = driver
         self.event = event
-        self.init_variables()
-        if 'iPad' in self.capabilities['deviceName']:
-            self.tablet = True
-            self.phone = False
-        else:
-            self.tablet = False
-            self.phone = True
-        if self.is_xcuitest():
-            self.element_type = '//XCUIElementType' #iOS 10
-            self.xcuitest = True
         self.home_page_android = HomePageAndroid(self.driver, self.event)
         self.settings_page_android = SettingsPageAndroid(self.driver, self.event)
         self.shows_page_android = ShowsPageAndroid(self.driver, self.event)
@@ -58,6 +48,19 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif str(self.capabilities['platformName']).lower() == 'ios':
             self.IS_ANDROID = False
             self.IS_IOS = True
+
+        if self.IS_ANDROID:
+            self.init_variables()
+        if self.IS_IOS:
+            if 'iPad' in self.capabilities['deviceName']:
+                self.tablet = True
+                self.phone = False
+            else:
+                self.tablet = False
+                self.phone = True
+            if self.is_xcuitest():
+                self.element_type = '//XCUIElementType'  # iOS 10
+                self.xcuitest = True
 
     def validation_a(self):
         if self.IS_ANDROID:
