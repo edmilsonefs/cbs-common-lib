@@ -94,7 +94,10 @@ class CommonIOSHelper(TestlioAutomationTest):
     # SETUP/LOGIN METHODS
 
     def is_xcuitest(self):
-        v = int(str(str(os.popen("xcodebuild -version").read()).split(" ")[1]).split(".")[0])
+        try:
+            v = int(str(str(os.popen("xcodebuild -version").read()).split(" ")[1]).split(".")[0])
+        except:
+            return False
         return v > 7
 
     def login(self, username, password):
