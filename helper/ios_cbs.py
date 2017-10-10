@@ -401,7 +401,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def close_drawer(self):
         e = self.exists_and_visible(id='Main Menu')
 
-        if e.location['x'] < 80:
+        if e and e.location['x'] < 80:
             return
 
         if e:
