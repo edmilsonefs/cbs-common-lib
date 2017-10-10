@@ -414,7 +414,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # SHOW PAGE
     def get_table_with_show_episodes(self):
-        return self.get_element(xpath="//XCUIElementTypeScrollView[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElementTypeTable[1]")
+        return self.get_element(xpath="//XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell[1]")
 
     def click_first_show_page_episode(self):
         if self.xcuitest:
