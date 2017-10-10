@@ -298,7 +298,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='OR')
             self.verify_exists(id='TV PROVIDER')
             self.verify_exists(id='VERIFY NOW')
-            self.verify_exists(id='Learn More')
+            self.verify_exists(id='Learn more')
 
             if user_type == self.anonymous:
                 self.verify_exists(id='TRY 1 WEEK FREE')
@@ -597,29 +597,28 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Two ways to watch Live TV')
             self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
             self.verify_exists(id='Stream Live TV plus thousands of full episodes on demand.', timeout=30)
-            self.verify_exists(
-                id='Take the tour')  # TODO Take the tour on Simulator, in Spec - Take a tour  (in spec for validation_u there is take the tour). Need clarification
+            self.verify_exists(id='Take the tour')
             self.verify_exists(id='OR')
             self.verify_exists(id='TV PROVIDER')
             self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
             self.verify_exists(id='VERIFY NOW')
-            self.verify_exists(id='Learn More')
-            self.swipe_down_and_verify_if_exists(id='Where is Live TV Available')
-            self.swipe_down_and_verify_if_exists(id='Live TV is available for over 90% of the country and growing.')
-            self.swipe_down_and_verify_if_exists(id='CHECK AVAILABILITY')
-            self.swipe_down_and_verify_if_exists(id='What You Get with Live TV')
-            self.swipe_down_and_verify_if_exists(id='You don\'t have to worry about missing a minute of' /
-                                                    'your favorite shows. Stream your local news, hit CBS shows, special events like The' /
-                                                    'GRAMMYs and select sporting events at home or on the go across devices.')
-            self.swipe_down_and_verify_if_exists(id='SEE DEVICES')
-            self.swipe_down_and_verify_if_exists(id='Questions?')
-            self.swipe_down_and_verify_if_exists(id='READ OUR FAQ')
-            self.swipe_down_and_verify_if_exists(id='Disclaimer')
-            self.swipe_down_and_verify_if_exists(
-                id='Some programming is not available for live streaming through CBS All Access.' /
-                   'We are continuing to work towards offering more live programming. In the meantime,' /
-                   'when a program is not available to you via CBS All Access, you will see a message that' /
-                   'states that the program is currently not available.')
+            self.verify_exists(id='Learn more')
+            # self.swipe_down_and_verify_if_exists(id='Where is Live TV Available')
+            # self.swipe_down_and_verify_if_exists(id='Live TV is available for over 90% of the country and growing.')
+            # self.swipe_down_and_verify_if_exists(id='CHECK AVAILABILITY')
+            # self.swipe_down_and_verify_if_exists(id='What You Get with Live TV')
+            # self.swipe_down_and_verify_if_exists(id='You don\'t have to worry about missing a minute of' /
+            #                                         'your favorite shows. Stream your local news, hit CBS shows, special events like The' /
+            #                                         'GRAMMYs and select sporting events at home or on the go across devices.')
+            # self.swipe_down_and_verify_if_exists(id='SEE DEVICES')
+            # self.swipe_down_and_verify_if_exists(id='Questions?')
+            # self.swipe_down_and_verify_if_exists(id='READ OUR FAQ')
+            # self.swipe_down_and_verify_if_exists(id='Disclaimer')
+            # self.swipe_down_and_verify_if_exists(
+            #     id='Some programming is not available for live streaming through CBS All Access.' /
+            #        'We are continuing to work towards offering more live programming. In the meantime,' /
+            #        'when a program is not available to you via CBS All Access, you will see a message that' /
+            #        'states that the program is currently not available.')
             if user_type == self.anonymous:
                 self.verify_exists(id='TRY 1 WEEK FREE')
                 self.verify_exists(id='Already have an account? Sign In')
