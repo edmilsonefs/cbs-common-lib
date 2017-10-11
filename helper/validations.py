@@ -42,17 +42,18 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.movies_page_android = MoviesPageAndroid(self.driver, self.event)
         self.video_page_android = VideoPageAndroid(self.driver, self.event)
 
-        if str(self.capabilities['platformName']).lower() == 'android':
+        if str(self.driver.capabilities['platformName']).lower() == 'android':
             self.IS_ANDROID = True
             self.IS_IOS = False
-        elif str(self.capabilities['platformName']).lower() == 'ios':
+        elif str(self.driver.capabilities['platformName']).lower() == 'ios':
             self.IS_ANDROID = False
             self.IS_IOS = True
 
         if self.IS_ANDROID:
             self.init_variables()
         if self.IS_IOS:
-            if 'iPad' in self.capabilities['deviceName']:
+            Validations.__bases__ = (CommonIOSHelper, CommonHelper)
+            if 'iPad' in self.driver.capabilities['deviceName']:
                 self.tablet = True
                 self.phone = False
             else:
