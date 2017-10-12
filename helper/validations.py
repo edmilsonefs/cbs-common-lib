@@ -153,7 +153,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             # self.verify_exists(id='CBSEye_white')
             self.verify_exists(id="Search", screenshot=True)
             # sleep(10)
-            self.assertTrueWithScreenShot(self.get_table_with_show_episodes(), screenshot=True, msg="Table with the episodes should be visible")
+            self.assertTrueWithScreenShot(len(self.get_elements(id='More Info')) > 0, screenshot=True, msg="Table with the episodes should be visible")
             # TODO Add to MyCBS button, not present in xml tree
             # self.verify_share_icon()
             # if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
