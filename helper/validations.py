@@ -966,10 +966,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             except:
                 pass
             self.verify_exists(element=self.video_page_android.video_player_screen(), screenshot=True)
-
             self.driver.back()
         elif self.IS_IOS:
-            self.accept_video_popup()
+            self._accept_alert(1)
             self.restart_from_the_beggining()
             self.verify_exists(id='Done', screenshot=True)
             self.verify_exists(class_name=self.element_prefix() + 'Slider')
