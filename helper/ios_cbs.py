@@ -1067,7 +1067,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.safe_screenshot()
 
     def accept_video_popup(self):
-        self.click_safe(id='ACCEPT', timeout=6)
+        self.click_safe(id='ACCEPT', timeout=10)
+        self.click_safe(id='Accept', timeout=10)
 
     def click_watch_movie(self):
         self.click(id="Watch Movie", timeout=7)
