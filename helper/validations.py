@@ -940,7 +940,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.accept_video_popup()
             self.restart_from_the_beggining()
             self.verify_exists(id='Done', screenshot=True)
-            self.verify_exists(id='Learn More')
+            # self.verify_exists(id='Learn More') not applicable for all users
             self.verify_exists(class_name=self.element_prefix() + 'Slider')
             self.verify_exists(id='UVPSkinClosedCaptionOnButton')
             self.verify_exists(id='UVPSkinShareOnButton')
