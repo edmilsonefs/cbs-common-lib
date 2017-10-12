@@ -418,28 +418,18 @@ class CommonIOSHelper(TestlioAutomationTest):
         return self.get_element(xpath="//XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell[1]")
 
     def click_first_show_page_episode(self):
-        if self.xcuitest:
-            video_container = self.get_table_with_show_episodes()
-            location = video_container.location
-            self.tap(location['x'] + 50, location['y'] + 50)
-        else:
-            self.tap_element(xpath='//UIACollectionCell[1]')
+        more_info_icon = self.get_elements(id='More Info')
+        x = more_info_icon[0].location['x']
+        y = more_info_icon[0].location['y']
+
+        self.tap(x - 20, y - 20)
 
     def click_info_icon_on_found_on_show_page(self, show_elem):
         self.click_show_info_icon()
 
     def click_show_info_icon(self):
-        video_container = self.get_table_with_show_episodes()
-        location = video_container.location
-
-        episode_left_margin_px = 15 if self.phone else 20
-        episode_top_margin_px = 32 if self.phone else 50
-        episode_size_width = 207 if self.phone else 240
-        episode_size_height = 154 if self.phone else 177
-        x = (episode_left_margin_px + episode_size_width) - 20
-        y = location['y'] + (episode_top_margin_px + episode_size_height) - 10
-
-        self.tap(x, y)
+        more_info_icon = self.get_elements(id='More Info')
+        self.click(element=more_info_icon[0])
 
     def verify_exists_using_xml(self, root=False, find_by=None, find_key=None, class_name='*', screenshot=False,
                                 timeout=0):
@@ -1077,7 +1067,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.safe_screenshot()
 
     def accept_video_popup(self):
-        self.click_safe(id='ACCEPT', timeout=6)
+        self.click_safe(id='ACCEPT', timeout=10)
+        self.click_safe(id='Accept', timeout=10)
 
     def click_watch_movie(self):
         self.click(id="Watch Movie", timeout=7)
