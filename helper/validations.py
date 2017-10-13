@@ -971,7 +971,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.restart_from_the_beggining()
             sleep(20) # wait for video to start
             self.pause_video()
-            self.verify_exists(id='Done', screenshot=True)
-            self.verify_exists(class_name=self.element_prefix() + 'Slider')
+            self.verify_exists(id='Done')
+            #self.verify_exists(class_name=self.element_prefix() + 'Slider')
             self.verify_exists(
                 xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
