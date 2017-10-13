@@ -942,6 +942,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.accept_video_popup()
             self.restart_from_the_beggining()
+            sleep(20)
+            self.pause_video()
             self.verify_exists(id='Done', screenshot=True)
             # self.verify_exists(id='Learn More') not applicable for all users
             self.verify_exists(class_name=self.element_prefix() + 'Slider')
@@ -952,6 +954,10 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
+            self.accept_video_popup()
+            self.restart_from_the_beggining()
+            sleep(20)
+            self.pause_video()
             self.verify_exists(id='Done', screenshot=True)
             self.verify_exists(class_name=self.element_prefix() + 'Slider')
             self.verify_exists(
