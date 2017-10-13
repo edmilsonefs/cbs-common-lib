@@ -1374,10 +1374,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def verify_navigation_back_button(self, screenshot=False):
         # "verify menu icon"
         # "verify hamburger"
-        if self.phone:
-            self.verify_exists(accessibility_id='Back', screenshot=screenshot)
-        else:
-            self.verify_exists(accessibility_id='Back ', screenshot=screenshot)
+        self.verify_exists(name='Back', screenshot=screenshot)
 
     def verify_share_icon(self, screenshot=False):
         self.click_more()
