@@ -13,7 +13,7 @@ class VideoPage(BasePage):
         return self.get_element(timeout=timeout, name='Continue Playing')
 
     def video_player_screen(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/controlsMainContent')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/playerMainContainer')
 
     def wait_for_video_to_start(self, buffer_wait=60):
         """
