@@ -203,7 +203,6 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id="Main Menu", screenshot=False)
             self.verify_cbs_logo()
-            self.verify_exists(id='Shows')
             self.verify_search_icon()
             self.verify_exists(id='I want to see: %s' % category)
             self.verify_show_cards_exist()
@@ -970,6 +969,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self._accept_alert(1)
             self.restart_from_the_beggining()
+            sleep(20) # wait for video to start
+            self.pause_video()
             self.verify_exists(id='Done', screenshot=True)
             self.verify_exists(class_name=self.element_prefix() + 'Slider')
             self.verify_exists(
