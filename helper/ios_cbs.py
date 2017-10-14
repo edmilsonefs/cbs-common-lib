@@ -458,6 +458,11 @@ class CommonIOSHelper(TestlioAutomationTest):
                                       screenshot=screenshot,
                                       msg="Should see element with values %s, %s, %s" % (find_by, find_key, class_name))
 
+    def verify_exists_video_element(self, **kwargs):
+        if not self.exists(**kwargs):
+            self.tap(0.5, 0.5)
+        self.verify_exists(**kwargs)
+
     def _exists_element_using_xml(self, root=False, find_by=None, find_key=None, class_name='*'):
         """
         usually you'll use either both find_by and find_key:
