@@ -1133,11 +1133,31 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # GET WRAPPERS
 
+    def _isIntInStr(self, item):
+
+        episode = ' Episodes'
+        clip = ' Clip' 
+        index = -1
+        if episode in item:
+            index = item.find(episode)
+        else:
+            index = item.find(clip)
+
+        target = item[0: index]
+        return target.isdigit()
+
     def get_show_cards(self):
 
-        static_texts = self.driver.find_elements_by_class_name('XCUIElementTypeStaticText')
-        static_texts = [x.text for x in static_texts if x.text is not None]
-        show_cards = [x for x in static_texts if ' Episode' in x or ' Clip' in x]
+        episode = ' Episodes'
+        clip = ' Clip'
+
+        static_text_elements = self.driver.find_elements_by_class_name('XCUIElementTypeStaticText')
+        static_texts = [x.text for x in static_text_elements if x.text is not None]
+        show_cards = [x for x in static_texts if episode in x or clip in x]
+
+        #Currently we can see also primetime episodes, etc in page source.
+        show_cards = [x for x in show_cards if self._isIntInStr(x)]
+
         return show_cards
 
     def get_search_result_episode_count_element(self):
@@ -1374,10 +1394,8 @@ class CommonIOSHelper(TestlioAutomationTest):
     def verify_navigation_back_button(self, screenshot=False):
         # "verify menu icon"
         # "verify hamburger"
-        if self.phone:
-            self.verify_exists(accessibility_id='Back', screenshot=screenshot)
-        else:
-            self.verify_exists(accessibility_id='Back ', screenshot=screenshot)
+        self.verify_exists(accessibility_id='Back', screenshot=screenshot)
+        
 
     def verify_share_icon(self, screenshot=False):
         self.click_more()
