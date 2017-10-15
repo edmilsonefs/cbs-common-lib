@@ -293,7 +293,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             # This goes until you can find possible differences between users. This saves time.
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Live TV')
             self.verify_exists(id="Search")
             self.verify_exists(id='Two ways to watch Live TV')
             self.verify_exists(id='Take the tour')
