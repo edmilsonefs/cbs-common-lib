@@ -203,7 +203,6 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id="Main Menu", screenshot=False)
             self.verify_cbs_logo()
-            self.verify_exists(id='Shows')
             self.verify_search_icon()
             self.verify_exists(id='I want to see: %s' % category)
             self.verify_show_cards_exist()
@@ -294,7 +293,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             # This goes until you can find possible differences between users. This saves time.
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Live TV')
             self.verify_exists(id="Search")
             self.verify_exists(id='Two ways to watch Live TV')
             self.verify_exists(id='Take the tour')
@@ -943,6 +941,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.accept_video_popup()
             self.restart_from_the_beggining()
+            sleep(20)
+            self.pause_video()
             self.verify_exists(id='Done', screenshot=True)
             # self.verify_exists(id='Learn More') not applicable for all users
             self.verify_exists(class_name=self.element_prefix() + 'Slider')
@@ -953,6 +953,10 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
+            self.accept_video_popup()
+            self.restart_from_the_beggining()
+            sleep(20)
+            self.pause_video()
             self.verify_exists(id='Done', screenshot=True)
             self.verify_exists(class_name=self.element_prefix() + 'Slider')
             self.verify_exists(
@@ -966,12 +970,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             except:
                 pass
             self.verify_exists(element=self.video_page_android.video_player_screen(), screenshot=True)
-
             self.driver.back()
         elif self.IS_IOS:
-            self.accept_video_popup()
+            self._accept_alert(1)
             self.restart_from_the_beggining()
-            self.verify_exists(id='Done', screenshot=True)
-            self.verify_exists(class_name=self.element_prefix() + 'Slider')
-            self.verify_exists(
-                xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
+            sleep(20) # wait for video to start
+            self.verify_exists_video_element(id='Done', screenshot=True)
+            #self.verify_exists(class_name=self.element_prefix() + 'Slider')
+            self.verify_exists_video_element(
+                xpath='//XCUIElementTypeSlider')

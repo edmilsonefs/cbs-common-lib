@@ -129,6 +129,9 @@ class LiveTvPage(BasePage):
             self.verify_exists(element=self.btn_hamburger_menu())
         else:
             self.verify_exists(element=self.btn_navigate_up())
+
+        self._short_swipe_up()
+        self._short_swipe_up()
         if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
             if self.phone:
                 self.verify_exists(element=self.btn_start_watching())
