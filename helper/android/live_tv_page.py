@@ -6,6 +6,7 @@ class LiveTvPage(BasePage):
     def __init__(self, driver, event):
         super(LiveTvPage, self).__init__(driver, event)
 
+
     def lbl_title(self, timeout=60):
         return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Live TV']")
 
@@ -124,29 +125,29 @@ class LiveTvPage(BasePage):
         for i in range(2):
             self.click_safe(xpath="//*[@text='Allow']", timeout=10)
 
-        self.verify_exists(element=self.lbl_title())
+        self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Live TV']")
         if self.phone:
-            self.verify_exists(element=self.btn_hamburger_menu())
+            self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
         else:
-            self.verify_exists(element=self.btn_navigate_up())
+            self.verify_exists(element=self.btn_navigate_up(), name='Navigate up')
 
         self._short_swipe_up()
         self._short_swipe_up()
         if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
             if self.phone:
-                self.verify_exists(element=self.btn_start_watching())
+                self.verify_exists(element=self.btn_start_watching(), name='Start Watching')
             else:
                 self.verify_exists(id=self.com_cbs_app + ':id/videoPlayerContainer', screenshot=True)
         if user_type == self.anonymous:
-            self.verify_exists(element=self.lst_already_have_an_account_sign_in()[0])
+            self.verify_exists(element=self.lst_already_have_an_account_sign_in()[0], name='Already have an account? Sign In')
         if user_type in [self.anonymous, self.registered]:
-            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv())
+            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv(), name='Two ways to watch Live TV')
             self.verify_exists(element=self.img_logo())
             self.verify_exists(element=self.btn_try_1_week_month_free())
         elif user_type == self.ex_subscriber:
-            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv())
-            self.verify_exists(element=self.img_logo())
-            self.verify_exists(element=self.btn_get_started())
+            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv(), name='Two ways to watch Live TV')
+            self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
+            self.verify_exists(element=self.btn_get_started(), name='Get Started')
         if self.phone:
             self._short_swipe_down()
         # self.verify_exists(element=self.btn_verify_now()) TODO : should it be here?
