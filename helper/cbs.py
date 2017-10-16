@@ -700,9 +700,9 @@ class CommonHelper(TestlioAutomationTest):
 
         self.mvpd_logout()
 
-    def accept_popup_video_click(self):
-        if not self.accepted_video_popup:
-            if self.click_safe(name='ACCEPT', timeout=10):
+    def accept_popup_video_click(self, force_accept=False):
+        if not self.accepted_video_popup or force_accept is True:
+            if self.click_safe(name='ACCEPT', timeout=7):
                 self.accepted_video_popup = True
 
     def click_safe(self, **kwargs):
