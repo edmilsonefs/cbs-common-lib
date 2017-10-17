@@ -6,43 +6,63 @@ PAID = "paid"
 
 
 class HomePage(BasePage):
+
     def __init__(self, driver, event):
         super(HomePage, self).__init__(driver, event)
-        
+        self.home_marquee_container_selector = self.com_cbs_app + ':id/marqueeContainer'
+        self.lst_home_video_icons_selector = self.com_cbs_app + ':id/imgThumbnail'
+        self.txt_welcome_to_cbs_selector = 'Welcome to the CBS app'
+        self.txt_by_using_this_app_selector = 'By using this CBS Application, you agree to our:'
+        self.btn_terms_of_use_selector = 'Terms of Use'
+        self.btn_mobile_user_agreement_selector = 'Mobile User Agreement'
+        self.btn_privacy_policy_selector = 'Privacy Policy'
+        self.btn_video_services_selector = 'Video Services'
+        self.btn_accept_selector = 'ACCEPT'
+
 
     def home_marquee_container(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/marqueeContainer')
+        return self.get_element(timeout=timeout, id=self.home_marquee_container_selector)
+
 
     def lst_home_video_icons(self, timeout=10):
-        return self.get_elements(timeout=timeout, id=self.com_cbs_app + ":id/imgThumbnail")
+        return self.get_elements(timeout=timeout, id=self.lst_home_video_icons_selector)
+
 
     def txt_welcome_to_cbs(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Welcome to the CBS app')
+        return self.get_element(timeout=timeout, name=self.txt_welcome_to_cbs_selector)
+
 
     def txt_by_using_this_app(self, timeout=10):
-        return self.get_element(timeout=timeout, name='By using this CBS Application, you agree to our:')
+        return self.get_element(timeout=timeout, name=self.txt_by_using_this_app_selector)
+
 
     def btn_terms_of_use(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Terms of Use')
+        return self.get_element(timeout=timeout, name=self.btn_terms_of_use_selector)
+
 
     def btn_mobile_user_agreement(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Mobile User Agreement')
+        return self.get_element(timeout=timeout, name=self.btn_mobile_user_agreement_selector)
+
 
     def btn_privacy_policy(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Privacy Policy')
+        return self.get_element(timeout=timeout, name=self.btn_privacy_policy_selector)
+
 
     def btn_video_services(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Video Services')
+        return self.get_element(timeout=timeout, name=self.btn_video_services_selector)
+
 
     def btn_accept(self, timeout=10):
-        return self.get_element(timeout=timeout, name='ACCEPT')
+        return self.get_element(timeout=timeout, name=self.btn_accept_selector)
+
 
     def validate_page(self):
         # Validation B
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
-        self.verify_exists(element=self.img_logo())
-        self.verify_exists(element=self.btn_search_icon())
-        self.verify_exists(element=self.home_marquee_container())
+        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
+        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
+        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
+        self.verify_exists(element=self.home_marquee_container(), id=self.home_marquee_container_selector)
+
 
     def click_all_access_video(self):
         if self.exists(name='Free Episodes', timeout=10):
@@ -53,7 +73,8 @@ class HomePage(BasePage):
         else:
             if self.exists(name='Recently Watched', timeout=5):
                 self.swipe_element_to_top_of_screen(elem=self.get_element(name='Recently Watched', timeout=10), endy=150)
-            prime_container = self.get_element(xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
+            prime_container = self.get_element(
+                xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Primetime')]]")
             if prime_container.location['y'] + prime_container.size['height'] > self.driver.get_window_size()['height']:
                 self._short_swipe_down(duration=3000)
             for _ in range(0, 60):
@@ -73,6 +94,7 @@ class HomePage(BasePage):
 
         self.accept_popup_video_click()
 
+
     def click_movies_episode(self):
         if not self.exists(xpath="//android.widget.TextView[@text='Movies']", timeout=5):
             self.find_on_the_page(direction='down', xpath="//android.widget.TextView[@text='Movies']", timeout=5)
@@ -84,12 +106,13 @@ class HomePage(BasePage):
             self._short_swipe_down()
             self.click(element=self.get_elements(id=self.com_cbs_app + ':id/movieImage')[0])
 
+
     def validate_tou_page(self):
         # Validation A
-        self.verify_exists(element=self.txt_welcome_to_cbs(), screenshot=True)
-        self.verify_exists(element=self.txt_by_using_this_app())
-        self.verify_exists(element=self.btn_terms_of_use())
-        self.verify_exists(element=self.btn_mobile_user_agreement())
-        self.verify_exists(element=self.btn_privacy_policy())
-        self.verify_exists(element=self.btn_video_services())
-        self.verify_exists(element=self.btn_accept())
+        self.verify_exists(element=self.txt_welcome_to_cbs(), screenshot=True, name=self.txt_welcome_to_cbs_selector)
+        self.verify_exists(element=self.txt_by_using_this_app(), name=self.txt_by_using_this_app_selector)
+        self.verify_exists(element=self.btn_terms_of_use(), name=self.btn_terms_of_use_selector)
+        self.verify_exists(element=self.btn_mobile_user_agreement(), name=self.btn_mobile_user_agreement_selector)
+        self.verify_exists(element=self.btn_privacy_policy(), name=self.btn_privacy_policy_selector)
+        self.verify_exists(element=self.btn_video_services(), name=self.btn_video_services_selector)
+        self.verify_exists(element=self.btn_accept(), name=self.btn_accept_selector)

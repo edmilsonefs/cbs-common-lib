@@ -75,30 +75,30 @@ class ShowPage(BasePage):
         return self.get_element(timeout=timeout, id=':id/seasonEpisode')
 
     def validate_page(self, user_type="anonymous"):
-        self.verify_exists(element=self.btn_navigate_up(), screenshot=True)
-        self.verify_exists(element=self.img_logo())
-        self.verify_exists(element=self.btn_search_icon())
-        self.verify_exists(element=self.lst_video_icons())
-        self.verify_exists(element=self.btn_more_options())
-        self.verify_exists(element=self.btn_my_cbs())
+        self.verify_exists(element=self.btn_navigate_up(), screenshot=True, name='Navigate up')
+        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
+        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
+        self.verify_exists(element=self.lst_video_icons(), id=self.com_cbs_app + ':id/imgThumbnail')
+        self.verify_exists(element=self.btn_more_options(), name='More options')
+        self.verify_exists(element=self.btn_my_cbs(), id=self.com_cbs_app + ':id/imgMyCbsToggle')
         if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
-            self.verify_exists(element=self.btn_episode_indicator())
+            self.verify_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
         else:
-            self.verify_not_exists(element=self.btn_episode_indicator())
+            self.verify_not_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
 
     def validate_show_more_info_page(self):
-        self.verify_exists(element=self.txt_show_name(), screenshot=True)
-        self.verify_exists(element=self.txt_season_episode())
-        self.verify_exists(element=self.txt_episode_name())
-        self.verify_exists(element=self.txt_air_date())
-        self.verify_exists(element=self.btn_watch_episode())
+        self.verify_exists(element=self.txt_show_name(), screenshot=True, id=self.com_cbs_app + ':id/txtShowName')
+        self.verify_exists(element=self.txt_season_episode(), id=':id/seasonEpisode')
+        self.verify_exists(element=self.txt_episode_name(), id=':id/txtEpisodeName')
+        self.verify_exists(element=self.txt_air_date(), id=':id/txtAirDate')
+        self.verify_exists(element=self.btn_watch_episode(), name='Watch Episode')
 
     def validate_more_options_menu(self):
-        self.verify_exists(element=self.btn_like_on_facebook(), screenshot=True)
-        self.verify_exists(element=self.btn_follow_on_twitter())
-        self.verify_exists(element=self.btn_share())
-        self.verify_exists(element=self.btn_add_to_calendar())
-        self.verify_exists(element=self.btn_show_info())
+        self.verify_exists(element=self.btn_like_on_facebook(), screenshot=True, name='Like on Facebook')
+        self.verify_exists(element=self.btn_follow_on_twitter(), name='Follow on Twitter')
+        self.verify_exists(element=self.btn_share(), name='Share')
+        self.verify_exists(element=self.btn_add_to_calendar(), name='Add to Calendar')
+        self.verify_exists(element=self.btn_show_info(), name='Show Info')
 
     def click_all_access_video(self):
         if self.exists(name='paid', timeout=10):
