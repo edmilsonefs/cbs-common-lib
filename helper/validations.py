@@ -109,7 +109,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='SIGN IN', screenshot=True)
             self.verify_exists(id='Sign in with your social account')
             self.verify_exists(id='Sign in with your email')
-            self.verify_exists(id="Don't have an account? Sign Up")
+            # self.verify_exists(id="Don't have an account? Sign Up")
 
     def validation_e(self):
         if self.IS_ANDROID:
