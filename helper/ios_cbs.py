@@ -625,35 +625,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         except:
             raise ValueError('Episode number needs to be numeric')
 
-        episode_title = 'S%s Ep%s' % (show_dict['season_number'], show_dict['episode_number'])
+        episode_title = 'Ep%s | %s' % (show_dict['episode_number'], show_dict['air_date'])
 
         if exception_hack:
             season_name = self.get_hack_season_name(exception_hack)
         else:
             season_name = "Season " + str(show_dict['season_number'])
 
-        #no need in this hack currently
-#        if show_dict['show_title'] == 'Big Brother':
-#            action = TouchAction(self.driver)
-#            window_sizes = self.driver.get_window_size()
-#            height = window_sizes['height']
-#            width = window_sizes['width']
-#
-#            #7 Plus
-#            if width == 414 and height == 736:
-#                action.press(x=200, y=300).release().perform()
-#            #SE
-#            elif width == 320 and height == 568:
-#                action.press(x=200, y=220).release().perform()
-#            #7
-#            elif width ==375 and height == 667:
-#                action.press(x=200, y=270).release().perform()
-#            #ipad 9.7
-#            elif width == 768 and height == 1024:
-#                action.press(x=300, y=400).release().perform()
-#            #ipad 12.9
-#            elif width == 1024 and height == 1366:
-#                action.press(x=300, y=400).release().perform()
+
 
         # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
         season_elem = self.find_on_page('accessibility_id', season_name)
@@ -663,7 +642,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         # may help get the position correctly
         sleep(2)
 
-        show_elem = self.find_on_page_horizontal(episode_title)
+        # show_elem = self.find_on_page_horizontal(episode_title)
+        show_elem = self.get_element(xpath="//*[contains(@name,'" + episode_title + "')]", timeout=60)
         self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists: %s" % episode_title)
 
         return show_elem
