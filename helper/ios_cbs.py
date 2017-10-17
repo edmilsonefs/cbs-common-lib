@@ -200,7 +200,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_show(self, show_name):
         self.search_for(show_name)
         self.safe_screenshot()
-        self.hide_keyboard()
         sleep(5)
         self.click_first_search_result()
         sleep(10) #wait for page is loaded
@@ -295,6 +294,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def search_for(self, what_to_search_for):
         self.click_search_icon()
         self.enter_search_text(what_to_search_for)
+        sleep(2)
         self.hide_keyboard()
 
     def search_for_extended(self, what_to_search_for): # method to search by typing symbol by symbol
