@@ -1203,7 +1203,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.swipe(startx, starty, startx, endy, time)
 
     def hide_keyboard(self):
-        self.tap(0.95, 0.95)
+        self.tap(0.98, 0.98)
 
     def close_big_advertisement(self):
         if self.tablet:
