@@ -200,6 +200,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_show(self, show_name):
         self.search_for(show_name)
         self.safe_screenshot()
+        self.hide_keyboard()
         sleep(5)
         self.click_first_search_result()
         sleep(10) #wait for page is loaded
