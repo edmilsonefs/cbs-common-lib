@@ -27,7 +27,7 @@ class UpsellPage(BasePage):
                 xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
             self.verify_exists(element=self.btn_try_1_week_month_free())
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-            self.verify_exists(element=self.btn_get_started())
+            self.verify_exists(element=self.btn_get_started(), name='GET STARTED')
             if user_type == self.registered:
                 self.verify_not_exists(name='SELECT', timeout=10)
         elif user_type in [self.subscriber, self.trial]:
@@ -43,7 +43,7 @@ class UpsellPage(BasePage):
                 self.verify_exists(xpath="//*[contains(@text,'Only $5.99/month')]", timeout=20)
                 self.verify_exists(name='SELECT', timeout=20)
                 self.verify_not_exists(element=self.btn_try_1_week_month_free(), timeout=10)
-                self.verify_not_exists(element=self.btn_get_started(), timeout=10)
+                self.verify_not_exists(element=self.btn_get_started(), timeout=10, name='GET STARTED')
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))

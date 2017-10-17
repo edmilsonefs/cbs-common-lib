@@ -12,7 +12,7 @@ class MoviesPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/imgThumbnail")
 
     def btn_movie_poster(self, timeout=10):
-        return self.get_element(timeout=timeout, id= self.com_cbs_app + ":id/movieImage")
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/movieImage")
 
     def txt_movie_name(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/txtMovieName")
@@ -30,11 +30,11 @@ class MoviesPage(BasePage):
         return self.get_element(timeout=timeout, name="WATCH MOVIE")
 
     def validate_page(self, user_type='anonymous', category='All Shows'):
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
-        self.verify_exists(element=self.img_logo())
-        self.verify_exists(element=self.btn_search_icon())
-        self.verify_exists(element=self.lbl_title())
-        self.verify_exists(element=self.btn_movie_poster())
+        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
+        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
+        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
+        self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Movies']")
+        self.verify_exists(element=self.btn_movie_poster(), id=self.com_cbs_app + ":id/movieImage")
         # self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
         # self.verify_exists(xpath="//*[@text='" + category + "']")
         if user_type in [self.cf_subscriber, self.subscriber, self.trial]:
@@ -43,13 +43,13 @@ class MoviesPage(BasePage):
             pass
 
     def movie_details_popup_validation(self, user_type='anonymous'):
-        self.verify_exists(element=self.video_thumbnail())
-        self.verify_exists(element=self.txt_movie_name())
-        self.verify_exists(element=self.txt_meta_data())
-        self.verify_exists(element=self.txt_movie_description())
+        self.verify_exists(element=self.video_thumbnail(), id=self.com_cbs_app + ":id/imgThumbnail")
+        self.verify_exists(element=self.txt_movie_name(), id=self.com_cbs_app + ":id/txtMovieName")
+        self.verify_exists(element=self.txt_meta_data(), id=self.com_cbs_app + ":id/txtMovieMetadata")
+        self.verify_exists(element=self.txt_movie_description(), id=self.com_cbs_app + ":id/txtMovieDescription")
         if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-            self.verify_exists(element=self.btn_subscribe_to_watch())
-            self.verify_not_exists(element=self.btn_watch_movie())
+            self.verify_exists(element=self.btn_subscribe_to_watch(), name="SUBSCRIBE TO WATCH")
+            self.verify_not_exists(element=self.btn_watch_movie(), name="WATCH MOVIE")
         else:
-            self.verify_exists(element=self.btn_watch_movie())
-            self.verify_not_exists(element=self.btn_subscribe_to_watch())
+            self.verify_exists(element=self.btn_watch_movie(), name="WATCH MOVIE")
+            self.verify_not_exists(element=self.btn_subscribe_to_watch(), name="SUBSCRIBE TO WATCH")

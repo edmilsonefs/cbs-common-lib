@@ -67,10 +67,10 @@ class SettingsPage(BasePage):
         return self.get_element(timeout=timeout, name='Subscribe')
 
     def btn_update(self, timeout=10):
-        return self.get_element(timeout=timeout, id= self.com_cbs_app + ':id/updateButton')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/updateButton')
 
     def btn_app_version_phone(self, timeout=10):
-        return self.get_element(timeout=timeout, id= self.com_cbs_app + ':id/appVersionTextView')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/appVersionTextView')
 
     def txt_cbs(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/cbsTextView')
@@ -81,34 +81,34 @@ class SettingsPage(BasePage):
     def validate_page(self):
         # validation Q
         if self.user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-            self.verify_exists(element=self.btn_subscribe)
+            self.verify_exists(element=self.btn_subscribe, name='Subscribe')
         if self.user_type in [self.subscriber, self.trial]:    # TODO add lc subscriber user type
-            self.verify_exists(element=self.btn_manage_account())
+            self.verify_exists(element=self.btn_manage_account(), name='Manage Account')
             if self.phone:
-                self.verify_exists(element=self.btn_limited_commercials())  # TODO - not in spec
+                self.verify_exists(element=self.btn_limited_commercials(), name='Limited Commercials')  # TODO - not in spec
         if self.user_type == self.cf_subscriber:
-            self.verify_exists(element=self.btn_manage_account())
+            self.verify_exists(element=self.btn_manage_account(), name='Manage Account')
             if self.phone:
-                self.verify_exists(element=self.btn_commercial_free())
+                self.verify_exists(element=self.btn_commercial_free(), name='Commercial Free')
         if self.tablet:
-            self.verify_exists(element=self.btn_app_version_tablet)
+            self.verify_exists(element=self.btn_app_version_tablet, name='App Version')
         if self.phone:
-            self.verify_exists(element=self.cbs_icon)
-            self.verify_exists(element=self.btn_app_version_phone)
-            self.verify_exists(element=self.txt_cbs)
-            self.verify_exists(element=self.btn_update)
+            self.verify_exists(element=self.cbs_icon, id=self.com_cbs_app + ':id/appIcon')
+            self.verify_exists(element=self.btn_app_version_phone, id=self.com_cbs_app + ':id/appVersionTextView')
+            self.verify_exists(element=self.txt_cbs, id=self.com_cbs_app + ':id/cbsTextView')
+            self.verify_exists(element=self.btn_update, id=self.com_cbs_app + ':id/updateButton')
         self.log_info("Problem with 'Send Feedback'")
         self.safe_screenshot()
-        self.verify_exists(element=self.btn_send_feedback())
-        self.verify_exists(element=self.btn_faq())
-        self.verify_exists(element=self.btn_terms_of_use())
+        self.verify_exists(element=self.btn_send_feedback(), name='Send Feedback')
+        self.verify_exists(element=self.btn_faq(), name='FAQ')
+        self.verify_exists(element=self.btn_terms_of_use(), name='Terms of Use')
         if self.phone:
             self._short_swipe_down(duration=2000)
-        self.verify_exists(element=self.btn_privacy_policy())
-        self.verify_exists(element=self.btn_mobile_user_agreement())
-        self.verify_exists(element=self.btn_video_services())
-        self.verify_exists(element=self.btn_nielsen())
-        self.verify_exists(element=self.btn_closed_captions())
+        self.verify_exists(element=self.btn_privacy_policy(), name='Privacy Policy')
+        self.verify_exists(element=self.btn_mobile_user_agreement(), name='Mobile User Agreement')
+        self.verify_exists(element=self.btn_video_services(), name='Video Services')
+        self.verify_exists(element=self.btn_nielsen(), name='Nielsen Info & Your Choices')
+        self.verify_exists(element=self.btn_closed_captions(), name='Closed Captions')
         #TODO add push notifications
         #TODO add sign out
 

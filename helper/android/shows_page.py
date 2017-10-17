@@ -39,21 +39,21 @@ class ShowsPage(BasePage):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/showImage')
 
     def validate_page(self, category='All Shows'):
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True)
-        self.verify_exists(element=self.img_logo())
-        self.verify_exists(element=self.btn_search_icon())
-        self.verify_exists(element=self.lbl_title())
+        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
+        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
+        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
+        self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Shows']")
         self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
         self.verify_exists(xpath="//*[@text='" + category + "']")
         self.verify_exists(id=self.com_cbs_app + ':id/showImage')
 
     def validate_all_shows_dropdown_menu(self):
-        self.verify_exists(element=self.btn_all_shows(), screenshot=True)
-        self.verify_exists(element=self.btn_featured())
-        self.verify_exists(element=self.btn_primetime())
-        self.verify_exists(element=self.btn_daytime())
-        self.verify_exists(element=self.btn_latenight())
-        self.verify_exists(element=self.btn_specials())
-        self.verify_exists(element=self.btn_news())
-        self.verify_exists(element=self.btn_classics())
+        self.verify_exists(element=self.btn_all_shows(), screenshot=True, name='All Shows')
+        self.verify_exists(element=self.btn_featured(), name='Featured')
+        self.verify_exists(element=self.btn_primetime(), name='Primetime')
+        self.verify_exists(element=self.btn_daytime(), name='Daytime')
+        self.verify_exists(element=self.btn_latenight(), name='Late Night')
+        self.verify_exists(element=self.btn_specials(), name='Specials')
+        self.verify_exists(element=self.btn_news(), name='News')
+        self.verify_exists(element=self.btn_classics(), name='Classics')
 
