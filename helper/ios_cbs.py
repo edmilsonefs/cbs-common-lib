@@ -1462,10 +1462,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         # del_key = self._find_element(xpath="//UIAKey[@name='delete']")
         # for i in range(len(text)):
         #     del_key.click()
-        t_f = self.clear_text_field_01(text_field, default_text)
 
-        if not t_f:
-            t_f = self.clear_text_field_02(text_field, default_text)
+        #currently clear_text_field_01 doesn't work supposedly because of bug #95260
+        t_f = self.clear_text_field_02(text_field, default_text)
+
+        # if not t_f:
+        #     t_f = self.clear_text_field_02(text_field, default_text)
 
         if not t_f:
             t_f = self.clear_text_field_03(text_field, default_text)
@@ -1502,9 +1504,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         size = text_field.size
         loc = text_field.location
 
-        x = loc['x'] + size['width'] - 15
-        y = loc['x'] + size['height']/2
-        self.tap(x, y)
+        if not self.exists(xpath="//UIAKey[@name='delete']"):
+            x = loc['x'] + size['width'] - 15
+            y = loc['x'] + size['height'] / 2
+            self.tap(x, y)
 
         del_key = self.exists(xpath="//UIAKey[@name='delete']")
 
