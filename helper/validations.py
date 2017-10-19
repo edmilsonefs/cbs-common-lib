@@ -88,7 +88,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.home_page_android.validate_page()
         elif self.IS_IOS:
             self.verify_exists(id='Main Menu', timeout=25, screenshot=True)
-            self.verify_cbs_logo()
             # self.verify_exists(id='MarqueeCollectionView', timeout=10) #add home page marquee
             self.verify_exists(id='Search', timeout=10)
 
