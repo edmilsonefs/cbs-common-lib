@@ -125,7 +125,7 @@ class LiveTvPage(BasePage):
         for i in range(2):
             self.click_safe(xpath="//*[@text='Allow']", timeout=10)
 
-        self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Live TV']")
+        self.verify_exists(element=self.lbl_title())
         if self.phone:
             self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
         else:
