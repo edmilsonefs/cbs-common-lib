@@ -123,7 +123,7 @@ class LiveTvPage(BasePage):
 
     def validate_page(self, user_type="anonymous"):
         for i in range(2):
-            self.click_safe(xpath="//*[@text='Allow']", timeout=10)
+            self.click_allow_popup()
 
         self.verify_exists(element=self.lbl_title())
         if self.phone:
