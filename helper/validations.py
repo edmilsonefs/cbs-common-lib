@@ -969,7 +969,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             except:
                 pass
             self.verify_exists(element=self.video_page_android.video_player_screen(), screenshot=True)
-            self.driver.back()
+            self.back()
         elif self.IS_IOS:
             self._accept_alert(1)
             self.restart_from_the_beggining()
