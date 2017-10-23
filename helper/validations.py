@@ -250,7 +250,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_navigation_drawer_button()
             self.verify_cbs_logo()
             self.verify_exists(id='Settings')
-            self.verify_search_icon()
             self.verify_exists(id='App Version')
             self.verify_exists(id='Terms Of Use')
             self.verify_exists(id='Privacy Policy')
