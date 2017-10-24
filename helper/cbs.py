@@ -1478,7 +1478,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_subscription(self):
         # On settings screen
-        self.click(xpath="//android.widget.Button[@text='Manage Account']")
+        self.click(xpath="//android.widget.TextView[@text='Manage Account']")
 
     def click_subscribe(self):
         # On settings screen
