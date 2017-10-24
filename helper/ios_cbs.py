@@ -1328,7 +1328,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ################################################
     # VALIDATE / VERIFY
-    def verify_exists_in_xml(self, text, screenshot):
+    def verify_exists_in_xml(self, text, screenshot=True):
         if type(text) is list:
             self.assertTrueWithScreenShot(any(x not in self.driver.page_source for x in text), screenshot=screenshot,
                                           msg="One of the elements with text '%s' is absent" % text)

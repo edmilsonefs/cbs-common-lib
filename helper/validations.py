@@ -973,7 +973,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self._accept_alert(1)
             self.restart_from_the_beggining()
             sleep(20) # wait for video to start
-            self.verify_exists_video_element(id='Done', screenshot=True)
+            self.verify_exists_in_xml('Done')
             #self.verify_exists(class_name=self.element_prefix() + 'Slider')
-            self.verify_exists_video_element(
-                xpath='//XCUIElementTypeSlider')
+            self.verify_exists_in_xml(
+                '//XCUIElementTypeSlider', screenshot=False)
