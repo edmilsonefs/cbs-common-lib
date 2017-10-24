@@ -500,7 +500,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ac(self, user_type='anonymous'):
         if self.IS_ANDROID:
             # LCS Billing Popup
-            self.wait_until_element_is_visible(element_id='com.android.vending:id/title')
+            self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
             self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
             if user_type == self.ex_subscriber:
                 try:
