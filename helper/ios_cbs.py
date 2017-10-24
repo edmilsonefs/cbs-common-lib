@@ -461,9 +461,28 @@ class CommonIOSHelper(TestlioAutomationTest):
                                       msg="Should see element with values %s, %s, %s" % (find_by, find_key, class_name))
 
     def verify_exists_video_element(self, **kwargs):
-        if not self.exists(**kwargs):
-            self.tap(0.5, 0.5)
-            self.verify_exists(**kwargs)
+        self.safe_screenshot()
+        assert_true = False
+        try:
+            ta = TouchAction(self.driver)
+            ta.press(x=100, y=100).release().perform()
+        except:
+            pass
+        self.safe_screenshot()
+        try:
+            self.get_element(**kwargs).is_displayed()
+            assert_true = True
+        except:
+            try:
+                ta = TouchAction(self.driver)
+                ta.press(x=100, y=100).release().perform()
+            except:
+                pass
+            if self.exists(**kwargs).is_displayed():
+                assert_true = True
+        self.log_info("End of stream")
+        self.safe_screenshot()
+        self.assertTrueWithScreenShot(assert_true, msg="Video elements must be displayed", screenshot=True)
 
     def _exists_element_using_xml(self, root=False, find_by=None, find_key=None, class_name='*'):
         """
@@ -1333,8 +1352,15 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.assertTrueWithScreenShot(any(x not in self.driver.page_source for x in text), screenshot=screenshot,
                                           msg="One of the elements with text '%s' is absent" % text)
         else:
-            self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=screenshot,
-                                          msg="The element with text '%s' is absent" % text)
+            counter = 0
+            while counter < 10:
+                if text not in self.driver.page_source:
+                    self.tap(0.5, 0.5)
+                    sleep(2)
+                else:
+                    self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=screenshot,
+                                                  msg="The element with text '%s' is absent" % text)
+                    break
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
