@@ -302,11 +302,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.enter_search_text_extended(what_to_search_for)
 
     def click_first_search_result(self):
-        if self.xcuitest:
+        if self.phone:
             self.tap(.25, .25)
         else:
-            element = self.get_search_result_episode_count_element()
-            element.click()
+            self.tap(.15, .15)
 
     ####################################################################################
     # HEADER
