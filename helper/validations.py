@@ -967,13 +967,13 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.click_play_from_beginning()
             except:
                 pass
-            self.verify_exists(element=self.video_page_android.video_player_screen(), screenshot=True)
+            self.verify_exists(element=self.video_page_android.video_player_screen(), readable_name="Video player screen", screenshot=True)
             self.back()
         elif self.IS_IOS:
             self._accept_alert(1)
             self.restart_from_the_beggining()
             sleep(20) # wait for video to start
-            self.verify_exists_in_xml('Done')
+            self.verify_exists_video_element(id='Done', screenshot=True)
             #self.verify_exists(class_name=self.element_prefix() + 'Slider')
-            self.verify_exists_in_xml(
+            self.verify_exists_video_element(xpath=
                 '//XCUIElementTypeSlider', screenshot=False)
