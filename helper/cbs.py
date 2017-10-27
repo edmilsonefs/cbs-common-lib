@@ -20,7 +20,6 @@ class CommonHelper(TestlioAutomationTest):
     IS_AMAZON = False
     accepted_video_popup = False
     testdroid_device = os.getenv('TESTDROID_DEVICE')
-    passed = False
     user_type = 'anonymous'
     anonymous = 'anonymous'
     registered = 'registered'

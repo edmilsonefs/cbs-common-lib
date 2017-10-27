@@ -30,7 +30,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     cf_subscriber = 'cf-subscriber'
     trial = 'trial'
     already_accepted_terms = False
-    passed = False
     element_type = '//UIA'  # iOS 9
     UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
     signed_out = False
