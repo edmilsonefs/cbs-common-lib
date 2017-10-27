@@ -504,20 +504,30 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
             if user_type == self.ex_subscriber:
                 try:
-                    self.get_element(name='CBS All Access (CBS)')
-                    self.verify_exists(name='CBS All Access (CBS)', screenshot=True)
-                    self.verify_exists(id='com.android.vending:id/logo')
-                    self.verify_exists(name='Subscribe')
+                    self.get_element(name='Limited Commercials (CBS - Full Episodes & Live TV)')
+                    self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
                 except:
                     pass
             if user_type == self.registered:
                 try:
-                    self.get_element(name='CBS All Access 1 Week FREE (CBS)')
-                    self.verify_exists(name='CBS All Access 1 Week FREE (CBS)', screenshot=True)
-                    self.verify_exists(name='Subscribe')
+                    self.get_element(name='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)')
+                    self.verify_exists(name='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
                 except:
                     pass
         if self.IS_IOS:
+            pass
+
+    def validation_ad(self):
+        # CF Billing Popup
+        if self.IS_ANDROID:
+            self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
+            self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
+            try:
+                self.get_element(name='Commercial Free (CBS - Full Episodes & Live TV)')
+                self.verify_exists(name='Commercial Free (CBS - Full Episodes & Live TV)', screenshot=True)
+            except:
+                pass
+        elif self.IS_IOS:
             pass
 
     def validation_ar(self):
@@ -537,12 +547,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Which station would you like to watch?')
             self.verify_exists(name='KBTX')
             self.verify_exists(name='KWTX')
-        elif self.IS_IOS:
-            pass
-
-    def validation_ad(self):
-        if self.IS_ANDROID:
-            pass
         elif self.IS_IOS:
             pass
 
