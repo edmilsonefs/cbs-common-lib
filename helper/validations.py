@@ -793,7 +793,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Fan votes and sweepstakes')
             self.verify_exists(id='Latest content delivered right to your inbox')
             self.verify_exists(id='Sign Up')
-            self.verify_exists(name='Already have an account? Sign In')
+            self.verify_exists(id='Already have an account? Sign In')
         if self.IS_ANDROID:
             self.verify_exists(name='Complete the verification process', screenshot=True)
             self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
