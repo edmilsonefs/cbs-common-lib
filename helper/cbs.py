@@ -225,6 +225,10 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
         self._go_to('Settings')
 
+    def goto_movies(self):
+        self.open_drawer()
+        self._go_to('Movies')
+
     def goto_show(self, show_name):
         self.select_search_icon()
         self.wait_for_show_page_to_load()
@@ -1352,8 +1356,9 @@ class CommonHelper(TestlioAutomationTest):
         """
         e = self.get_element(name='Watch Episode')
         if not e:
-            e = self.get_element(name='WATCH EPISODE')
-        self.click_by_location(e, 'Watch Episode', side='middle')
+            e = self.get_element(xpath="//android.widget.Button[@text='WATCH EPISODE']")
+
+        e.click()
         self.accept_popup_video_click()
 
         # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
@@ -2201,21 +2206,12 @@ class CommonHelper(TestlioAutomationTest):
         Returns dict with dimensions of an element, but using raw xml, not Appium location / size methods.
         Sometimes these methods don't work.  See section header (XML Methods) for details.
         """
-        # st will look like '[12,529][756,583]'
-        st = elem.attrib['bounds']
-
-        import re
-        m = re.search('\[(\d+),(\d+)\]\[(\d+),(\d+)\]', st)
-        x1 = int(m.group(1))
-        y1 = int(m.group(2))
-        x2 = int(m.group(3))
-        y2 = int(m.group(4))
-
+   
         dic = {}
-        dic['x'] = x1
-        dic['y'] = y1
-        dic['width'] = x2 - x1
-        dic['height'] = y2 - y1
+        dic['x'] = elem.location['x']
+        dic['y'] = elem.location['y']
+        dic['width'] = elem.size['width']
+        dic['height'] = elem.size['height']
 
         return dic
 
@@ -2277,20 +2273,50 @@ class CommonHelper(TestlioAutomationTest):
         e = self.find_one_of('id', self.com_cbs_app + ':id/imgInfo', 'id', self.com_cbs_app + ':id/infoIcon')
         e.click()
 
+    def _find_element_in_bounds(self, elements, bounds):
+
+        target_element = None
+
+        for elem in elements:
+            icon_dimensions = self._get_dimensions_from_element_using_xml(elem)
+            if icon_dimensions['x'] > bounds['x'] and \
+                            icon_dimensions['x'] < bounds['x'] + bounds['width'] and \
+                            icon_dimensions['y'] > bounds['y'] and \
+                            icon_dimensions['y'] < bounds['y'] + bounds['height']:
+                target_element = elem
+                break
+
+        return target_element
+
     def click_first_aa_info_icon(self):
         """
-        Click the little (i) next to the first AA (paid) video in the Primetime section
+        Click the little (i) next to the first AA (paid) video
         """
-        y = self.click_first_aa_video()
-        if not self.exists(name='Open navigation drawer', timeout=0):
-            self.hw_back()
 
-        for elem in self.get_elements(id=self.com_cbs_app + ':id/infoIcon'):
-            if elem.location['y'] > y:
-                elem.click()
-                return
+        while not self.exists(name='paid', timeout=10):
+            self._short_swipe_down(duration=3000)
 
-        raise RuntimeError('Could not find info icon')
+        list_episodes = self.get_elements(name='paid')
+        info_icons = self.get_elements(id=self.com_cbs_app + ':id/imgInfo')
+
+        episode_dimensions = self._get_dimensions_from_element_using_xml(list_episodes[0])
+        target_icon = self._find_element_in_bounds(info_icons, episode_dimensions)
+
+        if target_icon is None:
+            self._short_swipe_down(duration=3000)
+            while not self.exists(name='paid', timeout=10):
+                self._short_swipe_down(duration=3000)
+
+            list_episodes = self.get_elements(name='paid')
+            info_icons = self.get_elements(id=self.com_cbs_app + ':id/imgInfo')
+
+            episode_dimensions = self._get_dimensions_from_element_using_xml(list_episodes[0])
+            target_icon = self._find_element_in_bounds(info_icons, episode_dimensions)
+
+        if target_icon is None:
+            raise RuntimeError('Could not find info icon')
+        target_icon.click()
+     
 
     def wait_for_video_to_start(self, buffer_wait=60):
         """
