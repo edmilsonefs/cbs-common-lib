@@ -1019,7 +1019,11 @@ class CommonHelper(TestlioAutomationTest):
                 else:
                     self._short_swipe_up()
             else:
-                return e
+                if direction == 'down':
+                    if e.location['y'] > self.driver.get_window_size()['height'] / 2:
+                        self._short_swipe_down()
+
+                return self.get_element(**kwargs)
 
         return False
 
