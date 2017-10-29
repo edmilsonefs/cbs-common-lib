@@ -522,11 +522,11 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
             self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
-            try:
-                self.get_element(name='Commercial Free (CBS - Full Episodes & Live TV)')
-                self.verify_exists(name='Commercial Free (CBS - Full Episodes & Live TV)', screenshot=True)
-            except:
-                pass
+            # try:
+            #     self.get_element(name='Commercial Free (CBS - Full Episodes & Live TV)')
+            #     self.verify_exists(name='Commercial Free (CBS - Full Episodes & Live TV)', screenshot=True)
+            # except:
+            #     pass
         elif self.IS_IOS:
             pass
 
