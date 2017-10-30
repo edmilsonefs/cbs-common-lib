@@ -967,10 +967,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_video(self):
         if self.IS_ANDROID:
             self.accept_popup_video_click()
-            try:
-                self.click_play_from_beginning()
-            except:
-                pass
+            self.click_play_from_beginning()
             self.verify_exists(element=self.video_page_android.video_player_screen(), readable_name="Video player screen", screenshot=True)
             self.back()
         elif self.IS_IOS:
