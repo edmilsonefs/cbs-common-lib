@@ -503,17 +503,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
             self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
             if user_type == self.ex_subscriber:
-                try:
-                    self.get_element(name='Limited Commercials (CBS - Full Episodes & Live TV)')
-                    self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
-                except:
-                    pass
+                self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
+
             if user_type == self.registered:
-                try:
-                    self.get_element(name='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)')
-                    self.verify_exists(name='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
-                except:
-                    pass
+                self.verify_exists(name='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
+
         if self.IS_IOS:
             pass
 
@@ -522,11 +516,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
             self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
-            # try:
-            #     self.get_element(name='Commercial Free (CBS - Full Episodes & Live TV)')
-            #     self.verify_exists(name='Commercial Free (CBS - Full Episodes & Live TV)', screenshot=True)
-            # except:
-            #     pass
+            self.verify_exists(name='Commercial Free (CBS - Full Episodes & Live TV)', screenshot=True)
+
         elif self.IS_IOS:
             pass
 
