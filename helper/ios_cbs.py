@@ -78,16 +78,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
 
-        self.event.stop()
-        # sleep(60)
-
-        try:
-            self.driver.quit()
-        except Exception:
-            self.event.start(data='in teardown: driver.quit() failed')
-
-        # sleep(80)
-        sleep(20)
+        super(CommonIOSHelper, self).teardown_method(method)
 
     ####################################################################################
     # SETUP/LOGIN METHODS
