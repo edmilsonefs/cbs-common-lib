@@ -2015,8 +2015,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def swipe_down(self, count, distance):
         window_size_y = self.driver.get_window_size()["height"]
+        window_size_x = self.driver.get_window_size()["width"]
         for _ in range(0, count):
-            self.swipe(30, (window_size_y / 2) - 100, 30, (window_size_y / 2) - 100 - distance)
+            self.swipe(window_size_x / 2, window_size_y - 100, window_size_x / 2, window_size_y - 100 - distance)
 
     def short_swipe_down_if_element_is_not_visible(self, id=None, class_name=None):
         """
