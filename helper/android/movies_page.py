@@ -29,18 +29,14 @@ class MoviesPage(BasePage):
     def btn_watch_movie(self, timeout=10):
         return self.get_element(timeout=timeout, name="WATCH MOVIE")
 
-    def validate_page(self, user_type='anonymous', category='All Shows'):
+    def validate_page(self):
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
         self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
         self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
         self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Movies']")
         self.verify_exists(element=self.btn_movie_poster(), id=self.com_cbs_app + ":id/movieImage")
-        # self.verify_exists(xpath="//*[@text='I want to see:']", timeout=20)
-        # self.verify_exists(xpath="//*[@text='" + category + "']")
-        if user_type in [self.cf_subscriber, self.subscriber, self.trial]:
-            pass
-        else:
-            pass
+        self.verify_not_exists(xpath="//*[@text='I want to see:']", timeout=20)
+        self.verify_not_exists(name='All Shows')
 
     def movie_details_popup_validation(self, user_type='anonymous'):
         self.verify_exists(element=self.video_thumbnail(), id=self.com_cbs_app + ":id/imgThumbnail")
