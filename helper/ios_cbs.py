@@ -1031,26 +1031,25 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_movies_episode_on_home_page(self):
         window_size_height = self.driver.get_window_size()["height"]
         count = 0
-        while not self.is_element_visible(self.exists(id='Movies', timeout=6)) and count < 70:
-            self.swipe_down(1, (400 if self.tablet else 200))
+        while not self.is_element_visible(self.exists(id='Movies', timeout=6)) and count < 200:
+            self.swipe_down(1, (400 if self.tablet else 100))
             count += 1
-
-        count = 0
-        if self.is_element_visible(self.exists(id='Movies', timeout=6)):
-            movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
-            while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
-                self.swipe_down(1, (400 if self.tablet else 200))
-                count += 1
-                movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
 
         self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Movies', timeout=6)), screenshot=True, msg='Movies Posters should be presented')
 
-        movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
-
         count = 0
-        while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 10:
-            self.swipe_down(count=1, distance=50)
-            count += 1
+        if self.is_element_visible(self.exists(id='Movies', timeout=6)):
+            self.exists(id='Movies', timeout=6)
+            while self.exists(id='Movies', timeout=6).location['y'] + self.exists(id='Movies', timeout=6).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+                self.swipe_down(1, (400 if self.tablet else 100))
+                count += 1
+
+        # movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
+        #
+        # count = 0
+        # while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 10:
+        #     self.swipe_down(count=1, distance=50)
+        #     count += 1
 
         self.safe_screenshot()
         label = self.get_element(id="Movies")
