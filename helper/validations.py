@@ -223,7 +223,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
         elif self.IS_IOS:
-            self.verify_exists(id='Show Info')
+            pass
 
     def validation_p(self):
         if self.IS_ANDROID:
