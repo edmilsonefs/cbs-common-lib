@@ -148,6 +148,4 @@ class LiveTvPage(BasePage):
             self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv(), name='Two ways to watch Live TV')
             self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
             self.verify_exists(element=self.btn_get_started(), name='Get Started')
-        if self.phone:
-            self._short_swipe_down()
-        # self.verify_exists(element=self.btn_verify_now()) TODO : should it be here?
+

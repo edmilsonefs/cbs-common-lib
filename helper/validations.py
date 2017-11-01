@@ -93,7 +93,17 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_c(self):
         if self.IS_ANDROID:
-            pass
+            self.verify_exists(name='Our Terms Have Changed', screenshot=True)
+            self.verify_exists(id=self.com_cbs_app + ':id/terms_accept_checkBox')
+            self.verify_exists(
+                name="By registering you become a member of the CBS Interactive family of sites and you have "
+                     "read and agree to the Terms of Use, Privacy Policy and Video Services Policy. "
+                     "You understand that on occasion, you will receive updates, alerts and promotions from "
+                     "CBS. You agree that CBS may share information about you with companies that provide "
+                     "content, products or services featured on CBS sites so that they may contact "
+                     "you about their products or services.")
+            self.verify_exists(name='CANCEL')
+            self.verify_exists(name='SUBMIT')
         elif self.IS_IOS:
             self.verify_exists(id="Search")
             self.verify_exists(id="Sign In")
@@ -158,9 +168,27 @@ class Validations(CommonHelper, CommonIOSHelper):
 
             # Show Page
 
-    def validation_g(self):
+    def validation_g(self, user_type='anonymous'):
         if self.IS_ANDROID:
-            pass
+            if user_type == self.anonymous:
+                self.verify_not_exists(name='Recently Watched')
+                self.verify_not_exists(name='My CBS')
+            else:
+                try:
+                    self.verify_exists(name='Recently Watched')
+                    self.verify_exists(id=self.com_cbs_app + ":id/imgThumbnail")
+                except:
+                    pass
+                try:
+                    self.verify_exists(name='My CBS')
+                    self.verify_exists(id=self.com_cbs_app + ":id/showImage")
+                except:
+                    pass
+            self.swipe_down_and_verify_if_exists(name="Primetime Episodes")
+            self.swipe_down_and_verify_if_exists(name="Late Night Episodes", screenshot=True)
+            self.swipe_down_and_verify_if_exists(name="Movies")
+            self.swipe_down_and_verify_if_exists(name="Latest Clips")
+            self.swipe_down_and_verify_if_exists(name="Popular Clips")
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage')
 
@@ -925,9 +953,18 @@ class Validations(CommonHelper, CommonIOSHelper):
                     len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 3,
                     msg="At least 3 Movies posters should be presented")
 
-    def validation_au(self, user_type):
+    def validation_au(self, user_type='anonymous'):
         if self.IS_ANDROID:
-            pass
+            self.verify_exists(element=self.movies_page.video_thumbnail())
+            self.verify_exists(element=self.movies_page.txt_movie_name())
+            self.verify_exists(element=self.movies_page.txt_meta_data())
+            self.verify_exists(element=self.movies_page.txt_movie_description())
+            if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
+                self.verify_exists(element=self.movies_page.btn_subscribe_to_watch())
+                self.verify_not_exists(element=self.movies_page.btn_watch_movie())
+            else:
+                self.verify_exists(element=self.movies_page.btn_watch_movie())
+                self.verify_not_exists(element=self.movies_page.btn_subscribe_to_watch())
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
