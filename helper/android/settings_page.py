@@ -78,39 +78,32 @@ class SettingsPage(BasePage):
     def cbs_icon(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/appIcon')
 
-    def validate_page(self):
+    def validate_page(self, user_type="anonymous"):
         # validation Q
-        if self.user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-            self.verify_exists(element=self.btn_subscribe, name='Subscribe')
-        if self.user_type in [self.subscriber, self.trial]:    # TODO add lc subscriber user type
-            self.verify_exists(element=self.btn_manage_account(), name='Manage Account')
-            if self.phone:
-                self.verify_exists(element=self.btn_limited_commercials(), name='Limited Commercials')  # TODO - not in spec
-        if self.user_type == self.cf_subscriber:
-            self.verify_exists(element=self.btn_manage_account(), name='Manage Account')
-            if self.phone:
-                self.verify_exists(element=self.btn_commercial_free(), name='Commercial Free')
+        if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
+            self.verify_exists(name='Subscribe')
+        if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
+            self.verify_exists(name='Manage Account')
+        if user_type == self.cf_subscriber:
+            self.verify_exists(name='Manage Account')
         if self.tablet:
-            self.verify_exists(element=self.btn_app_version_tablet, name='App Version')
+            self.verify_exists(name='App Version')
         if self.phone:
-            self.verify_exists(element=self.cbs_icon, id=self.com_cbs_app + ':id/appIcon')
-            self.verify_exists(element=self.btn_app_version_phone, id=self.com_cbs_app + ':id/appVersionTextView')
-            self.verify_exists(element=self.txt_cbs, id=self.com_cbs_app + ':id/cbsTextView')
-            self.verify_exists(element=self.btn_update, id=self.com_cbs_app + ':id/updateButton')
-        self.log_info("Problem with 'Send Feedback'")
-        self.safe_screenshot()
-        self.verify_exists(element=self.btn_send_feedback(), name='Send Feedback')
-        self.verify_exists(element=self.btn_faq(), name='FAQ')
-        self.verify_exists(element=self.btn_terms_of_use(), name='Terms of Use')
+            self.verify_exists(id=self.com_cbs_app + ':id/appIcon')
+            self.verify_exists(id=self.com_cbs_app + ':id/appVersionTextView')
+            self.verify_exists(id=self.com_cbs_app + ':id/cbsTextView')
+        self.verify_exists(name='Send Feedback')
+        self.verify_exists(name='FAQ')
+        self.verify_exists(name='Terms of Use')
         if self.phone:
             self._short_swipe_down(duration=2000)
-        self.verify_exists(element=self.btn_privacy_policy(), name='Privacy Policy')
-        self.verify_exists(element=self.btn_mobile_user_agreement(), name='Mobile User Agreement')
-        self.verify_exists(element=self.btn_video_services(), name='Video Services')
-        self.verify_exists(element=self.btn_nielsen(), name='Nielsen Info & Your Choices')
-        self.verify_exists(element=self.btn_closed_captions(), name='Closed Captions')
-        #TODO add push notifications
-        #TODO add sign out
+        self.verify_exists(name='Privacy Policy')
+        self.verify_exists(name='Mobile User Agreement')
+        self.verify_exists(name='Video Services')
+        self.verify_exists(name='Nielsen Info & Your Choices')
+        self.verify_exists(name='Closed Captions')
+        if user_type != self.anonymous:
+            self.verify_exists(name='Sign Out')
 
     def goto_nielsen_info_page(self):
         self.goto_settings()
