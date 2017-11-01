@@ -893,9 +893,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Questions?')
             self.verify_exists(id='READ OUR FAQ')
 
-    def validation_at(self, user_type="anonymous", category="All Shows"):
+    def validation_at(self):
         if self.IS_ANDROID:
-            self.movies_page_android.validate_page(user_type=user_type, category=category)
+            self.movies_page_android.validate_page()
         elif self.IS_IOS:
             self.verify_exists(id="Main Menu", screenshot=False)
             self.verify_exists(id='Movies')
