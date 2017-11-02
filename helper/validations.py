@@ -142,7 +142,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type in [self.subscriber, self.trial]:
                 self.verify_exists(element=self.base_page.btn_upgrade_menu_item())
 
-            elif user_type == self.cfs_subscriber:
+            elif user_type == self.cf_subscriber:
                 self.verify_not_exists(name='Upgrade')
                 self.verify_not_exists(name='Subscribe')
             else:
