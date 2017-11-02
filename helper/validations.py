@@ -136,24 +136,24 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_f(self, user_type='anonymous', name=None):  # TODO update Validation.
         if self.IS_ANDROID:
             if user_type == self.anonymous:
-                self.verify_exists(element=self.base_page.btn_sign_in_menu_item())
+                self.verify_exists(element=self.home_page_android.btn_sign_in_menu_item())
             else:
                 self.verify_exists(name=name)
             if user_type in [self.subscriber, self.trial]:
-                self.verify_exists(element=self.base_page.btn_upgrade_menu_item())
+                self.verify_exists(element=self.home_page_android.btn_upgrade_menu_item())
 
             elif user_type == self.cf_subscriber:
                 self.verify_not_exists(name='Upgrade')
                 self.verify_not_exists(name='Subscribe')
             else:
-                self.verify_exists(element=self.base_page.btn_subscribe_menu_item())
-            self.verify_exists(element=self.base_page.btn_settings_menu_item(), screenshot=True)
-            self.verify_exists(element=self.base_page.btn_home_menu_item())
-            self.verify_exists(element=self.base_page.btn_shows_menu_item())
-            self.verify_exists(element=self.base_page.btn_live_tv_menu_item())
-            self.verify_exists(element=self.base_page.btn_movies_menu_item())
-            self.verify_exists(element=self.base_page.btn_schedule_menu_item())
-            self.verify_exists(element=self.base_page.btn_shop_menu_item())
+                self.verify_exists(element=self.home_page_android.btn_subscribe_menu_item())
+            self.verify_exists(element=self.home_page_android.btn_settings_menu_item(), screenshot=True)
+            self.verify_exists(element=self.home_page_android.btn_home_menu_item())
+            self.verify_exists(element=self.home_page_android.btn_shows_menu_item())
+            self.verify_exists(element=self.home_page_android.btn_live_tv_menu_item())
+            self.verify_exists(element=self.home_page_android.btn_movies_menu_item())
+            self.verify_exists(element=self.home_page_android.btn_schedule_menu_item())
+            self.verify_exists(element=self.home_page_android.btn_shop_menu_item())
         if self.IS_IOS:
             if user_type == self.anonymous:
                 self.verify_exists(id='Sign In', screenshot=False)
