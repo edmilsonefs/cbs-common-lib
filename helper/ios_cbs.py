@@ -1344,7 +1344,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             while counter < 10:
                 if text not in self.driver.page_source:
                     self.tap(0.5, 0.5)
-                    sleep(2)
+                    sleep(1)
                 else:
                     self.assertTrueWithScreenShot(text in self.driver.page_source, screenshot=screenshot,
                                                   msg="The element with text '%s' is absent" % text)
@@ -1354,12 +1354,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         count = 0
         result = False
         while count < kwargs['timeout']:
-            if self.exists(element=self.get_element(**kwargs)):
+            if self.exists(**kwargs):
                 result = True
                 #self.unpause_video()
                 break
             else:
                 sleep(poll_every)
+                self.tap(0.5, 0.5)
                 #self.pause_video()
                 count += poll_every
 
