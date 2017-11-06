@@ -623,6 +623,16 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         return season_name
 
+
+    def _fix_date(self, date_string):
+        arr = date_string.split('/')
+        for x in range(len(arr)):
+            if len(arr[x]) < 2:
+                arr[x] = '0' + arr[x]
+
+        result = '/'.join(arr)
+        return result
+
     def find_episode_on_show_page(self, show_dict, exception_hack=False):
         try:
             int(show_dict['season_number'])
@@ -634,7 +644,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         except:
             raise ValueError('Episode number needs to be numeric')
 
-        episode_title = 'Ep%s | %s' % (show_dict['episode_number'], show_dict['air_date'])
+        air_date = self._fix_date(show_dict['air_date'])
+
+        episode_title = 'Ep%s | %s' % (show_dict['episode_number'], air_date)
 
         if exception_hack:
             season_name = self.get_hack_season_name(exception_hack)
