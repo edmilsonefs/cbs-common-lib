@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 from testlio.base import TestlioAutomationTest, SCREENSHOTS_DIR
 
 class CommonIOSHelper(TestlioAutomationTest):
+
     phone = False
     tablet = False
     needToAccept = True
@@ -50,7 +51,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.tablet = False
             self.phone = True
         if self.is_xcuitest():
-            self.element_type = '//XCUIElementType' #iOS 10
+            self.element_type = '//XCUIElementType'  # iOS 10
             self.xcuitest = True
 
         # wait for the splash screen to disappear
@@ -623,7 +624,6 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         return season_name
 
-
     def _fix_date(self, date_string):
         arr = date_string.split('/')
         for x in range(len(arr)):
@@ -653,12 +653,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             season_name = "Season " + str(show_dict['season_number'])
 
-
-
         # //UIATableView[1]/UIATableCell[1]/UIACollectionView[1]/UIACollectionCell
         season_elem = self.find_on_page('accessibility_id', season_name)
         self.assertTrueWithScreenShot(season_elem, screenshot=True, msg="Assert our season exists: %s" % season_name)
-        #self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
+        # self.swipe_element_to_top_of_screen(season_elem, endy=.25, startx=20)
 
         # may help get the position correctly
         sleep(2)
@@ -1142,7 +1140,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def _isIntInStr(self, item):
 
         episode = ' Episodes'
-        clip = ' Clip' 
+        clip = ' Clip'
         index = -1
         if episode in item:
             index = item.find(episode)
@@ -1409,7 +1407,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # "verify menu icon"
         # "verify hamburger"
         self.verify_exists(accessibility_id='Back', screenshot=screenshot)
-        
+
 
     def verify_share_icon(self, screenshot=False):
         self.click_more()

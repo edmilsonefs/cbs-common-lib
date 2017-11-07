@@ -220,7 +220,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Close')
 
     # Schedule Page
-    def validation_k(self):
+    def validation_ak(self, user_type='anonymous'):
         if self.IS_ANDROID:
             self.schedule_page_android.validate_page()
         elif self.IS_IOS:
@@ -955,7 +955,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Questions?')
             self.verify_exists(id='READ OUR FAQ')
 
-    def validation_at(self):
+    def validation_at(self, user_type="anonymous", category="All Shows"):
         if self.IS_ANDROID:
             self.movies_page_android.validate_page()
         elif self.IS_IOS:
