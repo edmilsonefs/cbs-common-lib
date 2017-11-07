@@ -774,7 +774,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_IOS:
             pass
 
-    def validation_ak(self):
+    def validation_ak(self, user_type='anonymous'):
         if self.IS_ANDROID:
             self.verify_exists(name='Success!', screenshot=True)
             self.verify_exists(name="Choose an option below to start streaming Live TV.")
