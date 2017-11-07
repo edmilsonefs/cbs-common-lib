@@ -220,7 +220,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Close')
 
     # Schedule Page
-    def validation_k(self):
+    def validation_ak(self, user_type='anonymous'):
         if self.IS_ANDROID:
             self.schedule_page_android.validate_page()
         elif self.IS_IOS:
@@ -941,7 +941,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Questions?')
             self.verify_exists(id='READ OUR FAQ')
 
-    def validation_at(self):
+    def validation_at(self, user_type="anonymous", category="All Shows"):
         if self.IS_ANDROID:
             self.movies_page_android.validate_page()
         elif self.IS_IOS:
@@ -955,16 +955,16 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_au(self, user_type='anonymous'):
         if self.IS_ANDROID:
-            self.verify_exists(element=self.movies_page.video_thumbnail())
-            self.verify_exists(element=self.movies_page.txt_movie_name())
-            self.verify_exists(element=self.movies_page.txt_meta_data())
-            self.verify_exists(element=self.movies_page.txt_movie_description())
+            self.verify_exists(element=self.movies_page_android.video_thumbnail())
+            self.verify_exists(element=self.movies_page_android.txt_movie_name())
+            self.verify_exists(element=self.movies_page_android.txt_meta_data())
+            self.verify_exists(element=self.movies_page_android.txt_movie_description())
             if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-                self.verify_exists(element=self.movies_page.btn_subscribe_to_watch())
-                self.verify_not_exists(element=self.movies_page.btn_watch_movie())
+                self.verify_exists(element=self.movies_page_android.btn_subscribe_to_watch())
+                self.verify_not_exists(element=self.movies_page_android.btn_watch_movie())
             else:
-                self.verify_exists(element=self.movies_page.btn_watch_movie())
-                self.verify_not_exists(element=self.movies_page.btn_subscribe_to_watch())
+                self.verify_exists(element=self.movies_page_android.btn_watch_movie())
+                self.verify_not_exists(element=self.movies_page_android.btn_subscribe_to_watch())
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
