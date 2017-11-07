@@ -1926,24 +1926,17 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(10)
         if self.exists(id='CONTINUE', timeout=10):
-            if self.xcuitest:    #iOS 10 switch
-                self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
-                sleep(3)
+            self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
+            sleep(3)
             try:
-                if self.xcuitest:
-                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
-                else:
-                    self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
             except:
                 try:
                     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
                 except:
-                    if self.xcuitest:
-                        self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
-                    else:
-                        self.tap_element(xpath="//UIAScrollView[./UIAButton[@name='CONTINUE']]//UIAButton[1]")
+                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                     self.click(accessibility_id='CONTINUE')
                     sleep(3)
                 self.safe_screenshot()
