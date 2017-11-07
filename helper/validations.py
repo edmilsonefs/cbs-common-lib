@@ -287,7 +287,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_q(self, user_type='anonymous'):  # TODO update validation
         if self.IS_ANDROID:
-            self.settings_page_android.validate_page()
+            self.settings_page_android.validate_page(user_type)
         elif self.IS_IOS:
             if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
                 self.verify_exists(id='Sign Out')
@@ -311,21 +311,35 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id='Help')
 
     def validation_r(self):
-        if self.IS_IOS:
+        if self.IS_ANDROID:
+            self.verify_back_button(screenshot=True)
+            self.verify_search_text()
+              
+            # todo: Check black background is shown
+        
+            # need other implementation to check if keyboard is displayed
+            # self.assertTrueWithScreenShot(self.is_keyboard_displayed(), screenshot=True,
+            #                               msg="Keyboard SHOULD be displayed")
+        elif self.IS_IOS:
             self.verify_cancel_button()
             self.verify_search_field()
             self.verify_exists(id='Search for a Show')
             self.verify_keyboard()
 
     def validation_s(self):
-        if self.IS_IOS:
+        if self.IS_ANDROID:
+            self.verify_back_button(screenshot=True)
+            self.verify_search_clear_button()
+            self.verify_no_shows_found_text()
+
+        elif self.IS_IOS:
             self.verify_cancel_button()
             self.verify_search_field()
             self.verify_exists(id="No Shows Found")
 
     def validation_t(self):
         if self.IS_ANDROID:
-            pass
+            self.verify_movie_poster()
         elif self.IS_IOS:
             self.verify_show_cards_exist()
 
@@ -757,9 +771,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id="Search")
             self.verify_exists(id='Check Live TV Availability')
             self.verify_exists(
-                id='CBS would like to use your current location to determine if Live TV is available in your area.' \
-                   'If prompted, please share your location. By using this CBS application, you agree to our Terms of Use,' \
-                   'Privacy Policy, and Video Service Policy.')
+                xpath='(//XCUIElementTypeStaticText[@name="CBS would like to use your current location to determine if Live TV is available in your area. If prompted, please share your location. By using this CBS application, you agree to our Terms of Use, Privacy Policy, and Video Service Policy."])[2]')
             self.verify_exists(id='CHECK AVAILABILITY')
 
     def validation_ap(self):
@@ -792,10 +804,11 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id='Success!', screenshot=True)
             self.verify_exists(
-                xpath="//XCUIElementTypeStaticText[@name='Choose an option below to start streaming live TV.'])[1]")
+                xpath="(//XCUIElementTypeStaticText[@name='Choose an option below to start streaming live TV.'])[2]")
             self.verify_exists(name='OR')
             self.verify_exists(name='TV PROVIDER')
             self.verify_exists(name='VERIFY NOW')
+            self.verify_exists(id='CBSAllAccessLogoWhite_274x24')
 
             if self.xcuitest:
                 self.verify_exists(xpath='//XCUIElementTypeCollectionView')
@@ -803,10 +816,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             else:
                 self.verify_exists(class_name='UIACollectionView')  # schedule
 
-            if user_type in [self.anonymous, self.registered]:
-                self.verify_exists(id='TRY 1 WEEK FREE')
+            if self.user_type in [self.ex_subscriber, self.registered]:
+                self.verify_exists(id='CBS All Access subscription required to enjoy Live TV')
             else:
-                self.verify_not_exists(id='GET STARTED')
+                #TODO verify this check
+                self.verify_exists(name='SIGN IN')
 
     def validation_al(self, user_type='anonymous'):
         if self.IS_ANDROID:
@@ -826,13 +840,13 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_IOS:
             self.verify_exists(id='Complete the verification process', screenshot=True)
             self.verify_exists(id='Register for a free CBS account to get exclusive benefits including:')
-            self.verify_exists(id='Personalize experience with My CBS')
+            self.verify_exists(id='Personalized experience with My CBS')
             self.verify_exists(id='Resume video across apps and web')
             self.verify_exists(id='Exclusive content')
             self.verify_exists(id='Fan votes and sweepstakes')
             self.verify_exists(id='Latest content delivered right to your inbox')
-            self.verify_exists(id='Sign Up')
-            self.verify_exists(id='Already have an account? Sign In')
+            self.verify_exists(id='SIGN UP')
+            self.verify_exists(xpath='(//XCUIElementTypeStaticText[@name="Already have an account? Sign in"])[2]')
         if self.IS_ANDROID:
             self.verify_exists(name='Complete the verification process', screenshot=True)
             self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
@@ -955,16 +969,17 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_au(self, user_type='anonymous'):
         if self.IS_ANDROID:
-            self.verify_exists(element=self.movies_page.video_thumbnail())
-            self.verify_exists(element=self.movies_page.txt_movie_name())
-            self.verify_exists(element=self.movies_page.txt_meta_data())
-            self.verify_exists(element=self.movies_page.txt_movie_description())
-            if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-                self.verify_exists(element=self.movies_page.btn_subscribe_to_watch())
-                self.verify_not_exists(element=self.movies_page.btn_watch_movie())
-            else:
-                self.verify_exists(element=self.movies_page.btn_watch_movie())
-                self.verify_not_exists(element=self.movies_page.btn_subscribe_to_watch())
+            self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail', screenshot=True)
+            self.verify_exists(id=self.com_cbs_app + ':id/txtMovieName')
+            self.verify_exists(id=self.com_cbs_app + ':id/txtMovieMetadata')
+            self.verify_exists(id=self.com_cbs_app + ':id/txtMovieDescription')
+            self.verify_exists(name='PREVIEW TRAILER') #disabled due to CBS bug, will uncomment on new build
+            if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+                self.verify_exists(name='SUBSCRIBE TO WATCH')
+                self.verify_not_exists(name='WATCH MOVIE')
+            elif user_type in [self.trial, self.subscriber, self.cf_subscriber]:
+                self.verify_exists(name='WATCH MOVIE')
+                self.verify_not_exists(name='SUBSCRIBE TO WATCH')
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)

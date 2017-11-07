@@ -78,7 +78,7 @@ class ShowPage(BasePage):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True, name='Navigate up')
         self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
         self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
-        self.verify_exists(element=self.lst_video_icons(), id=self.com_cbs_app + ':id/imgThumbnail')
+        self.verify_exists(element=self.show_page_header(), id=self.com_cbs_app + ':id/imgHeader')
         self.verify_exists(element=self.btn_more_options(), name='More options')
         self.verify_exists(element=self.btn_my_cbs(), id=self.com_cbs_app + ':id/imgMyCbsToggle')
         if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
