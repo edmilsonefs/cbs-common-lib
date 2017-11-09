@@ -388,7 +388,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered]:
                 self.verify_exists(
-                    xpath="//XCUIElementTypeStaticText[contains(@name,'LIMITED') and contains(@name,'COMMERCIALS')]",
+                    xpath="//XCUIElementTypeStaticText[contains(@name,'LIMITED COMMERCIALS')]",
                     screenshot=True)
             if user_type == self.registered:
                 self.verify_not_exists(name='SELECT', timeout=10)
@@ -400,7 +400,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             else:
                 if user_type == self.ex_subscriber:
                     self.verify_exists(
-                        xpath="//XCUIElementTypeStaticText[contains(@name,'LIMITED') and contains(@name,'COMMERCIALS')]",
+                        xpath="//XCUIElementTypeStaticText[contains(@name,'LIMITED COMMERCIALS')]",
                         timeout=20)
                     self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'COMMERCIAL FREE')]", timeout=20)
                     self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'Only $5.99/month')]", timeout=20)
