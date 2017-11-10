@@ -816,7 +816,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             else:
                 self.verify_exists(class_name='UIACollectionView')  # schedule
 
-            if self.user_type in [self.ex_subscriber, self.registered]:
+            if user_type in [self.ex_subscriber, self.registered]:
                 self.verify_exists(id='CBS All Access subscription required to enjoy Live TV')
             else:
                 #TODO verify this check
