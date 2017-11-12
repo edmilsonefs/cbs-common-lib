@@ -1361,8 +1361,9 @@ class CommonHelper(TestlioAutomationTest):
         if not e:
             e = self.get_element(xpath="//android.widget.Button[@text='WATCH EPISODE']")
 
-        e.click()
-        self.accept_popup_video_click()
+        if e:
+            e.click()
+            self.accept_popup_video_click()
 
         # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
         # max_y = self.driver.get_window_size()['height']
