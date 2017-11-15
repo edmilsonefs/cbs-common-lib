@@ -224,8 +224,10 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.schedule_page_android.validate_page()
         elif self.IS_IOS:
+            self.close_big_advertisement()
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='Schedule')
+            self.close_big_advertisement()
             self.verify_cbs_logo()
             self.verify_search_icon()
             self.verify_exists(id="ET/PT")  # Grid
