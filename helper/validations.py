@@ -1008,11 +1008,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.restart_from_the_beggining()
             sleep(20)
             self.pause_video()
-            self.verify_exists(id='Done', screenshot=True)
+            self.verify_exists_video_element(id='Done', screenshot=True)
             # self.verify_exists(id='Learn More') not applicable for all users
-            self.verify_exists(class_name=self.element_prefix() + 'Slider')
-            self.verify_exists(id='UVPSkinClosedCaptionOnButton')
-            self.verify_exists(id='UVPSkinShareOnButton')
+            self.verify_exists_video_element(class_name=self.element_prefix() + 'Slider')
+            self.verify_exists_video_element(id='UVPSkinClosedCaptionOnButton')
+            self.verify_exists_video_element(id='UVPSkinShareOnButton')
 
     def validation_az(self):
         if self.IS_ANDROID:
@@ -1022,9 +1022,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.restart_from_the_beggining()
             sleep(20)
             self.pause_video()
-            self.verify_exists(id='Done', screenshot=True)
-            self.verify_exists(class_name=self.element_prefix() + 'Slider')
-            self.verify_exists(
+            self.verify_exists_video_element(id='Done', screenshot=True)
+            self.verify_exists_video_element(class_name=self.element_prefix() + 'Slider')
+            self.verify_exists_video_element(
                 xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
 
     def validation_video(self):
