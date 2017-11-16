@@ -391,7 +391,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type in [self.anonymous, self.registered]:
                 self.verify_exists(
                     xpath="//XCUIElementTypeStaticText[contains(@name,'LIMITED COMMERCIALS')]",
-                    screenshot=True)
+                    screenshot=True, timeout=20)
             if user_type == self.registered:
                 self.verify_not_exists(name='SELECT', timeout=10)
             elif user_type in [self.subscriber, self.trial]:
