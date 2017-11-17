@@ -608,6 +608,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ae(self, mvpd=False):
         if self.IS_ANDROID:
             # cbs logo
+            self.accept_popup_video_click()
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
