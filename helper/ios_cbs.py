@@ -717,21 +717,21 @@ class CommonIOSHelper(TestlioAutomationTest):
     def pause_video(self):
         # brings panel control up
         try:
-#            self.tap_by_touchaction(.5, .5)
-            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=1))
+            # self.tap_by_touchaction(.5, .5)
+            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=5))
         except:
             try:
-                self.tap_by_touchaction(.5, .5)
+                self.tap(.5, .5)
                 self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
             except:
                 pass
 
     def unpause_video(self):
         try:
-            self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=1))
+            self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=5))
         except:
             try:
-                self.tap_by_touchaction(.5, .5)
+                self.tap(.5, .5)
                 self.click(element=self.get_element(id='UVPSkinPlayButton', timeout=10))
                 sleep(2)
             except:
