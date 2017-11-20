@@ -2448,6 +2448,18 @@ class CommonHelper(TestlioAutomationTest):
 
         return False
 
+    def close_chromecast(self):
+        if not self.IS_AMAZON:
+            try:
+                sleep(5)
+                self.event.screenshot(self.screenshot())
+                self.driver.find_element_by_xpath(xpath="//android.widget.Button[contains(@text,'Chromecast device on your network')]")
+                self.log_info("Chromecast device on your network found")
+                self.event.screenshot(self.screenshot())
+                self.back()
+            except:
+                pass
+
     ################################################
     # VALIDATE / VERIFY
     # Some generic validate / verify methods to be used in test-specific validations
