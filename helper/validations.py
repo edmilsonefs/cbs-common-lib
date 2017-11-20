@@ -174,16 +174,11 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(name='Recently Watched')
                 self.verify_not_exists(name='My CBS')
             else:
-                try:
-                    self.verify_exists(name='Recently Watched')
-                    self.verify_exists(id=self.com_cbs_app + ":id/imgThumbnail")
-                except:
-                    pass
-                try:
-                    self.verify_exists(name='My CBS')
-                    self.verify_exists(id=self.com_cbs_app + ":id/showImage")
-                except:
-                    pass
+                self.verify_exists(name='Recently Watched')
+                self.verify_exists(id=self.com_cbs_app + ":id/imgThumbnail")
+                self.verify_exists(name='My CBS')
+                self.verify_exists(id=self.com_cbs_app + ":id/showImage")
+                
             self.swipe_down_and_verify_if_exists(name="Primetime Episodes")
             self.swipe_down_and_verify_if_exists(name="Late Night Episodes", screenshot=True)
             self.swipe_down_and_verify_if_exists(name="Movies")
