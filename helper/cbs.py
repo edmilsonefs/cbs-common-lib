@@ -2196,48 +2196,50 @@ class CommonHelper(TestlioAutomationTest):
         """
         # Trying to tap using the com.cbs.app:id\playPause id does not work because we can't scan the page_source
         # while video is up.  Must use x, y
-        if self.testdroid_device == 'asus Nexus 7':
-            tap_x = 70
-            tap_y = 900
-        elif self.testdroid_device == 'Amazon KFTBWI':
-            tap_x = 26
-            tap_y = 730
-
-        # works for Nexus 4,
-        else:
-            tap_x = 25
-            tap_y = self.driver.get_window_size()["height"] - 40
+        # if self.testdroid_device == 'asus Nexus 7':
+        #     tap_x = 70
+        #     tap_y = 900
+        # elif self.testdroid_device == 'Amazon KFTBWI':
+        #     tap_x = 26
+        #     tap_y = 730
+        #
+        # # works for Nexus 4,
+        # else:
+        #     tap_x = 25
+        #     tap_y = self.driver.get_window_size()["height"] - 40
 
         # First scenario where device navigation control is not up
-        self.tap(.25, .25, 'to bring up video player controls')
-        sleep(1)
-        self.tap(tap_x, tap_y, 'pause button')
+        if not self.exists(id=self.com_cbs_app + ':id/play_pause'):
+            self.tap(.25, .25, 'to bring up video player controls')
+
+        self.click(element=self.get_element(id='pause'))
 
     def unpause_video(self):
         """
         Taps the unpause button by x, y
         """
-        if self.testdroid_device == 'asus Nexus 7':
-            tap_x = 70
-            tap_y = 900
-        elif self.testdroid_device == 'Amazon KFTBWI':
-            tap_x = 26
-            tap_y = 730
+        # if self.testdroid_device == 'asus Nexus 7':
+        #     tap_x = 70
+        #     tap_y = 900
+        # elif self.testdroid_device == 'Amazon KFTBWI':
+        #     tap_x = 26
+        #     tap_y = 730
+        #
+        # # works for Nexus 4,
+        # else:
+        #     tap_x = 49
+        #     tap_y = self.driver.get_window_size()["height"] - 40
 
-        # works for Nexus 4,
-        else:
-            tap_x = 49
-            tap_y = self.driver.get_window_size()["height"] - 40
+        if not self.exists(id=self.com_cbs_app + ':id/play_pause'):
+            self.tap(.25, .25, 'to bring up video player controls')
 
-        self.tap(tap_x, tap_y, 'unpause/play button')
-        sleep(2)
+        self.click(element=self.get_element(id='play'))
 
     def jump_in_video(self, jump_time):
         """
         Tap in the seek bar to jump over.  jump_time is in seconds.
         Find where to tap by dividing jump_time by total_time as found in the screen element
         """
-
         self.pause_video()
 
         root = self.get_page_source_xml()
@@ -2285,9 +2287,9 @@ class CommonHelper(TestlioAutomationTest):
             self.tap(0.5, 0.5)
             seek_bar = self.get_element(id=self.com_cbs_app + ':id/middleSeekbar', timeout=10)
 
-        self.safe_screenshot()
-
         seek_bar.send_keys(str(seek_pct))
+
+        self.safe_screenshot()
 
         self.unpause_video()
 
