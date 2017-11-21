@@ -2264,7 +2264,7 @@ class CommonHelper(TestlioAutomationTest):
         if not total_time_elem:
             self.tap(0.5, 0.5)
             total_time_elem = self.get_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
-        total_time_text = total_time_elem.attrib['text']
+        total_time_text = total_time_elem.get_attribute('text')
 
         # total_time = hours*3600 + minutes*60 + seconds
         total_time = float(total_time_text[-2:])
