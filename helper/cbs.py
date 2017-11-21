@@ -2285,9 +2285,13 @@ class CommonHelper(TestlioAutomationTest):
             self.tap(0.5, 0.5)
             seek_bar = self.get_element(id=self.com_cbs_app + ':id/middleSeekbar', timeout=10)
 
+        self.safe_screenshot()
+
         seek_bar.send_keys(str(seek_pct))
 
         self.unpause_video()
+
+        self.safe_screenshot()
 
 
         # seek_bar_dim = self._get_dimensions_from_element_using_xml(seek_bar)
