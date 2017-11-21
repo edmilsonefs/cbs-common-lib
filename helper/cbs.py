@@ -2259,7 +2259,11 @@ class CommonHelper(TestlioAutomationTest):
         self.tap(0.5, 0.5, "Tap in the center")
         root = self.get_page_source_xml()
 
-        total_time_elem = self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
+        total_time_elem = self.get_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
+
+        if not total_time_elem:
+            self.tap(0.5, 0.5)
+            total_time_elem = self.get_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
         total_time_text = total_time_elem.attrib['text']
 
         # total_time = hours*3600 + minutes*60 + seconds
