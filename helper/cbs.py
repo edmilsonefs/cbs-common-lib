@@ -2211,7 +2211,7 @@ class CommonHelper(TestlioAutomationTest):
         if not self.exists(id=self.com_cbs_app + ':id/play_pause'):
             self.tap(.25, .25, 'to bring up video player controls')
 
-        self.click(id='pause')
+        self.click(name='pause')
 
     def unpause_video(self):
         """
@@ -2232,7 +2232,7 @@ class CommonHelper(TestlioAutomationTest):
         if not self.exists(id=self.com_cbs_app + ':id/play_pause'):
             self.tap(.25, .25, 'to bring up video player controls')
 
-        self.click(id='play')
+        self.click(name='play')
 
     def jump_in_video(self, jump_time):
         """
