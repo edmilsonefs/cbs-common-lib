@@ -2171,7 +2171,6 @@ class CommonHelper(TestlioAutomationTest):
         if target_icon is None:
             raise RuntimeError('Could not find info icon')
         target_icon.click()
-     
 
     def wait_for_video_to_start(self, buffer_wait=60):
         """
@@ -2212,7 +2211,7 @@ class CommonHelper(TestlioAutomationTest):
         if not self.exists(id=self.com_cbs_app + ':id/play_pause'):
             self.tap(.25, .25, 'to bring up video player controls')
 
-        self.click(element=self.get_element(id='pause'))
+        self.click(id='pause')
 
     def unpause_video(self):
         """
@@ -2233,7 +2232,7 @@ class CommonHelper(TestlioAutomationTest):
         if not self.exists(id=self.com_cbs_app + ':id/play_pause'):
             self.tap(.25, .25, 'to bring up video player controls')
 
-        self.click(element=self.get_element(id='play'))
+        self.click(id='play')
 
     def jump_in_video(self, jump_time):
         """
