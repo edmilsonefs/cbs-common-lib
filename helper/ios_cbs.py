@@ -779,7 +779,18 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         #unpause explicitly if needed
         self.unpause_video()
-
+    
+    def check_video_done_button(self):
+        for _ in range(5):
+            try:
+                ta = TouchAction(self.driver)
+                ta.press(x=100, y=100).release().perform()
+                self.driver.find_element_by_id("Done")
+                self.log('Found DONE button')
+                break
+            except:
+                pass
+    
     def find_by_uiautomation(self, value, hide_keyboard=False):
         return self.driver.find_element_by_ios_uiautomation(value)
 
