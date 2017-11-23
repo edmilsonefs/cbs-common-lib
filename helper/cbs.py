@@ -2247,7 +2247,7 @@ class CommonHelper(TestlioAutomationTest):
         Tap in the seek bar to jump over.  jump_time is in seconds.
         Find where to tap by dividing jump_time by total_time as found in the screen element
         """
-        self.pause_video()
+        # self.pause_video()
 
         root = self.get_page_source_xml()
 
@@ -2294,13 +2294,25 @@ class CommonHelper(TestlioAutomationTest):
             self.tap(0.5, 0.5)
             seek_bar = self.get_element(id=self.com_cbs_app + ':id/middleSeekbar', timeout=10)
 
-        seek_bar.send_keys(str(seek_pct))
+        # seek_bar.send_keys(str(seek_pct))
+
+        seek_bar_size = seek_bar.size
+        seek_bar_location = seek_bar.location
+
+        # width * seek_pct is how far over in the bar to tap
+        tap_x = seek_bar_location['x'] + seek_bar_size['width'] * seek_pct
+
+        # this is just the vertical middle of the seek bar
+        tap_y = seek_bar_location['y'] + seek_bar_size['height'] / 2
+
+        sleep(1)
+        self.tap(tap_x, tap_y, 'jumping in seek bar')
+        sleep(1)
+        self.tap(tap_x, tap_y, 'jumping in seek bar')
 
         self.safe_screenshot()
 
-        self.unpause_video()
-
-        self.safe_screenshot()
+        # self.unpause_video()
 
 
         # seek_bar_dim = self._get_dimensions_from_element_using_xml(seek_bar)
