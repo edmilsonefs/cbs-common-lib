@@ -1722,6 +1722,10 @@ class CommonHelper(TestlioAutomationTest):
 
         self.swipe(startx, starty, endx, endy, duration)
         sleep(1)
+        
+    def close_big_advertisement(self):
+        if self.tablet:
+            self.click_safe(id='Close Advertisement', timeout=6)
 
     ####################################################################################
     # SHOWS
