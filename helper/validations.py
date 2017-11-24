@@ -189,6 +189,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_h(self, user_type="anonymous"):
         if self.IS_ANDROID:
+            self.close_big_advertisement()
             self.show_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
             self.verify_navigation_back_button()
