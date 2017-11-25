@@ -1725,7 +1725,7 @@ class CommonHelper(TestlioAutomationTest):
         
     def close_big_advertisement(self):
         if self.tablet:
-            self.click_safe(id='Close Advertisement', timeout=6)
+            self.click_safe(id='Interstitial close button', timeout=6)
 
     ####################################################################################
     # SHOWS
