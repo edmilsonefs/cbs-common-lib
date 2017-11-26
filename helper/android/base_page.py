@@ -167,6 +167,7 @@ class BasePage(CommonHelper):
 
         self.click_first_search_result()
         sleep(10)
+        self.close_big_advertisement()
 
     def validate_menu_page(self, name):
         if self.user_type == self.anonymous:
