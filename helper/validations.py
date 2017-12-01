@@ -360,14 +360,14 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Learn more')
 
             if user_type == self.anonymous:
-                self.verify_exists(id='TRY 1 WEEK FREE')
+                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
             if user_type == self.ex_subscriber:
                 self.verify_exists(id='GET STARTED')
                 self.verify_not_exists(id='Already have an account? Sign In')
 
             if user_type == self.registered:
-                self.verify_exists(id='TRY 1 WEEK FREE')
+                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_not_exists(id='Already have an account? Sign In')
 
             if user_type == self.subscriber:
@@ -403,8 +403,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                     self.verify_exists(id="COMMERCIAL FREE", timeout=20)
                     self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'Only $5.99/month')]", timeout=20)
                     self.verify_exists(id='SELECT', timeout=20)
-                    self.verify_not_exists(element=self.get_element(id='GET STARTED'), timeout=10)
-                    self.verify_not_exists(element=self.get_element(id='TRY 1 WEEK FREE'), timeout=10)
+                    self.verify_not_exists(id='GET STARTED', timeout=10)
+                    self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]", timeout=10)
 
     def validation_w(self, error_number):
         if self.IS_ANDROID:
@@ -675,17 +675,17 @@ class Validations(CommonHelper, CommonIOSHelper):
             #        'when a program is not available to you via CBS All Access, you will see a message that' /
             #        'states that the program is currently not available.')
             if user_type == self.anonymous:
-                self.verify_exists(id='TRY 1 WEEK FREE')
+                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_exists(id='Already have an account? Sign In')
 
             if user_type == self.registered:
-                self.verify_exists(id='TRY 1 WEEK FREE')
+                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
 
             if user_type == self.ex_subscriber:
                 self.verify_exists(id='GET STARTED')
                 self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
-                self.verify_not_exists(id='TRY 1 WEEK FREE')
+                self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
     def validation_ah(self):
         if self.IS_ANDROID:
@@ -903,7 +903,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type == self.anonymous:
                 self.verify_exists(id='Your TV provider is not supported in this area', screenshot=True)
                 self.verify_exists(id='but you can sign up for CBS All Access to watch now.')
-                self.verify_exists(id='TRY 1 WEEK FREE')
+                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_exists(id='Already have an account? Sign In')
             else:
                 self.verify_not_exists(id='Already have an account? Sign In')
@@ -911,12 +911,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type == self.registered:
                 self.verify_exists(id='Sorry, your TV provider is not supported in this area', screenshot=True)
                 self.verify_exists(id='but you can sign up for CBS All Access to watch now.')
-                self.verify_exists(id='TRY 1 WEEK FREE')
+                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
             if user_type == self.ex_subscriber:
                 self.verify_exists(id='Sorry, your TV provider is not supported in your area,', screenshot=True)
                 self.verify_exists(id='but you can sign up for CBS All Access to watch now.')
-                self.verify_not_exists(id='TRY 1 WEEK FREE')
+                self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_exists(id='GET STARTED')
 
     def validation_as(self, user_type='anonymous'):
