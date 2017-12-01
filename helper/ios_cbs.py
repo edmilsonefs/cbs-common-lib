@@ -1117,7 +1117,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
             # try:
             #     self.event.screenshot(self.screenshot())
-            #     self.driver.find_element_by_id('TRY 1 WEEK FREE*')
+            #     self.driver.find_element_by_xpath("//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
+            # "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
             # except:
             #     self.event.screenshot(self.screenshot())
             #     try:
