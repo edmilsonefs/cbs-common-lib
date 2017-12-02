@@ -566,7 +566,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
 
             if user_type == self.registered:
-                self.verify_exists(name='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
+                # self.verify_exists(xpath='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
+                self.verify_exists(xpath="//*[contains(@name,'CBS All Access 1') and contains(@name,'FREE (CBS - Full Episodes & Live TV)') and (contains(@name,'Week') or contains(@name,'Month'))]", screenshot=True)
 
         if self.IS_IOS:
             pass
