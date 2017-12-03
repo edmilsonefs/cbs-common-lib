@@ -879,7 +879,7 @@ class CommonHelper(TestlioAutomationTest):
         if self.IS_AMAZON:
             the_timeout = 8
 
-        while not self.exists(element=self.get_element(timeout=the_timeout, name='Open navigation drawer')):
+        while not self.exists(element=self.get_element(timeout=the_timeout, id='Open navigation drawer')):
             self.back()
             counter += 1
             if counter > 10:
@@ -891,7 +891,7 @@ class CommonHelper(TestlioAutomationTest):
         if self.IS_AMAZON:
             the_timeout = 8
 
-        while not self.exists(element=self.get_element(timeout=the_timeout, name='Navigate up')):
+        while not self.exists(element=self.get_element(timeout=the_timeout, id='Navigate up')):
             self.back()
             counter += 1
             if counter > 10:
