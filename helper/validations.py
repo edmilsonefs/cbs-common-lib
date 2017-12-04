@@ -266,7 +266,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_n(self):
         if self.IS_ANDROID:
-            self.shows_page.validate_all_shows_dropdown_menu()
+            self.shows_page_android.validate_all_shows_dropdown_menu()
         elif self.IS_IOS:
             self.verify_exists(id='All Shows', screenshot=False)
             self.verify_exists(id='Featured')
