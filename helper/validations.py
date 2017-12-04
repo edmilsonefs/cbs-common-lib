@@ -198,17 +198,29 @@ class Validations(CommonHelper, CommonIOSHelper):
             # self.verify_exists(id='Marquee')  # show image
             # self.verify_star_icon()
 
-    def validation_i(self):  # TODO update validation
+    def validation_i(self, show_page=False, home_page=False):
         if self.IS_ANDROID:
-            pass
+            # self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail', screenshot=True)
+            self.verify_exists(id=self.com_cbs_app + ':id/txtDescription')
+            self.verify_exists(name='WATCH EPISODE')
+            if home_page:
+                self.verify_exists(name='MORE FROM SHOW')
+            if show_page:
+                self.verify_not_exists(name='MORE FROM SHOW')
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
             self.verify_exists(id='Watch Episode')
             self.verify_exists(id='Close')
 
-    def validation_j(self):
+    def validation_j(self, show_page=False, home_page=False):
         if self.IS_ANDROID:
-            pass
+            # self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail', screenshot=True)
+            self.verify_exists(id=self.com_cbs_app + ':id/txtDescription')
+            self.verify_exists(name='WATCH CLIP')
+            if home_page:
+                self.verify_exists(name='MORE FROM SHOW')
+            if show_page:
+                self.verify_not_exists(name='MORE FROM SHOW')
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
             self.verify_exists(id='Watch Clip')
@@ -267,13 +279,21 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_o(self):  # TODO update validation
         if self.IS_ANDROID:
-            self.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
+            if self.phone:
+                self.verify_exists(id='com.cbs.app:id/showInfo', screenshot=False)
+            else:
+                self.verify_exists(id='android:id/message', screenshot=True)
         elif self.IS_IOS:
             pass
 
     def validation_p(self):
         if self.IS_ANDROID:
-            pass
+            self.verify_exists(element=self.show_page.btn_like_on_facebook(), screenshot=True, name='Like on Facebook')
+            self.close_big_advertisement()
+            self.verify_exists(element=selfs.show_page.btn_follow_on_twitter(), name='Follow on Twitter')
+            self.verify_exists(element=self.show_page.btn_share(), name='Share')
+            self.verify_exists(element=self.show_page.btn_add_to_calendar(), name='Add to Calendar')
+            self.verify_exists(element=self.show_page.btn_show_info(), name='Show Info')
         elif self.IS_IOS:
             self.verify_exists(name='Like on Facebook', screenshot=False)
             self.verify_exists(name='Follow on Twitter')
