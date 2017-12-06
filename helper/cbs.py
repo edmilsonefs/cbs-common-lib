@@ -659,6 +659,10 @@ class CommonHelper(TestlioAutomationTest):
                 x = loc['x'] + size['width'] - 10
                 y = loc['y'] + 10
 
+            else:
+                x = loc['x'] + size['width'] / 2
+                y = loc['y'] + size['height'] / 2
+
         elif self.phone:
             if kwargs['side'] == 'middle':
                 x = loc['x'] + size['width'] / 2
@@ -672,6 +676,9 @@ class CommonHelper(TestlioAutomationTest):
                 x = loc['x'] + size['width'] - size['width'] / 6
                 y = loc['y'] + size['height'] / 2
 
+            else:
+                x = loc['x'] + size['width'] / 2
+                y = loc['y'] + size['height'] / 2
         if not msg:
             msg = elem.text or \
                   elem.get_attribute('name') or \
