@@ -172,8 +172,7 @@ class CommonHelper(TestlioAutomationTest):
     # MENU
 
     def _go_to(self, menu):
-        self.driver.implicitly_wait(8)
-        drawer = self._find_element(id=self.com_cbs_app + ':id/navigation_drawer')
+        drawer = self.get_element(id=self.com_cbs_app + ':id/navigation_drawer')
         self.click(element=drawer.find_element_by_xpath("//*[@text='{0}' or @content-desc='{1}']".format(menu, menu)),
                    data='Click on menu item %s' % menu)
         self.driver.implicitly_wait(20)
