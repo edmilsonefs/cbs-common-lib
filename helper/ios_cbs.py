@@ -722,11 +722,11 @@ class CommonIOSHelper(TestlioAutomationTest):
             else:
                 try:
                     # self.tap_by_touchaction(.5, .5)
-                    self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=5))
+                    self.click(id='UVPSkinPauseButton', timeout=5)
                 except:
                     try:
                         self.tap(.5, .5)
-                        self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
+                        self.click(id='UVPSkinPauseButton', timeout=10)
                     except:
                         pass
                 count += 1
@@ -735,11 +735,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         # brings panel control up
         try:
             # self.tap_by_touchaction(.5, .5)
-            self.get_element(id='UVPSkinPauseButton', timeout=5).click()
+            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=5))
         except:
             try:
                 self.tap(.5, .5)
-                self.get_element(id='UVPSkinPauseButton', timeout=10).click()
+                self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
             except:
                 pass
 
