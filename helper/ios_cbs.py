@@ -717,7 +717,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def pause_video_new_impl(self):
         count = 0
         while count < 10:
-            if self.exists(element=self.get_element(id='UVPSkinPlayButton', timeout=10)):
+            if self.exists(id='UVPSkinPlayButton', timeout=10):
                 break
             else:
                 try:
