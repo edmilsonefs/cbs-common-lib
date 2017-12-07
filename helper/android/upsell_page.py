@@ -12,7 +12,7 @@ class UpsellPage(BasePage):
                                                        "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
 
     def btn_get_started(self, timeout=10):
-        return self.get_element(timeout=timeout, name='GET STARTED')
+        return self.get_element(timeout=timeout, xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE']")
 
     def btn_already_a_subscriber_sign_in(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/txtAlreadyHaveAnAccount")
@@ -27,7 +27,7 @@ class UpsellPage(BasePage):
                 xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
             self.verify_exists(element=self.btn_try_1_week_month_free())
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-            self.verify_exists(element=self.btn_get_started(), name='GET STARTED')
+            self.verify_exists(element=self.btn_get_started(), xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE']")
             if user_type == self.registered:
                 self.verify_not_exists(name='SELECT', timeout=10)
         elif user_type in [self.subscriber, self.trial]:
@@ -43,7 +43,7 @@ class UpsellPage(BasePage):
                 self.verify_exists(xpath="//*[contains(@text,'Only $5.99/month')]", timeout=20)
                 self.verify_exists(name='SELECT', timeout=20)
                 self.verify_not_exists(element=self.btn_try_1_week_month_free(), timeout=10)
-                self.verify_not_exists(element=self.btn_get_started(), timeout=10, name='GET STARTED') #TODO change later
+                self.verify_not_exists(element=self.btn_get_started(), timeout=10, xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE']") #TODO change later
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
