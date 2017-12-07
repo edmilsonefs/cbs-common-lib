@@ -735,11 +735,11 @@ class CommonIOSHelper(TestlioAutomationTest):
         # brings panel control up
         try:
             # self.tap_by_touchaction(.5, .5)
-            self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=5))
+            self.get_element(id='UVPSkinPauseButton', timeout=5).click()
         except:
             try:
                 self.tap(.5, .5)
-                self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
+                self.get_element(id='UVPSkinPauseButton', timeout=10).click()
             except:
                 pass
 
