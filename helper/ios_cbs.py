@@ -714,6 +714,23 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.tap_by_touchaction(.25, .25)
                 e.click()
 
+    def pause_video_new_impl(self):
+        count = 0
+        while count < 10:
+            if self.exists(element=self.get_element(id='UVPSkinPlayButton', timeout=10)):
+                break
+            else:
+                try:
+                    # self.tap_by_touchaction(.5, .5)
+                    self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=5))
+                except:
+                    try:
+                        self.tap(.5, .5)
+                        self.click(element=self.get_element(id='UVPSkinPauseButton', timeout=10))
+                    except:
+                        pass
+                count += 1
+
     def pause_video(self):
         # brings panel control up
         try:
