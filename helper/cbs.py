@@ -75,7 +75,7 @@ class CommonHelper(TestlioAutomationTest):
         try:
             self.event.screenshot(self.screenshot())
         except Exception:
-            self.event.start(data='in teardown: screenshot failed')
+            self.log_info('[SCREENSHOT] - Taking screenshot is failed')
 
     def get_testdroid_device_from_adb(self):
         """
@@ -152,7 +152,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def select_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def click_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
@@ -356,7 +356,7 @@ class CommonHelper(TestlioAutomationTest):
             self._hide_keyboard()
             self.send_keys(data=password_text, element=password)
             self._hide_keyboard()
-            self.event.screenshot(self.screenshot())  # per spec
+            self.safe_screenshot()  # per spec
 
             # login_button = self.get_elements(class_name='android.widget.Button')[0]
             # self.click(element=login_button)
@@ -367,19 +367,19 @@ class CommonHelper(TestlioAutomationTest):
             self.send_keys(data=email_text, element=email)
             self._hide_keyboard()
             self.click(class_name='android.widget.Button')
-            self.event.screenshot(self.screenshot())  # per spec
+            self.safe_screenshot()  # per spec
             fields = self.get_elements(class_name="android.widget.EditText")
             password = fields[0]
             self.send_keys(data=password_text, element=password)
             self._hide_keyboard()
-            self.event.screenshot(self.screenshot())  # per spec
+            self.safe_screenshot()  # per spec
             self.click(class_name='android.widget.Button')
 
             # login_button = self.get_elements(class_name='android.widget.Button')[0]
             # self.click(element=login_button)
 
         sleep(30)
-        self.event.screenshot(self.screenshot())  # per spec
+        self.safe_screenshot()  # per spec
 
         if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
                                                                            timeout=5):
@@ -398,7 +398,7 @@ class CommonHelper(TestlioAutomationTest):
                     sleep(3)
 
         sleep(30)
-        self.event.screenshot(self.screenshot())  # per spec
+        self.safe_screenshot()  # per spec
 
     def login_through_twitter_by_multi_tap(self, email_text, password_text):
         """
@@ -423,7 +423,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1)
         self.tap_keys_on_keyboard(password_text + '\t')
         sleep(1)
-        self.event.screenshot(self.screenshot())  # per spec
+        self.safe_screenshot()  # per spec
 
         # tap authorize button
         self.tap_keys_on_keyboard('\n')
@@ -432,7 +432,7 @@ class CommonHelper(TestlioAutomationTest):
         # popup says "Do you want to save your password?"
         self.click_safe(name='Not now', timeout=10)
 
-        self.event.screenshot(self.screenshot())  # per spec
+        self.safe_screenshot()  # per spec
 
     def login_through_twitter(self, email_text, password_text):
         """
@@ -465,7 +465,7 @@ class CommonHelper(TestlioAutomationTest):
         self.send_keys(data=password_text, element=password)
         self._hide_keyboard()
 
-        self.event.screenshot(self.screenshot())  # per spec
+        self.safe_screenshot()  # per spec
 
         # e = self._find_element(name='Username or email')
         # self.swipe_element_to_top_of_screen(e)
@@ -551,7 +551,7 @@ class CommonHelper(TestlioAutomationTest):
         self.send_keys(show_name, search_field)
         self._hide_keyboard()
         sleep(5)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def send_keys_with_retry(self, element, string, retries=4):
         """
@@ -1098,12 +1098,12 @@ class CommonHelper(TestlioAutomationTest):
         email_field = self.click(id=self.com_cbs_app + ':id/edtEmail')
         self.send_keys(element=email_field, data=username, id=self.com_cbs_app + ':id/edtEmail')
         self._hide_keyboard()
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
         password_field = self.click(id=self.com_cbs_app + ':id/edtPassword')
         self.send_keys(element=password_field, data=password, id=self.com_cbs_app + ':id/edtPassword')
         self._hide_keyboard()
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         self.click(id=self.com_cbs_app + ':id/btnSignIn')
 
         self.complete_registration()
@@ -1114,11 +1114,11 @@ class CommonHelper(TestlioAutomationTest):
         try:
             sleep(5)
             self.click(id=self.com_cbs_app + ':id/terms_accept_checkBox')
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
             self.click(xpath=("//*[@text='SUBMIT']"))
         except Exception:
             self.event._log_info(self.event._event_data('complete registration not needed'))
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         self.driver.implicitly_wait(30)
 
     def logout(self):
@@ -1127,13 +1127,13 @@ class CommonHelper(TestlioAutomationTest):
             origin = self.get_element(name='Video Services')
             destination = self.get_element(name='Send Feedback')
             self.driver.drag_and_drop(origin, destination)
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
         self.click(xpath=("//*[@text='Sign Out']"), data='Sign Out 1')
         self.click(id=self.com_cbs_app + ':id/signOutButton', data="Sign out 2")
         if "LGE Nexus 5X" == self.testdroid_device:
             self.event._log_info(self.event._event_data('Sign out 2'))
             self.driver.tap([(400, 660)])
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         self.navigate_up()
         self.goto_home()
 
@@ -1157,11 +1157,11 @@ class CommonHelper(TestlioAutomationTest):
             origin = self.get_element(name='Nielsen Info & Your Choices')
             destination = self.get_element(name='Send Feedback')
             self.driver.drag_and_drop(origin, destination)
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
             self.click(xpath=("//*[@text='Debug']"))
         else:
             self.click(xpath=("//*[@text='Debug']"))
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def choose_location(self, city, swipe_up=False):
         window_size_y = self.driver.get_window_size()["height"]
@@ -1172,7 +1172,7 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.tap([(450, 745)])
         else:
             self.click(xpath=("//*[@text='Location Set']"))
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         try:
             self.driver.implicitly_wait(5)
             city = self.get_element(name=city)
@@ -1190,11 +1190,11 @@ class CommonHelper(TestlioAutomationTest):
                     origin = self.get_element(name='Philadelphia')
                     destination = self.get_element(name='Denver KCNC')
                     self.driver.drag_and_drop(origin, destination)
-                    self.event.screenshot(self.screenshot())
+                    self.safe_screenshot()
                     origin = self.get_element(name='College Station, TX KBTX')
                     destination = self.get_element(name='Boston')
                     self.driver.drag_and_drop(origin, destination)
-                    self.event.screenshot(self.screenshot())
+                    self.safe_screenshot()
                 elif self.tablet:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
@@ -1243,15 +1243,15 @@ class CommonHelper(TestlioAutomationTest):
             id_field = self.driver.find_element_by_xpath(xpath="//*[@content-desc='Optimum ID']").click()
             self.send_keys(element=id_field, data=user, xpath="//*[@content-desc='Optimum ID']")
             self._hide_keyboard()
-            self.screenshot()
+            self.safe_screenshot()
 
             password_field = self.driver.find_element_by_xpath(xpath="//*[@resource-id='IDToken2']").click()
             self.send_keys(element=password_field, data=password, xpath="//*[@resource-id='IDToken2']")
             self._hide_keyboard()
-            self.screenshot()
+            self.safe_screenshot()
 
             self.driver.tap([(200, 1200)])
-            self.screenshot()
+            self.safe_screenshot()
 
         else:
             count = 0
@@ -1264,29 +1264,29 @@ class CommonHelper(TestlioAutomationTest):
 
             if self.testdroid_device == 'LGE Nexus 5':
                 self.driver.tap([(200, 830)])
-                self.screenshot()
+                self.safe_screenshot()
             if self.testdroid_device == 'asus Nexus 7':
                 self.driver.tap([(600, 600)])
-                self.screenshot()
+                self.safe_screenshot()
             if self.testdroid_device == 'samsung SM-T330NU':
                 self.driver.tap([(400, 400)])
-                self.screenshot()
+                self.safe_screenshot()
             fields = self.get_elements(class_name='android.widget.EditText')
             email_field = fields[0]
             password_field = fields[1]
             # start from the bottom up
             self.click(email_field)
-            self.screenshot()
+            self.safe_screenshot()
             self.send_keys(data=user, element=email_field, class_name='android.widget.EditText'[0])
-            self.screenshot()
+            self.safe_screenshot()
             self._hide_keyboard()
             self.send_keys(data=password, element=password_field, class_name='android.widget.EditText'[1])
-            self.screenshot()
+            self.safe_screenshot()
             self.driver.back()
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
             self.driver.press_keycode(66)  # Enter
             sleep(3)
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
@@ -1569,7 +1569,7 @@ class CommonHelper(TestlioAutomationTest):
                     self.driver.swipe(35, 400, 35, window_size_y - 500)
                 count += 1
         self.driver.implicitly_wait(30)
-        self.screenshot()
+        self.safe_screenshot()
 
     def swipe(self, startx, starty, endx, endy, swipe_time=None):
         """
@@ -1609,7 +1609,7 @@ class CommonHelper(TestlioAutomationTest):
             self.verify_exists(class_name=class_name)
 
         if screenshot:
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
 
     def _short_swipe_up(self, duration=1000, side='middle'):
         size = self.driver.get_window_size()
@@ -1640,7 +1640,7 @@ class CommonHelper(TestlioAutomationTest):
         try:
             self.driver.swipe(x, start_y, x, end_y, duration)
         except:
-            self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
         sleep(1)
 
     def _short_swipe_left(self, element, duration):
@@ -1762,7 +1762,7 @@ class CommonHelper(TestlioAutomationTest):
             if what_to_search_for in e.text:
                 break
             else:
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
                 e.clear()
 
         self.assertTrueWithScreenShot(what_to_search_for in e.text,
@@ -1847,9 +1847,9 @@ class CommonHelper(TestlioAutomationTest):
             # The rare case that we see an elem with the right season and episode numbers, but it's the wrong show.
             # Swipe it off the screen and try again...
             if season_ep_elem and not title_elem:
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
                 self.swipe(.8, y, .2, y, 1500)
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
             else:
                 break
 
@@ -1960,7 +1960,7 @@ class CommonHelper(TestlioAutomationTest):
         while count <= 5:
             element = self.exists(xpath=element_xpath, timeout=4)
             if element:
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
                 element.click()
                 # loc = element.location
                 # self.tap(loc['x'] + 70, loc['y'] + 70)
@@ -2348,10 +2348,10 @@ class CommonHelper(TestlioAutomationTest):
         if not self.IS_AMAZON:
             try:
                 sleep(5)
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
                 self.driver.find_element_by_xpath(xpath="//android.widget.Button[contains(@text,'Chromecast device on your network')]")
                 self.log_info("Chromecast device on your network found")
-                self.event.screenshot(self.screenshot())
+                self.safe_screenshot()
                 self.back()
             except:
                 pass
@@ -2504,7 +2504,7 @@ class CommonHelper(TestlioAutomationTest):
         self.goto_live_tv()
         sleep(5)
 
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         if self.exists(name='Start Watching') or self.exists(id=self.com_cbs_app + ":id/showList"):
             return True
         else:

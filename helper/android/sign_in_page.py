@@ -81,7 +81,7 @@ class SignInPage(BasePage):
         self.send_keys(data=password, element=password_field)
         self._hide_keyboard()
         self.driver.press_keycode(66)  # Enter
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
         self.post_sign_in_accept_terms()
 

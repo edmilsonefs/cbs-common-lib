@@ -115,7 +115,7 @@ class SettingsPage(BasePage):
     def mvpd_logout(self):
         self.goto_settings()
         sleep(5)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         try:
             self.click(element=self.btn_disconnect_from_optimum(), screenshot=True)
             if self.exists(element=self.btn_mvpd_disconnect()):
@@ -141,10 +141,10 @@ class SettingsPage(BasePage):
             origin = self.btn_video_services()
             destination = self.btn_send_feedback()
             self.driver.drag_and_drop(origin, destination)
-            self.event.screenshot(self.screenshot())
-        self.event.screenshot(self.screenshot())
+            self.safe_screenshot()
+        self.safe_screenshot()
         self.click(element=self.btn_sign_out_settings())
         self.click(element=self.btn_sign_out())
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         #  To go back to home page
         self.click(element=self.btn_navigate_up())

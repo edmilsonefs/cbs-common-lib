@@ -77,22 +77,22 @@ class LiveTvPage(BasePage):
             self.driver.tap([(600, 600)])
         if self.IS_AMAZON:
             self.driver.tap([(350, 290)])
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         fields = self.lst_optimum_sign_in_fields()
         email_field = fields[0]
         password_field = fields[1]
 
         self.click(email_field)
         self.send_keys(data=user, element=email_field)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         self._hide_keyboard()
         self.send_keys(data=password, element=password_field)
         self._hide_keyboard()
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         self.driver.press_keycode(66)  # Enter
         sleep(5)
         self.log_info("after pressing enter")
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def goto_providers_page(self):
         window_size_y = self.driver.get_window_size()["height"]
@@ -101,10 +101,10 @@ class LiveTvPage(BasePage):
             self.driver.swipe(35, window_size_y - 600, 35, 700)
         self.click(element=self.btn_verify_now())
         sleep(5)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         if self.IS_AMAZON:
             self.driver.tap([(620, 710)])
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def goto_optimum_sign_in(self):
         self.goto_providers_page()
@@ -113,13 +113,13 @@ class LiveTvPage(BasePage):
             self.driver.tap([(620, 710)])
         else:
             self.click_allow_popup()
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def swipe_down_on_live_tv_page(self):
         origin = self.get_element(name='TV PROVIDER')
         destination = self.get_element(name=self.lbl_two_ways_to_watch_live_tv())
         self.driver.drag_and_drop(origin, destination)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
 
     def validate_page(self, user_type="anonymous"):
         for i in range(2):

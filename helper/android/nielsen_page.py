@@ -37,7 +37,7 @@ class NielsenPage(BasePage):
         # Nielsen page now needs to scroll to end of page to find buttons
         for i in range(0, 5):
             self.driver.swipe(500, window_height - 600, 500, 200)
-        self.event.screenshot(self.screenshot())
+        self.safe_screenshot()
         self.click(element=self.btn_opt_in(), screenshot=True)
         self.click(element=self.btn_ok())
         self.navigate_up()

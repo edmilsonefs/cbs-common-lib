@@ -857,7 +857,6 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(xpath=self.element_type + "CollectionView", screenshot=True)
 
     def validation_am(self):
-        # self.event.screenshot(self.screenshot())
         if self.IS_IOS:
             self.verify_exists(id='Complete the verification process', screenshot=True)
             self.verify_exists(id='Register for a free CBS account to get exclusive benefits including:')
