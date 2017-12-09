@@ -352,9 +352,14 @@ class CommonHelper(TestlioAutomationTest):
             password = fields[1]
 
             # start from the bottom up
-            self.send_keys(data=email_text, element=email)
-            self._hide_keyboard()
-            self.send_keys(data=password_text, element=password)
+            try:
+                self.send_keys(data=email_text, element=email)
+                self._hide_keyboard()
+                self.send_keys(data=password_text, element=password)
+            except:
+                self.send_keys(data=password_text, element=password)
+                self._hide_keyboard()
+
             self._hide_keyboard()
             self.safe_screenshot()  # per spec
 
