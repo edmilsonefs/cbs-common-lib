@@ -357,7 +357,7 @@ class CommonHelper(TestlioAutomationTest):
                 self._hide_keyboard()
                 self.send_keys(data=password_text, element=password)
             except:
-                self.send_keys(data=password_text, element=password)
+                self.send_keys(data=password_text, element=email)
                 self._hide_keyboard()
 
             self._hide_keyboard()
