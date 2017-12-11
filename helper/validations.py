@@ -289,8 +289,8 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_p(self):
         if self.IS_ANDROID:
-            self.verify_exists(element=self.show_page_android.btn_like_on_facebook(), screenshot=True, name='Like on Facebook')
             self.close_big_advertisement()
+            self.verify_exists(element=self.show_page_android.btn_like_on_facebook(), screenshot=True, name='Like on Facebook')
             self.verify_exists(element=self.show_page_android.btn_follow_on_twitter(), name='Follow on Twitter')
             self.verify_exists(element=self.show_page_android.btn_share(), name='Share')
             self.verify_exists(element=self.show_page_android.btn_add_to_calendar(), name='Add to Calendar')
