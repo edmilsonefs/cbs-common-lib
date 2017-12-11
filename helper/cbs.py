@@ -45,13 +45,13 @@ class CommonHelper(TestlioAutomationTest):
             self.driver.orientation = 'PORTRAIT'
 
             if 'Nexus 7' in self.testdroid_device \
-                    or 'KFTBWI' in self.testdroid_device:
+                    or 'Fire' in self.testdroid_device:
                 self.tablet = True
                 self.phone = False
             else:
                 self.tablet = False
                 self.phone = True
-            if 'KFTBWI' in self.testdroid_device:
+            if 'Fire' in self.testdroid_device:
                 self.com_cbs_app = 'com.cbs.ott'
                 self.IS_AMAZON = True
         except:
