@@ -83,7 +83,8 @@ class CommonHelper(TestlioAutomationTest):
         Mapping of device model names (as returned by adb getprop) to testdroid device names
         """
         lookup = {}
-        lookup['KFTBWI'] = 'KFTBWI'
+        lookup['KFGIWI'] = 'KFGIWI'
+        lookup['KFDOWI'] = 'KFDOWI'
         lookup['831C'] = 'HTC_M8x'
         lookup['Nexus 5'] = 'LGE Nexus 5'
         lookup['Nexus 5'] = 'LGE Nexus 5 6.0'
