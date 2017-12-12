@@ -46,13 +46,13 @@ class CommonHelper(TestlioAutomationTest):
             print ("Device name: " + self.testdroid_device)
 
             if 'Nexus 7' in self.testdroid_device \
-                    or 'KFGIWI' in self.testdroid_device or 'KFDOWI' in self.testdroid_device:
+                    or 'amazon' in self.testdroid_device:
                 self.tablet = True
                 self.phone = False
             else:
                 self.tablet = False
                 self.phone = True
-            if 'KFGIWI' in self.testdroid_device or 'KFDOWI' in self.testdroid_device:
+            if 'amazon' in self.testdroid_device:
                 self.com_cbs_app = 'com.cbs.ott'
                 self.IS_AMAZON = True
         except:
@@ -83,8 +83,8 @@ class CommonHelper(TestlioAutomationTest):
         Mapping of device model names (as returned by adb getprop) to testdroid device names
         """
         lookup = {}
-        lookup['KFGIWI'] = 'KFGIWI'
-        lookup['KFDOWI'] = 'KFDOWI'
+        lookup['KFGIWI'] = 'amazon'
+        lookup['KFDOWI'] = 'amazon'
         lookup['831C'] = 'HTC_M8x'
         lookup['Nexus 5'] = 'LGE Nexus 5'
         lookup['Nexus 5'] = 'LGE Nexus 5 6.0'
