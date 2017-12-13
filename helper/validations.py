@@ -180,7 +180,10 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id=self.com_cbs_app + ":id/showImage")
                 
             self.swipe_down_and_verify_if_exists(name="Primetime Episodes")
-            self.swipe_down_if_element_is_not_visible(name="Late Night Episodes", short_swipe=True)
+            counter = 0
+            while not self.exists(name="Late Night Episodes") and counter < 10:
+                counter += 1
+                self.swipe_down_if_element_is_not_visible(name="Late Night Episodes", short_swipe=True)
             self.swipe_down_and_verify_if_exists(name="Late Night Episodes", screenshot=True)
             self.swipe_down_and_verify_if_exists(name="Movies")
             self.swipe_down_and_verify_if_exists(name="Latest Clips")
