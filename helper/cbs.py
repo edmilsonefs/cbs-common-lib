@@ -43,7 +43,6 @@ class CommonHelper(TestlioAutomationTest):
                 self.testdroid_device = self.get_testdroid_device_from_adb()
             self.activate_standard_keyboard()
             self.driver.orientation = 'PORTRAIT'
-            print ("Device name: " + self.testdroid_device)
 
             if 'Nexus 7' in self.testdroid_device \
                     or 'amazon' in self.testdroid_device:
