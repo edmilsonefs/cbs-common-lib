@@ -61,6 +61,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.safe_screenshot()
         # self.click_safe(xpath="//*[@name='OK']", timeout=60)
         # self.click_safe(id="START NOW", timeout=30)
+        self.event.screenshot(self.screenshot())
         self.goto_home()
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
