@@ -1144,6 +1144,21 @@ class CommonHelper(TestlioAutomationTest):
         self.navigate_up()
         self.goto_home()
 
+    def sign_out(self):
+        if not self.click_safe(name="Settings"):
+            self.back_while_open_drawer_is_visible()
+            self.goto_settings()
+        sleep(3)
+        self._short_swipe_down(1000, side='left')
+        self._short_swipe_down(1000, side='left')
+        self.click(name='Sign Out')
+        self.click(id=self.com_cbs_app + ':id/signOutButton')
+
+        self.navigate_up()
+        self.user_type = self.anonymous
+
+        self.driver.implicitly_wait(60)
+
     def click_already_have_account_sign_in(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
         elem = self.get_element(name='Already have an account? Sign In')
