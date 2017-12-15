@@ -172,6 +172,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(accessibility_id='Live TV')
         self._accept_alert(2)
 
+    def goto_tv_provider(self):
+        self.open_drawer()
+        self.click(id='TV Provider')
+
+    def goto_cbs_local_station(self):
+        self.open_drawer()
+        self.click(id='CBS (Local Station)')
+
     def goto_schedule(self):
         self.open_drawer()
         self.click(id='Schedule')
