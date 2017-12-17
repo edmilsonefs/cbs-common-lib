@@ -175,6 +175,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_tv_provider(self):
         self.open_drawer()
         self.click(id='TV Provider')
+        self._accept_alert(2)
 
     def goto_cbs_local_station(self):
         self.open_drawer()
