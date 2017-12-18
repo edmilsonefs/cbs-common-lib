@@ -72,7 +72,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Mobile User Agreement')
             self.verify_exists(name='Privacy Policy')
             self.verify_exists(name='Video Services')
-            self.verify_exists(name='Accept')
+            self.verify_exists(name='ACCEPT')
         elif self.IS_IOS:
             self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
             self.verify_exists(id='Terms of Use')
