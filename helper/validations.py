@@ -66,12 +66,12 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_a(self):
         if self.IS_ANDROID:
-            self.verify_exists(name=' Welcome to the CBS app ', screenshot=True)
+            self.verify_exists(name='Welcome to the CBS app', screenshot=True)
             self.verify_exists(name='By using this CBS Application, you agree to our:')
-            self.verify_exists(name=' Terms of Use ')
-            self.verify_exists(name=' Mobile User Agreement ')
-            self.verify_exists(name=' Privacy Policy ')
-            self.verify_exists(name=' Video Services ')
+            self.verify_exists(name='Terms of Use')
+            self.verify_exists(name='Mobile User Agreement')
+            self.verify_exists(name='Privacy Policy')
+            self.verify_exists(name='Video Services')
             self.verify_exists(name='Accept')
         elif self.IS_IOS:
             self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
