@@ -830,6 +830,10 @@ class CommonHelper(TestlioAutomationTest):
         self.accept_popup_video_click()
         self.click_safe(name='PLAY FROM BEGINNING', timeout=10)
 
+    def click_subscribe_to_watch(self):
+        self.accept_popup_video_click()
+        self.click_safe(name='SUBSCRIBE TO WATCH', timeout=10)
+
     def select_first_show_option(self):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
 
