@@ -1111,16 +1111,16 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_clip_episode_on_home_page(self):
         window_size_height = self.driver.get_window_size()["height"]
         count = 0
-        while not self.is_element_visible(self.exists(name='Clips', timeout=6)) and count < 200:
+        while not self.is_element_visible(self.exists(id='Latest Clips', timeout=6)) and count < 200:
             self.swipe_down(1, (400 if self.tablet else 100))
             count += 1
 
-        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(name='Clips', timeout=6)), screenshot=True, msg='Clips should be presented')
+        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Latest Clips', timeout=6)), screenshot=True, msg='Clips should be presented')
 
         count = 0
-        if self.is_element_visible(self.exists(name='Clips', timeout=6)):
-            self.exists(name='Clips', timeout=6)
-            while self.exists(name='Clips', timeout=6).location['y'] + self.exists(name='Clips', timeout=6).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+        if self.is_element_visible(self.exists(id='Latest Clips', timeout=6)):
+            self.exists(id='Latest Clips', timeout=6)
+            while self.exists(id='Latest Clips', timeout=6).location['y'] + self.exists(id='Latest Clips', timeout=6).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
                 self.swipe_down(1, (400 if self.tablet else 100))
                 count += 1
 
@@ -1132,7 +1132,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         #     count += 1
 
         self.safe_screenshot()
-        label = self.get_element(name='Clips')
+        label = self.get_element(id='Latest Clips')
         x = label.location['x']
         y = label.location['y']
         self.tap(x + 50, y + label.size['height'] + 40)
