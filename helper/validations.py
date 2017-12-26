@@ -66,13 +66,13 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_a(self):
         if self.IS_ANDROID:
-            self.verify_exists(name=' Welcome to the CBS app ', screenshot=True)
+            self.verify_exists(name='Welcome to the CBS app', screenshot=True)
             self.verify_exists(name='By using this CBS Application, you agree to our:')
-            self.verify_exists(name=' Terms of Use ')
-            self.verify_exists(name=' Mobile User Agreement ')
-            self.verify_exists(name=' Privacy Policy ')
-            self.verify_exists(name=' Video Services ')
-            self.verify_exists(name='Accept')
+            self.verify_exists(name='Terms of Use')
+            self.verify_exists(name='Mobile User Agreement')
+            self.verify_exists(name='Privacy Policy')
+            self.verify_exists(name='Video Services')
+            self.verify_exists(name='ACCEPT')
         elif self.IS_IOS:
             self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
             self.verify_exists(id='Terms of Use')
@@ -583,15 +583,16 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ac(self, user_type='anonymous'):
         if self.IS_ANDROID:
-            # LCS Billing Popup
-            self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
-            self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
-            if user_type == self.ex_subscriber:
-                self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
+            if not self.IS_AMAZON: #TODO skip for Amazon for a while
+                # LCS Billing Popup
+                self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
+                self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
+                if user_type == self.ex_subscriber:
+                    self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
 
-            # if user_type == self.registered:
-                # self.verify_exists(xpath='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
-                # self.verify_exists(xpath="//*[contains(@name,'CBS All Access 1') and contains(@name,'FREE (CBS - Full Episodes & Live TV)') and (contains(@name,'Week') or contains(@name,'Month'))]", screenshot=True)
+                # if user_type == self.registered:
+                    # self.verify_exists(xpath='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
+                    # self.verify_exists(xpath="//*[contains(@name,'CBS All Access 1') and contains(@name,'FREE (CBS - Full Episodes & Live TV)') and (contains(@name,'Week') or contains(@name,'Month'))]", screenshot=True)
 
         if self.IS_IOS:
             pass

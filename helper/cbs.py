@@ -830,6 +830,10 @@ class CommonHelper(TestlioAutomationTest):
         self.accept_popup_video_click()
         self.click_safe(name='PLAY FROM BEGINNING', timeout=10)
 
+    def click_subscribe_to_watch(self):
+        self.accept_popup_video_click()
+        self.click_safe(name='SUBSCRIBE TO WATCH', timeout=10)
+
     def select_first_show_option(self):
         self.click(id=(self.com_cbs_app + ':id/showImage'), data='First show icon')
 
@@ -1162,6 +1166,16 @@ class CommonHelper(TestlioAutomationTest):
         self.event._log_info(self.event._event_data('Select Sign In'))
         elem = self.get_element(name='Already have an account? Sign In')
         self.click_by_location(elem, side='right')
+
+    def open_url(self, url):
+        self.log_info('Scenario for Custom - %s' % url)
+        subprocess.call("adb shell am start -a \"android.intent.action.VIEW\" -d '" + url + "'", shell=True)
+        sleep(10)
+        if self.exists(name='Open with', timeout=7):
+            self.click_safe(name='CBS')
+            self.click_safe(name='Always')
+        if self.exists(name='Default app selected', timeout=7):
+            self.click_safe(name='OK')
 
     #### LIVE TV and NIELSEN
     def goto_nielsen_info_page(self):
