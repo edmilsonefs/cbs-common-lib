@@ -1882,7 +1882,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Apparently some versions of appium don't handle this correctly. Surprising.
 
         x, y = self._convert_relative_x_y(x, y)
-        self.driver.tap([(x, y)])
+        try:
+            self.driver.tap([(x, y)])
+        except:
+            pass
 
     def element_prefix(self):
         if self.xcuitest:
