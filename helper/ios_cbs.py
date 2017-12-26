@@ -1111,33 +1111,15 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.safe_screenshot()
 
     def click_latest_clip_on_home_page(self):
-        window_size_height = self.window_size["height"]
-        count = 0
-        while not self.is_element_visible(self.exists(id='Latest Clips', timeout=6)) and count < 200:
-            self.swipe_down(1, (400 if self.tablet else 100))
-            count += 1
+        self.swipe_down(20, 400)
 
-        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Latest Clips', timeout=6)), screenshot=True, msg='Clips should be presented')
-
-        count = 0
-        if self.is_element_visible(self.exists(id='Latest Clips', timeout=6)):
-            self.exists(id='Latest Clips', timeout=6)
-            while self.exists(id='Latest Clips', timeout=6).location['y'] + self.exists(id='Latest Clips', timeout=6).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
-                self.swipe_down(1, (400 if self.tablet else 100))
-                count += 1
-
-        # movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
-        #
-        # count = 0
-        # while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 10:
-        #     self.swipe_down(count=1, distance=50)
-        #     count += 1
+        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Popular Clips', timeout=6)), screenshot=True, msg='Popular Clips should be presented')
 
         self.safe_screenshot()
-        label = self.get_element(id='Latest Clips')
+        label = self.get_element(id='Popular Clips')
         x = label.location['x']
         y = label.location['y']
-        self.tap(x + 50, y + label.size['height'] + 40)
+        self.tap(x + 30, y + label.size['height'] + 30)
         self.safe_screenshot()
         self.accept_video_popup()
         self.safe_screenshot()
