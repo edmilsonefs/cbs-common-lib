@@ -1108,7 +1108,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.accept_video_popup()
         self.safe_screenshot()
 
-    def click_clip_episode_on_home_page(self):
+    def click_latest_clip_on_home_page(self):
         window_size_height = self.driver.get_window_size()["height"]
         count = 0
         while not self.is_element_visible(self.exists(id='Latest Clips', timeout=6)) and count < 200:
@@ -1120,7 +1120,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         count = 0
         if self.is_element_visible(self.exists(id='Latest Clips', timeout=6)):
             self.exists(id='Latest Clips', timeout=6)
-            while self.exists(id='Latest Clips', timeout=6).location['y'] + self.exists(id='Latest Clips', timeout=6).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+            while self.exists(id='Latest Clips', timeout=6).location['y'] + self.exists(id='Latest Clips', timeout=6).size['height'] > window_size_height / (3 if self.phone else 4) and count < 70:
                 self.swipe_down(1, (400 if self.tablet else 100))
                 count += 1
 
