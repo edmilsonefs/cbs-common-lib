@@ -160,7 +160,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id="Settings")
             self.verify_exists(id='Home')
             self.verify_exists(id='Shows')
-            self.verify_exists(id='Live TV')
+            # self.verify_exists(id='Live TV') TODO update validation
             # self.verify_exists(id='Movies')
             self.verify_exists(id='Schedule')
             # self.verify_exists(name='My CBS')
