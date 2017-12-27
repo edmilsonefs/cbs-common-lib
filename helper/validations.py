@@ -766,12 +766,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             sleep(5)
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Live TV')
+            # self.verify_exists(id='Live TV')
             self.verify_exists(id="Search")
             try:
                 self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Frequently Asked Questions"]')
             except:
-                self.screenshot()
+                self.safe_screenshot()
             self.driver.implicitly_wait(30)
 
     def validation_aj(self):
