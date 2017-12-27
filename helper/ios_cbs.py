@@ -1113,10 +1113,10 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_latest_clip_on_home_page(self):
         self.swipe_down(20, 400)
 
-        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Popular Clips', timeout=6)), screenshot=True, msg='Popular Clips should be presented')
+        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Latest Clips', timeout=10)), screenshot=True, msg='Latest Clips should be presented')
 
         self.safe_screenshot()
-        label = self.get_element(id='Popular Clips')
+        label = self.get_element(id='Latest Clips')
         x = label.location['x']
         y = label.location['y']
         self.tap(x + 30, y + label.size['height'] + 30)
