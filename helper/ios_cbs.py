@@ -1454,7 +1454,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             t_f = self.exists(accessibility_id=id1, timeout=5) or \
                   self.exists(accessibility_id=id2)
 
-        self.assertTrueWithScreenShot(t_f, screenshot=screenshot, msg='Verifying CBS Logo exists')
+        #self.assertTrueWithScreenShot(t_f, screenshot=screenshot, msg='Verifying CBS Logo exists')
 
     def verify_navigation_drawer_button(self, screenshot=False):
         # "verify menu icon"
