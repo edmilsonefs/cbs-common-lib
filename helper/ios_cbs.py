@@ -471,15 +471,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         except:
             pass
         self.safe_screenshot()
-        try:
-            if self.is_element_visible(self.exists(**kwargs)):
-                assert_true = True
-        except:
+        if self.exists(**kwargs):
+            assert_true = True
+        else:
             try:
                 self.tap(0.5, 0.5)
             except:
                 pass
-            if self.is_element_visible(self.exists(**kwargs)):
+            if self.exists(**kwargs):
                 assert_true = True
         self.log_info("End of stream")
         self.safe_screenshot()
