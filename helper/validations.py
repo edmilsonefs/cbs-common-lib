@@ -43,16 +43,14 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.video_page_android = VideoPageAndroid(self.driver, self.event)
 
         if str(self.driver.capabilities['platformName']).lower() == 'android':
-
             self.IS_ANDROID = True
             self.IS_IOS = False
+
+            self.init_variables()
         elif str(self.driver.capabilities['platformName']).lower() == 'ios':
             self.IS_ANDROID = False
             self.IS_IOS = True
 
-        if self.IS_ANDROID:
-            self.init_variables()
-        if self.IS_IOS:
             Validations.__bases__ = (CommonIOSHelper, CommonHelper)
             if 'iPad' in self.driver.capabilities['deviceName']:
                 self.tablet = True
@@ -299,11 +297,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(element=self.show_page_android.btn_add_to_calendar(), name='Add to Calendar')
             self.verify_exists(element=self.show_page_android.btn_show_info(), name='Show Info')
         elif self.IS_IOS:
-            self.verify_exists(name='Like on Facebook', screenshot=False)
-            self.verify_exists(name='Follow on Twitter')
-            self.verify_exists(name='Share')
-            self.verify_exists(name='Add to Calendar')
-            self.verify_exists(name='Show Info')
+            self.verify_exists(id='Like on Facebook', screenshot=True)
+            self.verify_exists(id='Follow on Twitter')
+            self.verify_exists(id='Share')
+            self.verify_exists(id='Add to Calendar')
+            self.verify_exists(id='Show Info')
 
             # Settings Page
 
