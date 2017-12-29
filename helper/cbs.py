@@ -387,21 +387,8 @@ class CommonHelper(TestlioAutomationTest):
         sleep(30)
         self.safe_screenshot()  # per spec
 
-        if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
-                                                                           timeout=5):
-            if self.exists(class_name='android.widget.Button', timeout=5):
-                bs = self.get_elements(class_name="android.widget.Button")
-                bs[0].click()
-                sleep(4)
-
-            else:
-                # Quite the hack:
-                # Try several times, moving down the screen, to tap the "OK" on the webview
-                y = .75
-                while self.exists(class_name='android.webkit.WebView', timeout=10) and y < .95:
-                    self.tap(.65, y)
-                    y += .03
-                    sleep(3)
+        self.click_safe(id='Log In', timeout=10)
+        self.click_safe(id='Continue', timeout=30)
 
         sleep(30)
         self.safe_screenshot()  # per spec
