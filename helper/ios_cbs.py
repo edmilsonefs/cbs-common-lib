@@ -467,21 +467,19 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.safe_screenshot()
         assert_true = False
         try:
-            ta = TouchAction(self.driver)
-            ta.press(x=100, y=100).release().perform()
+            self.tap(0.5, 0.5)
         except:
             pass
         self.safe_screenshot()
         try:
-            self.get_element(**kwargs).is_displayed()
-            assert_true = True
+            if self.is_element_visible(self.exists(**kwargs)):
+                assert_true = True
         except:
             try:
-                ta = TouchAction(self.driver)
-                ta.press(x=100, y=100).release().perform()
+                self.tap(0.5, 0.5)
             except:
                 pass
-            if self.exists(**kwargs).is_displayed():
+            if self.is_element_visible(self.exists(**kwargs)):
                 assert_true = True
         self.log_info("End of stream")
         self.safe_screenshot()
