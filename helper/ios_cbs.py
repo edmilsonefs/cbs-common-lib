@@ -466,20 +466,20 @@ class CommonIOSHelper(TestlioAutomationTest):
     def verify_exists_video_element(self, **kwargs):
         self.safe_screenshot()
         assert_true = False
-        try:
-            self.tap(0.5, 0.5)
-        except:
-            pass
-        self.safe_screenshot()
-        if self.exists(**kwargs):
-            assert_true = True
-        else:
-            try:
-                self.tap(0.5, 0.5)
-            except:
-                pass
+        count = 0
+        while count < 5:
             if self.exists(**kwargs):
                 assert_true = True
+                break
+            else:
+                try:
+                    self.tap(100, 100)
+                    count += 1
+                except:
+                    pass
+                if self.exists(**kwargs):
+                    assert_true = True
+                    break
         self.log_info("End of stream")
         self.safe_screenshot()
         self.assertTrueWithScreenShot(assert_true, msg="Video elements must be displayed", screenshot=True)
