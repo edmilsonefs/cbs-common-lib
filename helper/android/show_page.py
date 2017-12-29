@@ -63,16 +63,16 @@ class ShowPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtShowName')
 
     def txt_episode_name(self, timeout=10):
-        return self.get_element(timeout=timeout, id=':id/txtEpisodeName')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtEpisodeName')
 
     def txt_air_date(self, timeout=10):
-        return self.get_element(timeout=timeout, id=':id/txtAirDate')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtAirDate')
 
     def txt_episode_description(self, timeout=10):
-        return self.get_element(timeout=timeout, id=':id/txtDescription')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/txtDescription')
 
     def txt_season_episode(self, timeout=10):
-        return self.get_element(timeout=timeout, id=':id/seasonEpisode')
+        return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/seasonEpisode')
 
     def validate_page(self, user_type="anonymous"):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True, name='Navigate up')
