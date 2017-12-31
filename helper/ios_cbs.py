@@ -1137,8 +1137,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         y = label.location['y']
         self.tap(x + 50, y + label.size['height'] + 40)
         self.safe_screenshot()
-        self.accept_video_popup()
-        self.safe_screenshot()
 
     def click_latest_clip_on_home_page(self):
         self.swipe_down(20, 400)
