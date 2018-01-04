@@ -697,6 +697,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.safe_screenshot()
         while count < try_times:
+            self.click_safe(id="Done", timeout=6)
             try:
                 ta = TouchAction(self.driver)
                 ta.press(x=100, y=100).release().perform()
