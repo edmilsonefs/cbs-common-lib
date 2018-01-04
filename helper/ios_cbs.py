@@ -692,25 +692,31 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.video_done_button()
                 count += 1
 
-    def video_done_button(self):
+    def video_done_button(self, try_times=3):
+        count = 0
+
         self.safe_screenshot()
-        try:
-            ta = TouchAction(self.driver)
-            ta.press(x=100, y=100).release().perform()
-        except:
-            pass
-        self.safe_screenshot()
-        try:
-            self.click(id="Done", timeout=6)
-        except:
+        while count < try_times:
             try:
                 ta = TouchAction(self.driver)
                 ta.press(x=100, y=100).release().perform()
             except:
                 pass
-            self.click_safe(id="Done", timeout=6)
-        self.log_info("End of stream")
-        self.safe_screenshot()
+            self.safe_screenshot()
+            try:
+                self.click(id="Done", timeout=6)
+            except:
+                try:
+                    ta = TouchAction(self.driver)
+                    ta.press(x=100, y=100).release().perform()
+                except:
+                    pass
+                self.click_safe(id="Done", timeout=6)
+            self.log_info("End of stream")
+            self.safe_screenshot()
+            if self.exists(id='Search', timeout=7):
+                break
+            count += 1
 
     def stop_video(self):
         try:
