@@ -1139,7 +1139,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         #     count += 1
 
         self.safe_screenshot()
-        label = self.get_element(name='Primetime')
+        label = self.get_element(id='Primetime Episodes')
         x = label.location['x']
         y = label.location['y']
         self.tap(x + 50, y + label.size['height'] + 40)
