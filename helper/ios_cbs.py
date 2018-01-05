@@ -1118,16 +1118,16 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_primetime_episode_on_home_page(self):
         window_size_height = self.window_size["height"]
         count = 0
-        while not self.is_element_visible(self.exists(name='Primetime Episodes', timeout=10)) and count < 200:
+        while not self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)) and count < 200:
             self.swipe_down(1, (400 if self.tablet else 100))
             count += 1
 
-        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(name='Primetime Episodes', timeout=10)), screenshot=True, msg='Primetime episode should be presented')
+        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)), screenshot=True, msg='Primetime episode should be presented')
 
         count = 0
-        if self.is_element_visible(self.exists(name='Primetime Episodes', timeout=10)):
-            self.exists(name='Primetime Episodes', timeout=10)
-            while self.exists(name='Primetime Episodes', timeout=10).location['y'] + self.exists(name='Primetime Episodes', timeout=10).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+        if self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)):
+            self.exists(id='Primetime Episodes', timeout=10)
+            while self.exists(id='Primetime Episodes', timeout=10).location['y'] + self.exists(id='Primetime Episodes', timeout=10).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
                 self.swipe_down(1, (400 if self.tablet else 100))
                 count += 1
 
