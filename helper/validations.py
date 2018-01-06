@@ -122,11 +122,6 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.sign_up_page_android.validate_page()
         elif self.IS_IOS:
-            self.verify_exists(id='Sign in with your social account')
-            # TODO Close icon? Only id = Back button is present
-            self.verify_exists(id='FacebookLogo')
-            self.verify_exists(id='TwitterLogo')
-            self.verify_exists(id="GooglePlusLogo")
             self.verify_exists(id='Sign up with your email')
             self.verify_exists(id='SIGN UP')
             # Already have an account? Sign in - doesn't exist on this page
