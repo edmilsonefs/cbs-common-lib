@@ -101,6 +101,7 @@ class LiveTvPage(BasePage):
             self.driver.swipe(35, window_size_y - 600, 35, 700)
         self.click(element=self.btn_verify_now())
         sleep(5)
+        self.click_allow_popup()
         self.safe_screenshot()
         if self.IS_AMAZON:
             self.driver.tap([(620, 710)])

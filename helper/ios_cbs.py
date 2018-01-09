@@ -35,6 +35,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
     signed_out = False
     xcuitest = False
+    window_size = None
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -63,6 +64,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.click_safe(id="START NOW", timeout=30)
         self.event.screenshot(self.screenshot())
         self.goto_home()
+        self.window_size = self.driver.get_window_size()
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
@@ -180,6 +182,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_cbs_local_station(self):
         self.open_drawer()
         self.click(id='CBS (Local Station)')
+        self._accept_alert(2)
 
     def goto_schedule(self):
         self.open_drawer()
@@ -471,23 +474,20 @@ class CommonIOSHelper(TestlioAutomationTest):
     def verify_exists_video_element(self, **kwargs):
         self.safe_screenshot()
         assert_true = False
-        try:
-            ta = TouchAction(self.driver)
-            ta.press(x=100, y=100).release().perform()
-        except:
-            pass
-        self.safe_screenshot()
-        try:
-            self.get_element(**kwargs).is_displayed()
-            assert_true = True
-        except:
-            try:
-                ta = TouchAction(self.driver)
-                ta.press(x=100, y=100).release().perform()
-            except:
-                pass
-            if self.exists(**kwargs).is_displayed():
+        count = 0
+        while count < 5:
+            if self.exists(**kwargs):
                 assert_true = True
+                break
+            else:
+                try:
+                    self.tap(100, 100)
+                    count += 1
+                except:
+                    pass
+                if self.exists(**kwargs):
+                    assert_true = True
+                    break
         self.log_info("End of stream")
         self.safe_screenshot()
         self.assertTrueWithScreenShot(assert_true, msg="Video elements must be displayed", screenshot=True)
@@ -530,7 +530,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         try:
             self.get_page_source_xml_x_tap
         except AttributeError:
-            s = self.driver.get_window_size()
+            s = self.window_size
             tap_x = int(s['width'] * .5)
             tap_y = int(s['height'] * .5)
 
@@ -700,25 +700,32 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.video_done_button()
                 count += 1
 
-    def video_done_button(self):
+    def video_done_button(self, try_times=3):
+        count = 0
+
         self.safe_screenshot()
-        try:
-            ta = TouchAction(self.driver)
-            ta.press(x=100, y=100).release().perform()
-        except:
-            pass
-        self.safe_screenshot()
-        try:
-            self.click(id="Done", timeout=6)
-        except:
+        while count < try_times:
+            self.click_safe(id="Done", timeout=6)
             try:
                 ta = TouchAction(self.driver)
                 ta.press(x=100, y=100).release().perform()
             except:
                 pass
-            self.click_safe(id="Done", timeout=6)
-        self.log_info("End of stream")
-        self.safe_screenshot()
+            self.safe_screenshot()
+            try:
+                self.click(id="Done", timeout=6)
+            except:
+                try:
+                    ta = TouchAction(self.driver)
+                    ta.press(x=100, y=100).release().perform()
+                except:
+                    pass
+                self.click_safe(id="Done", timeout=6)
+            self.log_info("End of stream")
+            self.safe_screenshot()
+            if self.exists(id='Search', timeout=7):
+                break
+            count += 1
 
     def stop_video(self):
         try:
@@ -842,7 +849,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         """
         Returns y coordinate located not in the ad area
         """
-        s_height = self.driver.get_window_size()['height']
+        s_height = self.window_size['height']
         ad_y_start = ad.location['y']
         ad_y_end = ad_y_start + ad.size['height']
 
@@ -875,7 +882,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.find_on_page('id', 'com.cbs.app:id/seasonEpisode')
         """
         self.set_implicit_wait(3)
-        device_size = self.driver.get_window_size()
+        device_size = self.window_size
 
         for i in range(max_swipes):
             try:
@@ -975,7 +982,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Apparently some versions of appium don't handle this correctly. Surprising.
 
         if startx < 1 or starty < 1 or endx < 1 or endy < 1:
-            s = self.driver.get_window_size()
+            s = self.window_size
             width = s['width']
             height = s['height']
 
@@ -997,7 +1004,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.log_info("Swipe is failing")
 
     def _short_swipe_up(self, duration=1000, side='middle'):
-        size = self.driver.get_window_size()
+        size = self.window_size
         if side == 'middle':
             x = size['width'] / 2
         elif side == 'left':
@@ -1011,7 +1018,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(1)
 
     def _short_swipe_down(self, duration=4000, side='middle'):
-        size = self.driver.get_window_size()
+        size = self.window_size
         if side == 'middle':
             x = size['width'] / 2
         elif side == 'left':
@@ -1047,7 +1054,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         """
         loc = elem.location
         size = elem.size
-        screen_size = self.driver.get_window_size()
+        screen_size = self.window_size
         if self.tablet:
             if kwargs['side'] == 'middle':
                 x = loc['x'] + size['width'] / 2
@@ -1085,7 +1092,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         action.tap(x=x, y=y).perform()
 
     def click_movies_episode_on_home_page(self):
-        window_size_height = self.driver.get_window_size()["height"]
+        window_size_height = self.window_size["height"]
         count = 0
         while not self.is_element_visible(self.exists(id='Movies', timeout=6)) and count < 200:
             self.swipe_down(1, (400 if self.tablet else 100))
@@ -1114,6 +1121,52 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.tap(x + 50, y + label.size['height'] + 40)
         self.safe_screenshot()
         self.accept_video_popup()
+        self.safe_screenshot()
+
+    def click_primetime_episode_on_home_page(self):
+        window_size_height = self.window_size["height"]
+        count = 0
+        while not self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)) and count < 200:
+            self.swipe_down(1, (400 if self.tablet else 100))
+            count += 1
+
+        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)), screenshot=True, msg='Primetime episode should be presented')
+
+        count = 0
+        if self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)):
+            self.exists(id='Primetime Episodes', timeout=10)
+            while self.exists(id='Primetime Episodes', timeout=10).location['y'] + self.exists(id='Primetime Episodes', timeout=10).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+                self.swipe_down(1, (400 if self.tablet else 100))
+                count += 1
+
+        # movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
+        #
+        # count = 0
+        # while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 10:
+        #     self.swipe_down(count=1, distance=50)
+        #     count += 1
+
+        self.safe_screenshot()
+        label = self.get_element(id='Primetime Episodes')
+        x = label.location['x']
+        y = label.location['y']
+        self.tap(x + 50, y + label.size['height'] + 40)
+        self.safe_screenshot()
+
+    def click_latest_clip_on_home_page(self):
+        self.swipe_down(20, 400)
+
+        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Latest Clips', timeout=10)), screenshot=True, msg='Latest Clips should be presented')
+
+        self.safe_screenshot()
+        label = self.get_element(id='Latest Clips')
+        x = label.location['x']
+        y = label.location['y']
+        self.tap(x + 30, y + label.size['height'] + 30)
+        self.safe_screenshot()
+        self.accept_video_popup()
+        self.safe_screenshot()
+        sleep(30)
         self.safe_screenshot()
 
     def accept_video_popup(self):
@@ -1302,7 +1355,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             raise RuntimeError('Failed finding "Primetime Episodes" on page.')
 
         y = e.location['y']
-        win_size = self.driver.get_window_size()['height']
+        win_size = self.window_size['height']
 
         # if it's already onscreen and near the top, just tap below it
         if y < win_size * .75:
@@ -1354,7 +1407,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # For some stupid reason, it over-swipes sometimes.  Make sure it's still on the screen
         self.driver.page_source
         category_elem = self.exists(id=show_dict['show_category'], timeout=2)
-        screen_height = self.driver.get_window_size()["height"]
+        screen_height = self.window_size["height"]
         if not category_elem or category_elem.location['y'] < screen_height * .12:
             self.swipe(.5, 0.5, .5, -0.2, 1500)
         sleep(2)
@@ -1443,7 +1496,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             t_f = self.exists(accessibility_id=id1, timeout=5) or \
                   self.exists(accessibility_id=id2)
 
-        self.assertTrueWithScreenShot(t_f, screenshot=screenshot, msg='Verifying CBS Logo exists')
+        #self.assertTrueWithScreenShot(t_f, screenshot=screenshot, msg='Verifying CBS Logo exists')
 
     def verify_navigation_drawer_button(self, screenshot=False):
         # "verify menu icon"
@@ -1622,7 +1675,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def _hide_keyboard(self):
         if self.is_keyboard_displayed():
             if self.phone:
-                size = self.driver.get_window_size()
+                size = self.window_size
 
                 x = size['width']/2
                 start_y = size['height']/2
@@ -1630,7 +1683,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
                 self.driver.swipe(x, start_y, x, end_y, 500)
             elif self.tablet:
-                size = self.driver.get_window_size()
+                size = self.window_size
                 self.tap(size['width'] - 30, size['height'] - 30)
 
     def is_keyboard_displayed(self):
@@ -1856,7 +1909,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Apparently some versions of appium don't handle this correctly. Surprising.
 
         x, y = self._convert_relative_x_y(x, y)
-        self.driver.tap([(x, y)])
+        try:
+            self.driver.tap([(x, y)])
+        except:
+            pass
 
     def element_prefix(self):
         if self.xcuitest:
@@ -1902,7 +1958,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def _convert_relative_x_y(self, x, y):
         if x < 1 or y < 1:
-            s = self.driver.get_window_size()
+            s = self.window_size
             width = s['width']
             height = s['height']
 
@@ -2037,7 +2093,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         starty = loc['y']
 
         # in case it's behind the banner ad at the bottom, swipe up a little
-        window_height = self.driver.get_window_size()['height']
+        window_height = self.window_size['height']
         if starty > .8 * window_height:
             self.swipe(.5, .5, .5, 0.3, 1500)
             starty = starty - window_height * .2
@@ -2056,16 +2112,16 @@ class CommonIOSHelper(TestlioAutomationTest):
         Swipe NEXT TO the element, to the top of the screen.
         Don't swipe directly ON the element because if it's a picker we'll just edit the value
         """
-        window_size_y = self.driver.get_window_size()["height"]
+        window_size_y = self.window_size["height"]
         self.swipe(30, window_size_y - 80, 30, window_size_y - 500)
 
     def short_swipe_down(self):
-        window_size_y = self.driver.get_window_size()["height"]
+        window_size_y = self.window_size["height"]
         self.swipe(30, window_size_y - 100, 30, window_size_y - 150)
 
     def swipe_down(self, count, distance):
-        window_size_y = self.driver.get_window_size()["height"]
-        window_size_x = self.driver.get_window_size()["width"]
+        window_size_y = self.window_size["height"]
+        window_size_x = self.window_size["width"]
         for _ in range(0, count):
             self.swipe(window_size_x / 2, window_size_y - 100, window_size_x / 2, window_size_y - 100 - distance)
 

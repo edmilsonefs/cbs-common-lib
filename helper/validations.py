@@ -43,16 +43,14 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.video_page_android = VideoPageAndroid(self.driver, self.event)
 
         if str(self.driver.capabilities['platformName']).lower() == 'android':
-
             self.IS_ANDROID = True
             self.IS_IOS = False
+
+            self.init_variables()
         elif str(self.driver.capabilities['platformName']).lower() == 'ios':
             self.IS_ANDROID = False
             self.IS_IOS = True
 
-        if self.IS_ANDROID:
-            self.init_variables()
-        if self.IS_IOS:
             Validations.__bases__ = (CommonIOSHelper, CommonHelper)
             if 'iPad' in self.driver.capabilities['deviceName']:
                 self.tablet = True
@@ -124,11 +122,6 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.sign_up_page_android.validate_page()
         elif self.IS_IOS:
-            self.verify_exists(id='Sign in with your social account')
-            # TODO Close icon? Only id = Back button is present
-            self.verify_exists(id='FacebookLogo')
-            self.verify_exists(id='TwitterLogo')
-            self.verify_exists(id="GooglePlusLogo")
             self.verify_exists(id='Sign up with your email')
             self.verify_exists(id='SIGN UP')
             # Already have an account? Sign in - doesn't exist on this page
@@ -160,7 +153,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id="Settings")
             self.verify_exists(id='Home')
             self.verify_exists(id='Shows')
-            self.verify_exists(id='Live TV')
+            # self.verify_exists(id='Live TV') TODO update validation
             # self.verify_exists(id='Movies')
             self.verify_exists(id='Schedule')
             # self.verify_exists(name='My CBS')
@@ -299,11 +292,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(element=self.show_page_android.btn_add_to_calendar(), name='Add to Calendar')
             self.verify_exists(element=self.show_page_android.btn_show_info(), name='Show Info')
         elif self.IS_IOS:
-            self.verify_exists(name='Like on Facebook', screenshot=False)
-            self.verify_exists(name='Follow on Twitter')
-            self.verify_exists(name='Share')
-            self.verify_exists(name='Add to Calendar')
-            self.verify_exists(name='Show Info')
+            self.verify_exists(id='Like on Facebook', screenshot=True)
+            self.verify_exists(id='Follow on Twitter')
+            self.verify_exists(id='Share')
+            self.verify_exists(id='Add to Calendar')
+            self.verify_exists(id='Show Info')
 
             # Settings Page
 
@@ -766,12 +759,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             sleep(5)
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Live TV')
+            # self.verify_exists(id='Live TV')
             self.verify_exists(id="Search")
             try:
                 self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Frequently Asked Questions"]')
             except:
-                self.screenshot()
+                self.safe_screenshot()
             self.driver.implicitly_wait(30)
 
     def validation_aj(self):

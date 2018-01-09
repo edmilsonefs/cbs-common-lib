@@ -388,8 +388,8 @@ class CommonHelper(TestlioAutomationTest):
         self.safe_screenshot()  # per spec
 
         if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
-                                                                           timeout=5):
-            if self.exists(class_name='android.widget.Button', timeout=5):
+                                                                           timeout=10):
+            if self.exists(class_name='android.widget.Button', timeout=10):
                 bs = self.get_elements(class_name="android.widget.Button")
                 bs[0].click()
                 sleep(4)
@@ -1067,7 +1067,7 @@ class CommonHelper(TestlioAutomationTest):
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
             self.verify_exists(name='GET STARTED')
             if self.user_type == self.registered:
-                self.verify_not_exists(name='SELECT', timeout=10)
+                self.verify_not_exists(xpath="//android.widget.Button[@text='SELECT']", timeout=10)
         elif self.user_type in [self.subscriber, self.trial]:
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
             self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
@@ -1079,7 +1079,7 @@ class CommonHelper(TestlioAutomationTest):
                     xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
                 self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
                 self.verify_exists(xpath="//*[contains(@text,'Only $5.99/month')]")
-                self.verify_exists(name='SELECT')
+                self.verify_exists(xpath="//android.widget.Button[@text='SELECT']")
                 self.verify_not_exists(xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
                                              "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
                 self.verify_not_exists(name='GET STARTED', timeout=10)
@@ -1475,7 +1475,7 @@ class CommonHelper(TestlioAutomationTest):
         raise RuntimeError('Could not find "GET..." button')
 
     def click_select_lc(self):
-        bs = self.get_elements(name='SELECT')
+        bs = self.get_elements(xpath="//android.widget.Button[@text='SELECT']")
         b0 = bs[0]
         b1 = bs[1]
 
@@ -1488,7 +1488,7 @@ class CommonHelper(TestlioAutomationTest):
             b1.click()
 
     def click_select_cf(self):
-        bs = self.get_elements(name='SELECT')
+        bs = self.get_elements(xpath="//android.widget.Button[@text='SELECT']")
         b0 = bs[0]
         b1 = bs[1]
 

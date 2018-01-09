@@ -29,7 +29,7 @@ class UpsellPage(BasePage):
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
             self.verify_exists(element=self.btn_get_started(), xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE']")
             if user_type == self.registered:
-                self.verify_not_exists(name='SELECT', timeout=10)
+                self.verify_not_exists(id='SELECT', timeout=10)
         elif user_type in [self.subscriber, self.trial]:
             self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
             self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
