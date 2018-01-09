@@ -1010,11 +1010,27 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ax1(self):
         if self.IS_ANDROID:
-            pass
+            self.verify_exists(id=self.com_cbs_app + ':id/appIcon')
+            self.verify_exists(id=self.com_cbs_app + ':id/cbsTextView')
+            self.verify_exists(id=self.com_cbs_app + ':id/appVersionTextView')
         elif self.IS_IOS:
             self.verify_exists(id='CBSEye_white', timeout=10)
             self.verify_exists(id='App Version')
             self.verify_exists(id='CBS')
+
+    def validation_ax2(self):
+        if self.IS_ANDROID:
+            self.verify_exists(xpath='//*[@content-desc="ABOUT NIELSEN MEASUREMENT"]')
+
+
+    def validation_ax3(self):
+        if self.IS_ANDROID:
+            self.verify_exists(xpath=("//*[@text='Type your feedback above the dotted line']"))
+            self.verify_exists(xpath=("//*[@text='we are including some device details so we can better help you']"))
+            self.verify_exists(xpath=("//*[@text='App Version']"))
+            self.verify_exists(xpath=("//*[@text='OS Version']"))
+            self.verify_exists(xpath=("//*[@text='Device']"))
+            self.verify_exists(xpath=("//*[@text='Account']"))
 
     # Video Validation
     def validation_ay(self):
