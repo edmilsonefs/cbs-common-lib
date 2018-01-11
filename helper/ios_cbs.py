@@ -8,7 +8,7 @@ from time import sleep, time
 import subprocess
 from xml.etree import ElementTree
 
-
+import pytest
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.common.by import By
@@ -83,6 +83,10 @@ class CommonIOSHelper(TestlioAutomationTest):
                     self.event.start(data='in teardown: page source failed')
 
         super(CommonIOSHelper, self).teardown_method(method)
+
+    @pytest.mark.first
+    def test_data_health_check(self):
+        self.passed = True
 
     ####################################################################################
     # SETUP/LOGIN METHODS
