@@ -84,8 +84,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         super(CommonIOSHelper, self).teardown_method(method)
 
-    @pytest.mark.first
+    @pytest.fixture(scope="session", autouse=True)
     def test_data_health_check(self):
+        super(CommonIOSHelper, self).setup_method("dummy_test")
         self.passed = True
 
     ####################################################################################
