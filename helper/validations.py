@@ -491,7 +491,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_xf(self):
         if self.IS_ANDROID:
-            self.verify_exists(name='Sign up with your Facebook account', screenshot=True)
+            #self.verify_exists(name='Sign up with your Facebook account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
                 self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
@@ -506,7 +506,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_xt(self):
         if self.IS_ANDROID:
-            self.verify_exists(name='Sign up with your Twitter account', screenshot=True)
+            #self.verify_exists(name='Sign up with your Twitter account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
             self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
@@ -521,7 +521,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_xg(self):
         if self.IS_ANDROID:
-            self.verify_exists(name='Sign up with your Google account', screenshot=True)
+            #self.verify_exists(name='Sign up with your Google account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
             self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
