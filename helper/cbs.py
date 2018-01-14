@@ -1084,20 +1084,26 @@ class CommonHelper(TestlioAutomationTest):
                                              "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
                 self.verify_not_exists(name='GET STARTED', timeout=10)
 
-    def wait_until_element_is_visible(self, element_css=None, element_name=None, element_id=None, timeout=20):
+    def wait_until_element_is_visible(self, timeout=20, **kwargs):
 
         count = 0
         while count <= 10:
             self.driver.implicitly_wait(timeout)
             try:
-                if element_css:
-                    self.get_elements(class_name=element_css)
+                if kwargs.has_key('element_css'):
+                    self.get_elements(class_name=kwargs['element_css'])
                     break
-                if element_name:
-                    self.get_element(name=element_name)
+                if kwargs.has_key('element_name'):
+                    self.get_element(name=kwargs['element_name'])
                     break
-                if element_id:
-                    self.driver.find_element_by_id(element_id)
+                if kwargs.has_key('element_id'):
+                    self.driver.find_element_by_id(kwargs['element_id'])
+                    break
+                if kwargs.has_key('id'):
+                    self.driver.find_element_by_id(kwargs['id'])
+                    break
+                if kwargs.has_key('name'):
+                    self.get_element(name=kwargs['name'])
                     break
             except:
                 pass
@@ -1539,8 +1545,8 @@ class CommonHelper(TestlioAutomationTest):
 
     ####################################################################################
     # SWIPE / TAP / CLICK / SEND_KEYS
-    def swipe_down_if_element_is_not_visible(self, name=None, id_element=None, class_name=None, long_swipe=False,
-                                             short_swipe=False):
+    def swipe_down_if_element_is_not_visible(self, long_swipe=False,
+                                             short_swipe=False, **kwargs):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
         """
@@ -1553,13 +1559,15 @@ class CommonHelper(TestlioAutomationTest):
         count = 0
         while element is None and count <= 10:
             try:
-                if name:
+                if kwargs.has_key('name'):
                     element = self.driver.find_element_by_xpath(
-                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
-                elif id_element:
-                    element = self.driver.find_element_by_id(id_=id_element)
-                elif class_name:
-                    element = self.get_element(class_name=class_name)
+                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'], kwargs['name']))
+                elif kwargs.has_key('id_element'):
+                    element = self.driver.find_element_by_id(id_=kwargs['id_element'])
+                elif kwargs.has_key('id'):
+                    element = self.driver.find_element_by_id(id_=kwargs['id'])
+                elif kwargs.has_key('class_name'):
+                    element = self.get_element(class_name=kwargs['class_name'])
             except:
                 if self.phone:
                     if long_swipe:
@@ -1579,7 +1587,7 @@ class CommonHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(30)
 
-    def swipe_up_until_element_is_visible(self, name=None, id_element=None, short_swipe=False):
+    def swipe_up_until_element_is_visible(self, short_swipe=False, **kwargs):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
         """
@@ -1592,11 +1600,13 @@ class CommonHelper(TestlioAutomationTest):
         count = 0
         while element is None and count <= 10:
             try:
-                if name:
+                if kwargs.has_key('name'):
                     element = self.driver.find_element_by_xpath(
-                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(name, name))
-                elif id_element:
-                    element = self.driver.find_element_by_id(id_=id_element)
+                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'], kwargs['name']))
+                elif kwargs.has_key('id_element'):
+                    element = self.driver.find_element_by_id(id_=kwargs['id_element'])
+                elif kwargs.has_key('id'):
+                    element = self.driver.find_element_by_id(id_=kwargs['id'])
             except:
                 if short_swipe:
                     self.driver.swipe(35, 600, 35, window_size_y - 400)
@@ -1631,17 +1641,20 @@ class CommonHelper(TestlioAutomationTest):
             sleep(4)
             self.driver.swipe(startx, starty, endx, endy, swipe_time)
 
-    def swipe_down_and_verify_if_exists(self, name=None, id_element=None, class_name=None, screenshot=False):
+    def swipe_down_and_verify_if_exists(self, screenshot=False, **kwargs):
 
-        if name:
-            self.swipe_down_if_element_is_not_visible(name=name, short_swipe=True)
-            self.verify_exists(name=name)
-        elif id_element:
-            self.swipe_down_if_element_is_not_visible(id_element=id_element, short_swipe=True)
-            self.verify_exists(id=id_element)
-        elif class_name:
-            self.swipe_down_if_element_is_not_visible(class_name=class_name, short_swipe=True)
-            self.verify_exists(class_name=class_name)
+        if kwargs.has_key('name'):
+            self.swipe_down_if_element_is_not_visible(name=kwargs['name'], short_swipe=True)
+            self.verify_exists(name=kwargs['name'])
+        elif kwargs.has_key('id_element'):
+            self.swipe_down_if_element_is_not_visible(id_element=kwargs['id_element'], short_swipe=True)
+            self.verify_exists(id=kwargs['id_element'])
+        elif kwargs.has_key('class_name'):
+            self.swipe_down_if_element_is_not_visible(class_name=kwargs['class_name'], short_swipe=True)
+            self.verify_exists(class_name=kwargs['class_name'])
+        elif kwargs.has_key('id'):
+            self.swipe_down_if_element_is_not_visible(id=kwargs['id'], short_swipe=True)
+            self.verify_exists(id=kwargs['id'])
 
         if screenshot:
             self.safe_screenshot()
