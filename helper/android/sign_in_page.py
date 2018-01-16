@@ -48,14 +48,16 @@ class SignInPage(BasePage):
         return self.get_elements(timeout=timeout, class_name='android.widget.EditText')
 
     def sign_in(self, email, password):
+        self.sign_in_without_finish(email, password)
+        self.post_sign_in_accept_terms()
+
+    def sign_in_without_finish(self, email, password):
         self.send_keys(data=email, element=self.txt_email())
         self._hide_keyboard()
         self.send_keys(data=password, element=self.txt_password())
         self._hide_keyboard()
 
         self.click(element=self.btn_submit(), screenshot=True)
-
-        self.post_sign_in_accept_terms()
 
     def sign_in_facebook(self, email, password):
         fields = self.lst_social_sign_in_fields()
