@@ -2028,14 +2028,17 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Complete registration if required
 
         if self.exists(id='CONTINUE', timeout=10):
-            try:
+            if self.exists(xpath="//XCUIElementTypeButton[not(@name)]"):
                 self.click(xpath="//XCUIElementTypeButton[not(@name)]", timeout=20)
-            except:
-                buttons = self.get_elements(class_name='XCUIElementTypeButton')
-                for button in buttons:
-                    if button.size['width'] == 22 and button.size['height'] == 22:
-                        self.click(element=button, screenshot=True)
-                        break
+            else:
+                if self.exists(xpath="//*[./*[@name='CONTINUE']]//*[1]"):
+                    self.click(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                else:
+                    buttons = self.get_elements(class_name='XCUIElementTypeButton')
+                    for button in buttons:
+                        if button.size['width'] == 22 and button.size['height'] == 22:
+                            self.click(element=button, screenshot=True)
+                            break
             self.safe_screenshot()
             sleep(3)
             try:
