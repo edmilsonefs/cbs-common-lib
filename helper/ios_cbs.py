@@ -1958,8 +1958,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             buttons = self.get_elements(class_name='XCUIElementTypeButton')
             for button in buttons:
-                if button.size['width'] <= 30 and button.size['height'] <= 30:
-                    button.click()
+                if button.size['width'] == 22 and button.size['height'] == 22:
+                    self.click(element=button, screenshot=True)
                     break
 
     def _convert_relative_x_y(self, x, y):
