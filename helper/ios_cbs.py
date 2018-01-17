@@ -1953,8 +1953,14 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def tap_element(self, **kwargs):
         elem = self.exists(**kwargs)
-        action = TouchAction(self.driver)
-        action.long_press(elem).perform()
+        if elem:
+            elem.click()
+        else:
+            buttons = self.get_elements(class_name='XCUIElementTypeButton')
+            for button in buttons:
+                if button.size['width'] <= 30 and button.size['height'] <= 30:
+                    button.click()
+                    break
 
     def _convert_relative_x_y(self, x, y):
         if x < 1 or y < 1:
