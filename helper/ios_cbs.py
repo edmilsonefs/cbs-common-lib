@@ -2029,7 +2029,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.driver.implicitly_wait(10)
         if self.exists(id='CONTINUE', timeout=10):
-            self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
+            self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]", timeout=20)
             sleep(3)
             try:
                 self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
