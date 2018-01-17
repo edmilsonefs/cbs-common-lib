@@ -1953,14 +1953,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def tap_element(self, **kwargs):
         elem = self.exists(**kwargs)
-        if elem:
-            elem.click()
-        else:
-            buttons = self.get_elements(class_name='XCUIElementTypeButton')
-            for button in buttons:
-                if button.size['width'] == 22 and button.size['height'] == 22:
-                    self.click(element=button, screenshot=True)
-                    break
+        action = TouchAction(self.driver)
+        action.long_press(elem).perform()
 
     def _convert_relative_x_y(self, x, y):
         if x < 1 or y < 1:
@@ -2033,23 +2027,22 @@ class CommonIOSHelper(TestlioAutomationTest):
     def finish_login(self):
         # Complete registration if required
 
-        self.driver.implicitly_wait(10)
         if self.exists(id='CONTINUE', timeout=10):
-            self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]", timeout=20)
+            self.click(xpath="//XCUIElementTypeButton[not(@name)]", timeout=20)
+            self.safe_screenshot()
             sleep(3)
             try:
                 #self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
-                self.click(accessibility_id='CONTINUE')
+                self.click(id='CONTINUE')
                 sleep(3)
             except:
-                try:
-                    self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
-                except:
-                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
-                    self.click(accessibility_id='CONTINUE')
-                    sleep(3)
+                # //try:
+                #     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
+                # except:
+                self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                self.click(accessibility_id='CONTINUE')
+                sleep(3)
                 self.safe_screenshot()
-            self.driver.implicitly_wait(30)
 
     def sign_in_facebook(self, username, password, finish_login=False):
         try:
