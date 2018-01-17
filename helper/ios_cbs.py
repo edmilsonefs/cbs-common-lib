@@ -2028,11 +2028,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Complete registration if required
 
         if self.exists(id='CONTINUE', timeout=10):
-            if self.exists(xpath="//XCUIElementTypeButton[not(@name)]"):
-                self.click(xpath="//XCUIElementTypeButton[not(@name)]", timeout=20)
+            checkbox = self.exists(xpath="//XCUIElementTypeButton[not(@name)]")
+            if checkbox:
+                self.click(element=checkbox, timeout=20)
             else:
-                if self.exists(xpath="//*[./*[@name='CONTINUE']]//*[1]"):
-                    self.click(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                checkbox = self.exists(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                if checkbox:
+                    self.click(element=checkbox, screenshot=True)
                 else:
                     buttons = self.get_elements(class_name='XCUIElementTypeButton')
                     for button in buttons:
@@ -2042,13 +2044,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.safe_screenshot()
             sleep(3)
             try:
-                #self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 self.click(id='CONTINUE')
                 sleep(3)
             except:
-                # //try:
-                #     self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
-                # except:
                 self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
