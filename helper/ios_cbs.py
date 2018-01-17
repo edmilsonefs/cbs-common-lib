@@ -2038,7 +2038,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]", timeout=20)
             sleep(3)
             try:
-                self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                #self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 self.click(accessibility_id='CONTINUE')
                 sleep(3)
             except:
