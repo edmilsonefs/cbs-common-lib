@@ -1084,30 +1084,26 @@ class CommonHelper(TestlioAutomationTest):
                                              "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]", timeout=10)
                 self.verify_not_exists(name='GET STARTED', timeout=10)
 
-    def wait_until_element_is_visible(self, timeout=20, **kwargs):
+    def wait_until_element_is_visible(self, **kwargs):
 
-        count = 0
-        while count <= 10:
-            self.driver.implicitly_wait(timeout)
-            try:
-                if kwargs.has_key('element_css'):
-                    self.get_elements(class_name=kwargs['element_css'])
-                    break
-                if kwargs.has_key('element_name'):
-                    self.get_element(name=kwargs['element_name'])
-                    break
-                if kwargs.has_key('element_id'):
-                    self.driver.find_element_by_id(kwargs['element_id'])
-                    break
-                if kwargs.has_key('id'):
-                    self.driver.find_element_by_id(kwargs['id'])
-                    break
-                if kwargs.has_key('name'):
-                    self.get_element(name=kwargs['name'])
-                    break
-            except:
-                pass
-            count += 1
+        try:
+            if kwargs.has_key('element_css'):
+                kwargs['class_name'] = kwargs['element_css']
+                self.exists(kwargs)
+                    
+            elif kwargs.has_key('element_name'):
+                kwargs['name'] = kwargs['element_name']
+                self.exists(kwargs)
+                    
+            elif kwargs.has_key('element_id'):
+                kwargs['id'] = kwargs['element_id']
+                self.exists(kwargs)
+                    
+            elif kwargs.has_key('id') or kwargs.has_key('name'):
+                self.exists(kwargs)
+        except:
+            pass
+
 
     def _login(self, username, password):
 
