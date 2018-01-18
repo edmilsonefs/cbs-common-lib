@@ -2038,9 +2038,13 @@ class CommonIOSHelper(TestlioAutomationTest):
                 else:
                     buttons = self.get_elements(class_name='XCUIElementTypeButton')
                     for button in buttons:
-                        if button.size['width'] == 22 and button.size['height'] == 22:
-                            self.click(element=button, screenshot=True)
-                            break
+                        try:
+                            size = button.size
+                            if size['width'] == 22 and size['height'] == 22:
+                                self.click(element=button, screenshot=True)
+                                break
+                        except:
+                            pass
             self.safe_screenshot()
             sleep(3)
             try:
