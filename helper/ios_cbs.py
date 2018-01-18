@@ -1150,7 +1150,15 @@ class CommonIOSHelper(TestlioAutomationTest):
         label = self.get_element(id='Primetime Episodes')
         x = label.location['x']
         y = label.location['y']
-        self.tap(x + 50, y + label.size['height'] + 40)
+        src_before = self.driver.page_source
+        tries = 0
+
+        while tries < 10:
+            self.tap(x + 50, y + label.size['height'] + 40)
+            sleep(3)
+            if self.driver.page_source != src_before:
+                break
+            tries += 1
         self.safe_screenshot()
 
     def click_latest_clip_on_home_page(self):
