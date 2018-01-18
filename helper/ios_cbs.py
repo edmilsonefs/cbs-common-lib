@@ -2159,7 +2159,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(id='VERIFY NOW', screenshot=True)
 
     def select_optimum_from_provider_page(self):
-        self.click(xpath='//UIACollectionCell[3]')
+        self.click(xpath='//XCUIElementTypeCell[3]')
 
     def go_to_optimum_page(self):
         self.go_to_providers_page()
