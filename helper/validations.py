@@ -259,7 +259,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_cbs_logo()
             self.verify_search_icon()
             self.verify_exists(id='I want to see: %s' % category)
-            self.verify_show_cards_exist()
+            self.verify_exists(xpath="//XCUIElementTypeCell[1]//XCUIElementTypeStaticText[contains(@name, 'Episodes')]")
+            #self.verify_show_cards_exist()
 
     def validation_n(self):
         if self.IS_ANDROID:
