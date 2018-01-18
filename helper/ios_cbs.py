@@ -274,7 +274,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # SEARCH
     def select_sign_in_checkbox(self):
-        self.tap_element(xpath="//" + self.element_prefix() + "ScrollView[.//" + self.element_prefix() + "Button[@name='CONTINUE']]//" + self.element_prefix() + "Button[not(@name)]")
+        self.finish_login(click_continue=False)
 
     def enter_search_text(self, what_to_search_for):
         e = self.find_search_text()
@@ -2032,7 +2032,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.finish_login()
 
-    def finish_login(self):
+    def finish_login(self, click_continue=True):
         # Complete registration if required
 
         if self.exists(id='CONTINUE', timeout=10):
@@ -2055,14 +2055,16 @@ class CommonIOSHelper(TestlioAutomationTest):
                             pass
             self.safe_screenshot()
             sleep(3)
-            try:
-                self.click(id='CONTINUE')
-                sleep(3)
-            except:
-                self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
-                self.click(accessibility_id='CONTINUE')
-                sleep(3)
-                self.safe_screenshot()
+
+            if click_continue:
+                try:
+                    self.click(id='CONTINUE')
+                    sleep(3)
+                except:
+                    self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                    self.click(accessibility_id='CONTINUE')
+                    sleep(3)
+                    self.safe_screenshot()
 
     def sign_in_facebook(self, username, password, finish_login=False):
         try:
