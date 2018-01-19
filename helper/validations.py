@@ -212,8 +212,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(name='MORE FROM SHOW')
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
-            self.verify_exists(id='Watch Episode')
-            self.verify_exists(id='Close')
+            self.verify_exists(id='WATCH')
+            self.verify_exists(id='CLOSE')
 
     def validation_j(self, show_page=False, home_page=False):
         if self.IS_ANDROID:
