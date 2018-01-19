@@ -1182,7 +1182,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_safe(id='Accept', timeout=10)
 
     def click_watch_movie(self):
-        self.click(id="Watch Movie", timeout=7)
+        self.click(id="Watch", timeout=7)
 
     def click_watch_trailer(self):
         self.click(id="Preview Trailer", timeout=7)
