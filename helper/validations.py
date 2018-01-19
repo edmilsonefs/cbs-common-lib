@@ -1011,7 +1011,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id='Preview Trailer')
                 self.verify_exists(id='Close')
             else:
-                self.verify_exists(id='Watch Movie')
+                self.verify_exists(id='Watch')
                 self.verify_exists(id='Preview Trailer')
                 self.verify_exists(id='Close')
 
