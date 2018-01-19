@@ -1161,6 +1161,18 @@ class CommonIOSHelper(TestlioAutomationTest):
             tries += 1
         self.safe_screenshot()
 
+    def close_show_popup(self):
+        sleep(2)
+        self.tap(0.5, 0.99)
+        self.click_safe(id='CLOSE', timeout=10)
+
+    def watch_episode_popup(self):
+        self.click(id='WATCH')
+        sleep(3)
+
+    def click_more_information(self):
+        self.click(id='More Information')
+
     def click_latest_clip_on_home_page(self):
         self.swipe_down(20, 400)
 
