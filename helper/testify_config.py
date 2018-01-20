@@ -1,42 +1,29 @@
 import json
 from time import sleep
 
-import os
 import subprocess
+
+import os
 from pip._vendor import requests
 
 
-def _get_platform():
-    platform = os.getenv('PLATFORM') or (
-        'android' if os.getenv('ANDROID_HOME') else 'ios')
-
-    if platform.lower() == 'android':
-        return 'Android'
-    else:
-        return 'iOS'
-
-
 testify_url = None
-comscore_profile = "CS CBSNAPP"
-levt_profile = "Video LEVT CBSS App"
-heartbit_profile = "HB CBSAPP " + _get_platform()
-skip_pass = "True"
-appname = 'CBSAA'
+platform = None
 buildversion = os.getenv("BUILD_VERSION")
 
 
 def video_profile(video_type):
     return {
-        'p_name': "{'Comscore':'" + comscore_profile + "','Omniture':'" + "OM " + _get_platform() + " CBS Ent App" + "','LEVT':'" + levt_profile + "','Heartbeat':'" + heartbit_profile + "'}",
-        'skip_pass': skip_pass, 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
-        'appname': appname, 'platform': _get_platform(), 'buildversion': str(buildversion), 'videotype': video_type}
+        'p_name': "{'Comscore':'" + "CS CBSNAPP" + "','Omniture':'" + "OM " + platform + " CBS Ent App" + "','LEVT':'" + "Video LEVT CBSS App" + "','Heartbeat':'" + "HB CBSAPP " + platform + "'}",
+        'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
+        'appname': "Video LEVT CBSS App", 'platform': platform, 'buildversion': str(buildversion), 'videotype': video_type}
 
 
 def sign_in_profile(omniture_profile):
     return {
-        'p_name': "{'Comscore':'" + comscore_profile + "','Omniture':'" + omniture_profile + "','LEVT':'" + levt_profile + "','Heartbeat':'" + heartbit_profile + "'}",
-        'skip_pass': skip_pass, 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
-        'appname': appname, 'platform': _get_platform(), 'buildversion': str(buildversion)}
+        'p_name': "{'Comscore':'" + "CS CBSNAPP" + "','Omniture':'" + omniture_profile + "','LEVT':'" + "Video LEVT CBSS App" + "','Heartbeat':'" + "HB CBSAPP " + platform + "'}",
+        'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
+        'appname': "Video LEVT CBSS App", 'platform': platform, 'buildversion': str(buildversion)}
 
 
 def upload_dump(payload):
@@ -53,6 +40,7 @@ def upload_dump(payload):
         print("3. Start POST request")
         files = {'file': open("./dump.har", 'rb')}
         # Generate a post request and pass the information r=
+        self.log_info("Start POST Request to: " + testify_url)
         r = requests.post(testify_url, files=files, data=payload)
 
         print("4. Request payload data: " + str(payload))
