@@ -2,6 +2,7 @@ import json
 from time import sleep
 
 import os
+import subprocess
 from pip._vendor import requests
 
 
@@ -41,7 +42,7 @@ def sign_in_profile(omniture_profile):
 def upload_dump(payload):
     print("Start uploading of dump.har file")
     print("1. Kill proxy")
-    os.subprocess.call(["bash", "-c", "kill_proxy"])
+    subprocess.call(["bash", "-c", "kill_proxy"])
     sleep(120)  # wait until dum.har is ready
     print("2. Wait 60 seconds")
     try:
