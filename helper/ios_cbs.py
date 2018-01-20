@@ -183,6 +183,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.open_drawer()
         self.click(id='CBS (Local Station)')
         self._accept_alert(2)
+        self.click_safe(id='Allow')
 
     def goto_schedule(self):
         self.open_drawer()
