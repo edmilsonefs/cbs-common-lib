@@ -40,7 +40,6 @@ def upload_dump(payload):
         print("3. Start POST request")
         files = {'file': open("./dump.har", 'rb')}
         # Generate a post request and pass the information r=
-        self.log_info("Start POST Request to: " + testify_url)
         r = requests.post(testify_url, files=files, data=payload)
 
         print("4. Request payload data: " + str(payload))
