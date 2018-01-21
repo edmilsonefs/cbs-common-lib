@@ -183,6 +183,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.open_drawer()
         self.click(id='CBS (Local Station)')
         self._accept_alert(2)
+        self.click_safe(id='Allow')
 
     def goto_schedule(self):
         self.open_drawer()
@@ -274,7 +275,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # SEARCH
     def select_sign_in_checkbox(self):
-        self.tap_element(xpath="//" + self.element_prefix() + "ScrollView[.//" + self.element_prefix() + "Button[@name='CONTINUE']]//" + self.element_prefix() + "Button[not(@name)]")
+        self.finish_login(click_continue=False)
 
     def enter_search_text(self, what_to_search_for):
         e = self.find_search_text()
@@ -1125,33 +1126,54 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def click_primetime_episode_on_home_page(self):
         window_size_height = self.window_size["height"]
-        count = 0
-        while not self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)) and count < 200:
-            self.swipe_down(1, (400 if self.tablet else 100))
-            count += 1
-
-        self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)), screenshot=True, msg='Primetime episode should be presented')
-
-        count = 0
-        if self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)):
-            self.exists(id='Primetime Episodes', timeout=10)
-            while self.exists(id='Primetime Episodes', timeout=10).location['y'] + self.exists(id='Primetime Episodes', timeout=10).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+        if self.phone:
+            count = 0
+            while not self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)) and count < 200:
                 self.swipe_down(1, (400 if self.tablet else 100))
                 count += 1
 
-        # movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
-        #
-        # count = 0
-        # while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 10:
-        #     self.swipe_down(count=1, distance=50)
-        #     count += 1
+            self.assertTrueWithScreenShot(self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)), screenshot=True, msg='Primetime episode should be presented')
+
+            count = 0
+            if self.is_element_visible(self.exists(id='Primetime Episodes', timeout=10)):
+                self.exists(id='Primetime Episodes', timeout=10)
+                while self.exists(id='Primetime Episodes', timeout=10).location['y'] + self.exists(id='Primetime Episodes', timeout=10).size['height'] > window_size_height / (2 if self.phone else 3) and count < 70:
+                    self.swipe_down(1, (400 if self.tablet else 100))
+                    count += 1
+
+            # movies = self.is_element_visible(self.exists(id='Movies', timeout=6))
+            #
+            # count = 0
+            # while movies.location['y'] + movies.size['height'] > window_size_height / (2 if self.phone else 3) and count < 10:
+            #     self.swipe_down(count=1, distance=50)
+            #     count += 1
 
         self.safe_screenshot()
         label = self.get_element(id='Primetime Episodes')
         x = label.location['x']
         y = label.location['y']
-        self.tap(x + 50, y + label.size['height'] + 40)
+        src_before = self.driver.page_source
+        tries = 0
+
+        while tries < 10:
+            self.tap(x + 50, y + label.size['height'] + 40)
+            sleep(3)
+            if self.driver.page_source != src_before:
+                break
+            tries += 1
         self.safe_screenshot()
+
+    def close_show_popup(self):
+        sleep(2)
+        self.tap(0.5, 0.99)
+        self.click_safe(id='CLOSE', timeout=10)
+
+    def watch_episode_popup(self):
+        self.click(id='WATCH')
+        sleep(3)
+
+    def click_more_information(self):
+        self.click(id='More Information')
 
     def click_latest_clip_on_home_page(self):
         self.swipe_down(20, 400)
@@ -1174,7 +1196,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_safe(id='Accept', timeout=10)
 
     def click_watch_movie(self):
-        self.click(id="Watch Movie", timeout=7)
+        self.click(id="Watch", timeout=7)
 
     def click_watch_trailer(self):
         self.click(id="Preview Trailer", timeout=7)
@@ -2025,26 +2047,39 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         self.finish_login()
 
-    def finish_login(self):
+    def finish_login(self, click_continue=True):
         # Complete registration if required
 
-        self.driver.implicitly_wait(10)
         if self.exists(id='CONTINUE', timeout=10):
-            self.tap_element(xpath="//XCUIElementTypeButton[not(@name)]")
+            checkbox = self.exists(xpath="//XCUIElementTypeButton[not(@name)]")
+            if checkbox:
+                self.click(element=checkbox, timeout=20)
+            else:
+                checkbox = self.exists(xpath="//*[./*[@name='CONTINUE']]//*[1]")
+                if checkbox:
+                    self.click(element=checkbox, screenshot=True)
+                else:
+                    buttons = self.get_elements(class_name='XCUIElementTypeButton')
+                    for button in buttons:
+                        try:
+                            size = button.size
+                            if size['width'] == 22 and size['height'] == 22:
+                                self.click(element=button, screenshot=True)
+                                break
+                        except:
+                            pass
+            self.safe_screenshot()
             sleep(3)
-            try:
-                self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
-                self.click(accessibility_id='CONTINUE')
-                sleep(3)
-            except:
+
+            if click_continue:
                 try:
-                    self.driver.find_element_by_id(accessibility_id='CONTINUE', timeout=5)
+                    self.click(id='CONTINUE')
+                    sleep(3)
                 except:
                     self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                     self.click(accessibility_id='CONTINUE')
                     sleep(3)
-                self.safe_screenshot()
-            self.driver.implicitly_wait(30)
+                    self.safe_screenshot()
 
     def sign_in_facebook(self, username, password, finish_login=False):
         try:
@@ -2153,7 +2188,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(id='VERIFY NOW', screenshot=True)
 
     def select_optimum_from_provider_page(self):
-        self.click(xpath='//UIACollectionCell[3]')
+        self.click(xpath='//XCUIElementTypeCell[3]')
 
     def go_to_optimum_page(self):
         self.go_to_providers_page()

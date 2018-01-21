@@ -72,14 +72,20 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Video Services')
             self.verify_exists(name='ACCEPT')
         elif self.IS_IOS:
-            self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
-            self.verify_exists(id='Terms of Use')
-            self.verify_exists(id='Mobile User Agreement')
-            self.verify_exists(id='Privacy Policy')
-            self.verify_exists(id='Video Services')
-            self.verify_exists(id='Decline')
-            self.verify_exists(id='Accept')
-            pass
+            self.verify_blind(['By watching this video or stream, you agree to our:',
+                               'Terms of Use',
+                               'Mobile User Agreement',
+                               'Privacy Policy',
+                               'Video Services',
+                               'Decline',
+                               'Accept'])
+            # self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
+            # self.verify_exists(id='Terms of Use')
+            # self.verify_exists(id='Mobile User Agreement')
+            # self.verify_exists(id='Privacy Policy')
+            # self.verify_exists(id='Video Services')
+            # self.verify_exists(id='Decline')
+            # self.verify_exists(id='Accept')
 
     def validation_b(self):
         if self.IS_ANDROID:
@@ -206,8 +212,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(name='MORE FROM SHOW')
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
-            self.verify_exists(id='Watch Episode')
-            self.verify_exists(id='Close')
+            self.verify_exists(id='WATCH')
+            self.verify_exists(id='CLOSE')
 
     def validation_j(self, show_page=False, home_page=False):
         if self.IS_ANDROID:
@@ -259,7 +265,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_cbs_logo()
             self.verify_search_icon()
             self.verify_exists(id='I want to see: %s' % category)
-            self.verify_show_cards_exist()
+            self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
+            #self.verify_show_cards_exist()
 
     def validation_n(self):
         if self.IS_ANDROID:
@@ -993,9 +1000,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='PREVIEW TRAILER') #disabled due to CBS bug, will uncomment on new build
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(name='SUBSCRIBE TO WATCH')
-                self.verify_not_exists(name='WATCH MOVIE')
+                self.verify_not_exists(name='WATCH')
             elif user_type in [self.trial, self.subscriber, self.cf_subscriber]:
-                self.verify_exists(name='WATCH MOVIE')
+                self.verify_exists(name='WATCH')
                 self.verify_not_exists(name='SUBSCRIBE TO WATCH')
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
@@ -1004,7 +1011,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id='Preview Trailer')
                 self.verify_exists(id='Close')
             else:
-                self.verify_exists(id='Watch Movie')
+                self.verify_exists(id='Watch')
                 self.verify_exists(id='Preview Trailer')
                 self.verify_exists(id='Close')
 
