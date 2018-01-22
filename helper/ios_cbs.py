@@ -182,7 +182,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_cbs_local_station(self):
         self.open_drawer()
         self.click(id='CBS (Local Station)')
-        self._accept_alert(3)
+        self._accept_alert(2)
 
     def goto_schedule(self):
         self.open_drawer()
@@ -253,10 +253,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_sign_up(self):
         self.goto_sign_in()
         self.click(id='Sign Up')
-
-    def goto_cbs_local_station(self):
-        self.open_drawer()
-        self.click(id='CBS (Local Station)')
 
     def goto_cbsn_news(self):
         self.open_drawer()
