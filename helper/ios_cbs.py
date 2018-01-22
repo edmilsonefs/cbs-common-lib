@@ -183,6 +183,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.open_drawer()
         self.click(id='CBS (Local Station)')
         self._accept_alert(2)
+        self.click_safe(id='Allow')
 
     def goto_schedule(self):
         self.open_drawer()
@@ -253,6 +254,10 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_sign_up(self):
         self.goto_sign_in()
         self.click(id='Sign Up')
+
+    def goto_cbs_local_station(self):
+        self.open_drawer()
+        self.click(id='CBS (Local Station)')
 
     def goto_cbsn_news(self):
         self.open_drawer()
@@ -817,7 +822,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         #unpause explicitly if needed
         self.unpause_video()
-    
+
     def check_video_done_button(self):
         for _ in range(5):
             try:
@@ -828,7 +833,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 break
             except:
                 pass
-    
+
     def find_by_uiautomation(self, value, hide_keyboard=False):
         return self.driver.find_element_by_ios_uiautomation(value)
 
@@ -940,7 +945,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
-                self.wait_and_accept_alert(timeout=10)
+                self.wait_and_accept_alert(timeout=5)
                 sleep(2)
                 action = True
                 break
@@ -2212,7 +2217,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.event._log_info(self.event._event_data('Before log in'))
 
                 # self.verify_exists(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
-                self.click(xpath='//XCUIElementTypeOther[7]')
+                self.click(xpath='//XCUIElementTypeOther[@name="Optimum Online"]')
                 self.event.screenshot(self.screenshot())
             elif self.tablet:
                 email_field = self.driver.find_element_by_xpath(
