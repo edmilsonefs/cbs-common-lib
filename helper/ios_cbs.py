@@ -183,7 +183,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.open_drawer()
         self.click(id='CBS (Local Station)')
         self._accept_alert(2)
-        self.click_safe(id='Allow')
 
     def goto_schedule(self):
         self.open_drawer()
@@ -945,7 +944,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         for x in range(0, count):
             try:
                 # Accepts terms of service & other popups there may be
-                self.wait_and_accept_alert(timeout=5)
+                self.wait_and_accept_alert(timeout=10)
                 sleep(2)
                 action = True
                 break
