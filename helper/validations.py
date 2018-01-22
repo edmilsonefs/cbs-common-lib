@@ -1015,6 +1015,12 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id='Preview Trailer')
                 self.verify_exists(id='Close')
 
+    def validation_av(self):
+        if self.IS_ANDROID:
+            self.verify_exists(xpath=("//*[@text='CBS']"))
+            self.verify_exists(xpath=("//*[@text='An internet connection is required to experience the CBS App. Please check your connection and try again.']"))
+            self.verify_exists(xpath=("//*[@text='OK']"))
+
     def validation_ax1(self):
         if self.IS_ANDROID:
             self.verify_exists(id=self.com_cbs_app + ':id/appIcon')
