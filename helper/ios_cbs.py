@@ -2216,8 +2216,8 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.event.screenshot(self.screenshot())
                 self.event._log_info(self.event._event_data('Before log in'))
 
-                self.verify_exists(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
-                self.click(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
+                # self.verify_exists(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
+                self.click(xpath='//XCUIElementTypeOther[7]')
                 self.event.screenshot(self.screenshot())
             elif self.tablet:
                 email_field = self.driver.find_element_by_xpath(
