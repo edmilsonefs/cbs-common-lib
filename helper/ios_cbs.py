@@ -255,10 +255,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.goto_sign_in()
         self.click(id='Sign Up')
 
-    def goto_cbs_local_station(self):
-        self.open_drawer()
-        self.click(id='CBS (Local Station)')
-
     def goto_cbsn_news(self):
         self.open_drawer()
         self.click(id='CBSN (24/7 News)')
