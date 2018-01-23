@@ -128,7 +128,7 @@ class SignUpPage(BasePage):
             self._hide_keyboard()
 
         if self.phone:
-            self.swipe_element_to_top_of_screen(pwd_confirm, endy=300)
+            self.swipe_element_to_top_of_screen(pwd, endy=300)
 
         return fn_str, ln_str
 
