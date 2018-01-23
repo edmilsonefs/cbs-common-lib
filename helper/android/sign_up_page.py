@@ -123,8 +123,9 @@ class SignUpPage(BasePage):
         self._hide_keyboard()
 
         pwd_confirm = self.txt_password_confirm()
-        self.send_keys('abcdef', pwd_confirm, screenshot=True)
-        self._hide_keyboard()
+        if pwd_confirm:
+            self.send_keys('abcdef', pwd_confirm, screenshot=True)
+            self._hide_keyboard()
 
         if self.phone:
             self.swipe_element_to_top_of_screen(pwd_confirm, endy=300)
