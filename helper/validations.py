@@ -1000,9 +1000,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='PREVIEW TRAILER') #disabled due to CBS bug, will uncomment on new build
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(name='SUBSCRIBE TO WATCH')
-                self.verify_not_exists(name='WATCH')
+                self.verify_not_exists(name='WATCH MOVIE')
             elif user_type in [self.trial, self.subscriber, self.cf_subscriber]:
-                self.verify_exists(name='WATCH')
+                self.verify_exists(name='WATCH MOVIE')
                 self.verify_not_exists(name='SUBSCRIBE TO WATCH')
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
