@@ -190,10 +190,10 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage')
 
-    def validation_h(self, user_type="anonymous"):
+    def validation_h(self, user_type="anonymous", clips=False):
         if self.IS_ANDROID:
             self.close_big_advertisement()
-            self.show_page_android.validate_page(user_type=user_type)
+            self.show_page_android.validate_page(user_type=user_type, clips=False)
         elif self.IS_IOS:
             self.verify_navigation_back_button()
             self.verify_share_icon()
