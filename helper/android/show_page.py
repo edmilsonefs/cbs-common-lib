@@ -74,17 +74,18 @@ class ShowPage(BasePage):
     def txt_season_episode(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/seasonEpisode')
 
-    def validate_page(self, user_type="anonymous"):
+    def validate_page(self, user_type="anonymous", clips=False):
         self.verify_exists(element=self.btn_navigate_up(), screenshot=True, name='Navigate up')
         self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
         self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
         self.verify_exists(element=self.show_page_header(), id=self.com_cbs_app + ':id/imgHeader')
         self.verify_exists(element=self.btn_more_options(), name='More options')
         self.verify_exists(element=self.btn_my_cbs(), id=self.com_cbs_app + ':id/imgMyCbsToggle')
-        if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
-            self.verify_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
-        else:
-            self.verify_not_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
+        if not clips:
+            if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+                self.verify_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
+            else:
+                self.verify_not_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
 
     def validate_show_more_info_page(self):
         self.verify_exists(element=self.txt_show_name(), screenshot=True, id=self.com_cbs_app + ':id/txtShowName')
