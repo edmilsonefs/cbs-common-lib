@@ -444,7 +444,10 @@ class CommonHelper(TestlioAutomationTest):
         """
         Logs in through Twitter webview
         """
-        self.click_twitter_icon()
+        try:
+            self.click_twitter_icon()
+        except:
+            pass
         sleep(30)
         self.set_implicit_wait()
 
@@ -1367,7 +1370,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(5)
 
     def click_twitter_icon(self):
-        self.click_safe(id=self.com_cbs_app + ':id/imgTwitter')
+        self.click(id=self.com_cbs_app + ':id/imgTwitter')
         sleep(5)
 
     def click_gplus_icon(self):
