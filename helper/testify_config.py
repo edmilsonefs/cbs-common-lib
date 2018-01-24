@@ -6,6 +6,19 @@ import subprocess
 import os
 from pip._vendor import requests
 
+"""
+Usage:
+
+1. Set the configuration in the testable class:
+    - TestifyConfig.platform = 'Android' or 'iOS'
+    - TestifyConfig.testify_url = '{url}'
+    
+2. Call method upload, as:
+    - TestifyConfig.upload(TestifyConfig.video_profile({video_type})), where video type: clips, shows, live tv, movies
+    - TestifyConfig.upload(TestifyConfig.sign_in_profile({omniture_profile}))
+    
+    methods return Boolean
+"""
 
 testify_url = None
 platform = None
@@ -14,14 +27,20 @@ buildversion = os.getenv("BUILD_VERSION")
 
 def video_profile(video_type):
     return {
-        'p_name': "{'Comscore':'" + "CS CBSNAPP" + "','Omniture':'" + "OM " + platform + " CBS Ent App" + "','LEVT':'" + "Video LEVT CBSS App" + "','Heartbeat':'" + "HB CBSAPP " + platform + "'}",
+        'p_name': "{'Comscore':'CS CBSNAPP',"
+                  "'Omniture':'" + "OM " + platform + " CBS Ent App" + "',"
+                  "'LEVT': 'Video LEVT CBSS App',"
+                  "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
         'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
         'appname': "Video LEVT CBSS App", 'platform': platform, 'buildversion': str(buildversion), 'videotype': video_type}
 
 
 def sign_in_profile(omniture_profile):
     return {
-        'p_name': "{'Comscore':'" + "CS CBSNAPP" + "','Omniture':'" + omniture_profile + "','LEVT':'" + "Video LEVT CBSS App" + "','Heartbeat':'" + "HB CBSAPP " + platform + "'}",
+        'p_name': "{'Comscore':'CS CBSNAPP',"
+                  "'Omniture':'" + omniture_profile + "',"
+                  "'LEVT': 'Video LEVT CBSS App',"
+                  "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
         'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
         'appname': "Video LEVT CBSS App", 'platform': platform, 'buildversion': str(buildversion)}
 
@@ -33,9 +52,6 @@ def upload_dump(payload):
     sleep(120)  # wait until dum.har is ready
     print("2. Wait 60 seconds")
     try:
-        # print("Sandbox folder start:\n")
-        # print(subprocess.check_output(['ls', '-la', './sandbox']))
-        # print("Sandbox folder end:\n")
         # Open file and send contents
         print("3. Start POST request")
         files = {'file': open("./dump.har", 'rb')}
