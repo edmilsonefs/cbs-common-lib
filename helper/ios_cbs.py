@@ -677,7 +677,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(2)
 
         # show_elem = self.find_on_page_horizontal(episode_title)
-        show_elem = self.get_element(xpath="//*[contains(@name,'" + episode_title + "')]", timeout=60)
+        show_elem = self.get_element(id=episode_title, timeout=60)
         self.assertTrueWithScreenShot(show_elem, screenshot=True, msg="Assert our show exists: %s" % episode_title)
 
         return show_elem
