@@ -1,3 +1,5 @@
+from time import sleep
+
 from helper.android.base_page import BasePage
 
 
@@ -85,6 +87,7 @@ class ShowPage(BasePage):
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
             else:
+                sleep(5)
                 self.verify_not_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
 
     def validate_show_more_info_page(self):
