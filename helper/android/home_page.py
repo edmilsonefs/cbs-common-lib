@@ -71,16 +71,18 @@ class HomePage(BasePage):
 
             prime_container = self.get_element(
                 xpath=container_xpath)
-            self.swipe_element_to_top_of_screen(elem=prime_container,endy=250)
+            if prime_container.location['y'] > self.driver.get_window_size['height'] * 0.65:
+                self._short_swipe_down()
+            #self.swipe_element_to_top_of_screen(elem=prime_container,endy=250)
             prime_container = self.get_element(
                 xpath=container_xpath)
-            if prime_container.location['y'] + prime_container.size['height'] > self.driver.get_window_size()['height']:
-                self._short_swipe_down(duration=3000)
-            for _ in range(0, 60):
-                self._short_swipe_left(prime_container, 500)
+            # if prime_container.location['y'] + prime_container.size['height'] > self.driver.get_window_size()['height']:
+            #     self._short_swipe_down(duration=3000)
+            # for _ in range(0, 60):
+            #     self._short_swipe_left(prime_container, 500)
             count = 0
             while count < 100:
-                self._short_swipe_left(prime_container, 1000)
+                #self._short_swipe_left(prime_container, 1000)
                 if self.exists(name=PAID, timeout=5):
                     list_episodes = self.get_elements(name=PAID)
                     self.click(element=list_episodes[0])
