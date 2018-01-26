@@ -60,11 +60,20 @@ class HomePage(BasePage):
             if self.exists(name='Recently Watched', timeout=5):
                 self.swipe_element_to_top_of_screen(elem=self.get_element(name='Recently Watched', timeout=10),
                                                     endy=150)
+
+            count = 0
+            container_xpath = "//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Stream Star Trek')]]"
+            while count < 20:
+                self._short_swipe_down()
+                if self.get_element(xpath=container_xpath, timeout=7):
+                    break
+                count += 1
+
             prime_container = self.get_element(
-                xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Stream Star Trek')]]")
+                xpath=container_xpath)
             self.swipe_element_to_top_of_screen(elem=prime_container,endy=250)
             prime_container = self.get_element(
-                xpath="//android.widget.LinearLayout[./android.widget.TextView[contains(@text,'Stream Star Trek')]]")
+                xpath=container_xpath)
             if prime_container.location['y'] + prime_container.size['height'] > self.driver.get_window_size()['height']:
                 self._short_swipe_down(duration=3000)
             for _ in range(0, 60):
