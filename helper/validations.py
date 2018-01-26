@@ -87,9 +87,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             # self.verify_exists(id='Decline')
             # self.verify_exists(id='Accept')
 
-    def validation_b(self):
+    def validation_b(self, check_marquee=True):
         if self.IS_ANDROID:
-            self.home_page_android.validate_page()
+            self.home_page_android.validate_page(check_marquee)
         elif self.IS_IOS:
             self.verify_exists(id='Main Menu', timeout=25, screenshot=True)
             # self.verify_exists(id='MarqueeCollectionView', timeout=10) #add home page marquee
@@ -203,7 +203,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_i(self, show_page=False, home_page=False):
         if self.IS_ANDROID:
-            # self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail', screenshot=True)
+            self.verify_exists(id=self.com_cbs_app + ':id/videoThumbnail', screenshot=True)
             self.verify_exists(id=self.com_cbs_app + ':id/txtDescription')
             self.verify_exists(name='WATCH EPISODE')
             if home_page:

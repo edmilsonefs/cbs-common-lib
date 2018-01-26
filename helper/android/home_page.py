@@ -43,12 +43,13 @@ class HomePage(BasePage):
     def btn_accept(self, timeout=10):
         return self.get_element(timeout=timeout, name=self.btn_accept_selector)
 
-    def validate_page(self):
+    def validate_page(self, check_marquee=True):
         # Validation B
         self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
         self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
         self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
-        self.verify_exists(element=self.home_marquee_container(), id=self.home_marquee_container_selector)
+        if check_marquee:
+            self.verify_exists(element=self.home_marquee_container(), id=self.home_marquee_container_selector)
 
     def click_all_access_video(self):
         if self.exists(name='Free Episodes', timeout=10):
