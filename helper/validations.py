@@ -77,8 +77,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                                'Mobile User Agreement',
                                'Privacy Policy',
                                'Video Services',
-                               'Decline',
-                               'Accept'])
+                               'crossbutton',
+                               'I ACCEPT'])
             # self.verify_exists(id='By watching this video or stream, you agree to our:', screenshot=True)
             # self.verify_exists(id='Terms of Use')
             # self.verify_exists(id='Mobile User Agreement')
