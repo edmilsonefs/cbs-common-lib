@@ -57,6 +57,7 @@ class HomePage(BasePage):
                 list_episodes = self.get_elements(name=PAID)
                 self.click(element=list_episodes[0])
                 self.safe_screenshot()
+                self.accept_popup_video_click()
                 break
             self._short_swipe_down()
             count += 1
