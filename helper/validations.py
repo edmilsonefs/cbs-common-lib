@@ -91,9 +91,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.home_page_android.validate_page()
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', timeout=25, screenshot=True)
+            self.verify_in_batch(['Main Menu', 'Search'])
             # self.verify_exists(id='MarqueeCollectionView', timeout=10) #add home page marquee
-            self.verify_exists(id='Search', timeout=10)
 
     def validation_c(self):
         if self.IS_ANDROID:
@@ -109,27 +108,21 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='CANCEL')
             self.verify_exists(name='SUBMIT')
         elif self.IS_IOS:
-            self.verify_exists(id="Search")
-            self.verify_exists(id="Sign In")
-            self.verify_exists(id="Our terms have changed")
-            self.verify_exists(id="CONTINUE")
+            self.verify_in_batch(['Search', 'Sign In', 'Our terms have changed', 'CONTINUE'])
 
     def validation_d(self):
         if self.IS_ANDROID:
             self.sign_in_page_android.validate_page()
         elif self.IS_IOS:
             self.verify_navigation_back_button()  # Cbs logo appear as back button
-            self.verify_exists(id='SIGN IN', screenshot=True)
-            self.verify_exists(id='Sign in with your social account')
-            self.verify_exists(id='Sign in with your email')
+            self.verify_in_batch(['SIGN IN', 'Sign in with your social account', 'Sign in with your email'], screenshot=True)
             # self.verify_exists(id="Don't have an account? Sign Up")
 
     def validation_e(self):
         if self.IS_ANDROID:
             self.sign_up_page_android.validate_page()
         elif self.IS_IOS:
-            self.verify_exists(id='Sign up with your email')
-            self.verify_exists(id='SIGN UP')
+            self.verify_in_batch(['Sign up with your email', 'SIGN UP'])
             # Already have an account? Sign in - doesn't exist on this page
 
     def validation_f(self, user_type='anonymous', name=None):  # TODO update Validation.
@@ -156,14 +149,10 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_IOS:
             if user_type == self.anonymous:
                 self.verify_exists(id='Sign In', screenshot=False)
-            self.verify_exists(id="Settings")
-            self.verify_exists(id='Home')
-            self.verify_exists(id='Shows')
+            self.verify_in_batch(['Settings', 'Home', 'Shows', 'Schedule', 'Store'])
             # self.verify_exists(id='Live TV') TODO update validation
             # self.verify_exists(id='Movies')
-            self.verify_exists(id='Schedule')
             # self.verify_exists(name='My CBS')
-            self.verify_exists(id='Store')
 
             # Show Page
 
@@ -226,9 +215,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(name='MORE FROM SHOW')
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
-            self.verify_exists(id='Watch Clip')
-            self.verify_exists(id='More From Show')
-            self.verify_exists(id='Close')
+            self.verify_in_batch(['Watch Clip', 'More From Show', 'Close'])
 
     # Schedule Page
     def validation_k(self, user_type='anonymous'):
@@ -236,24 +223,15 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.schedule_page_android.validate_page()
         elif self.IS_IOS:
             self.close_big_advertisement()
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='Schedule')
+            self.verify_in_batch(['Main Menu', 'Schedule', 'ET/PT', 'Today', 'Search'])
             self.close_big_advertisement()
-            self.verify_cbs_logo()
-            self.verify_search_icon()
-            self.verify_exists(id="ET/PT")  # Grid
-            self.verify_exists(id="Today")  # Grid
 
     def validation_l(self):  # TODO update validation
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
             self.close_big_advertisement()
-            self.verify_exists(
-                xpath="//" + self.element_prefix() + "Button[@name='Add to My CBS' or @name='Remove from My CBS']",
-                screenshot=True)
-            self.verify_exists(id='Share')
-            self.verify_exists(id='Cancel')
+            self.verify_in_batch(['Share', 'Cancel', '(Add to My CBS|Remove from My CBS)'])
 
             # Shows Page
 
@@ -272,14 +250,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.shows_page_android.validate_all_shows_dropdown_menu()
         elif self.IS_IOS:
-            self.verify_exists(id='All Shows', screenshot=False)
-            self.verify_exists(id='Featured')
-            self.verify_exists(id='Primetime')
-            self.verify_exists(id='Daytime')
-            self.verify_exists(id='Late Night')
-            self.verify_exists(id='Specials')
-            self.verify_exists(id='News')
-            self.verify_exists(id='Classics')
+            self.verify_in_batch(['All Shows', 'Featured', 'Primetime', 'Daytime', 'Late Night', 'Specials', 'News', 'Classics'])
 
     def validation_o(self):  # TODO update validation
         if self.IS_ANDROID:
@@ -299,13 +270,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(element=self.show_page_android.btn_add_to_calendar(), name='Add to Calendar')
             self.verify_exists(element=self.show_page_android.btn_show_info(), name='Show Info')
         elif self.IS_IOS:
-            self.verify_exists(id='Like on Facebook', screenshot=True)
-            self.verify_exists(id='Follow on Twitter')
-            self.verify_exists(id='Share')
-            self.verify_exists(id='Add to Calendar')
-            self.verify_exists(id='Show Info')
-
-            # Settings Page
+            self.verify_in_batch(['Like on Facebook', 'Follow on Twitter', 'Share', 'Add to Calendar', 'Show Info'])
 
     def validation_q(self, user_type='anonymous'):  # TODO update validation
         if self.IS_ANDROID:
@@ -319,12 +284,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
             self.verify_navigation_drawer_button()
             self.verify_cbs_logo()
-            self.verify_exists(id='Settings')
-            self.verify_exists(id='App Version')
-            self.verify_exists(id='Terms Of Use')
-            self.verify_exists(id='Privacy Policy')
-            self.verify_exists(id='Mobile User Agreement')
-            self.verify_exists(id='Video Services')
+            self.verify_in_batch(['Settings', 'App Version', 'Terms Of Use', 'Privacy Policy', 'Mobile User Agreement', 'Video Services'])
             if self.phone:
                 self.verify_exists(id='Nielsen Info & Your Choices')
                 self.verify_exists(id='Send Feedback')
