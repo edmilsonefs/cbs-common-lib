@@ -72,6 +72,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Video Services')
             self.verify_exists(name='ACCEPT')
         elif self.IS_IOS:
+            sleep(3)
             self.verify_in_batch(['By watching this video, you agree to our: ',
                                'Terms of Use',
                                'Mobile User Agreement',
