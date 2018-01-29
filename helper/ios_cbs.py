@@ -158,6 +158,16 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             self.click(id='Sign Out')
 
+    def mvpd_logout(self):
+        self.goto_settings()
+        sleep(5)
+        self.safe_screenshot()
+        try:
+            self.click(xpath="//XCUIElementTypeStaticText[contains(@name,'Disconnect')]")
+            self.click_safe(id='Yes')
+        except:
+            pass
+        self.safe_screenshot()
     ####################################################################################
     # MENU
     def goto_home(self):
@@ -1188,7 +1198,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.safe_screenshot()
 
     def accept_video_popup(self):
-        self.click_safe(id='ACCEPT', timeout=10)
+        self.click_safe(id='I ACCEPT', timeout=10)
         self.click_safe(id='Accept', timeout=10)
 
     def click_watch_movie(self):
