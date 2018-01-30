@@ -96,7 +96,7 @@ class SignUpPage(BasePage):
 
         fn_str = self.generate_random_string()
         ln_str = self.generate_random_string()
-        email_str = "TestA%s@gmail.com" % self.generate_random_string()
+        email_str = "TestA%s@%s.com" % (self.generate_random_string(), self.generate_random_alha_string(length=6))
 
         first_name = self.txt_first_name()
         self.send_keys(data=fn_str, element=first_name)
@@ -219,9 +219,6 @@ class SignUpPage(BasePage):
         self._short_swipe_down(duration=1000)
         self.safe_screenshot()
         self.click(element=self.btn_submit())
-        if self.btn_submit():
-            self.click(element=self.btn_submit())
-        self.safe_screenshot()
 
     def cancel_registration_form(self):
         self._hide_keyboard()

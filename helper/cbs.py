@@ -766,6 +766,12 @@ class CommonHelper(TestlioAutomationTest):
         """
         return str(''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(length)))
 
+    def generate_random_alha_string(self, length=8):
+        """
+        returns random alpha-numeric string
+        """
+        return str(''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ') for _ in range(length)))
+
     def _hide_keyboard(self):
         for x in range(0, 3):
             try:
