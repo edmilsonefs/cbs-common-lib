@@ -1720,7 +1720,13 @@ class CommonIOSHelper(TestlioAutomationTest):
             return self.exists(class_name='XCUIElementTypeKeyboard', timeout=2)
         else:
             return self.exists(xpath='//UIAKeyboard', timeout=2)
-
+    
+    def page_source_to_td_log(self):
+        """Getting page source and add it to the TD calabash log"""
+        to_log = self.driver.page_source
+        good_log = to_log.encode('utf-8')
+        self.event._log_info(self.event._event_data(str(good_log)))
+    
     def convert_season_episode(self, se_input):
         """
         Converts back/forth between string "S4 Ep22" and tuple (4,22) representation of the Season and Episode string
