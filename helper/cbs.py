@@ -195,7 +195,6 @@ class CommonHelper(TestlioAutomationTest):
         if not self.click_safe(name="Don't have an account? Sign Up"):
             self.click(xpath=("//*[@text='Sign Up']"))
 
-        self.verify_exists(name='Sign up with your email')
         sleep(1)
 
     def goto_home(self):
