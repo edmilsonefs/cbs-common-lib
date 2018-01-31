@@ -219,6 +219,7 @@ class SignUpPage(BasePage):
         self._short_swipe_down(duration=1000)
         self.safe_screenshot()
         self.click(element=self.btn_submit())
+        self.safe_screenshot()
 
     def cancel_registration_form(self):
         self._hide_keyboard()
