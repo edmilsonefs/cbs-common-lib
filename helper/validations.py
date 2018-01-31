@@ -223,7 +223,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.schedule_page_android.validate_page()
         elif self.IS_IOS:
             self.close_big_advertisement()
-            self.verify_in_batch(['Main Menu', 'Schedule', 'ET/PT', 'Today', 'Search'])
+            self.verify_exists(id='Schedule')
+            self.verify_in_batch(['Main Menu', 'ET/PT', 'Today', 'Search'])
             self.close_big_advertisement()
 
     def validation_l(self):  # TODO update validation
@@ -284,7 +285,8 @@ class Validations(CommonHelper, CommonIOSHelper):
 
             self.verify_navigation_drawer_button()
             self.verify_cbs_logo()
-            self.verify_in_batch(['Settings', 'App Version', 'Terms Of Use', 'Privacy Policy', 'Mobile User Agreement', 'Video Services'])
+            self.verify_exists(id='Settings')
+            self.verify_in_batch(['App Version', 'Terms Of Use', 'Privacy Policy', 'Mobile User Agreement', 'Video Services'])
             if self.phone:
                 self.verify_exists(id='Nielsen Info & Your Choices')
                 self.verify_exists(id='Send Feedback')
