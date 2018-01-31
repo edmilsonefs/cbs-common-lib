@@ -32,7 +32,7 @@ def video_profile(video_type):
                   "'LEVT': 'Video LEVT CBSS App',"
                   "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
         'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
-        'appname': "Video LEVT CBSS App", 'platform': platform, 'buildversion': str(buildversion), 'videotype': video_type}
+        'appname': "CBS App", 'platform': platform, 'buildversion': str(buildversion), 'videotype': video_type}
 
 
 def sign_in_profile(omniture_profile):
@@ -42,7 +42,7 @@ def sign_in_profile(omniture_profile):
                   "'LEVT': 'Video LEVT CBSS App',"
                   "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
         'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
-        'appname': "Video LEVT CBSS App", 'platform': platform, 'buildversion': str(buildversion)}
+        'appname': "CBS App", 'platform': platform, 'buildversion': str(buildversion)}
 
 
 def upload_dump(payload):
