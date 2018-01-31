@@ -220,6 +220,7 @@ class SignUpPage(BasePage):
         self.safe_screenshot()
         self.click(element=self.btn_submit())
         self.safe_screenshot()
+        self.wait_for_show_page_to_load()
 
     def cancel_registration_form(self):
         self._hide_keyboard()
