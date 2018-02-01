@@ -127,10 +127,7 @@ class LiveTvPage(BasePage):
             self.click_allow_popup()
 
         self.verify_exists(element=self.lbl_title())
-        if self.phone:
-            self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
-        else:
-            self.verify_exists(element=self.btn_navigate_up(), name='Navigate up')
+        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
 
         self._short_swipe_up()
         self._short_swipe_up()
