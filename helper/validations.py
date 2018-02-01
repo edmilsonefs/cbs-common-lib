@@ -631,7 +631,37 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ag(self, user_type='anonymous'):
         if self.IS_ANDROID:
-            pass
+            self.verify_exists(name='Open navigation drawer', screenshot=True)
+            self.verify_exists(name='Live TV')
+            self.verify_exists(id=self.com_cbs_app + ':id/action_search')
+            self.verify_exists(name='Two ways to watch Live TV')
+            self.verify_exists(name='Instantly watch your local CBS station at home or on the go!')
+            self.verify_exists(id=self.com_cbs_app + ':id/imageView')  # cbs all access
+            self.verify_exists(name='Stream Live TV plus thousands of full episodes on demand.')
+            if user_type == self.anonymous:
+                self.verify_exists(name='Already have an account? Sign In')
+                self.verify_exists(id=self.com_cbs_app + ':id/btnTryOneWeekFree')
+                # self.verify_exists(xpath="//android.widget.Button[contains(@text,'Try 1')] and [contains(@text,'free')]")
+                self.verify_exists(id=self.com_cbs_app + ':id/txtTakeTour')
+            elif user_type == self.ex_subscriber:
+                try:
+                    self.verify_exists(name='Get Started')
+                    self.verify_exists(name='Note: CBS All Access subscription required to enjoy Live TV')
+                except:
+                    pass
+
+                self.verify_exists(id=self.com_cbs_app + ':id/txtTakeTour')
+                self.verify_not_exists(name='Already have an account? Sign In')
+            else:
+                self.verify_exists(id=self.com_cbs_app + ':id/btnTryOneWeekFree')
+                self.verify_exists(id=self.com_cbs_app + ':id/txtTakeTour')
+                self.verify_not_exists(name='Already have an account? Sign In')
+            self.swipe_down_and_verify_if_exists(name='OR')
+            self.swipe_down_and_verify_if_exists(name='TV PROVIDER')
+            self.swipe_down_and_verify_if_exists(name='Stream Live TV with your cable, satellite or telco provider.',
+                                                 screenshot=True)
+            self.swipe_down_and_verify_if_exists(name='Verify Now')
+            # self.swipe_down_and_verify_if_exists(id_element='com.cbs.app:id/txtLearnMore')
         elif self.IS_IOS:
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')  # cbs icon
