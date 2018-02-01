@@ -794,7 +794,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ap(self):
         if self.IS_ANDROID:
             # no_local_affiliate_page
-            self.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True)
+            self.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True, timeout=15)
             self.verify_exists(
                 name='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these Videos:')
             self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
