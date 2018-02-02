@@ -745,10 +745,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             # faq_web_view
             sleep(5)
-            if self.tablet:
-                self.verify_exists(name='Navigate up', screenshot=True)
-            else:
-                self.verify_exists(name='Open navigation drawer', screenshot=True)
+            self.verify_exists(name='Open navigation drawer', screenshot=True)
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
