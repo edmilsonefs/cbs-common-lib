@@ -408,7 +408,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                            "l": "Email already exists.",
                            "m": "We are sorry, but we are unable to create an account for you at this time."}
 
-            self.verify_exists(name=dict_errors[error_number], screenshot=True)
+            self.verify_in_batch(dict_errors[error_number], screenshot=True)
         elif self.IS_IOS:
             dict = {
                 "a": "First Name Required",
