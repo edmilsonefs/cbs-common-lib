@@ -710,10 +710,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             # see_devices_web_view_page
             sleep(5)
 
-            if self.tablet:
-                self.verify_exists(name='Navigate up', screenshot=True)
-            else:
-                self.verify_exists(name='Open navigation drawer', screenshot=True)
+            self.verify_exists(name='Open navigation drawer', screenshot=True)
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
