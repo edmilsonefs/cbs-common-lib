@@ -439,14 +439,10 @@ class Validations(CommonHelper, CommonIOSHelper):
                                                   msg="Error message %s should be visible" % dict[error])
                 counter += 1
 
-    def validation_x(self, twitter=None, facebook=None):
+    def validation_x(self):
         if self.IS_ANDROID:
             # third_party_signup_page
             self.verify_exists(name='Navigate up', screenshot=True)
-            if twitter:
-                self.verify_exists(name='Sign up with your Twitter account')
-            if facebook:
-                self.verify_exists(name='Sign up with your Facebook account')
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
             self.verify_exists(name='Sign Up')
