@@ -132,10 +132,7 @@ class LiveTvPage(BasePage):
         self._short_swipe_up()
         self._short_swipe_up()
         if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
-            if self.phone:
-                self.verify_exists(element=self.btn_start_watching(), name='Start Watching')
-            else:
-                self.verify_exists(id=self.com_cbs_app + ':id/videoPlayerContainer', screenshot=True)
+            self.verify_exists(id=self.com_cbs_app + ':id/station_logo')
         if user_type == self.anonymous:
             self.verify_exists(element=self.lst_already_have_an_account_sign_in()[0], name='Already have an account? Sign In')
         if user_type in [self.anonymous, self.registered]:
