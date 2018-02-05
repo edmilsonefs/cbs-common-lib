@@ -131,6 +131,7 @@ class LiveTvPage(BasePage):
 
         self._short_swipe_up()
         self._short_swipe_up()
+        
         if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
             self.verify_exists(id=self.com_cbs_app + ':id/station_logo')
         if user_type == self.anonymous:
