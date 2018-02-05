@@ -227,12 +227,15 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
         self._go_to('Movies')
 
-    def goto_show(self, show_name):
+    def goto_show(self, show_name, select_second_show=False):
         self.select_search_icon()
         self.wait_for_show_page_to_load()
 
         self.send_keys_on_search_field(show_name)
-        self.click_first_search_result()
+        if select_second_show:
+            self.click_second_search_result()
+        else:
+            self.click_first_search_result()
         sleep(10)
 
     def goto_show_with_extended_search(self, show_name):
@@ -1834,7 +1837,11 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_first_search_result(self):
         # this is how we did it in 2.9
-        self.tap(.25, .25, 'first search result')
+        self.tap(.25, .25, 'first search result')    
+
+    def click_second_search_result(self):
+        # this is how we did it in 2.9
+        self.tap(.55, .25, 'second search result')
 
     def collect_details_from_show_info_page(self):
         show_dict_found = {}
