@@ -228,15 +228,15 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
         self._go_to('Movies')
 
-    def goto_show(self, show_name, select_second_show):
+    def goto_show(self, show_name, select_second_show=False):
         self.select_search_icon()
         self.wait_for_show_page_to_load()
 
         self.send_keys_on_search_field(show_name)
-        if not select_second_show:
-            self.click_first_search_result()
-        else:
+        if select_second_show:
             self.click_second_search_result()
+        else:
+            self.click_first_search_result()
         sleep(10)
 
     def goto_show_with_extended_search(self, show_name):
