@@ -29,7 +29,7 @@ def video_profile(video_type):
     return {
         'p_name': "{'Omniture':'" + "OM " + platform + " CBS Ent App" + "',"
                   "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
-        'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
+        'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com', 'kristjan@testlio.com']",
         'appname': "CBS App", 'platform': platform, 'buildversion': str(buildversion), 'videotype': video_type}
 
 
@@ -37,7 +37,7 @@ def sign_in_profile(omniture_profile):
     return {
         'p_name': "{'Omniture':'" + omniture_profile + "',"
                   "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
-        'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com']",
+        'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com', 'kristjan@testlio.com']",
         'appname': "CBS App", 'platform': platform, 'buildversion': str(buildversion)}
 
 
