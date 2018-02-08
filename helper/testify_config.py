@@ -59,7 +59,7 @@ def sign_in_profile(omniture_profile, testtype):
 def _get_testify_config(params=[]):
     """Unified method for returning all variations of a Testify upload profile.
 
-    It also features built-in checks on required fields. Returns json.
+    It also features built-in checks on required fields. Returns dictionary.
     """
     config = {}
 
@@ -85,7 +85,7 @@ def _get_testify_config(params=[]):
     if 'videotype' in params:
         config['videotype'] = params['videotype']
 
-    return json.dumps(config)
+    return config
 
 
 def upload_dump(payload):
