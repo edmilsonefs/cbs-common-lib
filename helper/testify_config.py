@@ -75,7 +75,7 @@ def _get_testify_config(params=[]):
     config['p_name'] = profiles
 
     # config['email_list'] = ['bryan.gaikwad@cbsinteractive.com','joael.harbi@cbsinteractive.com','kristjan@testlio.com']
-    config['email_list'] = ['valdo@testlio.com','kristjan@testlio.com']
+    config['email_list'] = ['valdo@testlio.com', 'kristjan@testlio.com']
     config['platform'] = params['platform']
     config['appname'] = 'CBS App'
     config['buildversion'] = str(params['buildversion'])
@@ -83,7 +83,7 @@ def _get_testify_config(params=[]):
     config['testtype'] = params['testtype']
 
     if 'videotype' in params:
-        config['videotype'] = params['video_type']
+        config['videotype'] = params['videotype']
 
     return json.dumps(config)
 
