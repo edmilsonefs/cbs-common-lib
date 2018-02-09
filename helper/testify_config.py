@@ -1,8 +1,6 @@
 import json
 from time import sleep
-
 import subprocess
-
 import os
 from pip._vendor import requests
 
@@ -14,8 +12,9 @@ Usage:
     - TestifyConfig.testify_url = '{url}'
 
 2. Call method upload, as:
-    - TestifyConfig.upload(TestifyConfig.video_profile({video_type})), where video type: clips, shows, live tv, movies
-    - TestifyConfig.upload(TestifyConfig.sign_in_profile({omniture_profile}))
+    - TestifyConfig.upload(TestifyConfig.video_profile({video_type, testtype}))
+            where video type: clips, shows, live tv, movies
+    - TestifyConfig.upload(TestifyConfig.omniture_profile({omniture_profile, testtype}))
 
     methods return Boolean
 """
@@ -25,28 +24,51 @@ platform = None
 buildversion = os.getenv("BUILD_VERSION")
 
 
-def video_profile(video_type, testtype):
-    # return {
-    #     'p_name': "{'Omniture':'" + "OM " + platform + " CBS Ent App" + "',"
-    #               "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
-    #     'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com', 'joael.harbi@cbsinteractive.com', 'kristjan@testlio.com']",
-    #     'appname': "CBS App", 'platform': platform, 'buildversion': str(buildversion), 'videotype': video_type}
+def video_profile_shows():
     return _get_testify_config({
         'omniture': 'OM ' + platform + ' CBS Ent App',
         'heartbeat': 'HB CBSAPP ' + platform,
         'platform': platform,
         'buildversion': str(buildversion),
-        'videotype': video_type,
-        'testtype': testtype
+        'videotype': 'shows',
+        'testtype': 'Show Page'
+        })
+
+
+def video_profile_livetv():
+    return _get_testify_config({
+        'omniture': 'OM ' + platform + ' CBS Ent App',
+        'heartbeat': 'HB CBSAPP ' + platform + ' - Live TV',
+        'platform': platform,
+        'buildversion': str(buildversion),
+        'videotype': 'live tv',
+        'testtype': 'Live TV Page'
+        })
+
+
+def video_profile_clips():
+    return _get_testify_config({
+        'omniture': 'OM ' + platform + ' CBS Ent App',
+        'heartbeat': 'HB CBSAPP ' + platform + ' - Clips',
+        'platform': platform,
+        'buildversion': str(buildversion),
+        'videotype': 'clips',
+        'testtype': 'Clips Page'
+        })
+
+
+def video_profile_movies():
+    return _get_testify_config({
+        'omniture': 'OM ' + platform + ' CBS Ent App',
+        'heartbeat': 'HB CBSAPP ' + platform + ' - Movies',
+        'platform': platform,
+        'buildversion': str(buildversion),
+        'videotype': 'movies',
+        'testtype': 'Movie Page'
         })
 
 
 def omniture_profile(omniture_profile, testtype):
-    # return {
-    #     'p_name': "{'Omniture':'" + omniture_profile + "',"
-    #               "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
-    #     'skip_pass': "True", 'email_list': "['bryan.gaikwad@cbsinteractive.com','joael.harbi@cbsinteractive.com','kristjan@testlio.com']",
-    #     'appname': "CBS App", 'platform': platform, 'buildversion': str(buildversion)}
     return _get_testify_config({
         'omniture': omniture_profile,
         'platform': platform,
