@@ -41,7 +41,7 @@ def video_profile(video_type, testtype):
         })
 
 
-def sign_in_profile(omniture_profile, testtype):
+def omniture_profile(omniture_profile, testtype):
     # return {
     #     'p_name': "{'Omniture':'" + omniture_profile + "',"
     #               "'Heartbeat':'" + "HB CBSAPP " + platform + "'}",
