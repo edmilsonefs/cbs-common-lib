@@ -49,7 +49,6 @@ def sign_in_profile(omniture_profile, testtype):
     #     'appname': "CBS App", 'platform': platform, 'buildversion': str(buildversion)}
     return _get_testify_config({
         'omniture': omniture_profile,
-        'heartbeat': 'HB CBSAPP ' + platform,
         'platform': platform,
         'buildversion': str(buildversion),
         'testtype': testtype
@@ -57,7 +56,7 @@ def sign_in_profile(omniture_profile, testtype):
 
 
 def _get_testify_config(params=[]):
-    """Unified method for returning all variations of a Testify upload profile.
+    """Unified method for returning all variations of Testify upload profile.
 
     It also features built-in checks on required fields. Returns dictionary.
     """
