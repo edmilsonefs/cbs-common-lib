@@ -92,7 +92,7 @@ def upload_dump(payload):
     print("Start uploading of dump.har file")
     print("1. Kill proxy")
     subprocess.call(["bash", "-c", "kill_proxy"])
-    sleep(120)  # wait until dum.har is ready
+    sleep(60)  # wait until dum.har is ready
     print("2. Wait 60 seconds")
     try:
         # Open file and send contents
