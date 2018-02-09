@@ -95,8 +95,12 @@ def _get_testify_config(params=[]):
         raise Exception("At least one profile is required")
     config['p_name'] = str(profiles)
 
-    # config['email_list'] = ['bryan.gaikwad@cbsinteractive.com','joael.harbi@cbsinteractive.com','kristjan@testlio.com']
-    config['email_list'] = str(['valdo@testlio.com', 'kristjan@testlio.com'])
+    config['email_list'] = str([
+        'bryan.gaikwad@cbsinteractive.com',
+        'joael.harbi@cbsinteractive.com',
+        'kristjan@testlio.com'
+        ])
+    # config['email_list'] = str(['valdo@testlio.com', 'kristjan@testlio.com'])
     config['platform'] = params['platform']
     config['appname'] = 'CBS App'
     config['buildversion'] = str(params['buildversion'])
