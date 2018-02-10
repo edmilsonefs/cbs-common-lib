@@ -695,8 +695,8 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # VIDEO PLAYER
 
-    def restart_from_the_beggining(self):
-        self.click_safe(id='Restart From Beginning', timeout=6)
+    def restart_from_the_beggining(self, timeout=6):
+        self.click_safe(id='Restart From Beginning', timeout=timeout)
 
     def close_video(self):
         count = 0
@@ -2006,25 +2006,26 @@ class CommonIOSHelper(TestlioAutomationTest):
         return x, y
 
     def screenshot(self):
-        sleep(1)  # wait for animations to complete before taking a screenshot
-        import time
+        if self.phone:
+            sleep(1)  # wait for animations to complete before taking a screenshot
+            import time
 
-        try:
-            path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
+            try:
+                path = "{dir}/{name}-{time}.png".format(dir=SCREENSHOTS_DIR, name=self.name, time=time.mktime(time.gmtime()))
 
-            if not os.environ['IOS_UDID'] and not os.environ['UDID']:
-                raise Exception('screenshot failed. IOS_UDID not provided')
+                if not os.environ['IOS_UDID'] and not os.environ['UDID']:
+                    raise Exception('screenshot failed. IOS_UDID not provided')
 
-            if os.environ['IOS_UDID']:
-                subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
-                subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
-            else:
-                subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
-                subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+                if os.environ['IOS_UDID']:
+                    subprocess.call("echo $IOS_UDID &> consoleoutput.txt", shell=True)
+                    subprocess.call("idevicescreenshot -u $IOS_UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
+                else:
+                    subprocess.call("echo $UDID &> consoleoutput.txt", shell=True)
+                    subprocess.call("idevicescreenshot -u $UDID \"" + path + "\" &> consoleoutput2.txt", shell=True)
 
-            return path
-        except:
-            return False
+                return path
+            except:
+                return False
 
     def safe_screenshot(self):
         try:

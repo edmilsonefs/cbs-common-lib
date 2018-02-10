@@ -1053,7 +1053,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.back()
         elif self.IS_IOS:
             self._accept_alert(1)
-            self.restart_from_the_beggining()
+            self.restart_from_the_beggining(timeout=15)
             sleep(20) # wait for video to start
             self.verify_exists_video_element(id='Done', screenshot=True)
             if self.phone:
