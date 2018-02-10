@@ -356,7 +356,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(3)
         try:
             ta = TouchAction(self.driver)
-            ta.press(x=25, y=25).release().perform()
+            ta.press(x=35, y=25).release().perform()
             self.log_info("Press back")
         except:
             self.log_info("Fail to press back")

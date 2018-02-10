@@ -72,12 +72,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Video Services')
             self.verify_exists(name='ACCEPT')
         elif self.IS_IOS:
-            self.verify_in_batch(['By watching this video, you agree to our: ',
+            self.verify_in_batch(['By watching this video, you agree to our: |By watching this video or stream, you agree to our: ',
                                'Terms of Use',
                                'Mobile User Agreement',
                                'Privacy Policy',
                                'Video Services',
-                               'crossbutton',
+                               'crossbutton|.*',
                                'I ACCEPT|Accept'], strict_visibility=False)
             # self.verify_exists(id='By watching this video, you agree to our: ', screenshot=True)
             # self.verify_exists(id='Terms of Use')
