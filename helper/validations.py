@@ -240,10 +240,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.shows_page_android.validate_page(category)
         elif self.IS_IOS:
-            self.verify_exists(id="Main Menu", screenshot=False)
             self.verify_cbs_logo()
-            self.verify_search_icon()
-            self.verify_exists(id='I want to see: %s' % category)
+            self.verify_in_batch(['Main Menu', 'Search', 'I want to see: %s' % category])
             self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
             #self.verify_show_cards_exist()
 
@@ -957,9 +955,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.movies_page_android.validate_page()
         elif self.IS_IOS:
-            self.verify_exists(id="Main Menu", screenshot=False)
-            self.verify_exists(id='Movies')
-            self.verify_exists(id='Search')
+            self.verify_in_batch(['Main Menu', 'Movies', 'Search'])
             if self.xcuitest:
                 self.assertTrueWithScreenShot(
                     len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 3,
@@ -981,13 +977,9 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
-                self.verify_exists(id='Subscribe to Watch')
-                self.verify_exists(id='Preview Trailer')
-                self.verify_exists(id='Close')
+                self.verify_in_batch(['Subscribe to Watch', 'Preview Trailer', 'Close'], with_timeout=2)
             else:
-                self.verify_exists(id='Watch')
-                self.verify_exists(id='Preview Trailer')
-                self.verify_exists(id='Close')
+                self.verify_in_batch(['Watch', 'Preview Trailer', 'Close'], with_timeout=2)
 
     def validation_av(self):
         if self.IS_ANDROID:
@@ -1001,9 +993,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id=self.com_cbs_app + ':id/cbsTextView')
             self.verify_exists(id=self.com_cbs_app + ':id/appVersionTextView')
         elif self.IS_IOS:
-            self.verify_exists(id='CBSEye_white', timeout=10)
-            self.verify_exists(id='App Version')
-            self.verify_exists(id='CBS')
+            self.verify_in_batch(['CBSEye_white', 'App Version', 'CBS'])
 
     def validation_ax2(self):
         if self.IS_ANDROID:
