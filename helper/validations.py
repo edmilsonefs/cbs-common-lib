@@ -577,11 +577,11 @@ class Validations(CommonHelper, CommonIOSHelper):
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
             # cbs all access
-            self.verify_exists(name='Lucky you')
-            self.verify_exists(name="You've got a few options!")
-            self.verify_exists(name='Which station would you like to watch?')
-            self.verify_exists(name='KBTX')
-            self.verify_exists(name='KWTX')
+            self.verify_exists(name='Select Your Local Station')
+            # self.verify_exists(name='You can always change this by visiting Settings')
+            self.verify_exists(name='Channels')
+            self.verify_exists(id=self.com_cbs_app + ':id/cbs_channel_name')
+            self.verify_exists(id=self.com_cbs_app + ':id/current_program_name')
         elif self.IS_IOS:
             pass
 
