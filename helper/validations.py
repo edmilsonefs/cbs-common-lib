@@ -566,10 +566,10 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ar(self):
         # multiple_channel_selector_page
         if self.IS_ANDROID:
-            if self.tablet:
-                self.verify_exists(name='Navigate up', screenshot=True)
-            else:
-                self.verify_exists(name='Open navigation drawer', screenshot=True)
+            # if self.tablet:
+            #     self.verify_exists(name='Navigate up', screenshot=True)
+            # else:
+            #     self.verify_exists(name='Open navigation drawer', screenshot=True)
 
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
