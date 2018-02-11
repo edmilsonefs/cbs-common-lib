@@ -72,13 +72,13 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Video Services')
             self.verify_exists(name='ACCEPT')
         elif self.IS_IOS:
-            self.verify_in_batch(['By watching this video, you agree to our: ',
+            self.verify_in_batch(['By watching this video, you agree to our: |By watching this video or stream, you agree to our: ',
                                'Terms of Use',
                                'Mobile User Agreement',
                                'Privacy Policy',
                                'Video Services',
-                               'crossbutton',
-                               'I ACCEPT'], strict_visibility=False)
+                               'crossbutton|.*',
+                               'I ACCEPT|Accept'], strict_visibility=False)
             # self.verify_exists(id='By watching this video, you agree to our: ', screenshot=True)
             # self.verify_exists(id='Terms of Use')
             # self.verify_exists(id='Mobile User Agreement')
@@ -748,12 +748,10 @@ class Validations(CommonHelper, CommonIOSHelper):
             sleep(5)
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')
-            # self.verify_exists(id='Live TV')
             self.verify_exists(id="Search")
-            try:
-                self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Frequently Asked Questions"]')
-            except:
-                self.safe_screenshot()
+            self.verify_exists(id="Frequently Asked Questions")
+            self.safe_screenshot()
+            # self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Frequently Asked Questions"]')
             self.driver.implicitly_wait(30)
 
     def validation_aj(self):
@@ -1055,7 +1053,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.back()
         elif self.IS_IOS:
             self._accept_alert(1)
-            self.restart_from_the_beggining()
+            self.restart_from_the_beggining(timeout=15)
             sleep(20) # wait for video to start
             self.verify_exists_video_element(id='Done', screenshot=True)
             if self.phone:
