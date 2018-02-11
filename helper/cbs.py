@@ -66,7 +66,7 @@ class CommonHelper(TestlioAutomationTest):
             if self.driver:
                 self.safe_screenshot()
                 try:
-                    self.driver.page_source
+                    self.page_source_to_td_log()
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
         super(CommonHelper, self).teardown_method(method)
@@ -796,6 +796,12 @@ class CommonHelper(TestlioAutomationTest):
             return True
         except WebDriverException:
             return False
+
+    def page_source_to_td_log(self):
+        """Getting page source and add it to the TD calabash log"""
+        to_log = self.driver.page_source
+        good_log = to_log.encode('utf-8')
+        self.event._log_info(self.event._event_data(str(good_log)))
 
     def click_on_first_video(self):
         try:
