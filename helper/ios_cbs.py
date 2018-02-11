@@ -1180,7 +1180,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(3)
 
     def click_more_information(self):
-        self.click(id='More Information')
+        sleep(3)
+        self.tap(0.95, 0.03)
 
     def click_latest_clip_on_home_page(self):
         self.swipe_down(20, 400)
