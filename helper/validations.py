@@ -592,12 +592,13 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
-            self.verify_exists(id=self.com_cbs_app + ':id/imgStationLogo')
-            if mvpd:
-                self.verify_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
-            else:
-                self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
-            self.verify_exists(id=self.com_cbs_app + ':id/programsContentFlipper')  # schedule table
+            self.verify_exists(id=self.com_cbs_app + ':id/station_logo')
+            self.verify_exists(id=self.com_cbs_app + ':id/controlsContainer')
+            # if mvpd:
+            #     self.verify_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
+            # else:
+            #     self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo') # TODO needs to update this validation
+            self.verify_exists(id=self.com_cbs_app + ':id/liveTvRecyclerView')  # schedule table
         elif self.IS_IOS:
             self.verify_exists(id='CBSEye_white', screenshot=True)
             self.verify_exists(id="Search")
