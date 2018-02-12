@@ -125,9 +125,9 @@ class LiveTvPage(BasePage):
     def validate_page(self, user_type="anonymous"):
         for i in range(2):
             self.click_allow_popup()
-        text_list_one = [self.lbl_title()]
 
-        text_list_one.append('Open navigation drawer')
+        self.verify_exists(element=self.lbl_title())
+        text_list_one = ['Open navigation drawer']
         self.verify_in_batch(text_list_one, False)
         self._short_swipe_up()
         self._short_swipe_up()

@@ -99,7 +99,7 @@ class SettingsPage(BasePage):
             'Privacy Policy',
             'Mobile User Agreement',
             'Video Services',
-            'Nielsen Info & Your Choices',
+            'Nielsen Info.*Your Choices',
             'Closed Captions'
             ]
         if user_type != self.anonymous:
