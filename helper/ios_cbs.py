@@ -1180,7 +1180,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(3)
 
     def click_more_information(self):
-        self.click(id='More Information')
+        search = self.get_element(id='Search')
+        size = search.size
+        location = search.location
+
+        x = size['width'] + 10
+        y = location['y'] + 7
+
+        self.tap_by_touchaction(x, y)
 
     def click_latest_clip_on_home_page(self):
         self.swipe_down(20, 400)
