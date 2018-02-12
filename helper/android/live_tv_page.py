@@ -125,11 +125,9 @@ class LiveTvPage(BasePage):
     def validate_page(self, user_type="anonymous"):
         for i in range(2):
             self.click_allow_popup()
-        text_list_one = [self.lbl_title()]        
-        if self.phone:
-            text_list_one.append('Open navigation drawer')
-        else:
-            text_list_one.append('Navigate up')
+        text_list_one = [self.lbl_title()]
+
+        text_list_one.append('Open navigation drawer')
         self.verify_in_batch(text_list_one, False)
         self._short_swipe_up()
         self._short_swipe_up()
@@ -140,7 +138,7 @@ class LiveTvPage(BasePage):
             else:
                 text_list_two.append('videoPlayerContainer')
         if user_type == self.anonymous:
-            text_list_two.append('Already have an account? Sign In')
+            text_list_two.append('Already have an account\? Sign In')
         if user_type in [self.anonymous, self.registered]:
             text_list_two.append('Two ways to watch Live TV')
             text_list_two.append('android.widget.ImageView')
