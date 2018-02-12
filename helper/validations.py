@@ -185,7 +185,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.show_page_android.validate_page(user_type=user_type, clips=False)
         elif self.IS_IOS:
             self.verify_navigation_back_button()
-            self.verify_share_icon()
+            #self.verify_share_icon()
             self.verify_search_icon()
             # self.verify_exists(id='Marquee')  # show image
             # self.verify_star_icon()

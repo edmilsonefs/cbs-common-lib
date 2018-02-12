@@ -1544,7 +1544,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         #self.verify_exists(xpath='//*[@name="Share"]', screenshot=screenshot)
         self.verify_exists(accessibility_id='Share', screenshot=screenshot)
         if self.phone:
-            self.click(id='Close')
+            if not self.click_safe(id='CLOSE'):
+                self.click_safe(id='Close')
         else:
             if self.xcuitest:
                 self.click(xpath='//*[@name="PopoverDismissRegion"]')
