@@ -2034,8 +2034,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         except:
             return False
 
-    def safe_screenshot(self):
+    def safe_screenshot(self, info=None):
         try:
+            if info is not None:
+                self.log_info(info)
             self.event.screenshot(self.screenshot())
         except:
             pass
