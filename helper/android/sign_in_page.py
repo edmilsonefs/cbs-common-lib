@@ -102,16 +102,20 @@ class SignInPage(BasePage):
     def validate_page(self):
         self._hide_keyboard()
         self._hide_keyboard()
-        self.verify_exists(element=self.lbl_title(), screenshot=True, xpath="//*[@text='Sign In']")
-        self.verify_exists(name='Sign in with your social account')
-        self.verify_exists(element=self.btn_facebook_button(), id=self.com_cbs_app + ':id/imgFacebook')
-        self.verify_exists(element=self.btn_twitter_button(), id=self.com_cbs_app + ':id/imgTwitter')
+        text_list = [
+            'Sign In', 
+            'Sign in with your social account', 
+            ':id/imgFacebook', 
+            ':id/imgTwitter', 
+            'Sign in with your email', 
+            'Forgot Your Password?', 
+            'Sign In',
+            'Don\'t have an account?',
+            'Sign Up'
+            ]
         if not self.IS_AMAZON:
-            self.verify_exists(element=self.btn_google_button(), id=self.com_cbs_app + ':id/imgGoogle')
-        self.verify_exists(name='Sign in with your email')
-        self.verify_exists(name='Forgot Your Password?')
-        self.verify_exists(name='Sign In')
-        self.verify_exists(element=self.btn_don_t_have_an_account_sign_up(), name="Don't have an account? Sign Up")
+            text_list.append(':id/imgGoogle')
+        self.verify_in_batch(text_list)
 
     def click_dont_have_account_sign_up(self):
         self._hide_keyboard()

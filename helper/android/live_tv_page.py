@@ -125,23 +125,28 @@ class LiveTvPage(BasePage):
     def validate_page(self, user_type="anonymous"):
         for i in range(2):
             self.click_allow_popup()
-
-        self.verify_exists(element=self.lbl_title())
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
-
+        text_list_one = [self.lbl_title()]        
+        if self.phone:
+            text_list_one.append('Open navigation drawer')
+        else:
+            text_list_one.append('Navigate up')
+        self.verify_in_batch(text_list_one, False)
         self._short_swipe_up()
         self._short_swipe_up()
-        
+        text_list_two = []
         if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
-            self.verify_exists(id=self.com_cbs_app + ':id/station_logo')
+            if self.phone:
+                text_list_two.append('Start Watching')
+            else:
+                text_list_two.append('videoPlayerContainer')
         if user_type == self.anonymous:
-            self.verify_exists(element=self.lst_already_have_an_account_sign_in()[0], name='Already have an account? Sign In')
+            text_list_two.append('Already have an account? Sign In')
         if user_type in [self.anonymous, self.registered]:
-            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv(), name='Two ways to watch Live TV')
-            self.verify_exists(element=self.img_logo())
-            self.verify_exists(element=self.btn_try_1_week_month_free())
+            text_list_two.append('Two ways to watch Live TV')
+            text_list_two.append('android.widget.ImageView')
+            text_list_two.append('TRY 1 WEEK FREE')
         elif user_type == self.ex_subscriber:
-            self.verify_exists(element=self.lbl_two_ways_to_watch_live_tv(), name='Two ways to watch Live TV')
-            self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
-            self.verify_exists(element=self.btn_get_started(), name='Get Started')
-
+            text_list_two.append('Two ways to watch Live TV')
+            text_list_two.append('android.widget.ImageView')
+            text_list_two.append('Get Started')
+        self.verify_in_batch(text_list_two, False)

@@ -79,31 +79,32 @@ class SettingsPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/appIcon')
 
     def validate_page(self, user_type="anonymous"):
-        # validation Q
+        text_list_one = ['Send Feedback', 'FAQ', 'Terms of Use']
         if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-            self.verify_exists(name='Subscribe')
+            text_list_one.append('Subscribe')
         if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
-            self.verify_exists(name='Manage Account')
+            text_list_one.append('Manage Account')
         if user_type == self.cf_subscriber:
-            self.verify_exists(name='Manage Account')
+            text_list_one.append('Manage Account')
         if self.tablet:
-            self.verify_exists(name='App Version')
+            text_list_one.append('App Version')
         if self.phone:
-            self.verify_exists(id=self.com_cbs_app + ':id/appIcon')
-            self.verify_exists(id=self.com_cbs_app + ':id/appVersionTextView')
-            self.verify_exists(id=self.com_cbs_app + ':id/cbsTextView')
-        self.verify_exists(name='Send Feedback')
-        self.verify_exists(name='FAQ')
-        self.verify_exists(name='Terms of Use')
+            text_list_one.append(':id/appIcon')
+            text_list_one.append(':id/appVersionTextView')
+            text_list_one.append(':id/cbsTextView')
+        self.verify_in_batch(text_list_one, False)
         if self.phone:
             self._short_swipe_down(duration=2000)
-        self.verify_exists(name='Privacy Policy')
-        self.verify_exists(name='Mobile User Agreement')
-        self.verify_exists(name='Video Services')
-        self.verify_exists(name='Nielsen Info & Your Choices')
-        self.verify_exists(name='Closed Captions')
+        text_list_two = [
+            'Privacy Policy',
+            'Mobile User Agreement',
+            'Video Services',
+            'Nielsen Info & Your Choices',
+            'Closed Captions'
+            ]
         if user_type != self.anonymous:
-            self.verify_exists(name='Sign Out')
+            text_list_two.append('Sign Out')
+        self.verify_in_batch(text_list_two, False)
 
     def goto_nielsen_info_page(self):
         self.goto_settings()

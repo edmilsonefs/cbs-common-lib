@@ -77,32 +77,43 @@ class ShowPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/seasonEpisode')
 
     def validate_page(self, user_type="anonymous", clips=False):
-        self.verify_exists(element=self.btn_navigate_up(), screenshot=True, name='Navigate up')
-        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
-        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
-        self.verify_exists(element=self.show_page_header(), id=self.com_cbs_app + ':id/imgHeader')
-        self.verify_exists(element=self.btn_more_options(), name='More options')
-        self.verify_exists(element=self.btn_my_cbs(), id=self.com_cbs_app + ':id/imgMyCbsToggle')
+        text_list = [
+            'Navigate up',
+            'android.widget.ImageView',
+            'action_search',
+            'imgHeader',
+            'More options',
+            'imgMyCbsToggle'
+            ]
         if not clips:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
-                self.verify_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
+                text_list.append('episodeIndicatorContainer')
             else:
                 sleep(5)
                 self.verify_not_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
+        self.verify_in_batch(text_list, False)
 
     def validate_show_more_info_page(self):
-        self.verify_exists(element=self.txt_show_name(), screenshot=True, id=self.com_cbs_app + ':id/txtShowName')
-        self.verify_exists(element=self.txt_season_episode(), id=':id/seasonEpisode')
-        self.verify_exists(element=self.txt_episode_name(), id=':id/txtEpisodeName')
-        self.verify_exists(element=self.txt_air_date(), id=':id/txtAirDate')
-        self.verify_exists(element=self.btn_watch_episode(), name='Watch Episode')
+        text_list = [
+            'txtShowName',
+            'seasonEpisode',
+            'txtEpisodeName',
+            'txtAirDate',
+            'Watch Episode'
+            ]
+        
+        self.verify_in_batch(text_list, False)
 
     def validate_more_options_menu(self):
-        self.verify_exists(element=self.btn_like_on_facebook(), screenshot=True, name='Like on Facebook')
-        self.verify_exists(element=self.btn_follow_on_twitter(), name='Follow on Twitter')
-        self.verify_exists(element=self.btn_share(), name='Share')
-        self.verify_exists(element=self.btn_add_to_calendar(), name='Add to Calendar')
-        self.verify_exists(element=self.btn_show_info(), name='Show Info')
+        text_list = [
+            'Like on Facebook',
+            'Follow on Twitter',
+            'Share',
+            'Add to Calendar',
+            'Show Info'
+            ]
+        
+        self.verify_in_batch(text_list, False)
 
     def click_all_access_video(self):
         if self.exists(name='paid', timeout=10):
