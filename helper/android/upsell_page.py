@@ -21,29 +21,28 @@ class UpsellPage(BasePage):
         return self.get_element(timeout=timeout, name='Take the Tour')
 
     def validate_page(self, user_type="anonymous"):
-        self.verify_exists(id=self.com_cbs_app + ':id/allAccessLogo', timeout=10, screenshot=True)
+        text_list = ['allAccessLogo']
         if user_type in [self.anonymous, self.registered]:
-            self.verify_exists(
-                xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]")
-            self.verify_exists(element=self.btn_try_1_week_month_free())
-            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-            self.verify_exists(element=self.btn_get_started(), xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE']")
-            if user_type == self.registered:
-                self.verify_not_exists(id='SELECT', timeout=10)
+            text_list.append('LIMITED COMMERCIALS')
+            text_list.append('TRY 1 WEEK FREE')
+            text_list.append('COMMERCIAL FREE')
+            text_list.append('TRY 3 DAYS FREE')
+            #if user_type == self.registered:
+                #text_list.append('SELECT') #todo: Does this exist? Doesn't seem like it
         elif user_type in [self.subscriber, self.trial]:
-            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
-            self.verify_exists(xpath="//*[contains(@text,'UPGRADE')]")
+            text_list.append('COMMERCIAL FREE UPGRADE')
         elif user_type == self.cf_subscriber:
-            self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]")
+            text_list.append('COMMERCIAL FREE')
         else:
             if user_type == self.ex_subscriber:
-                self.verify_exists(
-                    xpath="//android.widget.TextView[contains(@text,'LIMITED') and contains(@text,'COMMERCIALS')]", timeout=20)
-                self.verify_exists(xpath="//*[contains(@text,'COMMERCIAL FREE')]", timeout=20)
-                self.verify_exists(xpath="//*[contains(@text,'Only $5.99/month')]", timeout=20)
-                self.verify_exists(name='SELECT', timeout=20)
-                self.verify_not_exists(element=self.btn_try_1_week_month_free(), timeout=10)
-                self.verify_not_exists(element=self.btn_get_started(), timeout=10, xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE']") #TODO change later
+                text_list.append('LIMITED COMMERCIALS')
+                text_list.append('COMMERCIAL FREE')
+                text_list.append('Only $5.99/month')
+                text_list.append('SELECT')
+                #text_list.append('TRY 1 MONTH FREE') Doesn't exist on page, design change?
+                #text_list.append('GET STARTED') See above
+
+        self.verify_in_batch(text_list, False, True, False, True, 20)
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))

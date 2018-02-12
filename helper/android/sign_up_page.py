@@ -63,18 +63,11 @@ class SignUpPage(BasePage):
 
     def validate_page(self):
         self._hide_keyboard()
-        if self.phone:
-            self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Sign Up']")
-        # self.verify_exists(name='Sign up with your social account', screenshot=True)
-        # self.verify_exists(element=self.btn_facebook_button(), id=self.com_cbs_app + ':id/imgFacebook')
-        # self.verify_exists(element=self.btn_twitter_button(), id=self.com_cbs_app + ':id/imgTwitter')
-        # if not self.IS_AMAZON:
-        #     self.verify_exists(element=self.btn_google_button(), id=self.com_cbs_app + ':id/imgGoogle')
         self.verify_exists(name='Sign Up')
         for _ in range(0, 2):
             self._short_swipe_down()
-        self.verify_exists(element=self.btn_submit(), screenshot=True, id=self.com_cbs_app + ':id/btnSignUp')
-        self.verify_exists(element=self.btn_already_have_an_account_sign_in(), name='Already have an account? Sign In')
+        text_list = [':id/btnSignUp', 'Already have an account', 'Sign In']
+        self.verify_in_batch(text_list)
 
     def register_new_user(self, year=1996):
         self._hide_keyboard()

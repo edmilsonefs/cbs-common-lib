@@ -28,6 +28,13 @@ class BasePage(CommonHelper):
         self.btn_settings_menu_item_selector = "//*[@text='Settings']"
         self.btn_upgrade_menu_item_selector = "//*[@text='Upgrade']"
         self.btn_subscribe_menu_item_selector = "//*[@text='Subscribe']"
+        self.txt_welcome_to_cbs_selector = 'Welcome to the CBS app'
+        self.txt_by_using_this_app_selector = 'By using this CBS Application, you agree to our:'
+        self.btn_terms_of_use_selector = 'Terms of Use'
+        self.btn_mobile_user_agreement_selector = 'Mobile User Agreement'
+        self.btn_privacy_policy_selector = 'Privacy Policy'
+        self.btn_video_services_selector = 'Video Services'
+        self.btn_accept_selector = 'ACCEPT'
 
 
     def top_toolbar(self, timeout=60):
@@ -170,24 +177,39 @@ class BasePage(CommonHelper):
         self.close_big_advertisement()
 
     def validate_menu_page(self, name):
+        text_list = [
+            'settings', 
+            'home', 
+            'shows', 
+            'live tv', 
+            'shop', 
+            'subscribe'
+            ]
         if self.user_type == self.anonymous:
-            self.verify_exists(element=self.btn_sign_in_menu_item(), id=self.btn_sign_in_menu_item_selector)
+            text_list.append('sign in')
         else:
-            self.verify_exists(name=name)
+            text_list.append(name)
         if self.user_type in [self.subscriber, self.trial]:
-            self.verify_exists(element=self.btn_upgrade_menu_item(), xpath=self.btn_upgrade_menu_item_selector)
+            text_list.append('upgrade')
         elif self.user_type == self.cf_subscriber:
-            self.verify_not_exists(element=self.btn_upgrade_menu_item(), xpath=self.btn_upgrade_menu_item_selector)
-            self.verify_not_exists(element=self.btn_subscribe_menu_item(), xpath=self.btn_subscribe_menu_item_selector)
+            text_list.append('upgrade')
+            text_list.append('subscribe')
         else:
-            self.verify_exists(element=self.btn_subscribe_menu_item(), xpath=self.btn_subscribe_menu_item_selector)
-        self.verify_exists(element=self.btn_settings_menu_item(), screenshot=True, xpath=self.btn_settings_menu_item_selector)
-        self.verify_exists(element=self.btn_home_menu_item(), xpath=self.btn_home_menu_item_selector)
-        self.verify_exists(element=self.btn_shows_menu_item(), xpath=self.btn_shows_menu_item_selector)
-        self.verify_exists(element=self.btn_live_tv_menu_item(), xpath=self.btn_live_tv_menu_item_selector)
-        self.verify_exists(element=self.btn_schedule_menu_item(), xpath=self.btn_schedule_menu_item_selector)
-        self.verify_exists(element=self.btn_shop_menu_item(), xpath=self.btn_shop_menu_item_selector)
+            text_list.append('subscribe')
+        self.verify_in_batch(text_list, False)
 
+    def validate_tou_page(self):
+        # Validation A   
+        text_list = [
+        self.txt_welcome_to_cbs_selector,
+        self.txt_by_using_this_app_selector,
+        self.btn_terms_of_use_selector,
+        self.btn_mobile_user_agreement_selector,
+        self.btn_privacy_policy_selector,
+        self.btn_video_services_selector,
+        self.btn_accept_selector
+        ]
+        self.verify_in_batch(text_list, False)
 
 
 

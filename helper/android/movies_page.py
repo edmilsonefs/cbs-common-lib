@@ -30,22 +30,28 @@ class MoviesPage(BasePage):
         return self.get_element(timeout=timeout, name="WATCH MOVIE")
 
     def validate_page(self):
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
-        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
-        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
-        self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Movies']")
-        self.verify_exists(element=self.btn_movie_poster(), id=self.com_cbs_app + ":id/movieImage")
-        self.verify_not_exists(xpath="//*[@text='I want to see:']", timeout=20)
-        self.verify_not_exists(name='All Shows')
+        text_list = [
+            'Open navigation drawer',
+            'android.widget.ImageView',
+            ':id/action_search',
+            'Movies',
+            ':id/movieImage',
+            'I want to see:',
+            'All Shows'
+            ]
+        self.verify_in_batch(text_list, False, True, True, False, 20)
 
     def movie_details_popup_validation(self, user_type='anonymous'):
-        self.verify_exists(element=self.video_thumbnail(), id=self.com_cbs_app + ":id/imgThumbnail")
-        self.verify_exists(element=self.txt_movie_name(), id=self.com_cbs_app + ":id/txtMovieName")
-        self.verify_exists(element=self.txt_meta_data(), id=self.com_cbs_app + ":id/txtMovieMetadata")
-        self.verify_exists(element=self.txt_movie_description(), id=self.com_cbs_app + ":id/txtMovieDescription")
+        text_list = [
+            ':id/imgThumbnail',
+            ':id/txtMovieName',
+            ':id/txtMovieMetadata',
+            ':id/txtMovieDescription'
+            ]
         if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-            self.verify_exists(element=self.btn_subscribe_to_watch(), name="SUBSCRIBE TO WATCH")
+            text_list.append('SUBSCRIBE TO WATCH')
             self.verify_not_exists(element=self.btn_watch_movie(), name="WATCH MOVIE")
         else:
-            self.verify_exists(element=self.btn_watch_movie(), name="WATCH MOVIE")
+            text_list.append('WATCH MOVIE')
             self.verify_not_exists(element=self.btn_subscribe_to_watch(), name="SUBSCRIBE TO WATCH")
+        self.verify_in_batch(text_list, False)

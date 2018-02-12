@@ -8,13 +8,6 @@ class HomePage(BasePage):
         super(HomePage, self).__init__(driver, event)
         self.home_marquee_container_selector = self.com_cbs_app + ':id/marqueeContainer'
         self.lst_home_video_icons_selector = self.com_cbs_app + ':id/imgThumbnail'
-        self.txt_welcome_to_cbs_selector = 'Welcome to the CBS app'
-        self.txt_by_using_this_app_selector = 'By using this CBS Application, you agree to our:'
-        self.btn_terms_of_use_selector = 'Terms of Use'
-        self.btn_mobile_user_agreement_selector = 'Mobile User Agreement'
-        self.btn_privacy_policy_selector = 'Privacy Policy'
-        self.btn_video_services_selector = 'Video Services'
-        self.btn_accept_selector = 'ACCEPT'
 
     def home_marquee_container(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.home_marquee_container_selector)
@@ -45,11 +38,10 @@ class HomePage(BasePage):
 
     def validate_page(self, check_marquee=True):
         # Validation B
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
-        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
-        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
+        text_list = ['Open navigation drawer', 'android.widget.ImageView', self.com_cbs_app + ':id/action_search']
         if check_marquee:
-            self.verify_exists(element=self.home_marquee_container(), id=self.home_marquee_container_selector)
+            text_list.append(self.home_marquee_container_selector)
+        self.verify_in_batch(text_list, False)
 
     def click_all_access_video(self):
         count = 0
@@ -113,13 +105,3 @@ class HomePage(BasePage):
         self.find_on_the_page(direction='down', xpath="//android.widget.TextView[@text='Movies']", timeout=5)
 
         self.click(element=self.get_elements(id=self.com_cbs_app + ':id/movieImage')[0])
-
-    def validate_tou_page(self):
-        # Validation A
-        self.verify_exists(element=self.txt_welcome_to_cbs(), screenshot=True, name=self.txt_welcome_to_cbs_selector)
-        self.verify_exists(element=self.txt_by_using_this_app(), name=self.txt_by_using_this_app_selector)
-        self.verify_exists(element=self.btn_terms_of_use(), name=self.btn_terms_of_use_selector)
-        self.verify_exists(element=self.btn_mobile_user_agreement(), name=self.btn_mobile_user_agreement_selector)
-        self.verify_exists(element=self.btn_privacy_policy(), name=self.btn_privacy_policy_selector)
-        self.verify_exists(element=self.btn_video_services(), name=self.btn_video_services_selector)
-        self.verify_exists(element=self.btn_accept(), name=self.btn_accept_selector)

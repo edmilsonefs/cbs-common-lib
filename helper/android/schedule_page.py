@@ -12,9 +12,12 @@ class SchedulePage(BasePage):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/title')
 
     def validate_page(self):
-        self.verify_exists(element=self.btn_hamburger_menu(), screenshot=True, name='Open navigation drawer')
-        self.verify_exists(element=self.img_logo(), class_name='android.widget.ImageView')
-        self.verify_exists(element=self.btn_search_icon(), id=self.com_cbs_app + ':id/action_search')
-        self.verify_exists(element=self.lbl_title(), xpath="//*[@text='Schedule']")
-        self.verify_exists(id=self.com_cbs_app + ':id/days')
-        self.verify_exists(id=self.com_cbs_app + ':id/horizontalScrollView')
+        text_list = [
+            'Open navigation drawer', 
+            'android.widget.ImageView', 
+            ':id/action_search', 
+            'Schedule', 
+            ':id/days', 
+            ':id/horizontalScrollView'
+            ]
+        self.verify_in_batch(text_list, False)
