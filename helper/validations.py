@@ -64,13 +64,13 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_a(self):
         if self.IS_ANDROID:
-            self.verify_exists(name='Welcome to the CBS app', screenshot=True)
-            self.verify_exists(name='By using this CBS Application, you agree to our:')
-            self.verify_exists(name='Terms of Use')
-            self.verify_exists(name='Mobile User Agreement')
-            self.verify_exists(name='Privacy Policy')
-            self.verify_exists(name='Video Services')
-            self.verify_exists(name='ACCEPT')
+            self.verify_in_batch(['Welcome to the CBS app',
+                                  'By using this CBS Application, you agree to our:',
+                                  'Terms of Use',
+                                  'Mobile User Agreement',
+                                  'Privacy Policy',
+                                  'Video Services',
+                                  'ACCEPT'])
         elif self.IS_IOS:
             self.verify_in_batch(['By watching this video, you agree to our: |By watching this video or stream, you agree to our: ',
                                'Terms of Use',
@@ -96,17 +96,16 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_c(self):
         if self.IS_ANDROID:
-            self.verify_exists(name='Our Terms Have Changed', screenshot=True)
-            self.verify_exists(id=self.com_cbs_app + ':id/terms_accept_checkBox')
-            self.verify_exists(
-                name="By registering you become a member of the CBS Interactive family of sites and you have "
-                     "read and agree to the Terms of Use, Privacy Policy and Video Services Policy. "
-                     "You understand that on occasion, you will receive updates, alerts and promotions from "
-                     "CBS. You agree that CBS may share information about you with companies that provide "
-                     "content, products or services featured on CBS sites so that they may contact "
-                     "you about their products or services.")
-            self.verify_exists(name='CANCEL')
-            self.verify_exists(name='SUBMIT')
+            self.verify_in_batch(['Our Terms Have Changed',
+                                  ':id/terms_accept_checkBox',
+                                  'By registering you become a member of the CBS Interactive family of sites and you have '
+                                  'read and agree to the Terms of Use, Privacy Policy and Video Services Policy. '
+                                  'You understand that on occasion, you will receive updates, alerts and promotions from '
+                                  'CBS. You agree that CBS may share information about you with companies that provide '
+                                  'content, products or services featured on CBS sites so that they may contact '
+                                  'you about their products or services.',
+                                  'CANCEL',
+                                  'SUBMIT'])
         elif self.IS_IOS:
             self.verify_in_batch(['Search', 'Sign In', 'Our terms have changed', 'CONTINUE'])
 
