@@ -65,10 +65,10 @@ class CommonHelper(TestlioAutomationTest):
             self.event.start(data='Test failed. Getting screenshot and page_source.')
             if self.driver:
                 self.safe_screenshot()
-                # try:
-                #     self.page_source_to_td_log()
-                # except Exception:
-                #     self.event.start(data='in teardown: page source failed')
+                try:
+                    self._log_to_td()
+                except Exception:
+                    self.event.start(data='in teardown: page source failed')
         super(CommonHelper, self).teardown_method(method)
 
     def safe_screenshot(self):

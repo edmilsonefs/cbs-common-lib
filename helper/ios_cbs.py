@@ -78,7 +78,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 except Exception:
                     self.event.start(data='in teardown: screenshot failed')
                 try:
-                    self.page_source_to_td_log()
+                    self._log_to_td()
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
 
