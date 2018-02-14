@@ -140,7 +140,7 @@ class SettingsPage(BasePage):
         self.goto_settings()
         if self.phone:
             origin = self.btn_video_services()
-            destination = self.btn_manage_account()
+            destination = self.btn_send_feedback()
             self.driver.drag_and_drop(origin, destination)
             self.safe_screenshot()
         self.safe_screenshot()
