@@ -565,6 +565,8 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ar(self):
         # multiple_channel_selector_page
         if self.IS_ANDROID:
+            sleep(5)
+            self.safe_screenshot()
             # if self.tablet:
             #     self.verify_exists(name='Navigate up', screenshot=True)
             # else:
