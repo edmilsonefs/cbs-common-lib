@@ -577,7 +577,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
             # cbs all access
             self.verify_exists(name='Select Your Local Station')
-            self.verify_exists(name='You can always change this by visiting Settings > Live TV')
+            # self.verify_exists(name='You can always change this by visiting Settings > Live TV')
+            self.verify_exists(xpath="//android.widget.TextView[contains(@text,'You can always change this')]")
             self.verify_exists(name='Channels')
             self.verify_exists(name='KWTX')
             self.verify_exists(name='KBTX')
