@@ -78,7 +78,10 @@ class CommonIOSHelper(TestlioAutomationTest):
                 except Exception:
                     self.event.start(data='in teardown: screenshot failed')
                 try:
-                    self.page_source_to_td_log()
+                    if self.phone:
+                        self.page_source_to_td_log()
+                    else:
+                        self.event.start(data='page source disabled for iPads')
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
 
@@ -698,7 +701,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # VIDEO PLAYER
 
     def restart_from_the_beggining(self, timeout=6):
-        self.click_safe(id='Restart From Beginning', timeout=timeout)
+        self.click_safe(id='RESTART', timeout=timeout)
 
     def close_video(self):
         count = 0

@@ -35,9 +35,7 @@ class MoviesPage(BasePage):
             'android.widget.ImageView',
             ':id/action_search',
             'Movies',
-            ':id/movieImage',
-            'I want to see:',
-            'All Shows'
+            ':id/movieImage'
             ]
         self.verify_in_batch(text_list, False, True, True, False, 20)
 
