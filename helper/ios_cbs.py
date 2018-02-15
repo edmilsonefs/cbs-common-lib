@@ -153,6 +153,8 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def logout(self, safe=False):
         self.goto_settings()
+        if not self.click_safe(id='DONE', timeout=7):
+            self.click_safe(id='Done', timeout=7)
         if safe:
             self.click_safe(id='Sign Out', timeout=6)
         else:
