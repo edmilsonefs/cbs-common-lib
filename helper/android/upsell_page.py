@@ -33,8 +33,7 @@ class UpsellPage(BasePage):
             #if user_type == self.registered:
                 #text_list.append('SELECT') #todo: Does this exist? Doesn't seem like it
         elif user_type in [self.subscriber, self.trial]:
-            text_list.append('COMMERCIAL FREE')
-            text_list.append('UPGRADE')
+            text_list.append('COMMERCIAL FREE\W+UPGRADE')
         elif user_type == self.cf_subscriber:
             text_list.append('COMMERCIAL FREE')
         else:
