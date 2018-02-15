@@ -699,7 +699,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # VIDEO PLAYER
 
     def restart_from_the_beggining(self, timeout=6):
-        self.click_safe(id='Restart From Beginning', timeout=timeout)
+        self.click_safe(id='RESTART', timeout=timeout)
 
     def close_video(self):
         count = 0
