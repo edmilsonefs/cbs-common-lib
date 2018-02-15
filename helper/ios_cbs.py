@@ -78,7 +78,10 @@ class CommonIOSHelper(TestlioAutomationTest):
                 except Exception:
                     self.event.start(data='in teardown: screenshot failed')
                 try:
-                    self.page_source_to_td_log()
+                    if self.phone:
+                        self.page_source_to_td_log()
+                    else:
+                        self.event.start(data='page source disabled for iPads')
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
 
