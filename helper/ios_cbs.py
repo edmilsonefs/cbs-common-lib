@@ -2059,12 +2059,14 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.hide_keyboard()
 
     def login_(self, email, password):
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
         self.set_sign_in_email(email)
         self.set_sign_in_password(password)
-
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
         self.click(accessibility_id='SIGN IN')
-
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
         self.finish_login()
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
 
     def finish_login(self, click_continue=True):
         # Complete registration if required
