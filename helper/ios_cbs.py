@@ -1206,14 +1206,17 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click_safe(id='Accept', timeout=10)
 
     def click_watch_movie(self):
-        self.click(id="Watch", timeout=7)
+        if not self.click_safe(id="Watch", timeout=7):
+            self.click_safe(id="WATCH", timeout=7)
 
     def click_watch_trailer(self):
-        self.click(id="Preview Trailer", timeout=7)
+        if not self.click_safe(id="Preview Trailer", timeout=7):
+            self.click_safe(id="PREVIEW TRAILER", timeout=7)
         self.accept_video_popup()
 
     def click_subscribe_to_watch(self):
-        self.click(id="Subscribe to Watch", timeout=7)
+        if not self.click_safe(id="Subscribe to Watch", timeout=7):
+            self.click_safe(id="SUBSCRIBE TO WATCH", timeout=7)
         self.accept_video_popup()
 
     def click_on_first_aa_video(self):
