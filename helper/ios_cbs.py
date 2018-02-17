@@ -2075,9 +2075,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         # Complete registration if required
 
         if self.exists(id='CONTINUE', timeout=10):
-            checkbox = self.get_elements(xpath="//XCUIElementTypeButton[not(@name)]")
-            if checkbox:
-                self.click(element=checkbox[1], timeout=20)
+            checkboxes = self.get_elements(xpath="//XCUIElementTypeButton[not(@name)]")
+            if len(checkboxes) > 0:
+                self.click(element=checkboxes[len(checkboxes) - 1], timeout=20)
             else:
                 checkbox = self.exists(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 if checkbox:
