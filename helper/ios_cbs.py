@@ -1208,6 +1208,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def click_watch_movie(self):
         if not self.click_safe(id="Watch", timeout=7):
             self.click_safe(id="WATCH", timeout=7)
+        self.click_safe(id='RESTART MOVIE', timeout=7)
 
     def click_watch_trailer(self):
         if not self.click_safe(id="Preview Trailer", timeout=7):
