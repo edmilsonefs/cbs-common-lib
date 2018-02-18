@@ -757,7 +757,10 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_aj(self):
         if self.IS_ANDROID:
-            self.verify_exists(name='Open navigation drawer', screenshot=True)
+            if self.tablet:
+                self.verify_exists(name='Navigate up')
+            else:
+                self.verify_exists(name='Open navigation drawer', screenshot=True)
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
             self.verify_exists(name='Live TV')
