@@ -41,7 +41,7 @@ class UpsellPage(BasePage):
             if user_type == self.ex_subscriber:
                 text_list.append('LIMITED COMMERCIALS')
                 text_list.append('COMMERCIAL FREE')
-                text_list.append('Only $5.99/month')
+                text_list.append('Only \$5\.99\/month')
                 text_list.append('SELECT')
                 #text_list.append('TRY 1 MONTH FREE') Doesn't exist on page, design change?
                 #text_list.append('GET STARTED') See above
