@@ -90,7 +90,7 @@ class ShowPage(BasePage):
                 text_list.append('episodeIndicatorContainer')
             else:
                 sleep(5)
-                self.verify_not_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer')
+                #self.verify_not_exists(element=self.btn_episode_indicator(), id=self.com_cbs_app + ':id/episodeIndicatorContainer') TODO
         self.verify_in_batch(text_list, False)
 
     def validate_show_more_info_page(self):
