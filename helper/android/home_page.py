@@ -47,6 +47,7 @@ class HomePage(BasePage):
         count = 0
         while count < 50:
             if self.exists(name=PAID, timeout=8):
+                self._short_swipe_down()
                 list_episodes = self.get_elements(name=PAID)
                 self.click(element=list_episodes[0])
                 self.safe_screenshot()
