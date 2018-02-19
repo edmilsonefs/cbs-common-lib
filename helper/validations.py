@@ -601,23 +601,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id=self.com_cbs_app + ':id/liveTvRecyclerView')  # schedule table
         elif self.IS_IOS:
             self.verify_exists(id='CBSEye_white', screenshot=True)
-            self.verify_exists(id="Search")
-            self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
-            if self.xcuitest:  # iOS 10 switch
-                self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
-            else:
-                self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[2]')  # station icon
-                # if user_type == self.mvpd_auth:
-                #     if self.xcuitest:
-                #         self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
-                #     else:
-                #         self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
-                # else:
-                #     if self.xcuitest:
-                #         self.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
-                # else:
-                #     self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
-                # provider logo is not visible but element is on page source so it gives a false fail
+            # self.verify_exists(id="Search")
+            # self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
+            self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Channels"]')
+            self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]')
+            self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
 
     def validation_af(self):
         if self.IS_ANDROID:
