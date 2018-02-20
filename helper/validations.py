@@ -262,11 +262,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_p(self):
         if self.IS_ANDROID:
             self.close_big_advertisement()
-            self.verify_exists(element=self.show_page_android.btn_like_on_facebook(), screenshot=True, name='Like on Facebook')
-            self.verify_exists(element=self.show_page_android.btn_follow_on_twitter(), name='Follow on Twitter')
-            self.verify_exists(element=self.show_page_android.btn_share(), name='Share')
-            self.verify_exists(element=self.show_page_android.btn_add_to_calendar(), name='Add to Calendar')
-            self.verify_exists(element=self.show_page_android.btn_show_info(), name='Show Info')
+            self.verify_in_batch(['Like on Facebook', 'Follow on Twitter', 'Share', 'Add to Calendar', 'Show Info'])
         elif self.IS_IOS:
             self.verify_in_batch(['Like on Facebook', 'Follow on Twitter', 'Share', 'Add to Calendar', 'Show Info'])
 
@@ -444,12 +440,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
             self.verify_exists(name='Sign Up')
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Sign Up')
-            self.verify_exists(id="Search")
-            self.verify_exists(id='Please complete your registration')
-            self.verify_exists(id='CONTINUE')
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'CONTINUE'])
 
     def validation_xf(self):
         if self.IS_ANDROID:
@@ -458,13 +449,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self._short_swipe_down()
                 self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Sign Up')
-            self.verify_exists(id="Search")
-            self.verify_exists(id='Please complete your registration')
-            self.verify_exists(id='Sign up with your Facebook account')
-            self.verify_exists(id='CONTINUE')
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'Sign up with your Facebook account', 'CONTINUE'])
 
     def validation_xt(self):
         if self.IS_ANDROID:
@@ -473,13 +458,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self._short_swipe_down()
             self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Sign Up')
-            self.verify_exists(id="Search")
-            self.verify_exists(id='Please complete your registration')
-            self.verify_exists(id='Sign up with your Twitter account')
-            self.verify_exists(id='CONTINUE')
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'Sign up with your Twitter account', 'CONTINUE'])
 
     def validation_xg(self):
         if self.IS_ANDROID:
