@@ -951,7 +951,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
                 self.verify_in_batch(['Subscribe to Watch', 'Preview Trailer', 'Close'], with_timeout=2)
             else:
-                self.verify_in_batch(['Watch', 'Preview Trailer', 'Close'], with_timeout=2)
+                self.verify_in_batch(['WATCH MOVIE', 'Preview Trailer', 'Close'], with_timeout=2)
 
     def validation_av(self):
         if self.IS_ANDROID:
