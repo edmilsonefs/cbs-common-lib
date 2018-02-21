@@ -1180,6 +1180,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def watch_episode_popup(self):
         if not self.click_safe(id='WATCH', timeout=10):
             self.click_safe(id='Watch Episode', timeout=10)
+        self.click_safe(id='RESTART', timeout=7)
         sleep(3)
 
     def click_more_information(self):
