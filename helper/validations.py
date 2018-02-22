@@ -942,16 +942,16 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='PREVIEW TRAILER') #disabled due to CBS bug, will uncomment on new build
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(name='SUBSCRIBE TO WATCH')
-                self.verify_not_exists(name='WATCH MOVIE')
+                self.verify_not_exists(name='WATCH MOVIE|RESTART MOVIE|RESUME MOVIE')
             elif user_type in [self.trial, self.subscriber, self.cf_subscriber]:
-                self.verify_exists(name='WATCH MOVIE')
+                self.verify_exists(name='WATCH MOVIE|RESTART MOVIE|RESUME MOVIE')
                 self.verify_not_exists(name='SUBSCRIBE TO WATCH')
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
                 self.verify_in_batch(['Subscribe to Watch', 'Preview Trailer', 'Close'], with_timeout=2)
             else:
-                self.verify_in_batch(['WATCH MOVIE', 'Preview Trailer', 'Close'], with_timeout=2)
+                self.verify_in_batch(['WATCH MOVIE|RESTART MOVIE|RESUME MOVIE', 'Preview Trailer', 'Close'], with_timeout=2)
 
     def validation_av(self):
         if self.IS_ANDROID:
