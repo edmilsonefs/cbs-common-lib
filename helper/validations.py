@@ -269,6 +269,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.settings_page_android.validate_page(user_type)
         elif self.IS_IOS:
+            self.open_drawer()
             if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
                 self.verify_exists(id='Sign Out')
                 self.verify_exists(id='Subscription')
