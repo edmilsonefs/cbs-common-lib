@@ -350,14 +350,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(id='Already have an account? Sign In')
 
             if user_type == self.subscriber:
-                if self.phone:
-                    self.verify_exists(id='Start Watching')
-                else:
-                    if self.xcuitest:
-                        self.verify_exists(
-                            xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # Schedule
-                        self.verify_exists(
-                            xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage')  # Video Image
+                self.verify_exists(accessibility_id='Channels')
+                self.verify_exists(accessibility_id='Live Now')
 
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
