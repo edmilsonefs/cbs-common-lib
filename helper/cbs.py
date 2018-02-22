@@ -41,7 +41,7 @@ class CommonHelper(TestlioAutomationTest):
         try:
             if os.getenv('LOCAL') is None:
                 self.testdroid_device = self.get_testdroid_device_from_adb()
-            self.activate_standard_keyboard()
+            #self.activate_standard_keyboard()
             self.driver.orientation = 'PORTRAIT'
 
             if 'Nexus 7' in self.testdroid_device \
@@ -118,7 +118,8 @@ class CommonHelper(TestlioAutomationTest):
         count = 0
         while count < 30:
             try:
-                self.get_element(name='Open navigation drawer').click()
+                #self.get_element(name='Open navigation drawer').click()
+                self.get_element(accessibility_id='Open navigation drawer').click()
                 self.get_element(name=menu_option).click()
                 break
             except:
@@ -131,25 +132,29 @@ class CommonHelper(TestlioAutomationTest):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
         """
-        el = self.exists(name='Open navigation drawer', timeout=10)
+        #el = self.exists(name='Open navigation drawer', timeout=10)
+        el = self.exists(accessibility_id='Open navigation drawer', timeout=10)
         if el:
             el.click()
         else:
             self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
-                self.get_element(name='Open navigation drawer').click()
+                #self.get_element(name='Open navigation drawer').click()
+                self.get_element(accessibility_id='Open navigation drawer').click()
 
         sleep(1.5)
 
     def is_drawer_open(self):
-        return not self.exists(name='Open navigation drawer', timeout=3)
+        #return not self.exists(name='Open navigation drawer', timeout=3)
+        return not self.exists(accessibility_id='Open navigation drawer', timeout=3)
 
     def close_drawer(self):
         self.back()
 
     def navigate_up(self):
-        self.get_element(name="Navigate up").click()
+        #self.get_element(name="Navigate up").click()
+        self.get_element(accessibility_id="Navigate up").click()
 
     def select_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
@@ -166,7 +171,8 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_search_back(self):
         # self.click(id=self.com_cbs_app + ':id/closeButton')
-        self.click(name='Navigate up')  # home->search
+        #self.click(name='Navigate up')  # home->search
+        self.click(accessibility_id='Navigate up')
         # Todo analyze this, as it's the same as navigate up
 
     ################################################
@@ -733,8 +739,8 @@ class CommonHelper(TestlioAutomationTest):
         if element_or_false:
             msg = element_or_false.text or \
                   element_or_false.get_attribute('name') or \
-                  element_or_false.get_attribute('content-desc') or \
-                  element_or_false.get_attribute('resource-id') or \
+                  element_or_false.get_attribute('contentDescription') or \
+                  element_or_false.get_attribute('resourceId') or \
                   element_or_false.tag_name
 
             self.event.click('In click_safe(), about to click.  element info = %s' % msg)
@@ -883,7 +889,8 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(name='Live TV', timeout=3):
             self.hw_back()
         else:
-            self.click_safe(name='Navigate up')
+            # self.click_safe(name='Navigate up')
+            self.click_safe(accessibility_id='Navigate up')
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
@@ -906,7 +913,7 @@ class CommonHelper(TestlioAutomationTest):
         if self.IS_AMAZON:
             the_timeout = 8
 
-        while not self.exists(element=self.get_element(timeout=the_timeout, id='Open navigation drawer')):
+        while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
             self.back()
             counter += 1
             if counter > 10:
@@ -918,7 +925,7 @@ class CommonHelper(TestlioAutomationTest):
         if self.IS_AMAZON:
             the_timeout = 8
 
-        while not self.exists(element=self.get_element(timeout=the_timeout, id='Navigate up')):
+        while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Navigate up')):
             self.back()
             counter += 1
             if counter > 10:
@@ -2597,7 +2604,8 @@ class CommonHelper(TestlioAutomationTest):
         self.hw_back()
 
     def verify_back_button(self, screenshot=False):
-        self.verify_exists(name='Navigate up', screenshot=screenshot)
+        # self.verify_exists(name='Navigate up', screenshot=screenshot)
+        self.verify_exists(accessibility_id='Navigate up', screenshot=screenshot)
 
     def verify_search_text(self, screenshot=False):
         self.verify_exists(id=self.com_cbs_app + ':id/search_src_text', screenshot=screenshot)
