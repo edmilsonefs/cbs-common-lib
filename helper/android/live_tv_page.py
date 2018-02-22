@@ -127,7 +127,10 @@ class LiveTvPage(BasePage):
             self.click_allow_popup()
 
         self.verify_exists(element=self.lbl_title())
-        text_list_one = ['Open navigation drawer']
+        if self.phone:
+            text_list_one = ['Open navigation drawer']
+        else:
+            text_list_one = ['Navigate up']
         self.verify_in_batch(text_list_one, False)
         self._short_swipe_up()
         self._short_swipe_up()

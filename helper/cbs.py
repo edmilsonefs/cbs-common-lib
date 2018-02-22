@@ -66,7 +66,7 @@ class CommonHelper(TestlioAutomationTest):
             if self.driver:
                 self.safe_screenshot()
                 try:
-                    self._log_to_td()
+                    self._page_source_to_console_log()
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
         super(CommonHelper, self).teardown_method(method)

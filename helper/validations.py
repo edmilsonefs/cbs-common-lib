@@ -200,8 +200,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(name='MORE FROM SHOW')
         elif self.IS_IOS:
             self.verify_exists(class_name='XCUIElementTypeImage', screenshot=True)
-            self.verify_exists(id='WATCH')
-            self.verify_exists(id='CLOSE')
+            self.verify_in_batch(['WATCH|RESUME|RESTART', 'CLOSE'])
 
     def validation_j(self, show_page=False, home_page=False):
         if self.IS_ANDROID:
@@ -262,11 +261,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_p(self):
         if self.IS_ANDROID:
             self.close_big_advertisement()
-            self.verify_exists(element=self.show_page_android.btn_like_on_facebook(), screenshot=True, name='Like on Facebook')
-            self.verify_exists(element=self.show_page_android.btn_follow_on_twitter(), name='Follow on Twitter')
-            self.verify_exists(element=self.show_page_android.btn_share(), name='Share')
-            self.verify_exists(element=self.show_page_android.btn_add_to_calendar(), name='Add to Calendar')
-            self.verify_exists(element=self.show_page_android.btn_show_info(), name='Show Info')
+            self.verify_in_batch(['Like on Facebook', 'Follow on Twitter', 'Share', 'Add to Calendar', 'Show Info'])
         elif self.IS_IOS:
             self.verify_in_batch(['Like on Facebook', 'Follow on Twitter', 'Share', 'Add to Calendar', 'Show Info'])
 
@@ -274,6 +269,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.settings_page_android.validate_page(user_type)
         elif self.IS_IOS:
+            self.open_drawer()
             if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
                 self.verify_exists(id='Sign Out')
                 self.verify_exists(id='Subscription')
@@ -444,12 +440,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
             self.verify_exists(name='Sign Up')
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Sign Up')
-            self.verify_exists(id="Search")
-            self.verify_exists(id='Please complete your registration')
-            self.verify_exists(id='CONTINUE')
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'CONTINUE'])
 
     def validation_xf(self):
         if self.IS_ANDROID:
@@ -458,13 +449,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self._short_swipe_down()
                 self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Sign Up')
-            self.verify_exists(id="Search")
-            self.verify_exists(id='Please complete your registration')
-            self.verify_exists(id='Sign up with your Facebook account')
-            self.verify_exists(id='CONTINUE')
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'Sign up with your Facebook account', 'CONTINUE'])
 
     def validation_xt(self):
         if self.IS_ANDROID:
@@ -473,13 +458,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self._short_swipe_down()
             self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id='Sign Up')
-            self.verify_exists(id="Search")
-            self.verify_exists(id='Please complete your registration')
-            self.verify_exists(id='Sign up with your Twitter account')
-            self.verify_exists(id='CONTINUE')
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'Sign up with your Twitter account', 'CONTINUE'])
 
     def validation_xg(self):
         if self.IS_ANDROID:
@@ -565,6 +544,8 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ar(self):
         # multiple_channel_selector_page
         if self.IS_ANDROID:
+            sleep(5)
+            self.safe_screenshot()
             # if self.tablet:
             #     self.verify_exists(name='Navigate up', screenshot=True)
             # else:
@@ -575,7 +556,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
             # cbs all access
             self.verify_exists(name='Select Your Local Station')
-            self.verify_exists(name='You can always change this by visiting Settings > Live TV')
+            # self.verify_exists(name='You can always change this by visiting Settings > Live TV')
+            self.verify_exists(xpath="//android.widget.TextView[contains(@text,'You can always change this')]")
             self.verify_exists(name='Channels')
             self.verify_exists(name='KWTX')
             self.verify_exists(name='KBTX')
@@ -598,23 +580,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id=self.com_cbs_app + ':id/liveTvRecyclerView')  # schedule table
         elif self.IS_IOS:
             self.verify_exists(id='CBSEye_white', screenshot=True)
-            self.verify_exists(id="Search")
-            self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
-            if self.xcuitest:  # iOS 10 switch
-                self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
-            else:
-                self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[2]')  # station icon
-                # if user_type == self.mvpd_auth:
-                #     if self.xcuitest:
-                #         self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
-                #     else:
-                #         self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
-                # else:
-                #     if self.xcuitest:
-                #         self.verify_not_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[3]')
-                # else:
-                #     self.verify_exists(xpath='//UIAApplication[1]/UIAWindow[1]/UIAImage[3]')
-                # provider logo is not visible but element is on page source so it gives a false fail
+            # self.verify_exists(id="Search")
+            # self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
+            self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Channels"]')
+            self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]')
+            self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
 
     def validation_af(self):
         if self.IS_ANDROID:
@@ -969,16 +939,16 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='PREVIEW TRAILER') #disabled due to CBS bug, will uncomment on new build
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(name='SUBSCRIBE TO WATCH')
-                self.verify_not_exists(name='WATCH MOVIE')
+                self.verify_not_exists(name='WATCH MOVIE|RESTART MOVIE|RESUME MOVIE')
             elif user_type in [self.trial, self.subscriber, self.cf_subscriber]:
-                self.verify_exists(name='WATCH MOVIE')
+                self.verify_exists(name='WATCH MOVIE|RESTART MOVIE|RESUME MOVIE')
                 self.verify_not_exists(name='SUBSCRIBE TO WATCH')
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
                 self.verify_in_batch(['Subscribe to Watch', 'Preview Trailer', 'Close'], with_timeout=2)
             else:
-                self.verify_in_batch(['Watch', 'Preview Trailer', 'Close'], with_timeout=2)
+                self.verify_in_batch(['WATCH MOVIE|RESTART MOVIE|RESUME MOVIE', 'Preview Trailer', 'Close'], with_timeout=2)
 
     def validation_av(self):
         if self.IS_ANDROID:

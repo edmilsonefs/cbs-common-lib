@@ -78,7 +78,10 @@ class CommonIOSHelper(TestlioAutomationTest):
                 except Exception:
                     self.event.start(data='in teardown: screenshot failed')
                 try:
-                    self._log_to_td()
+                    if self.phone:
+                        self._page_source_to_console_log()
+                    else:
+                        self.event.start(data='page source disabled for iPads')
                 except Exception:
                     self.event.start(data='in teardown: page source failed')
 
@@ -696,7 +699,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # VIDEO PLAYER
 
     def restart_from_the_beggining(self, timeout=6):
-        self.click_safe(id='Restart From Beginning', timeout=timeout)
+        self.click_safe(id='RESTART', timeout=timeout)
 
     def close_video(self):
         count = 0
@@ -1175,8 +1178,10 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_safe(id='CLOSE', timeout=10)
 
     def watch_episode_popup(self):
+        self.click_safe(id='RESTART', timeout=7)
         if not self.click_safe(id='WATCH', timeout=10):
             self.click_safe(id='Watch Episode', timeout=10)
+        self.click_safe(id='RESTART', timeout=7)
         sleep(3)
 
     def click_more_information(self):
@@ -1203,14 +1208,18 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click_safe(id='Accept', timeout=10)
 
     def click_watch_movie(self):
-        self.click(id="Watch", timeout=7)
+        if not self.click_safe(id="Watch", timeout=7):
+            self.click_safe(id="WATCH MOVIE", timeout=7)
+        self.click_safe(id='RESTART MOVIE', timeout=7)
 
     def click_watch_trailer(self):
-        self.click(id="Preview Trailer", timeout=7)
+        if not self.click_safe(id="Preview Trailer", timeout=7):
+            self.click_safe(id="PREVIEW TRAILER", timeout=7)
         self.accept_video_popup()
 
     def click_subscribe_to_watch(self):
-        self.click(id="Subscribe to Watch", timeout=7)
+        if not self.click_safe(id="Subscribe to Watch", timeout=7):
+            self.click_safe(id="SUBSCRIBE TO WATCH", timeout=7)
         self.accept_video_popup()
 
     def click_on_first_aa_video(self):
@@ -2056,20 +2065,22 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.hide_keyboard()
 
     def login_(self, email, password):
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
         self.set_sign_in_email(email)
         self.set_sign_in_password(password)
-
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
         self.click(accessibility_id='SIGN IN')
-
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
         self.finish_login()
+        self.event.assertion("Sign In form", screenshot=self.screenshot())
 
     def finish_login(self, click_continue=True):
         # Complete registration if required
 
         if self.exists(id='CONTINUE', timeout=10):
-            checkbox = self.exists(xpath="//XCUIElementTypeButton[not(@name)]")
-            if checkbox:
-                self.click(element=checkbox, timeout=20)
+            checkboxes = self.get_elements(xpath="//XCUIElementTypeButton[not(@name)]")
+            if len(checkboxes) > 0:
+                self.click(element=checkboxes[len(checkboxes) - 1], timeout=20)
             else:
                 checkbox = self.exists(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 if checkbox:
