@@ -562,23 +562,11 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             # cbs logo
             self.accept_popup_video_click()
-            self.verify_exists(
-                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
-            self.verify_exists(id=self.com_cbs_app + ':id/action_search')
-            self.verify_exists(id=self.com_cbs_app + ':id/station_logo')
-            self.verify_exists(id=self.com_cbs_app + ':id/controlsContainer')
-            # if mvpd:
-            #     self.verify_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
-            # else:
-            #     self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo') # TODO needs to update this validation
-            self.verify_exists(id=self.com_cbs_app + ':id/liveTvRecyclerView')  # schedule table
+            self.verify_in_batch('Channels', ':id/controlsContainer', ':id/station_logo', ':id/liveTvRecyclerView')
         elif self.IS_IOS:
-            self.verify_exists(id='CBSEye_white', screenshot=True)
             # self.verify_exists(id="Search")
             # self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
-            self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Channels"]')
-            self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]')
-            self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
+            self.verify_in_batch('CBSEye_white', 'Channels', 'Live Now')
 
     def validation_af(self):
         if self.IS_ANDROID:
