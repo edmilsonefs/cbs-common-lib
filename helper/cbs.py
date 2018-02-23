@@ -1264,6 +1264,21 @@ class CommonHelper(TestlioAutomationTest):
         self.click(id=self.com_cbs_app + ':id/btnVerifyNow', data='Clicking verify now')
         self.click_allow_popup()
 
+    def live_tv_multichannel_flow(self, time_to_watch = 120):    
+        #Opens multichannel Live TV, shares location, watches for specified number of seconds, then switches to CBSN and watches for just as long.    
+        self.safe_screenshot()
+        self.click(name='Share Location')
+        self.click_allow_popup()
+        sleep(10)
+        self.accept_popup_video_click(force_accept=True)
+        sleep(time_to_watch)
+        self.safe_screenshot()
+        self.tap(0.7,0.7) #Done via tap because there are no unique features of any component of the live tiles once Live TV begins playing
+        sleep(time_to_watch)
+        self.safe_screenshot()
+        self.home_page.goto_home()
+        self.safe_screenshot()
+
     def mvpd_logout(self):
         self.goto_settings()
         sleep(5)
@@ -2409,6 +2424,20 @@ class CommonHelper(TestlioAutomationTest):
                 return True
 
         return False
+
+    def cf_subscriber_flow(self):
+        #Opens a video, watches for a bit, jumps to near the end and watches through
+        self.accept_popup_video_click()
+        self.click_play_from_beginning()
+        self.wait_for_video_to_start(60)
+
+        sleep(15)
+        self.jump_in_video(9999999)
+
+        self.safe_screenshot()
+        sleep(300)
+        self.safe_screenshot()
+        self.back_while_search_icon_is_visible()
 
     def close_chromecast(self):
         if not self.IS_AMAZON:
