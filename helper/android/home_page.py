@@ -49,12 +49,14 @@ class HomePage(BasePage):
             if self.exists(name=PAID, timeout=8):
                 self._short_swipe_down()
                 list_episodes = self.get_elements(name=PAID)
+
                 self.click(element=list_episodes[0])
                 self.safe_screenshot()
                 self.accept_popup_video_click()
                 break
             self._short_swipe_down()
             count += 1
+        self.assertTrue(False, msg="'All Access' episodes have not been found on the Home page")
 
     # def click_all_access_video(self):
     #     if self.exists(name='Free Episodes', timeout=10):
