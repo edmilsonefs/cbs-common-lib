@@ -56,7 +56,7 @@ class HomePage(BasePage):
                 break
             self._short_swipe_down()
             count += 1
-        self.assertTrue(False, msg="'All Access' episodes have not been found on the Home page")
+        self.assertTrue(len(self.get_elements(name=PAID)) > 0, msg="'All Access' episodes have not been found on the Home page")
 
     # def click_all_access_video(self):
     #     if self.exists(name='Free Episodes', timeout=10):
