@@ -127,23 +127,27 @@ class LiveTvPage(BasePage):
             self.click_allow_popup()
 
         self.verify_exists(element=self.lbl_title())
-        self.verify_in_batch(['Navigate up|Open navigation drawer'], False)
         self._short_swipe_up()
         self._short_swipe_up()
-        text_list_two = []
+        text_list = ['Open navigation drawer|Navigate up', ':id/action_search']
         if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
-            if self.phone:
-                text_list_two.append('Start Watching')
-            else:
-                text_list_two.append('videoPlayerContainer')
+            self.click_safe(name='Share Location')
+            self.click_allow_popup()
+            self.click_safe(name='ACCEPT')
+            self.safe_screenshot()
+            self.click_safe(id=self.com_cbs_app + ':id/livetv_card_title')
+            text_list.append('Channels')
+            text_list.append(':id/controlsContainer')
+            text_list.append(':id/station_logo')
+            text_list.append(':id/liveTvRecyclerView')
         if user_type == self.anonymous:
-            text_list_two.append('Already have an account\? Sign In')
+            text_list.append('Already have an account\? Sign In')
         if user_type in [self.anonymous, self.registered]:
-            text_list_two.append('Two ways to watch Live TV')
-            text_list_two.append('android.widget.ImageView')
-            text_list_two.append('TRY 1 WEEK FREE')
+            text_list.append('Two ways to watch Live TV')
+            text_list.append('android.widget.ImageView')
+            text_list.append('TRY \d+ (WEEK|WEEKS|MONTH|MONTHS) FREE')
         elif user_type == self.ex_subscriber:
-            text_list_two.append('Two ways to watch Live TV')
-            text_list_two.append('android.widget.ImageView')
-            text_list_two.append('Get Started')
-        self.verify_in_batch(text_list_two, False)
+            text_list.append('Two ways to watch Live TV')
+            text_list.append('android.widget.ImageView')
+            text_list.append('Get Started')
+        self.verify_in_batch(text_list, False)
