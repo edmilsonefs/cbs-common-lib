@@ -18,7 +18,7 @@ class LiveTvPage(BasePage):
         return self.get_element(timeout=timeout, name='Verify Now')
 
     def btn_get_started(self, timeout=10):
-        return self.get_element(timeout=timeout, name='Get Started')
+        return self.get_element(timeout=timeout, xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE' or @text='TRY 1 WEEK FREE' or @text='TRY 1 MONTH FREE']")
 
     def btn_start_watching(self, timeout=10):
         return self.get_element(timeout=timeout, name='Start Watching')
