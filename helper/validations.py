@@ -934,7 +934,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_av(self):
         if self.IS_ANDROID:
-            self.verify_exists(xpath=("//*[@text='CBS']"))
+            self.verify_exists(xpath=("//*[@text='CBS']"), timeout=60)
             self.verify_exists(xpath=("//*[@text='An internet connection is required to experience the CBS App. Please check your connection and try again.']"))
             self.verify_exists(xpath=("//*[@text='OK']"))
 
