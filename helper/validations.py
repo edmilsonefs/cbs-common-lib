@@ -527,7 +527,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ad(self):
         # CF Billing Popup
-        if self.IS_ANDROID:
+        if self.IS_ANDROID and not self.IS_AMAZON:
             self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
             self.verify_exists(name='Subscribe', timeout=20, screenshot=True)
             # self.verify_exists(xpath="//*[contains(@text,''(Commercial Free) and contains(@text,'CBS - Full Episodes')]", screenshot=True)
