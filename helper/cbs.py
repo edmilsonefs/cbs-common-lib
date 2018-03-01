@@ -1612,7 +1612,7 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, window_size_y - 600, 500, 550)
                     else:
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
-                count += 1
+            count += 1
 
         self.driver.implicitly_wait(30)
 
@@ -1641,7 +1641,7 @@ class CommonHelper(TestlioAutomationTest):
                     self.driver.swipe(35, 600, 35, window_size_y - 400)
                 else:
                     self.driver.swipe(35, 400, 35, window_size_y - 500)
-                count += 1
+            count += 1
         self.driver.implicitly_wait(30)
         self.safe_screenshot()
 
