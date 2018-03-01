@@ -1297,7 +1297,7 @@ class CommonHelper(TestlioAutomationTest):
     def go_to_providers_page(self):
         self.goto_live_tv()
         if self.phone:
-            self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
+            self.swipe_down_if_element_is_not_visible(name='Verify Now', short_swipe=True)
         self.select_verify_now()
         self.click_allow_popup()
 
