@@ -1297,7 +1297,7 @@ class CommonHelper(TestlioAutomationTest):
     def go_to_providers_page(self):
         self.goto_live_tv()
         if self.phone:
-            self.swipe_down_if_element_is_not_visible('Verify Now', short_swipe=True)
+            self.swipe_down_if_element_is_not_visible(name='Verify Now', short_swipe=True)
         self.select_verify_now()
         self.click_allow_popup()
 
@@ -1612,7 +1612,7 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, window_size_y - 600, 500, 550)
                     else:
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
-                count += 1
+            count += 1
 
         self.driver.implicitly_wait(30)
 
@@ -1641,7 +1641,7 @@ class CommonHelper(TestlioAutomationTest):
                     self.driver.swipe(35, 600, 35, window_size_y - 400)
                 else:
                     self.driver.swipe(35, 400, 35, window_size_y - 500)
-                count += 1
+            count += 1
         self.driver.implicitly_wait(30)
         self.safe_screenshot()
 
