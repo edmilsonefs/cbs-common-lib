@@ -22,6 +22,7 @@ class BasePage(CommonHelper):
         self.btn_home_menu_item_selector = "//*[@text='Home']"
         self.btn_shows_menu_item_selector = "//*[@text='Shows']"
         self.btn_live_tv_menu_item_selector = "//*[@text='Live TV']"
+        self.btn_tv_provider_menu_item_selector = "//*[@text='TV Provider']"
         self.btn_schedule_menu_item_selector = "//*[@text='Schedule']"
         self.btn_movies_menu_item_selector = "//*[@text='Movies']"
         self.btn_shop_menu_item_selector = "//*[@text='Shop']"
@@ -75,6 +76,9 @@ class BasePage(CommonHelper):
 
     def btn_live_tv_menu_item(self, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_xpath(self.btn_live_tv_menu_item_selector)
+
+    def btn_tv_provider_menu_item(self, timeout=10):
+        return self.navigation_drawer(timeout=timeout).find_element_by_xpath(self.btn_tv_provider_menu_item_selector)
 
     def btn_schedule_menu_item(self, timeout=10):
         return self.navigation_drawer(timeout=timeout).find_element_by_xpath(self.btn_schedule_menu_item_selector)
@@ -140,6 +144,13 @@ class BasePage(CommonHelper):
     def goto_subscribe(self):
         self.open_drawer()
         self.click(element=self.btn_user_status_menu_item())
+
+    def goto_tv_provider(self):
+        self.open_drawer()
+        self.click(element=self.btn_tv_provider_menu_item())
+        self.click_allow_popup()
+        self.safe_screenshot()
+        self.click_allow_popup()
 
     def goto_live_tv(self):
         self.back_while_open_drawer_is_visible()
