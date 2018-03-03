@@ -903,7 +903,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(['Main Menu', 'Movies', 'Search'])
             if self.xcuitest:
                 self.assertTrueWithScreenShot(
-                    len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 3,
+                    len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 1,
                     msg="At least 3 Movies posters should be presented")
 
     def validation_au(self, user_type='anonymous'):
