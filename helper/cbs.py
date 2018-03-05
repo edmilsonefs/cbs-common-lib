@@ -1415,7 +1415,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_more(self):
         # ellipse in upper-right corner some screens
-        e = self.find_one_of('id', 'More options', 'id', 'More Options')
+        e = self.find_one_of('name', 'More options', 'name', 'More Options')
         e.click()
 
     def click_favorite_icon(self):
