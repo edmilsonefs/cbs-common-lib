@@ -12,7 +12,7 @@ class UpsellPage(BasePage):
                                                        "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
 
     def btn_get_started(self, timeout=10):
-        return self.get_element(timeout=timeout, xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE']")
+        return self.get_element(timeout=timeout, xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE' or @text='TRY 1 WEEK FREE' or @text='TRY 1 MONTH FREE']")
 
     def btn_already_a_subscriber_sign_in(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/txtAlreadyHaveAnAccount")
@@ -24,12 +24,8 @@ class UpsellPage(BasePage):
         text_list = ['allAccessLogo']
         if user_type in [self.anonymous, self.registered]:
             text_list.append('LIMITED COMMERCIALS')
-            text_list.append('TRY \d+ (WEEK|WEEKS|MONTH|MONTHS) FREE')
             text_list.append('COMMERCIAL FREE')
-            if self.IS_AMAZON:
-                text_list.append('GET STARTED')
-            elif self.IS_ANDROID:
-                text_list.append('TRY \d+ (DAY|DAYS) FREE')
+            text_list.append('GET STARTED|TRY \d+ (WEEK|WEEKS|MONTH|MONTHS) FREE')
             #if user_type == self.registered:
                 #text_list.append('SELECT') #todo: Does this exist? Doesn't seem like it
         elif user_type in [self.subscriber, self.trial]:

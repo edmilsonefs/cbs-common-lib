@@ -350,38 +350,26 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(id='Already have an account? Sign In')
 
             if user_type == self.subscriber:
-                if self.phone:
-                    self.verify_exists(id='Start Watching')
-                else:
-                    if self.xcuitest:
-                        self.verify_exists(
-                            xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextView[1]')  # Schedule
-                        self.verify_exists(
-                            xpath='//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage')  # Video Image
+                self.verify_exists(accessibility_id='Channels')
+                self.verify_exists(accessibility_id='Live Now')
 
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
             if user_type in [self.anonymous, self.registered]:
-                self.verify_exists(
-                    id="LIMITED COMMERCIALS",
-                    screenshot=True, timeout=20)
+                self.verify_in_batch(['LIMITED COMMERCIALS'])
             if user_type == self.registered:
                 self.verify_not_exists(name='SELECT', timeout=10)
             elif user_type in [self.subscriber, self.trial]:
-                self.verify_exists(id="COMMERCIAL FREE")
+                self.verify_in_batch(['COMMERCIAL FREE'])
                 self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'UPGRADE')]")
             elif user_type == self.cf_subscriber:
-                self.verify_exists(id="COMMERCIAL FREE")
+                self.verify_in_batch(['COMMERCIAL FREE'])
             else:
                 if user_type == self.ex_subscriber:
-                    self.verify_exists(
-                        id="LIMITED COMMERCIALS",
-                        timeout=20)
-                    self.verify_exists(id="COMMERCIAL FREE", timeout=20)
+                    self.verify_in_batch(['LIMITED COMMERCIALS', 'COMMERCIAL FREE', 'SELECT'])
                     self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'Only $5.99/month')]", timeout=20)
-                    self.verify_exists(id='SELECT', timeout=20)
                     self.verify_not_exists(id='GET STARTED', timeout=10)
                     self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]", timeout=10)
 
@@ -533,7 +521,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ad(self):
         # CF Billing Popup
-        if self.IS_ANDROID:
+        if self.IS_ANDROID and not self.IS_AMAZON:
             self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
             self.verify_exists(name='Subscribe', timeout=20, screenshot=True)
             # self.verify_exists(xpath="//*[contains(@text,''(Commercial Free) and contains(@text,'CBS - Full Episodes')]", screenshot=True)
@@ -568,23 +556,11 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             # cbs logo
             self.accept_popup_video_click()
-            self.verify_exists(
-                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
-            self.verify_exists(id=self.com_cbs_app + ':id/action_search')
-            self.verify_exists(id=self.com_cbs_app + ':id/station_logo')
-            self.verify_exists(id=self.com_cbs_app + ':id/controlsContainer')
-            # if mvpd:
-            #     self.verify_exists(id=self.com_cbs_app + ':id/imgProviderLogo')
-            # else:
-            #     self.verify_not_exists(id=self.com_cbs_app + ':id/imgProviderLogo') # TODO needs to update this validation
-            self.verify_exists(id=self.com_cbs_app + ':id/liveTvRecyclerView')  # schedule table
+            self.verify_in_batch('Channels', ':id/controlsContainer', ':id/station_logo', ':id/liveTvRecyclerView')
         elif self.IS_IOS:
-            self.verify_exists(id='CBSEye_white', screenshot=True)
             # self.verify_exists(id="Search")
             # self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
-            self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Channels"]')
-            self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]')
-            self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
+            self.verify_in_batch('CBSEye_white', 'Channels', 'Live Now')
 
     def validation_af(self):
         if self.IS_ANDROID:
@@ -927,7 +903,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(['Main Menu', 'Movies', 'Search'])
             if self.xcuitest:
                 self.assertTrueWithScreenShot(
-                    len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 3,
+                    len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 1,
                     msg="At least 3 Movies posters should be presented")
 
     def validation_au(self, user_type='anonymous'):
@@ -952,7 +928,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_av(self):
         if self.IS_ANDROID:
-            self.verify_exists(xpath=("//*[@text='CBS']"))
+            self.verify_exists(xpath=("//*[@text='CBS']"), timeout=60)
             self.verify_exists(xpath=("//*[@text='An internet connection is required to experience the CBS App. Please check your connection and try again.']"))
             self.verify_exists(xpath=("//*[@text='OK']"))
 

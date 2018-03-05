@@ -500,7 +500,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                     break
         self.log_info("End of stream")
         self.safe_screenshot()
-        self.assertTrueWithScreenShot(assert_true, msg="Video elements must be displayed", screenshot=True)
+        self.assertTrueWithScreenShot(assert_true, msg="The video element '{0}' cannot be found".format(str(kwargs)), screenshot=True)
 
     def _exists_element_using_xml(self, root=False, find_by=None, find_key=None, class_name='*'):
         """
