@@ -981,6 +981,25 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists_video_element(
                 xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
 
+    def validation_bj(self, mvpd=False):
+        if self.IS_ANDROID:
+            text_list = [
+                'Open navigation drawer',
+                'Live TV',
+                ':id/action_search',
+                'Schedule',
+                '::id/controlsContainer',
+                ':id/imgStationLogo',
+                ':id/txtShowName',
+                ':id/liveTvRecyclerView'
+
+            ]
+            if mvpd:
+                text_list.append(':id/imgProviderLogo')
+
+            self.verify_in_batch(text_list, False)
+
+
     def validation_video(self):
         if self.IS_ANDROID:
             self.accept_popup_video_click()
