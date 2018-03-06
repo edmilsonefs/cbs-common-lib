@@ -38,10 +38,13 @@ class CommonHelper(TestlioAutomationTest):
         self.init_variables()
 
     def init_variables(self):
+        self.uiautomator2 = self.is_uiautomator2()
+
         try:
             if os.getenv('LOCAL') is None:
                 self.testdroid_device = self.get_testdroid_device_from_adb()
-            #self.activate_standard_keyboard()
+            if not self.uiautomator2:
+                self.activate_standard_keyboard() #not supported by uiautomator2
             self.driver.orientation = 'PORTRAIT'
 
             if 'Nexus 7' in self.testdroid_device \
@@ -118,44 +121,58 @@ class CommonHelper(TestlioAutomationTest):
         count = 0
         while count < 30:
             try:
-                #self.get_element(name='Open navigation drawer').click()
-                self.get_element(accessibility_id='Open navigation drawer').click()
+                if self.uiautomator2:
+                    self.get_element(accessibility_id='Open navigation drawer').click()
+                else:
+                    self.get_element(name='Open navigation drawer').click()
                 self.get_element(name=menu_option).click()
                 break
             except:
                 pass
             count += 1
 
+    def is_uiautomator2(self):
+        if self.driver.desired_capabilities.has_key('automationName') and self.driver.desired_capabilities['automationName'].lower() == 'uiautomator':
+            return True
+        return False 
+
     ################################################
     # HEADER
     def open_drawer(self):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
-        """
-        #el = self.exists(name='Open navigation drawer', timeout=10)
-        el = self.exists(accessibility_id='Open navigation drawer', timeout=10)
+        """ 
+        if self.uiautomator2:
+            el = self.exists(accessibility_id='Open navigation drawer', timeout=10)
+        else:
+            el = self.exists(name='Open navigation drawer', timeout=10)
         if el:
             el.click()
         else:
             self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
-                #self.get_element(name='Open navigation drawer').click()
-                self.get_element(accessibility_id='Open navigation drawer').click()
-
+                if self.uiautomator2:
+                    self.get_element(accessibility_id='Open navigation drawer').click()
+                else:
+                    self.get_element(name='Open navigation drawer').click()
+            
         sleep(1.5)
 
     def is_drawer_open(self):
-        #return not self.exists(name='Open navigation drawer', timeout=3)
-        return not self.exists(accessibility_id='Open navigation drawer', timeout=3)
+        if self.uiautomator2:
+            return not self.exists(accessibility_id='Open navigation drawer', timeout=3)
+        return not self.exists(name='Open navigation drawer', timeout=3)
 
     def close_drawer(self):
         self.back()
 
     def navigate_up(self):
-        #self.get_element(name="Navigate up").click()
-        self.get_element(accessibility_id="Navigate up").click()
-
+        if self.uiautomator2:
+            self.get_element(accessibility_id="Navigate up").click()
+        else:
+            self.get_element(name="Navigate up").click()
+        
     def select_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
         self.safe_screenshot()
@@ -171,8 +188,12 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_search_back(self):
         # self.click(id=self.com_cbs_app + ':id/closeButton')
-        #self.click(name='Navigate up')  # home->search
-        self.click(accessibility_id='Navigate up')
+
+        if self.uiautomator2:
+            self.click(accessibility_id='Navigate up')
+        else:
+            self.click(name='Navigate up')  # home->search
+
         # Todo analyze this, as it's the same as navigate up
 
     ################################################
@@ -735,13 +756,20 @@ class CommonHelper(TestlioAutomationTest):
         self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
         """
         element_or_false = self.exists(**kwargs)
-
+        
         if element_or_false:
-            msg = element_or_false.text or \
-                  element_or_false.get_attribute('name') or \
-                  element_or_false.get_attribute('contentDescription') or \
-                  element_or_false.get_attribute('resourceId') or \
-                  element_or_false.tag_name
+            if self.uiautomator2:
+                msg = element_or_false.text or \
+                    element_or_false.get_attribute('name') or \
+                    element_or_false.get_attribute('contentDescription') or \
+                    element_or_false.get_attribute('resourceId') or \
+                    element_or_false.tag_name
+            else:
+                msg = element_or_false.text or \
+                    element_or_false.get_attribute('name') or \
+                    element_or_false.get_attribute('content-desc') or \
+                    element_or_false.get_attribute('resource-id') or \
+                    element_or_false.tag_name
 
             self.event.click('In click_safe(), about to click.  element info = %s' % msg)
             element_or_false.click()
@@ -889,8 +917,11 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(name='Live TV', timeout=3):
             self.hw_back()
         else:
-            # self.click_safe(name='Navigate up')
-            self.click_safe(accessibility_id='Navigate up')
+            if self.uiautomator2:
+                self.click_safe(accessibility_id='Navigate up')
+            else:
+                self.click_safe(name='Navigate up')
+            
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
@@ -913,11 +944,18 @@ class CommonHelper(TestlioAutomationTest):
         if self.IS_AMAZON:
             the_timeout = 8
 
-        while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
-            self.back()
-            counter += 1
-            if counter > 10:
-                break
+        if self.uiautomator2:
+            while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
+                self.back()
+                counter += 1
+                if counter > 10:
+                    break
+        else:
+            while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
+                self.back()
+                counter += 1
+                if counter > 10:
+                    break
 
     def back_while_navigate_up_is_visible(self):
         counter = 0
@@ -925,11 +963,18 @@ class CommonHelper(TestlioAutomationTest):
         if self.IS_AMAZON:
             the_timeout = 8
 
-        while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Navigate up')):
-            self.back()
-            counter += 1
-            if counter > 10:
-                break
+        if self.uiautomator2:
+            while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Navigate up')):
+                self.back()
+                counter += 1
+                if counter > 10:
+                    break
+        else:
+            while not self.exists(element=self.get_element(timeout=the_timeout, id='Navigate up')):
+                self.back()
+                counter += 1
+                if counter > 10:
+                    break
 
     def back_to_home_page(self):
         counter = 0
@@ -1415,7 +1460,10 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_more(self):
         # ellipse in upper-right corner some screens
-        e = self.find_one_of('name', 'More options', 'name', 'More Options')
+        if self.uiautomator2:
+            e = self.find_one_of('name', 'More options', 'name', 'More Options')
+        else:
+            e = self.find_one_of('id', 'More options', 'id', 'More Options')
         e.click()
 
     def click_favorite_icon(self):
@@ -2633,8 +2681,10 @@ class CommonHelper(TestlioAutomationTest):
         self.hw_back()
 
     def verify_back_button(self, screenshot=False):
-        # self.verify_exists(name='Navigate up', screenshot=screenshot)
-        self.verify_exists(accessibility_id='Navigate up', screenshot=screenshot)
+        if self.uiautomator2:
+            self.verify_exists(accessibility_id='Navigate up', screenshot=screenshot)
+        else:
+            self.verify_exists(name='Navigate up', screenshot=screenshot)
 
     def verify_search_text(self, screenshot=False):
         self.verify_exists(id=self.com_cbs_app + ':id/search_src_text', screenshot=screenshot)
