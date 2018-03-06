@@ -988,7 +988,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 'Live TV',
                 ':id/action_search',
                 'Schedule',
-                '::id/controlsContainer',
+                ':id/controlsContainer',
                 ':id/imgStationLogo',
                 ':id/txtShowName',
                 ':id/liveTvRecyclerView'
