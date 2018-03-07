@@ -951,7 +951,7 @@ class CommonHelper(TestlioAutomationTest):
                 if counter > 10:
                     break
         else:
-            while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
+            while not self.exists(element=self.get_element(timeout=the_timeout, id='Open navigation drawer')):
                 self.back()
                 counter += 1
                 if counter > 10:
