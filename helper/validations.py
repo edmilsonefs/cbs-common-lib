@@ -969,6 +969,10 @@ class Validations(CommonHelper, CommonIOSHelper):
 
             self.verify_in_batch(text_list, False)
 
+    def validation_bf(self):
+        self.verify_in_batch(
+            ['Station Unavailable', 'Channels', 'CBS Local Station', ':id/station_logo', ':id/message_content'])
+
 
     def validation_video(self):
         if self.IS_ANDROID:
