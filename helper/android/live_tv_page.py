@@ -127,8 +127,6 @@ class LiveTvPage(BasePage):
             self.click_allow_popup()
 
         self.verify_exists(element=self.lbl_title())
-        self._short_swipe_up()
-        self._short_swipe_up()
         text_list = ['Open navigation drawer|Navigate up', ':id/action_search']
         if user_type in [self.subscriber, self.cf_subscriber, self.trial]:
             self.click_safe(name='Share Location')
@@ -136,18 +134,18 @@ class LiveTvPage(BasePage):
             self.click_safe(name='ACCEPT')
             self.safe_screenshot()
             self.click_safe(id=self.com_cbs_app + ':id/livetv_card_title')
-            # text_list.append('Channels') TODO the validations are failing for all branches.
-            # text_list.append(':id/controlsContainer')
-            # text_list.append(':id/station_logo')
+            text_list.append('Channels')
+            text_list.append(':id/controlsContainer')
+            text_list.append(':id/station_logo')
             text_list.append(':id/liveTvRecyclerView')
         if user_type == self.anonymous:
             text_list.append('Already have an account\? Sign In')
         if user_type in [self.anonymous, self.registered]:
-            text_list.append('Two ways to watch Live TV')
-            text_list.append('android.widget.ImageView')
+            text_list.append('LIMITED COMMERCIALS')
+            text_list.append('COMMERCIAL FREE')
             text_list.append('TRY \d+ (WEEK|WEEKS|MONTH|MONTHS) FREE')
         elif user_type == self.ex_subscriber:
-            text_list.append('Two ways to watch Live TV')
-            text_list.append('android.widget.ImageView')
-            text_list.append('Get Started')
+            text_list.append('LIMITED COMMERCIALS')
+            text_list.append('COMMERCIAL FREE')
+            text_list.append('SELECT')
         self.verify_in_batch(text_list, False)
