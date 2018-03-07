@@ -132,7 +132,7 @@ class CommonHelper(TestlioAutomationTest):
             count += 1
 
     def is_uiautomator2(self):
-        if self.driver.desired_capabilities.has_key('automationName') and self.driver.desired_capabilities['automationName'].lower() == 'uiautomator':
+        if self.driver.desired_capabilities.has_key('automationName') and self.driver.desired_capabilities['automationName'].lower() == 'uiautomator2':
             return True
         return False 
 
