@@ -98,7 +98,7 @@ def _get_testify_config(params=[]):
     config['email_list'] = str([
         'bryan.gaikwad@cbsinteractive.com',
         'joael.harbi@cbsinteractive.com',
-        'kristjan@testlio.com'
+        'cbs-automation@testlio.com'
         ])
     # config['email_list'] = str(['valdo@testlio.com', 'kristjan@testlio.com'])
     config['platform'] = params['platform']
