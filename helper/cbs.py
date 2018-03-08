@@ -2405,20 +2405,25 @@ class CommonHelper(TestlioAutomationTest):
 
         self._short_swipe_up(duration=1000)
         self.tap(0.5, 0.5, "Tap in the center")
-        #root = self.get_page_source_xml()
+
+        total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
 
         total_time_text = ""
-        count = 0
-        while count < 5:
-            self.tap(0.5, 0.5, "Tap in the center")
-            sleep(1)
-            try:
-                total_time_text = self.get_element(xpath="//android.widget.TextView[@resource-id='" + self.com_cbs_app + ":id/tvTotalTime']", timeout=10).get_attribute('text')
-                break
-            except:
-                count += 1
 
-        self.assertTrueWithScreenShot(count < 5, screenshot=True, msg="Cannot extract the total time")
+        if not total_time_elem:
+            self.tap(0.5, 0.5)
+            try:
+                total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
+            except:
+                pass
+        else:
+            try:
+                total_time_text = total_time_elem.get_attribute('text')
+            except:
+                pass
+
+        self.assertTrueWithScreenShot(total_time_text != "", screenshot=True, msg="Cannot get the TextView with a total time of video.")
+
         # total_time = hours*3600 + minutes*60 + seconds
         total_time = float(total_time_text[-2:])
         total_time_text = total_time_text[0:-3]
