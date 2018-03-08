@@ -2407,21 +2407,18 @@ class CommonHelper(TestlioAutomationTest):
         self.tap(0.5, 0.5, "Tap in the center")
         #root = self.get_page_source_xml()
 
-        total_time_elem = self.get_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
-
-        if not total_time_elem:
-            self.tap(0.5, 0.5, "Tap in the center")
-            total_time_elem = self.get_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
-
+        total_time_text = ""
         count = 0
         while count < 5:
             self.tap(0.5, 0.5, "Tap in the center")
+            sleep(1)
             try:
-                total_time_text = self.get_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
+                total_time_text = self.get_element(id='tvTotalTime', timeout=10).get_attribute('text')
                 break
             except:
                 count += 1
 
+        self.assertTrueWithScreenShot(count < 5, screenshot=True, msg="Cannot extract the total time")
         # total_time = hours*3600 + minutes*60 + seconds
         total_time = float(total_time_text[-2:])
         total_time_text = total_time_text[0:-3]
