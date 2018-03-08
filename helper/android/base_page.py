@@ -30,7 +30,7 @@ class BasePage(CommonHelper):
         self.btn_upgrade_menu_item_selector = "//*[@text='Upgrade']"
         self.btn_subscribe_menu_item_selector = "//*[@text='Subscribe']"
         self.txt_welcome_to_cbs_selector = 'Welcome to the CBS app'
-        self.txt_by_using_this_app_selector = 'By using this CBS Application, you agree to our:'
+        self.txt_by_using_this_app_selector = 'Before you get started, please review and agree to the following:'
         self.btn_terms_of_use_selector = 'Terms of Use'
         self.btn_mobile_user_agreement_selector = 'Mobile User Agreement'
         self.btn_privacy_policy_selector = 'Privacy Policy'
