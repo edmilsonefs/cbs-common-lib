@@ -2386,7 +2386,7 @@ class CommonHelper(TestlioAutomationTest):
         Tap in the seek bar to jump over.  jump_time is in seconds.
         Find where to tap by dividing jump_time by total_time as found in the screen element
         """
-        # self.pause_video()
+        self.pause_video()
 
         root = self.get_page_source_xml()
 
