@@ -2428,6 +2428,7 @@ class CommonHelper(TestlioAutomationTest):
         if match:
             total_time_text = match.group(2)
 
+        print("Page source on time label:\n" + page_src)
         self.assertTrueWithScreenShot(total_time_text != "", screenshot=True, msg="Cannot get the TextView with a total time of video.")
 
         # total_time = hours*3600 + minutes*60 + seconds
