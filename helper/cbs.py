@@ -2404,14 +2404,14 @@ class CommonHelper(TestlioAutomationTest):
             self._short_swipe_up(duration=1000)
 
         self._short_swipe_up(duration=1000)
-        self.tap(0.5, 0.5, "Tap in the center")
+        self.click(id=self.com_cbs_app + ":id/playerMainContainer")
 
         total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
 
         total_time_text = ""
 
         if not total_time_elem:
-            self.tap(0.5, 0.5)
+            self.click(id=self.com_cbs_app + ":id/playerMainContainer")
             try:
                 total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
             except:
