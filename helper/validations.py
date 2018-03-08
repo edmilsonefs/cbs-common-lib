@@ -560,7 +560,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             # self.verify_exists(id="Search")
             # self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
-            self.verify_in_batch('CBSEye_white', 'Channels', 'Live Now')
+            # self.verify_in_batch('CBSEye_white', 'Channels', 'Live Now') #TODO CBSEye (visible:false) & Live Now / Live behaviour is unclear.
+            self.verify_in_batch('Channels')
 
     def validation_af(self):
         if self.IS_ANDROID:
