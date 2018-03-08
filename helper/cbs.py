@@ -2417,7 +2417,7 @@ class CommonHelper(TestlioAutomationTest):
         while count < 5:
             self.tap(0.5, 0.5, "Tap in the center")
             try:
-                total_time_text = total_time_elem.get_attribute('text')
+                total_time_text = self.get_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
                 break
             except:
                 count += 1
