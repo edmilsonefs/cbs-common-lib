@@ -2405,6 +2405,7 @@ class CommonHelper(TestlioAutomationTest):
 
         self._short_swipe_up(duration=1000)
         self.click(id=self.com_cbs_app + ":id/playerMainContainer")
+        self.safe_screenshot()
 
         total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
 
@@ -2412,6 +2413,7 @@ class CommonHelper(TestlioAutomationTest):
 
         if not total_time_elem:
             self.click(id=self.com_cbs_app + ":id/playerMainContainer")
+            self.safe_screenshot()
             try:
                 total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
             except:
