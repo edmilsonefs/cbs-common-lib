@@ -532,23 +532,10 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ar(self):
         # multiple_channel_selector_page
         if self.IS_ANDROID:
-            sleep(5)
-            self.safe_screenshot()
-            # if self.tablet:
-            #     self.verify_exists(name='Navigate up', screenshot=True)
-            # else:
-            #     self.verify_exists(name='Open navigation drawer', screenshot=True)
-
-            self.verify_exists(
-                xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
-            self.verify_exists(id=self.com_cbs_app + ':id/action_search')
-            # cbs all access
-            self.verify_exists(name='Select Your Local Station')
-            # self.verify_exists(name='You can always change this by visiting Settings > Live TV')
+            text_list = ['Open navigation drawer', ':id/action_search', 'Select Your Local Station', 'Channels', 'KWTX',
+                         'KBTX']
+            self.verify_in_batch(text_list)
             self.verify_exists(xpath="//android.widget.TextView[contains(@text,'You can always change this')]")
-            self.verify_exists(name='Channels')
-            self.verify_exists(name='KWTX')
-            self.verify_exists(name='KBTX')
         elif self.IS_IOS:
             pass
 
