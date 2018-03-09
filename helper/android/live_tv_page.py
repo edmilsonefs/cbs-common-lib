@@ -139,7 +139,7 @@ class LiveTvPage(BasePage):
             text_list.append(':id/station_logo')
             text_list.append(':id/liveTvRecyclerView')
         if user_type == self.anonymous:
-            text_list.append('Already a subscriber? Sign In')
+            text_list.append('Already a subscriber\? Sign In')
         if user_type in [self.anonymous, self.registered]:
             text_list.append('LIMITED COMMERCIALS')
             text_list.append('COMMERCIAL FREE')
