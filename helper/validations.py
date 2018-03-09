@@ -533,9 +533,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         # multiple_channel_selector_page
         if self.IS_ANDROID:
             text_list = ['Open navigation drawer', ':id/action_search', 'Select Your Local Station', 'Channels', 'KWTX',
-                         'KBTX']
+                         'KBTX', 'You can always change this']
             self.verify_in_batch(text_list)
-            self.verify_exists(xpath="//android.widget.TextView[contains(@text,'You can always change this')]")
         elif self.IS_IOS:
             pass
 
