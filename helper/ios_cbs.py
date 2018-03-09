@@ -63,7 +63,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.click_safe(xpath="//*[@name='OK']", timeout=60)
         # self.click_safe(id="START NOW", timeout=30)
         self.event.screenshot(self.screenshot())
-        self.click_safe(id="Don't Allow")
+        self.wait_and_dismiss_alert()
         self.goto_home()
         self.window_size = self.driver.get_window_size()
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
