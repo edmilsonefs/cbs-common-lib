@@ -133,11 +133,14 @@ class LiveTvPage(BasePage):
             self.click_allow_popup()
             self.click_safe(name='ACCEPT')
             self.safe_screenshot()
-            self.click_safe(id=self.com_cbs_app + ':id/livetv_card_title')
-            text_list.append('Channels')
-            text_list.append(':id/controlsContainer')
-            text_list.append(':id/station_logo')
-            text_list.append(':id/liveTvRecyclerView')
+            if self.phone:
+                self.click_safe(id=self.com_cbs_app + ':id/livetv_card_title')
+                text_list.append('Channels')
+                text_list.append(':id/controlsContainer')
+                text_list.append(':id/station_logo')
+                text_list.append(':id/liveTvRecyclerView')
+            if self.tablet:
+                text_list.append(':id/videoPlayerContainer')
         if user_type == self.anonymous:
             text_list.append('Already a subscriber\? Sign In')
         if user_type in [self.anonymous, self.registered]:
