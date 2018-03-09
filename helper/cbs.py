@@ -2390,45 +2390,39 @@ class CommonHelper(TestlioAutomationTest):
         sleep(2)
         self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
 
-        # root = self.get_page_source_xml()
-        #
-        # try:
-        #     self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
-        # except:
-        #     if self.IS_AMAZON:
-        #         self.click_safe(element=self.get_element(name='ok'))
-        #     else:
-        #         self.click_safe(element=self.get_element(name='got it'))
-        #     self._short_swipe_up(duration=1000)
-        #
-        # self._short_swipe_up(duration=1000)
-        # self.click(id=self.com_cbs_app + ":id/playerMainContainer")
-        # self.safe_screenshot()
-        #
-        # total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
-        #
-        total_time_text = ""
-        #
-        # if not total_time_elem:
-        #     self.click(id=self.com_cbs_app + ":id/playerMainContainer")
-        #     self.safe_screenshot()
-        #     try:
-        #         total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
-        #     except:
-        #         pass
-        # else:
-        #     try:
-        #         total_time_text = total_time_elem.get_attribute('text')
-        #     except:
-        #         pass
+        root = self.get_page_source_xml()
 
+        try:
+            self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
+        except:
+            if self.IS_AMAZON:
+                self.click_safe(element=self.get_element(name='ok'))
+            else:
+                self.click_safe(element=self.get_element(name='got it'))
+            self._short_swipe_up(duration=1000)
+
+        self._short_swipe_up(duration=1000)
         self.tap(0.5, 0.5)
-        page_src = self.driver.page_source
-        match = re.search(r'(\d{2}:\d{2})', page_src, re.M | re.I)
-        if match:
-            total_time_text = match.group(2)
+        self.safe_screenshot()
 
-        print("Page source on time label:\n" + page_src)
+        total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
+
+        total_time_text = ""
+
+        if not total_time_elem:
+            #self.click(id=self.com_cbs_app + ":id/playerMainContainer")
+            self.tap(0.5, 0.5)
+            self.safe_screenshot()
+            try:
+                total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
+            except:
+                pass
+        else:
+            try:
+                total_time_text = total_time_elem.get_attribute('text')
+            except:
+                pass
+
         self.assertTrueWithScreenShot(total_time_text != "", screenshot=True, msg="Cannot get the TextView with a total time of video.")
 
         # total_time = hours*3600 + minutes*60 + seconds
