@@ -2414,7 +2414,7 @@ class CommonHelper(TestlioAutomationTest):
 
             # works for Nexus 4,
         else:
-            tap_x = 40
+            tap_x = 60
             tap_y = self.driver.get_window_size()["height"] - 60
 
             # First scenario where device navigation control is not up
