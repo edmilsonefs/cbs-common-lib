@@ -44,7 +44,7 @@ class CommonHelper(TestlioAutomationTest):
             if os.getenv('LOCAL') is None:
                 self.testdroid_device = self.get_testdroid_device_from_adb()
             if not self.uiautomator2:
-                self.activate_standard_keyboard() #not supported by uiautomator2
+                self.activate_standard_keyboard()  # not supported by uiautomator2
             self.driver.orientation = 'PORTRAIT'
 
             if 'Nexus 7' in self.testdroid_device \
@@ -132,16 +132,18 @@ class CommonHelper(TestlioAutomationTest):
             count += 1
 
     def is_uiautomator2(self):
-        if self.driver.desired_capabilities.has_key('automationName') and self.driver.desired_capabilities['automationName'].lower() == 'uiautomator2':
+        if self.driver.desired_capabilities.has_key('automationName') and self.driver.desired_capabilities[
+            'automationName'].lower() == 'uiautomator2':
             return True
-        return False 
+        return False
 
-    ################################################
+        ################################################
+
     # HEADER
     def open_drawer(self):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
-        """ 
+        """
         if self.uiautomator2:
             el = self.exists(accessibility_id='Open navigation drawer', timeout=10)
         else:
@@ -156,7 +158,7 @@ class CommonHelper(TestlioAutomationTest):
                     self.get_element(accessibility_id='Open navigation drawer').click()
                 else:
                     self.get_element(name='Open navigation drawer').click()
-            
+
         sleep(1.5)
 
     def is_drawer_open(self):
@@ -172,7 +174,7 @@ class CommonHelper(TestlioAutomationTest):
             self.get_element(accessibility_id="Navigate up").click()
         else:
             self.get_element(name="Navigate up").click()
-        
+
     def select_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
         self.safe_screenshot()
@@ -619,9 +621,9 @@ class CommonHelper(TestlioAutomationTest):
                 return
 
             if ('latin' in kybd.lower() or
-                        'samsung' in kybd.lower() or
-                        'htc' in kybd.lower() or
-                        'amazon' in kybd.lower()):
+                    'samsung' in kybd.lower() or
+                    'htc' in kybd.lower() or
+                    'amazon' in kybd.lower()):
                 new_kybd = kybd
 
         try:
@@ -756,20 +758,20 @@ class CommonHelper(TestlioAutomationTest):
         self.click_safe(id=self.com_cbs_app + ':id/showcase_button', timeout=10)
         """
         element_or_false = self.exists(**kwargs)
-        
+
         if element_or_false:
             if self.uiautomator2:
                 msg = element_or_false.text or \
-                    element_or_false.get_attribute('name') or \
-                    element_or_false.get_attribute('contentDescription') or \
-                    element_or_false.get_attribute('resourceId') or \
-                    element_or_false.tag_name
+                      element_or_false.get_attribute('name') or \
+                      element_or_false.get_attribute('contentDescription') or \
+                      element_or_false.get_attribute('resourceId') or \
+                      element_or_false.tag_name
             else:
                 msg = element_or_false.text or \
-                    element_or_false.get_attribute('name') or \
-                    element_or_false.get_attribute('content-desc') or \
-                    element_or_false.get_attribute('resource-id') or \
-                    element_or_false.tag_name
+                      element_or_false.get_attribute('name') or \
+                      element_or_false.get_attribute('content-desc') or \
+                      element_or_false.get_attribute('resource-id') or \
+                      element_or_false.tag_name
 
             self.event.click('In click_safe(), about to click.  element info = %s' % msg)
             element_or_false.click()
@@ -921,7 +923,6 @@ class CommonHelper(TestlioAutomationTest):
                 self.click_safe(accessibility_id='Navigate up')
             else:
                 self.click_safe(name='Navigate up')
-            
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
@@ -945,7 +946,8 @@ class CommonHelper(TestlioAutomationTest):
             the_timeout = 8
 
         if self.uiautomator2:
-            while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
+            while not self.exists(
+                    element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
                 self.back()
                 counter += 1
                 if counter > 10:
@@ -1160,20 +1162,19 @@ class CommonHelper(TestlioAutomationTest):
             if kwargs.has_key('element_css'):
                 kwargs['class_name'] = kwargs['element_css']
                 self.exists(kwargs)
-                    
+
             elif kwargs.has_key('element_name'):
                 kwargs['name'] = kwargs['element_name']
                 self.exists(kwargs)
-                    
+
             elif kwargs.has_key('element_id'):
                 kwargs['id'] = kwargs['element_id']
                 self.exists(kwargs)
-                    
+
             elif kwargs.has_key('id') or kwargs.has_key('name'):
                 self.exists(kwargs)
         except:
             pass
-
 
     def _login(self, username, password):
 
@@ -1316,8 +1317,8 @@ class CommonHelper(TestlioAutomationTest):
         self.click(id=self.com_cbs_app + ':id/btnVerifyNow', data='Clicking verify now')
         self.click_allow_popup()
 
-    def live_tv_multichannel_flow(self, time_to_watch = 120):    
-        #Opens multichannel Live TV, shares location, watches for specified number of seconds, then switches to CBSN and watches for just as long.    
+    def live_tv_multichannel_flow(self, time_to_watch=120):
+        # Opens multichannel Live TV, shares location, watches for specified number of seconds, then switches to CBSN and watches for just as long.
         self.safe_screenshot()
         self.click(name='Share Location')
         self.click_allow_popup()
@@ -1325,7 +1326,8 @@ class CommonHelper(TestlioAutomationTest):
         self.accept_popup_video_click(force_accept=True)
         sleep(time_to_watch)
         self.safe_screenshot()
-        self.tap(0.7,0.7) #Done via tap because there are no unique features of any component of the live tiles once Live TV begins playing
+        self.tap(0.7,
+                 0.7)  # Done via tap because there are no unique features of any component of the live tiles once Live TV begins playing
         sleep(time_to_watch)
         self.safe_screenshot()
         self.home_page.goto_home()
@@ -1645,7 +1647,8 @@ class CommonHelper(TestlioAutomationTest):
             try:
                 if kwargs.has_key('name'):
                     element = self.driver.find_element_by_xpath(
-                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'], kwargs['name']))
+                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'],
+                                                                                                   kwargs['name']))
                 elif kwargs.has_key('id_element'):
                     element = self.driver.find_element_by_id(id_=kwargs['id_element'])
                 elif kwargs.has_key('id'):
@@ -1686,7 +1689,8 @@ class CommonHelper(TestlioAutomationTest):
             try:
                 if kwargs.has_key('name'):
                     element = self.driver.find_element_by_xpath(
-                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'], kwargs['name']))
+                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'],
+                                                                                                   kwargs['name']))
                 elif kwargs.has_key('id_element'):
                     element = self.driver.find_element_by_id(id_=kwargs['id_element'])
                 elif kwargs.has_key('id'):
@@ -1853,7 +1857,7 @@ class CommonHelper(TestlioAutomationTest):
 
         self.swipe(startx, starty, endx, endy, duration)
         sleep(1)
-        
+
     def close_big_advertisement(self):
         if self.tablet:
             self.click_safe(id='Interstitial close button', timeout=6)
@@ -1913,7 +1917,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_first_search_result(self):
         # this is how we did it in 2.9
-        self.tap(.25, .25, 'first search result')    
+        self.tap(.25, .25, 'first search result')
 
     def click_second_search_result(self):
         # this is how we did it in 2.9
@@ -2200,7 +2204,7 @@ class CommonHelper(TestlioAutomationTest):
         Returns dict with dimensions of an element, but using raw xml, not Appium location / size methods.
         Sometimes these methods don't work.  See section header (XML Methods) for details.
         """
-   
+
         dic = {}
         dic['x'] = elem.location['x']
         dic['y'] = elem.location['y']
@@ -2274,9 +2278,9 @@ class CommonHelper(TestlioAutomationTest):
         for elem in elements:
             icon_dimensions = self._get_dimensions_from_element_using_xml(elem)
             if icon_dimensions['x'] > bounds['x'] and \
-                            icon_dimensions['x'] < bounds['x'] + bounds['width'] and \
-                            icon_dimensions['y'] > bounds['y'] and \
-                            icon_dimensions['y'] < bounds['y'] + bounds['height']:
+                    icon_dimensions['x'] < bounds['x'] + bounds['width'] and \
+                    icon_dimensions['y'] > bounds['y'] and \
+                    icon_dimensions['y'] < bounds['y'] + bounds['height']:
                 target_element = elem
                 break
 
@@ -2387,8 +2391,7 @@ class CommonHelper(TestlioAutomationTest):
         Find where to tap by dividing jump_time by total_time as found in the screen element
         """
 
-
-        #root = self.get_page_source_xml()
+        # root = self.get_page_source_xml()
 
         # try:
         #     self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
@@ -2399,17 +2402,11 @@ class CommonHelper(TestlioAutomationTest):
             self.click_safe(element=self.get_element(name='got it'))
         self._short_swipe_up(duration=1000)
 
-        #self._short_swipe_up(duration=1000)
-        #self.tap(0.5, 0.5)
-        #self.safe_screenshot()
-        #self.click(id=self.com_cbs_app + ":id/playerMainContainer")
-        #sleep(1)
-        #self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
         if self.testdroid_device == 'asus Nexus 7':
-            tap_x = 70
+            tap_x = 90
             tap_y = 900
         elif self.testdroid_device == 'Amazon KFTBWI':
-            tap_x = 26
+            tap_x = 50
             tap_y = 730
 
             # works for Nexus 4,
@@ -2420,8 +2417,8 @@ class CommonHelper(TestlioAutomationTest):
             # First scenario where device navigation control is not up
             self.tap(.25, .25, 'to bring up video player controls')
             sleep(1)
-            #self.safe_screenshot()
-            #sleep(3)
+            # self.safe_screenshot()
+            # sleep(3)
             self.tap(tap_x, tap_y, 'pause button')
             self.log_info("--Step 1--")
             self.safe_screenshot()
@@ -2430,25 +2427,24 @@ class CommonHelper(TestlioAutomationTest):
             self.log_info("--Step 2--")
             self.safe_screenshot()
 
-        total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
-
         total_time_text = ""
+        self.tap(0.5, 0.5)
+        self.safe_screenshot()
+        try:
+            total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
+        except:
+            pass
 
-        if not total_time_elem:
-            self.click(id=self.com_cbs_app + ":id/playerMainContainer")
-            #self.tap(0.5, 0.5)
-            self.safe_screenshot()
+        if total_time_text == "":
             try:
-                total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
+                self.tap(0.5, 0.5)
+                total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute(
+                    'text')
             except:
                 pass
-        else:
-            try:
-                total_time_text = total_time_elem.get_attribute('text')
-            except:
-                pass
 
-        self.assertTrueWithScreenShot(total_time_text != "", screenshot=True, msg="Cannot get the TextView with a total time of video.")
+        self.assertTrueWithScreenShot(total_time_text != "", screenshot=True,
+                                      msg="Cannot get the TextView with a total time of video.")
 
         # total_time = hours*3600 + minutes*60 + seconds
         total_time = float(total_time_text[-2:])
@@ -2493,7 +2489,6 @@ class CommonHelper(TestlioAutomationTest):
 
         # self.unpause_video()
 
-
         # seek_bar_dim = self._get_dimensions_from_element_using_xml(seek_bar)
         #
         # # width * seek_pct is how far over in the bar to tap
@@ -2521,7 +2516,7 @@ class CommonHelper(TestlioAutomationTest):
         return False
 
     def cf_subscriber_flow(self):
-        #Opens a video, watches for a bit, jumps to near the end and watches through
+        # Opens a video, watches for a bit, jumps to near the end and watches through
         self.accept_popup_video_click()
         self.click_play_from_beginning()
         self.wait_for_video_to_start(60)
@@ -2539,7 +2534,8 @@ class CommonHelper(TestlioAutomationTest):
             try:
                 sleep(5)
                 self.safe_screenshot()
-                self.driver.find_element_by_xpath(xpath="//android.widget.Button[contains(@text,'Chromecast device on your network')]")
+                self.driver.find_element_by_xpath(
+                    xpath="//android.widget.Button[contains(@text,'Chromecast device on your network')]")
                 self.log_info("Chromecast device on your network found")
                 self.safe_screenshot()
                 self.back()
@@ -2558,7 +2554,7 @@ class CommonHelper(TestlioAutomationTest):
         elem_text = element.text
 
         if (type(text) == list and elem_text not in text or
-                        type(text) == str and elem_text != text):
+                type(text) == str and elem_text != text):
             raise RuntimeError("verify_field_text failed: text of element '%s' was '%s' but should have been '%s'" % (
                 element.name, elem_text, text))
 
@@ -2590,7 +2586,7 @@ class CommonHelper(TestlioAutomationTest):
                 ratio = float(size['height']) / float(size['width'])
                 if (loc['y'] < max_y and loc['x'] < max_x and
                         (0.252 < ratio < 0.258)
-                    ):
+                ):
                     logo_exists = True
                     break
         except NoSuchElementException:
@@ -2603,7 +2599,7 @@ class CommonHelper(TestlioAutomationTest):
                 ratio = float(size['height']) / float(size['width'])
                 if (loc['y'] < max_y and loc['x'] < max_x and
                         (0.252 < ratio < 0.258)
-                    ):
+                ):
                     logo_exists = True
                     break
 
@@ -2702,7 +2698,7 @@ class CommonHelper(TestlioAutomationTest):
         else:
             raise RuntimeError('Live TV is not subscribed to')
         """
-        
+
     def verify_navigation_drawer_button(self, screenshot=False):
         # if self.exists(element=self.get_element(xpath="//*[@text='Live TV']")):
         #     if self.phone:
