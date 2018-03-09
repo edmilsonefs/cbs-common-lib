@@ -2486,6 +2486,10 @@ class CommonHelper(TestlioAutomationTest):
         self.tap(tap_x, tap_y, 'jumping in seek bar')
 
         self.safe_screenshot()
+        self.tap(0.5, 0.5)
+        self.safe_screenshot()
+        self.tap(tap_x, tap_y, 'Play button')
+        self.safe_screenshot()
 
         # self.unpause_video()
 
