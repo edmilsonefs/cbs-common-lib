@@ -2400,13 +2400,28 @@ class CommonHelper(TestlioAutomationTest):
         self._short_swipe_up(duration=1000)
 
         #self._short_swipe_up(duration=1000)
-        self.tap(0.5, 0.5)
+        #self.tap(0.5, 0.5)
         self.safe_screenshot()
         #self.click(id=self.com_cbs_app + ":id/playerMainContainer")
         #sleep(1)
         #self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
-        self.click(id=self.com_cbs_app + ':id/play_pause')
-        self.safe_screenshot()
+        if self.testdroid_device == 'asus Nexus 7':
+            tap_x = 70
+            tap_y = 900
+        elif self.testdroid_device == 'Amazon KFTBWI':
+            tap_x = 26
+            tap_y = 730
+
+            # works for Nexus 4,
+        else:
+            tap_x = 25
+            tap_y = self.driver.get_window_size()["height"] - 40
+
+            # First scenario where device navigation control is not up
+            self.tap(.25, .25, 'to bring up video player controls')
+            sleep(1)
+            self.tap(tap_x, tap_y, 'pause button')
+            self.safe_screenshot()
 
         total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
 
