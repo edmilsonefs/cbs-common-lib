@@ -65,7 +65,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_a(self):
         if self.IS_ANDROID:
             self.verify_in_batch(['Welcome to the CBS app',
-                                  'By using this CBS Application, you agree to our:',
+                                  'Before you get started, please review and agree to the following:|By using this CBS Application, you agree to our:',
                                   'Terms of Use',
                                   'Mobile User Agreement',
                                   'Privacy Policy',
