@@ -2401,7 +2401,7 @@ class CommonHelper(TestlioAutomationTest):
 
         #self._short_swipe_up(duration=1000)
         #self.tap(0.5, 0.5)
-        self.safe_screenshot()
+        #self.safe_screenshot()
         #self.click(id=self.com_cbs_app + ":id/playerMainContainer")
         #sleep(1)
         #self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
@@ -2420,8 +2420,10 @@ class CommonHelper(TestlioAutomationTest):
             # First scenario where device navigation control is not up
             self.tap(.25, .25, 'to bring up video player controls')
             sleep(1)
-            self.safe_screenshot()
+            #self.safe_screenshot()
             #sleep(3)
+            self.tap(tap_x, tap_y, 'pause button')
+            self.safe_screenshot()
             self.tap(tap_x, tap_y, 'pause button')
             self.safe_screenshot()
 
