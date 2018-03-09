@@ -1636,43 +1636,26 @@ class CommonHelper(TestlioAutomationTest):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
         """
-        self.driver.implicitly_wait(0)
 
         # Gets mobile screen size
         window_size_y = self.driver.get_window_size()["height"]
-
-        element = None
         count = 0
-        while element is None and count <= 10:
-            try:
-                if kwargs.has_key('name'):
-                    element = self.driver.find_element_by_xpath(
-                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'],
-                                                                                                   kwargs['name']))
-                elif kwargs.has_key('id_element'):
-                    element = self.driver.find_element_by_id(id_=kwargs['id_element'])
-                elif kwargs.has_key('id'):
-                    element = self.driver.find_element_by_id(id_=kwargs['id'])
-                elif kwargs.has_key('class_name'):
-                    element = self.get_element(class_name=kwargs['class_name'])
-            except:
-                if self.phone:
-                    if long_swipe:
-                        self.driver.swipe(35, window_size_y - 500, 35, 200)
-                    elif short_swipe:
-                        self.driver.swipe(35, window_size_y - 600, 35, 700)
-                    else:
-                        self.driver.swipe(35, window_size_y - 600, 35, 500)
+        while self.not_exists(**kwargs) and count <= 10:
+            if self.phone:
+                if long_swipe:
+                    self.driver.swipe(35, window_size_y - 500, 35, 200)
+                elif short_swipe:
+                    self.driver.swipe(35, window_size_y - 600, 35, 700)
                 else:
-                    if long_swipe:
-                        self.driver.swipe(500, window_size_y - 600, 500, 200)
-                    elif short_swipe:
-                        self.driver.swipe(500, window_size_y - 600, 500, 550)
-                    else:
-                        self.driver.swipe(500, window_size_y - 400, 500, 600)
+                    self.driver.swipe(35, window_size_y - 600, 35, 500)
+            else:
+                if long_swipe:
+                    self.driver.swipe(500, window_size_y - 600, 500, 200)
+                elif short_swipe:
+                    self.driver.swipe(500, window_size_y - 600, 500, 550)
+                else:
+                    self.driver.swipe(500, window_size_y - 400, 500, 600)
             count += 1
-
-        self.driver.implicitly_wait(30)
 
     def swipe_up_until_element_is_visible(self, short_swipe=False, **kwargs):
         """
@@ -1682,24 +1665,12 @@ class CommonHelper(TestlioAutomationTest):
 
         # Gets mobile screen size
         window_size_y = self.driver.get_window_size()["height"]
-
-        element = None
         count = 0
-        while element is None and count <= 10:
-            try:
-                if kwargs.has_key('name'):
-                    element = self.driver.find_element_by_xpath(
-                        xpath='//*[contains(@text,"{0}") or contains(@content-desc,"{1}")]'.format(kwargs['name'],
-                                                                                                   kwargs['name']))
-                elif kwargs.has_key('id_element'):
-                    element = self.driver.find_element_by_id(id_=kwargs['id_element'])
-                elif kwargs.has_key('id'):
-                    element = self.driver.find_element_by_id(id_=kwargs['id'])
-            except:
-                if short_swipe:
-                    self.driver.swipe(35, 600, 35, window_size_y - 400)
-                else:
-                    self.driver.swipe(35, 400, 35, window_size_y - 500)
+        while self.not_exists(**kwargs) and count <= 10:
+            if short_swipe:
+                self.driver.swipe(35, 600, 35, window_size_y - 400)
+            else:
+                self.driver.swipe(35, 400, 35, window_size_y - 500)
             count += 1
         self.driver.implicitly_wait(30)
         self.safe_screenshot()
