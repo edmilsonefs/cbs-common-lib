@@ -2414,8 +2414,8 @@ class CommonHelper(TestlioAutomationTest):
 
             # works for Nexus 4,
         else:
-            tap_x = 25
-            tap_y = self.driver.get_window_size()["height"] - 40
+            tap_x = 40
+            tap_y = self.driver.get_window_size()["height"] - 60
 
             # First scenario where device navigation control is not up
             self.tap(.25, .25, 'to bring up video player controls')
@@ -2423,8 +2423,11 @@ class CommonHelper(TestlioAutomationTest):
             #self.safe_screenshot()
             #sleep(3)
             self.tap(tap_x, tap_y, 'pause button')
+            self.log_info("--Step 1--")
             self.safe_screenshot()
             self.tap(tap_x, tap_y, 'pause button')
+            print(self.driver.page_source)
+            self.log_info("--Step 2--")
             self.safe_screenshot()
 
         total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
