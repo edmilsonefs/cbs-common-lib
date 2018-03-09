@@ -2419,7 +2419,9 @@ class CommonHelper(TestlioAutomationTest):
 
             # First scenario where device navigation control is not up
             self.tap(.25, .25, 'to bring up video player controls')
-            sleep(3)
+            sleep(1)
+            self.safe_screenshot()
+            #sleep(3)
             self.tap(tap_x, tap_y, 'pause button')
             self.safe_screenshot()
 
