@@ -2402,9 +2402,10 @@ class CommonHelper(TestlioAutomationTest):
         #self._short_swipe_up(duration=1000)
         self.tap(0.5, 0.5)
         self.safe_screenshot()
-        self.click(id=self.com_cbs_app + ":id/playerMainContainer")
-        sleep(1)
-        self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
+        #self.click(id=self.com_cbs_app + ":id/playerMainContainer")
+        #sleep(1)
+        #self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
+        self.click(id=self.com_cbs_app + ':id/play_pause')
         self.safe_screenshot()
 
         total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
