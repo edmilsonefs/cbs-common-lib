@@ -1265,27 +1265,25 @@ class CommonHelper(TestlioAutomationTest):
             origin = self.get_element(name='Nielsen Info & Your Choices')
             destination = self.get_element(name='Send Feedback')
             self.driver.drag_and_drop(origin, destination)
-            self.safe_screenshot()
-            self.click(xpath=("//*[@text='Debug']"))
-        else:
-            self.click(xpath=("//*[@text='Debug']"))
-        self.safe_screenshot()
+            self.event.screenshot(self.screenshot())
+        self.click(xpath=("//*[@text='Debug']"))
+        self.event.screenshot(self.screenshot())
 
     def choose_location(self, city, swipe_up=False):
-        window_size_y = self.driver.get_window_size()["height"]
         self.go_to_debug_page()
-
+        self.event.screenshot(self.screenshot())
+        window_size_y = self.driver.get_window_size()["height"]
         if "Nexus 7" in self.testdroid_device:
-            # The new appium is not clicking on the right selector
-            self.driver.tap([(450, 745)])
+            self.driver.tap([(450, 880)])
+            self.event.screenshot(self.screenshot())
         else:
             self.click(xpath=("//*[@text='Location Set']"))
-        self.safe_screenshot()
+
         try:
             self.driver.implicitly_wait(5)
-            city = self.get_element(name=city)
-            self.click(city)
-            # self.click(name=city, screenshot=True)
+            self.get_element(name=city).click()
+            self.click(name=city, screenshot=True)
+            self.safe_screenshot()
         except:
             if swipe_up:
                 for i in range(3):
@@ -1298,19 +1296,23 @@ class CommonHelper(TestlioAutomationTest):
                     origin = self.get_element(name='Philadelphia')
                     destination = self.get_element(name='Denver KCNC')
                     self.driver.drag_and_drop(origin, destination)
-                    self.safe_screenshot()
+                    self.event.screenshot(self.screenshot())
                     origin = self.get_element(name='College Station, TX KBTX')
                     destination = self.get_element(name='Boston')
                     self.driver.drag_and_drop(origin, destination)
-                    self.safe_screenshot()
-                elif self.tablet:
+                    self.event.screenshot(self.screenshot())
+                else:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
-            btn_city = self.get_element(name=city)
-            self.click(btn_city)
+            self.get_element(name=city).click()
+            self.safe_screenshot()
 
             self.driver.implicitly_wait(30)
-        self.navigate_up()
+        try:
+            self.navigate_up()
+        except:
+            self.back()
+            self.navigate_up()
 
     def select_verify_now(self):
         self.swipe_down_and_verify_if_exists(id_element=self.com_cbs_app + ':id/btnVerifyNow')
@@ -1338,15 +1340,20 @@ class CommonHelper(TestlioAutomationTest):
         sleep(5)
         self.safe_screenshot()
         try:
-            self.click(xpath='//*[contains(@text,"Disconnect from Optimum")]', data='Disconnect From Optimum')
+            self.click(element=self.settings_page.btn_disconnect_from_optimum(), screenshot=True)
             self.safe_screenshot()
-            self.click(id=self.com_cbs_app + ':id/btnMvpdLogoutSettings')
-            sleep(4)
-            self.click(id='android:id/button1')
-            sleep(3)
+            self.click(element=self.settings_page.btn_mvpd_disconnect())
+            self.safe_screenshot()
+            self.click(element=self.settings_page.btn_mvpd_disconnect_yes())
+            self.event.screenshot(self.screenshot())
         except:
-            self.event._log_info(self.event._event_data('Optimum was not connected'))
-        self.back_while_open_drawer_is_visible()
+            self.log_info('Optimum was not connected')
+        self.back()
+        if self.IS_AMAZON:
+            try:
+                self.click(element=self.settings_page.btn_navigate_up())
+            except:
+                pass
 
     def go_to_providers_page(self):
         self.goto_live_tv()
