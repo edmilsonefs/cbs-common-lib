@@ -2386,23 +2386,25 @@ class CommonHelper(TestlioAutomationTest):
         Tap in the seek bar to jump over.  jump_time is in seconds.
         Find where to tap by dividing jump_time by total_time as found in the screen element
         """
-        self.tap(0.5, 0.5)
-        sleep(2)
-        self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
 
-        root = self.get_page_source_xml()
 
-        try:
-            self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
-        except:
-            if self.IS_AMAZON:
-                self.click_safe(element=self.get_element(name='ok'))
-            else:
-                self.click_safe(element=self.get_element(name='got it'))
-            self._short_swipe_up(duration=1000)
+        #root = self.get_page_source_xml()
 
+        # try:
+        #     self._find_element_using_xml(root, 'resource-id', self.com_cbs_app + ':id/tvTotalTime')
+        # except:
+        if self.IS_AMAZON:
+            self.click_safe(element=self.get_element(name='ok'))
+        else:
+            self.click_safe(element=self.get_element(name='got it'))
         self._short_swipe_up(duration=1000)
+
+        #self._short_swipe_up(duration=1000)
         self.tap(0.5, 0.5)
+        self.safe_screenshot()
+        self.click(id=self.com_cbs_app + ":id/playerMainContainer")
+        sleep(1)
+        self.tap(45, int(self.driver.get_window_size()['height']) - 40, 'pause button')
         self.safe_screenshot()
 
         total_time_elem = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10)
@@ -2410,8 +2412,8 @@ class CommonHelper(TestlioAutomationTest):
         total_time_text = ""
 
         if not total_time_elem:
-            #self.click(id=self.com_cbs_app + ":id/playerMainContainer")
-            self.tap(0.5, 0.5)
+            self.click(id=self.com_cbs_app + ":id/playerMainContainer")
+            #self.tap(0.5, 0.5)
             self.safe_screenshot()
             try:
                 total_time_text = self._find_element(id=self.com_cbs_app + ':id/tvTotalTime', timeout=10).get_attribute('text')
