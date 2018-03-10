@@ -222,7 +222,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.close_big_advertisement()
             self.verify_exists(id='Schedule')
-            self.verify_in_batch(['Main Menu', 'ET/PT', 'Today', 'Search'])
+            self.verify_exists(id='Search')
+            self.verify_in_batch(['Main Menu', 'ET/PT', 'Today'])
             self.close_big_advertisement()
 
     def validation_l(self):  # TODO update validation
