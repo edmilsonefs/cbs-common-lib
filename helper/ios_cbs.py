@@ -2221,7 +2221,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     def go_to_optimum_page(self):
         self.go_to_providers_page()
         self.select_optimum_from_provider_page()
-        # self.click(xpath='//UIAApplication[1]/UIAWindow[1]/UIACollectionView[1]/UIACollectionCell[1]')
 
     def go_to_providers_page(self):
         self.goto_live_tv()
@@ -2232,19 +2231,18 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def login_optimum(self, username, password):
             if self.phone:
-                email_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[4]')
+                email_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[4]/XCUIElementTypeTextField')
                 self.click(email_field)
                 email_field.clear()
                 self.send_keys(element=email_field, data=username, xpath='//XCUIElementTypeOther[4]')
 
-                password_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[6]')
+                password_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[6]/XCUIElementTypeSecureTextField')
                 self.click(password_field)
                 password_field.clear()
                 self.send_keys(element=password_field, data=password, xpath='//XCUIElementTypeOther[6]')
                 self.event.screenshot(self.screenshot())
                 self.event._log_info(self.event._event_data('Before log in'))
 
-                # self.verify_exists(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
                 self.click(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
                 self.event.screenshot(self.screenshot())
             elif self.tablet:
