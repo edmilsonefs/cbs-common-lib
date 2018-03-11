@@ -53,7 +53,7 @@ class LiveTvPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/btnSignUp')
 
     def lst_already_have_an_account_sign_in(self, timeout=10):
-        return self.get_elements(timeout=timeout, name='Already have an account? Sign In')
+        return self.get_elements(timeout=timeout, name='Already a subscriber? Sign In')
 
     def lbl_two_ways_to_watch_live_tv(self, timeout=10):
         return self.get_element(timeout=timeout, name='Two ways to watch Live TV')
