@@ -11,7 +11,7 @@ class LiveTvPage(BasePage):
         return self.top_toolbar(timeout=timeout).find_element_by_xpath("//*[@text='Live TV']")
 
     def btn_try_1_week_month_free(self, timeout=10):
-        return self.get_element(timeout=timeout, xpath="//android.widget.Button[@text='TRY 3 DAYS FREE' or @text='TRY 1 WEEK FREE' or @text='TRY 1 MONTH FREE']")
+        return self.get_element(timeout=timeout, xpath="//android.widget.Button[@text='TRY 3 DAYS FREE' or @text='TRY 1 WEEK FREE' or @text='TRY 1 MONTH FREE' or @text='Try 1 week free']")
 
     def btn_verify_now(self, timeout=10):
         return self.get_element(timeout=timeout, name='Verify Now')
