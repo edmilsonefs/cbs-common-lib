@@ -45,6 +45,7 @@ class HomePage(BasePage):
 
     def click_all_access_video(self):
         count = 0
+        found = False
         while count < 50:
             if self.exists(name=PAID, timeout=8):
                 self._short_swipe_down()
@@ -53,10 +54,11 @@ class HomePage(BasePage):
                 self.click(element=list_episodes[0])
                 self.safe_screenshot()
                 self.accept_popup_video_click()
+                found = True
                 break
             self._short_swipe_down()
             count += 1
-        self.assertTrue(len(self.get_elements(name=PAID)) > 0, msg="'All Access' episodes have not been found on the Home page")
+        self.assertTrueWithScreenShot(found, msg="'All Access' episodes have not been found on the Home page", screenshot=True)
 
     # def click_all_access_video(self):
     #     if self.exists(name='Free Episodes', timeout=10):
