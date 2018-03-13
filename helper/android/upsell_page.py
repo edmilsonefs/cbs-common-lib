@@ -43,7 +43,7 @@ class UpsellPage(BasePage):
                 #text_list.append('TRY 1 MONTH FREE') Doesn't exist on page, design change?
                 #text_list.append('GET STARTED') See above
 
-        self.verify_in_batch(text_list, case_sensitive=False, strict_visibility=True, screenshot=True, strict=False, 20)
+        self.verify_in_batch(text_list, case_sensitive=False, strict_visibility=True, screenshot=True, strict=False, with_timeout=20)
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
