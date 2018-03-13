@@ -67,6 +67,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._dismiss_alert(1)
         self.goto_home()
         self.window_size = self.driver.get_window_size()
+        self.previous_email_value = 'Email'
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
