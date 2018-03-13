@@ -33,6 +33,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     already_accepted_terms = False
     element_type = '//UIA'  # iOS 9
     UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
+    previous_email_value = 'Email'
     signed_out = False
     xcuitest = False
     window_size = None
@@ -2054,13 +2055,14 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # LOGIN
     def set_sign_in_email(self, email):
-        elem = self.get_element(id='Email')
+        elem = self.get_element(id=self.previous_email_value)
         elem.clear()
         self.send_keys(element=elem, data=email)
+        self.previous_email_value = email
         self.hide_keyboard()
 
     def set_sign_in_password(self, password):
-        elem = self.get_element(id='Password')
+        elem = self.get_element(class_name='XCUIElementTypeSecureTextField')
         elem.clear()
         self.send_keys(element=elem, data=password)
         self.hide_keyboard()
