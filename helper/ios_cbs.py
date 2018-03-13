@@ -2055,13 +2055,13 @@ class CommonIOSHelper(TestlioAutomationTest):
     # LOGIN
     def set_sign_in_email(self, email):
         elem = self.get_element(id='Email')
-        #elem.clear()
+        elem.clear()
         self.send_keys(element=elem, data=email)
         self.hide_keyboard()
 
     def set_sign_in_password(self, password):
         elem = self.get_element(id='Password')
-        #elem.clear()
+        elem.clear()
         self.send_keys(element=elem, data=password)
         self.hide_keyboard()
 
