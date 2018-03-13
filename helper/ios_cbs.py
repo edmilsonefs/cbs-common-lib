@@ -2054,15 +2054,15 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # LOGIN
     def set_sign_in_email(self, email):
-        elem = self.get_element(xpath='//XCUIElementTypeTextField[1]')
-        elem.clear()
-        self.send_text(element=elem, data=email)
+        elem = self.get_element(id='Email')
+        #elem.clear()
+        self.send_keys(element=elem, data=email)
         self.hide_keyboard()
 
     def set_sign_in_password(self, password):
-        elem = self.get_element(xpath='//XCUIElementTypeSecureTextField[1]')
-        elem.clear()
-        self.send_text(element=elem, data=password)
+        elem = self.get_element(id='Password')
+        #elem.clear()
+        self.send_keys(element=elem, data=password)
         self.hide_keyboard()
 
     def login_(self, email, password):
@@ -2081,7 +2081,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if self.exists(id='CONTINUE', timeout=10):
             checkboxes = self.get_elements(xpath="//XCUIElementTypeButton[not(@name)]")
             if len(checkboxes) > 0:
-                self.click(element=checkboxes[len(checkboxes) - 1], timeout=20)
+                self.click(element=checkboxes[len(checkboxes) - 1], timeout=20, data='Click ToU checkbox')
             else:
                 checkbox = self.exists(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                 if checkbox:
