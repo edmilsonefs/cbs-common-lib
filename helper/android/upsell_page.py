@@ -12,7 +12,8 @@ class UpsellPage(BasePage):
                                                        "and (contains(@text,'MONTH') or contains(@text,'WEEK'))]")
 
     def btn_get_started(self, timeout=10):
-        return self.get_element(timeout=timeout, xpath="//android.widget.Button[@text='GET STARTED' or @text='TRY 3 DAYS FREE' or @text='TRY 1 WEEK FREE' or @text='TRY 1 MONTH FREE']")
+        return self.get_element(timeout=timeout, xpath="//*[contains(@text,'TRY 1 ') and contains(@text,' FREE') "
+                                                       "and (contains(@text,'MONTH') or contains(@text,'WEEK')) or @text='GET STARTED']")
 
     def btn_already_a_subscriber_sign_in(self, timeout=10):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/txtAlreadyHaveAnAccount")
