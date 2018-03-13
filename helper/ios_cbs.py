@@ -2059,7 +2059,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         elem = self.get_element(id=self.previous_email_value)
         elem.clear()
         self.send_keys(element=elem, data=email)
-        self.previous_email_value = email
         self.hide_keyboard()
 
     def set_sign_in_password(self, password):
