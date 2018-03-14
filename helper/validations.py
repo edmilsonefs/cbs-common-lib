@@ -533,7 +533,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ar(self):
         # multiple_channel_selector_page
         if self.IS_ANDROID:
-            text_list = ['Open navigation drawer', ':id/action_search', 'Select Your Local Station', 'Channels', 'KWTX',
+            text_list = ['Navigate up', ':id/action_search', 'Select Your Local Station', 'Channels', 'KWTX',
                          'KBTX', 'You can always change this']
             self.verify_in_batch(text_list)
         elif self.IS_IOS:
