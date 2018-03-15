@@ -848,7 +848,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='CBSEye_white')
             self.verify_exists(id="Search")
             self.verify_exists(id='We show that CBS is not authorized for you by your TV provider,')
-            self.verify_exists(id='but you can sign in to CBS All Access to watch now.')
+            self.verify_exists(id='but you can sign in to All Access to watch now.')
             self.verify_exists(id='SIGN IN')
             self.verify_exists(id='Take a quick tour')
             self.verify_exists(id='Questions?')
