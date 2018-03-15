@@ -2233,37 +2233,37 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def login_optimum(self, username, password):
             if self.phone:
-                email_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[4]/XCUIElementTypeTextField')
+                email_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[4]')
                 self.click(email_field)
                 email_field.clear()
                 self.send_keys(element=email_field, data=username, xpath='//XCUIElementTypeOther[4]')
 
-                password_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[6]/XCUIElementTypeSecureTextField')
+                password_field = self.driver.find_element_by_xpath('//XCUIElementTypeOther[6]')
                 self.click(password_field)
                 password_field.clear()
                 self.send_keys(element=password_field, data=password, xpath='//XCUIElementTypeOther[6]')
                 self.event.screenshot(self.screenshot())
                 self.event._log_info(self.event._event_data('Before log in'))
 
+                self.verify_exists(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
                 self.click(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
                 self.event.screenshot(self.screenshot())
             elif self.tablet:
                 email_field = self.driver.find_element_by_xpath(
-                    '//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeTextField')
+                    '//XCUIElementTypeTextField')
                 self.click(email_field)
                 email_field.clear()
                 self.send_keys(element=email_field, data=username,
-                               xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeTextField')
+                               xpath='//XCUIElementTypeTextField')
 
                 password_field = self.driver.find_element_by_xpath(
-                    '//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeSecureTextField')  # .click()
+                    '//XCUIElementTypeSecureTextField')
                 self.click(password_field)
                 password_field.clear()
                 self.send_keys(element=password_field, data=password,
-                               xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeSecureTextField')
+                               xpath='//XCUIElementTypeSecureTextField')
                 self.event.screenshot(self.screenshot())
                 self.event._log_info(self.event._event_data('Before log in'))
-
-                self.verify_exists(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeImage[3]')
-                self.click(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeImage[3]')
-                self.event.screenshot(self.screenshot())
+                self.click(xpath='//XCUIElementTypeImage[3]')
+                sleep(10)
+                self.safe_screenshot()
