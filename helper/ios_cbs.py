@@ -1296,7 +1296,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         episode = ' Episodes'
         clip = ' Clip'
 
-        container = self.driver.find_element_by_xpath("//XCUIElementTypeOther[contains(@name,'PosterViewController')]")
+        container = self.get_element(accessibility_id='PosterViewController')
         static_text_elements = container.find_elements_by_class_name('XCUIElementTypeStaticText')
         static_texts = [x.text for x in static_text_elements if x.text is not None]
         show_cards = [x for x in static_texts if episode in x or clip in x]
