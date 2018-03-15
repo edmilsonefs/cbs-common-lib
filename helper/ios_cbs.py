@@ -33,7 +33,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     already_accepted_terms = False
     element_type = '//UIA'  # iOS 9
     UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
-    previous_email_value = 'Email'
     signed_out = False
     xcuitest = False
     window_size = None
@@ -67,7 +66,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._dismiss_alert(1)
         self.goto_home()
         self.window_size = self.driver.get_window_size()
-        self.previous_email_value = 'Email'
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
@@ -703,6 +701,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def restart_from_the_beggining(self, timeout=6):
         self.click_safe(id='RESTART', timeout=timeout)
+
+    def restart_movie(self, timeout=6):
+        self.click_safe(id='RESTART MOVIE', timeout=timeout)
 
     def close_video(self):
         count = 0
@@ -2055,11 +2056,18 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # LOGIN
-    def set_sign_in_email(self, email):
-        elem = self.get_element(id=self.previous_email_value)
-        elem.clear()
-        self.send_keys(element=elem, data=email)
-        self.hide_keyboard()
+    def set_sign_in_email(self, email, field=None):
+        if field is None:
+            elem = self.get_element(id='Email')
+            elem.clear()
+            self.send_keys(element=elem, data=email)
+            self.hide_keyboard()
+            return elem
+        else:
+            field.clear()
+            self.send_keys(element=field, data=email)
+            self.hide_keyboard()
+            return field
 
     def set_sign_in_password(self, password):
         elem = self.get_element(class_name='XCUIElementTypeSecureTextField')
