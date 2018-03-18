@@ -169,6 +169,10 @@ class CommonHelper(TestlioAutomationTest):
     def close_drawer(self):
         self.back()
 
+    def close_drawer_if_opened(self):
+        if self.is_drawer_open():
+            self.close_drawer()
+
     def navigate_up(self):
         if self.uiautomator2:
             self.click(accessibility_id='Navigate up')
