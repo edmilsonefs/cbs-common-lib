@@ -844,15 +844,18 @@ class Validations(CommonHelper, CommonIOSHelper):
             else:
                 self.verify_not_exists(name='Already have an account? Sign In')
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id="Search")
-            self.verify_exists(id='We show that CBS is not authorized for you by your TV provider,')
-            self.verify_exists(id='but you can sign in to All Access to watch now.')
-            self.verify_exists(id='SIGN IN')
-            self.verify_exists(id='Take a quick tour')
-            self.verify_exists(id='Questions?')
-            self.verify_exists(id='READ OUR FAQ')
+            text_list = [
+                'Main Menu',
+                'CBSEye_white',
+                'Search',
+                'We show that CBS is not authorized for you by your TV provider,',
+                'but you can sign in to All Access to watch now.|but you can sign in to CBS All Access to watch now.',
+                'SIGN IN',
+                'Take a quick tour',
+                'Questions?',
+                'READ OUR FAQ'
+            ]
+            self.verify_in_batch(text_list)
 
     def validation_at(self, user_type="anonymous", category="All Shows"):
         if self.IS_ANDROID:
