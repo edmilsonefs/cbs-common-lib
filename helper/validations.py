@@ -241,8 +241,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_cbs_logo()
             self.verify_in_batch(['Main Menu', 'Search', 'I want to see: %s' % category])
-            self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
-            #self.verify_show_cards_exist()
+            #self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
+            self.verify_show_cards_exist()
 
     def validation_n(self):
         if self.IS_ANDROID:
