@@ -1578,6 +1578,7 @@ class CommonHelper(TestlioAutomationTest):
         raise RuntimeError('Could not find "GET..." button')
 
     def click_select_lc(self):
+        sleep(3)
         bs = self.get_elements(xpath="//android.widget.Button[@text='SELECT']")
         b0 = bs[0]
         b1 = bs[1]
@@ -1589,6 +1590,7 @@ class CommonHelper(TestlioAutomationTest):
             b0.click()
         else:
             b1.click()
+        sleep(3)
 
     def click_select_cf(self):
         bs = self.get_elements(xpath="//android.widget.Button[@text='SELECT']")
