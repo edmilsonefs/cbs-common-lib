@@ -77,6 +77,7 @@ class SignUpPage(BasePage):
 
         fn, ln = self._register_user_part_1()
         self._register_user_part_2(year)
+        sleep(2)
         self._register_user_part_3()
         self._register_user_part_4()
         self.submit_registration_form()
