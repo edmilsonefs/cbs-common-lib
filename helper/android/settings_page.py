@@ -84,8 +84,6 @@ class SettingsPage(BasePage):
             text_list_one.append('Subscribe')
         if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
             text_list_one.append('Manage Account')
-        if user_type == self.cf_subscriber:
-            text_list_one.append('Manage Account')
         if self.tablet:
             text_list_one.append('App Version')
         if self.phone:
