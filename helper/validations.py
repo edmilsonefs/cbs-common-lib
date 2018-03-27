@@ -509,6 +509,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             if not self.IS_AMAZON: #TODO skip for Amazon for a while
                 # LCS Billing Popup
                 self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
+                sleep(2)
                 self.verify_exists(name='Subscribe', timeout=5, screenshot=True)
                 if user_type == self.ex_subscriber:
                     self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
