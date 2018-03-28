@@ -715,7 +715,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='CBSAllAccessLogoWhite_274x24')
 
             if self.xcuitest:
-                self.verify_exists(xpath='//XCUIElementTypeCollectionView')
+                self.verify_exists(class_name='XCUIElementTypeCollectionView')
                 self.verify_exists(xpath='//XCUIElementTypeCollectionView/XCUIElementTypeCell[1]')
             else:
                 self.verify_exists(class_name='UIACollectionView')  # schedule
@@ -865,7 +865,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(['Main Menu', 'Movies', 'Search'])
             if self.xcuitest:
                 self.assertTrueWithScreenShot(
-                    len(self.get_elements(xpath='//XCUIElementTypeCollectionView//XCUIElementTypeCell')) >= 1,
+                    len(self.driver.find_element_by_class_name('XCUIElementTypeCollectionView').find_elements_by_class_name('XCUIElementTypeCell')) > 0,
                     msg="At least 3 Movies posters should be presented")
 
     def validation_au(self, user_type='anonymous'):
@@ -978,7 +978,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             sleep(20) # wait for video to start
             self.verify_exists_video_element(id='Done', screenshot=True)
             if self.phone:
-                self.verify_exists_video_element(xpath=
-                    '//XCUIElementTypeSlider', screenshot=False)
+                self.verify_exists_video_element(class_name='XCUIElementTypeSlider', screenshot=False)
             else:
                 self.exists_in_page_source('XCUIElementTypeSlider')
