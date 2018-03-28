@@ -960,6 +960,10 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append(':id/imgProviderLogo')
 
             self.verify_in_batch(text_list, False)
+        elif self.IS_IOS:
+            sleep(5)
+            self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]', screenshot=True)
+            self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
 
     def validation_bf(self):
         self.verify_in_batch(
