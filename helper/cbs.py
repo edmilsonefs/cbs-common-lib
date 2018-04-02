@@ -1165,20 +1165,20 @@ class CommonHelper(TestlioAutomationTest):
         try:
             if kwargs.has_key('element_css'):
                 kwargs['class_name'] = kwargs['element_css']
-                self.exists(kwargs)
+                self.exists(**kwargs)
 
             elif kwargs.has_key('element_name'):
                 kwargs['name'] = kwargs['element_name']
-                self.exists(kwargs)
+                self.exists(**kwargs)
 
             elif kwargs.has_key('element_id'):
                 kwargs['id'] = kwargs['element_id']
-                self.exists(kwargs)
+                self.exists(**kwargs)
 
             elif kwargs.has_key('id') or kwargs.has_key('name'):
-                self.exists(kwargs)
+                self.exists(**kwargs)
         except:
-            pass
+            self.event._log_to_console_log('Exception in wait_until_element_is_visible method!')
 
     def _login(self, username, password):
 
