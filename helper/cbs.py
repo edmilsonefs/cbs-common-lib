@@ -907,12 +907,18 @@ class CommonHelper(TestlioAutomationTest):
             list_episodes = self.get_elements(name='paid')
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
+
+            return True
         else:
             self._short_swipe_down(duration=3000)
             self._short_swipe_down(duration=3000)
             list_episodes = self.get_elements(name='paid')
             self.click(element=list_episodes[0])
             self.click_play_from_beginning()
+
+            return True
+
+        return False
 
     def back(self):
         self.log_info("Press Back button")
