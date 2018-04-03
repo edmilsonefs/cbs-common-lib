@@ -847,16 +847,16 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             text_list = [
                 'Main Menu',
-                'CBSEye_white',
                 'Search',
                 'We show that CBS is not authorized for you by your TV provider,',
                 'but you can sign in to All Access to watch now.|but you can sign in to CBS All Access to watch now.',
                 'SIGN IN',
                 'Take a quick tour',
-                'Questions?',
                 'READ OUR FAQ'
             ]
             self.verify_in_batch(text_list)
+            self.verify_exists(id='Questions?')
+            self.verify_exists(id='CBSEye_white')
 
     def validation_at(self, user_type="anonymous", category="All Shows"):
         if self.IS_ANDROID:
