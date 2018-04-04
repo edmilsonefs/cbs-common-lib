@@ -943,6 +943,78 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists_video_element(
                 xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
 
+    def validation_ba(self):
+        if self.IS_ANDROID:
+            self.verify_in_batch(":id/expand_button", ":id/cc_button")
+        elif self.IS_IOS:
+            pass
+
+    def validation_bb(self, mvpd=False):
+        if self.IS_ANDROID:
+            text_list = [
+                'Open navigation drawer',
+                'Live TV',
+                ':id/action_search',
+                ':id/surfaceView',
+                'Channel',
+                ':id/liveTvRecyclerView'
+            ]
+            if mvpd:
+                text_list.append(':id/imgProviderLogo')
+
+            self.verify_in_batch(text_list, False)
+            self.verify_exists(xpath="//android.widget.FrameLayout[1]")
+            self.verify_exists(xpath="//android.widget.FrameLayout[2]")
+
+    def validation_bc(self, mvpd=False):
+        if self.IS_ANDROID:
+            text_list = [
+                'Open navigation drawer',
+                'Live TV',
+                ':id/action_search',
+                ':id/surfaceView',
+                'Schedule',
+                ':id/layout_backIcon',
+                ':id/imgStationLogo',
+            ]
+            if mvpd:
+                text_list.append(':id/imgProviderLogo')
+            self.verify_in_batch(text_list, False)
+            self.verify_exists(xpath="//android.widget.FrameLayout[1]")
+
+    def validation_be(self, mvpd=False):
+        if self.IS_ANDROID:
+            text_list = [
+                'Open navigation drawer',
+                'Live TV',
+                ':id/action_search',
+                ':id/surfaceView',
+                'Schedule',
+                ':id/layout_backIcon',
+                ':id/imgStationLogo',
+            ]
+            if mvpd:
+                text_list.append(':id/imgProviderLogo')
+            self.verify_in_batch(text_list, False)
+            self.verify_exists(xpath="//android.widget.FrameLayout[1]")
+
+    def validation_bf(self):
+        if self.IS_ANDROID:
+            self.verify_in_batch(['Station Unavailable', 'Channels', 'CBS Local Station', ':id/station_logo', 'We can\'t find your local CBS station.'])
+
+    def validation_bi(self):
+        if self.IS_ANDROID:
+            text_list = [
+                'Open navigation drawer',
+                'Live TV',
+                ':id/action_search',
+                'Please accept the Terms of Use in order to watch live TV.',
+                'VIEW TERMS TO ACCEPT',
+                'Channels',
+                ':id/livetv_video_view'
+            ]
+            self.verify_in_batch(text_list, False)
+
     def validation_bj(self, mvpd=False):
         if self.IS_ANDROID:
             text_list = [
@@ -965,10 +1037,17 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]', screenshot=True)
             self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
 
-    def validation_bf(self):
-        self.verify_in_batch(
-            ['Station Unavailable', 'Channels', 'CBS Local Station', ':id/station_logo', ':id/message_content'])
-
+    def validation_bl(self):
+        if self.IS_ANDROID:
+            text_list = [
+                'Open navigation drawer',
+                'Live TV',
+                'Select Your Local Station',
+                'You can always change this',
+                'Channels',
+                'CBS Local Station',
+            ]
+            self.verify_in_batch(text_list, False)
 
     def validation_video(self):
         if self.IS_ANDROID:
