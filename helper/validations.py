@@ -502,6 +502,9 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.open_drawer_ios()
             self.click(id='Settings')
+            self.click_safe(id='Allow')
+            if not self.exists(id='Sign Out'):
+                self._short_swipe_down()
             self.verify_exists(id='Sign Out')
 
     def validation_ac(self, user_type='anonymous'):
