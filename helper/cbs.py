@@ -1240,7 +1240,8 @@ class CommonHelper(TestlioAutomationTest):
         self.click(name='Sign Out')
         self.click(id=self.com_cbs_app + ':id/signOutButton')
 
-        self.navigate_up()
+        if not self.exists(accessibility_id='Open navigation drawer'):
+            self.navigate_up()
         self.user_type = self.anonymous
 
         self.driver.implicitly_wait(60)
