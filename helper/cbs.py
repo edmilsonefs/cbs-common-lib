@@ -1284,11 +1284,11 @@ class CommonHelper(TestlioAutomationTest):
         self.go_to_debug_page()
         self.event.screenshot(self.screenshot())
         window_size_y = self.driver.get_window_size()["height"]
-        if "Nexus 7" in self.testdroid_device:
-            self.driver.tap([(450, 880)])
-            self.event.screenshot(self.screenshot())
-        else:
-            self.click(xpath=("//*[@text='Location Set']"))
+        # if "Nexus 7" in self.testdroid_device:
+        #     self.driver.tap([(450, 880)])
+        #     self.event.screenshot(self.screenshot())
+        # else:
+        self.click(xpath=("//*[@text='Location Set']"))
 
         try:
             self.driver.implicitly_wait(5)
