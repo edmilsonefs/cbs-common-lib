@@ -1003,7 +1003,9 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_bf(self):
         if self.IS_ANDROID:
-            self.verify_in_batch(['Station Unavailable', 'Channels', 'CBS Local Station', ':id/station_logo', 'We can\'t find your local CBS station.'])
+            self.verify_in_batch(['Station Unavailable', 'Channels', 'CBS Local Station', ':id/station_logo'])
+        if self.exists(name="We can't find your local CBS station."):
+            self.verify_exists(name="We can't find your local CBS station.")
 
     def validation_bi(self):
         if self.IS_ANDROID:
@@ -1024,10 +1026,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                 'Open navigation drawer',
                 'Live TV',
                 ':id/action_search',
-                'Schedule',
+                'Channels',
                 ':id/controlsContainer',
-                ':id/imgStationLogo',
-                ':id/txtShowName',
                 ':id/liveTvRecyclerView'
 
             ]
