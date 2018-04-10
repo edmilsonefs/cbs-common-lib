@@ -1506,7 +1506,7 @@ class CommonHelper(TestlioAutomationTest):
             e = self.get_element(xpath="//android.widget.Button[@text='WATCH EPISODE']")
 
         if e:
-            e.click()
+            self.click_by_location(e)
             self.accept_popup_video_click()
 
         # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
