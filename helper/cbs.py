@@ -425,8 +425,8 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
                                                                            timeout=10):
             if self.exists(class_name='android.widget.Button', timeout=10):
-                bs = self.get_elements(class_name="android.widget.Button")
-                bs[0].click()
+                continue_button = self.get_element(xpath="//*[@text='Continue' or @content-desc='Continue']")
+                continue_button.click()
                 sleep(4)
 
             else:
