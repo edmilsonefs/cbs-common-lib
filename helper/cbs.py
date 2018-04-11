@@ -1305,13 +1305,15 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, 600, 500, window_size_y - 400)  # Nexus 7
             else:
                 if self.phone:
-                    while not self.exists(name=city):
+                    count = 0
+                    while not self.exists(name=city) and count < 10:
                         items = self.get_elements(id='android:id/text1')
-                        origin = items[1]
-                        destination = items[len(items) - 1]
+                        origin = items[len(items) - 1]
+                        destination = items[1]
                         TouchAction(self.driver).press(origin).move_to(destination).perform()
                         #self.driver.drag_and_drop(origin, destination)
                         self.event.screenshot(self.screenshot())
+                        count += 1
                 else:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
