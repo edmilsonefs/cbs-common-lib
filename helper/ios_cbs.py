@@ -261,7 +261,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def goto_sign_out(self, sign_out=True):
         self.goto_settings()
+        sleep(2)
         if sign_out:
+            self.swipe_down(1, 400)
             self.sign_out()
             self.goto_home()
 
