@@ -1239,7 +1239,7 @@ class CommonHelper(TestlioAutomationTest):
         self._short_swipe_down(1000, side='left')
         self._short_swipe_down(1000, side='left')
         self.click(name='Sign Out')
-        self.click(id=self.com_cbs_app + ':id/signOutButton')
+        self.click(id='signOutButton')
 
         if not self.exists(accessibility_id='Open navigation drawer'):
             self.navigate_up()
