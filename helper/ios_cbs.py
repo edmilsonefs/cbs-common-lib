@@ -256,12 +256,15 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
         #self.click(xpath="//*[@name='Sign Out']")
-        if self.click_safe(accessibility_id='Sign Out', timeout=5):
+        self.swipe_down(1, 400)
+        if self.click_safe(accessibility_id='Sign Out', timeout=7):
             self.signed_out = True
 
     def goto_sign_out(self, sign_out=True):
         self.goto_settings()
+        sleep(2)
         if sign_out:
+            self.swipe_down(1, 400)
             self.sign_out()
             self.goto_home()
 
@@ -1735,13 +1738,13 @@ class CommonIOSHelper(TestlioAutomationTest):
             return self.exists(class_name='XCUIElementTypeKeyboard', timeout=2)
         else:
             return self.exists(xpath='//UIAKeyboard', timeout=2)
-    
+
     def page_source_to_td_log(self):
         """Getting page source and add it to the TD calabash log"""
         to_log = self.driver.page_source
         good_log = to_log.encode('utf-8')
         self.event._log_info(self.event._event_data(str(good_log)))
-    
+
     def convert_season_episode(self, se_input):
         """
         Converts back/forth between string "S4 Ep22" and tuple (4,22) representation of the Season and Episode string
@@ -2087,7 +2090,11 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def finish_login(self, click_continue=True):
         # Complete registration if required
-
+        self.safe_screenshot()
+        sleep(3)
+        self._accept_alert(1)
+        self.safe_screenshot()
+        # TODO The above steps are for "allow access" popup bug workaround.
         if self.exists(id='CONTINUE', timeout=10):
             checkboxes = self.get_elements(xpath="//XCUIElementTypeButton[not(@name)]")
             if len(checkboxes) > 0:

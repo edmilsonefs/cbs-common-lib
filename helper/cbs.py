@@ -9,6 +9,7 @@ from smtplib import SMTP
 from time import sleep, time
 from xml.etree import ElementTree
 
+from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest
@@ -425,8 +426,8 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(class_name='android.webkit.WebView') or self.exists(name='Would you like to continue?',
                                                                            timeout=10):
             if self.exists(class_name='android.widget.Button', timeout=10):
-                bs = self.get_elements(class_name="android.widget.Button")
-                bs[0].click()
+                continue_button = self.get_element(xpath="//*[@text='Continue' or @content-desc='Continue']")
+                continue_button.click()
                 sleep(4)
 
             else:
@@ -1238,7 +1239,7 @@ class CommonHelper(TestlioAutomationTest):
         self._short_swipe_down(1000, side='left')
         self._short_swipe_down(1000, side='left')
         self.click(name='Sign Out')
-        self.click(id=self.com_cbs_app + ':id/signOutButton')
+        self.click(id='signOutButton')
 
         if not self.exists(accessibility_id='Open navigation drawer'):
             self.navigate_up()
@@ -1304,14 +1305,15 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, 600, 500, window_size_y - 400)  # Nexus 7
             else:
                 if self.phone:
-                    origin = self.get_element(name='Philadelphia')
-                    destination = self.get_element(name='Denver KCNC')
-                    self.driver.drag_and_drop(origin, destination)
-                    self.event.screenshot(self.screenshot())
-                    origin = self.get_element(name='College Station, TX KBTX')
-                    destination = self.get_element(name='Boston')
-                    self.driver.drag_and_drop(origin, destination)
-                    self.event.screenshot(self.screenshot())
+                    count = 0
+                    while not self.exists(name=city) and count < 10:
+                        items = self.get_elements(id='android:id/text1')
+                        origin = items[len(items) - 1]
+                        destination = items[1]
+                        TouchAction(self.driver).press(origin).move_to(destination).perform()
+                        #self.driver.drag_and_drop(origin, destination)
+                        self.event.screenshot(self.screenshot())
+                        count += 1
                 else:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
@@ -1503,10 +1505,10 @@ class CommonHelper(TestlioAutomationTest):
         """
         e = self.get_element(name='Watch Episode')
         if not e:
-            e = self.get_element(xpath="//android.widget.Button[@text='WATCH EPISODE']")
+            e = self.get_element(accessibility_id="WATCH EPISODE")
 
         if e:
-            e.click()
+            self.click(element=e)
             self.accept_popup_video_click()
 
         # # The problem is this might bring up a "Resume Watching" popup but if we keep tapping down the screen it disappears.
