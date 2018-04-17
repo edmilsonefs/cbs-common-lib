@@ -2120,6 +2120,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 try:
                     self.click(id='CONTINUE')
                     sleep(3)
+                    self.safe_screenshot()
                 except:
                     self.tap_element(xpath="//*[./*[@name='CONTINUE']]//*[1]")
                     self.click(accessibility_id='CONTINUE')
