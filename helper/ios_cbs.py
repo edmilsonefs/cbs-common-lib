@@ -256,7 +256,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.execute_script('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"].tap()')
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
         #self.click(xpath="//*[@name='Sign Out']")
-        self.swipe_down(1, 400)
+        self.swipe_down(5, 400)
         if self.click(accessibility_id='Sign Out', timeout=7):
             self.signed_out = True
 
