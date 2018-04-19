@@ -135,19 +135,20 @@ class SettingsPage(BasePage):
                 pass
 
     def sign_out(self):
-        self.goto_settings()
+        self.settings_page.goto_settings()
         if self.phone:
-            origin = self.btn_video_services()
-            destination = self.btn_send_feedback()
-            self.driver.drag_and_drop(origin, destination)
+            self.swipe_down_if_element_is_not_visible(name="Debug", long_swipe=True)
             self.safe_screenshot()
-            self.swipe_down_if_element_is_not_visible(name='Sign Out')
+        try:
+            self.click_button_by_location('Sign Out')
             self.safe_screenshot()
-        self.click(name='Sign Out')
-        if self.tablet:
+            self.click_safe(element=self.settings_page.btn_sign_out())
+            self.safe_screenshot()
+        except:
             self.click_safe(name='Sign Out')
-        self.safe_screenshot()
-        self.click(element=self.btn_sign_out())
-        self.safe_screenshot()
+            # self.safe_screenshot()
+            self.click_safe(element=self.settings_page.btn_sign_out())
+            # self.safe_screenshot()
         #  To go back to home page
-        self.click(element=self.btn_navigate_up())
+        self.click_safe(element=self.settings_page.btn_navigate_up())
+        sleep(5)
