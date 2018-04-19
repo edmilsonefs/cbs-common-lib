@@ -2,7 +2,7 @@ import json
 from time import sleep
 import subprocess
 import os
-from pip._vendor import requests
+import requests
 
 """
 Usage:
