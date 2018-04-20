@@ -1910,7 +1910,8 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_first_search_result(self):
         # this is how we did it in 2.9
-        self.tap(.25, .25, 'first search result')
+        shows = self.get_elements(id='showImage')
+        self.click(element=shows[0])
 
     def click_second_search_result(self):
         # this is how we did it in 2.9
