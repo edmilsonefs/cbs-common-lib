@@ -1910,7 +1910,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_first_search_result(self):
         # this is how we did it in 2.9
-        shows = self.get_elements(id='showImage')
+        shows = self.get_elements(id='movieImage')
         self.click(element=shows[0])
 
     def click_second_search_result(self):
