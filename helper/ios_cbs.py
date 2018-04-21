@@ -257,8 +257,13 @@ class CommonIOSHelper(TestlioAutomationTest):
         # self.click(element=self.find_by_uiautomation('target.frontMostApp().mainWindow().tableViews()[0].cells()["Sign Out"]'))
         #self.click(xpath="//*[@name='Sign Out']")
         self.swipe_down(5, 400)
-        if self.click(accessibility_id='Sign Out', timeout=7):
-            self.signed_out = True
+        counter = 0
+        while counter < 10:
+            self.click_safe(accessibility_id='Sign Out', timeout=7)
+            counter += 1
+            if not self.exists(accessibility_id='Sign Out', timeout=7):
+                self.signed_out = True
+                break
 
     def goto_sign_out(self, sign_out=True):
         self.goto_settings()
