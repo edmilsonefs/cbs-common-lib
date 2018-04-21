@@ -1243,11 +1243,10 @@ class CommonHelper(TestlioAutomationTest):
         self.log_info("Sign out done")
         self.safe_screenshot()
 
-        if not self.exists(accessibility_id='Open navigation drawer'):
-            self.navigate_up()
+        self.back()
         self.user_type = self.anonymous
 
-        self.driver.implicitly_wait(60)
+        self.driver.implicitly_wait(5)
 
     def click_already_have_account_sign_in(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
