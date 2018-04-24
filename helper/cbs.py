@@ -232,6 +232,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1)
 
     def goto_home(self):
+        self.back_while_open_drawer_is_visible()
         self.open_drawer()
         self._go_to('Home')
 
@@ -1232,20 +1233,20 @@ class CommonHelper(TestlioAutomationTest):
         self.goto_home()
 
     def sign_out(self):
-        if not self.click_safe(name="Settings"):
-            self.back_while_open_drawer_is_visible()
-            self.goto_settings()
+        self.back_while_open_drawer_is_visible()
+        self.goto_settings()
         sleep(3)
         self._short_swipe_down(1000, side='left')
         self._short_swipe_down(1000, side='left')
         self.click(name='Sign Out')
         self.click(id='signOutButton')
+        self.log_info("Sign out done")
+        self.safe_screenshot()
 
-        if not self.exists(accessibility_id='Open navigation drawer'):
-            self.navigate_up()
+        self.back()
         self.user_type = self.anonymous
 
-        self.driver.implicitly_wait(60)
+        self.driver.implicitly_wait(5)
 
     def click_already_have_account_sign_in(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
@@ -1910,7 +1911,8 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_first_search_result(self):
         # this is how we did it in 2.9
-        self.tap(.25, .25, 'first search result')
+        shows = self.get_elements(id='movieImage')
+        self.click(element=shows[0])
 
     def click_second_search_result(self):
         # this is how we did it in 2.9
