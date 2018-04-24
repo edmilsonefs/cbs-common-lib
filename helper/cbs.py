@@ -1243,7 +1243,9 @@ class CommonHelper(TestlioAutomationTest):
         self.log_info("Sign out done")
         self.safe_screenshot()
 
-        self.back()
+        if not self.exists(accessibility_id='Open navigation drawer'): #don't delete until scenarios are fixed accordingly.
+        # Test proceed to device home screen because of self.back() in some scenarios (user_account sign_in tests). 
+            self.back() #this call violates single responsibility principle
         self.user_type = self.anonymous
 
         self.driver.implicitly_wait(5)
