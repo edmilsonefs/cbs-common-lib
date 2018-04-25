@@ -2213,6 +2213,12 @@ class CommonIOSHelper(TestlioAutomationTest):
         for _ in range(0, count):
             self.swipe(window_size_x / 2, window_size_y - 100, window_size_x / 2, window_size_y - 100 - distance)
 
+    def swipe_up(self, count, distance):
+        window_size_y = self.window_size["height"]
+        window_size_x = self.window_size["width"]
+        for _ in range(0, count):
+            self.swipe(window_size_x / 2, window_size_y - 100 - distance, window_size_x / 2, window_size_y - 100)
+
     def short_swipe_down_if_element_is_not_visible(self, id=None, class_name=None):
         """
         function that search for element, if element is not found swipe the page until element is found on screen
