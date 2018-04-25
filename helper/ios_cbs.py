@@ -2277,12 +2277,12 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.click(xpath='//XCUIElementTypeOther[@name="Optimum Online"]/XCUIElementTypeOther[7]/XCUIElementTypeImage')
                 self.event.screenshot(self.screenshot())
             elif self.tablet:
-                email_field = self.driver._find_element(class_name='XCUIElementTypeTextField')
+                email_field = self._find_element(class_name='XCUIElementTypeTextField')
                 self.click(email_field)
                 email_field.clear()
                 self.send_keys(element=email_field, data=username)
 
-                password_field = self.driver._find_element(class_name='XCUIElementTypeSecureTextField')
+                password_field = self._find_element(class_name='XCUIElementTypeSecureTextField')
                 self.click(password_field)
                 password_field.clear()
                 self.send_keys(element=password_field, data=password)
