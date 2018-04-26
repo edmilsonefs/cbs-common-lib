@@ -358,21 +358,23 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
-            if user_type in [self.anonymous, self.registered]:
-                self.verify_in_batch(['LIMITED COMMERCIALS'])
-            if user_type == self.registered:
-                self.verify_not_exists(name='SELECT', timeout=10)
-            elif user_type in [self.subscriber, self.trial]:
-                self.verify_in_batch(['COMMERCIAL FREE'])
-                self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'UPGRADE')]")
-            elif user_type == self.cf_subscriber:
-                self.verify_in_batch(['COMMERCIAL FREE'])
-            else:
-                if user_type == self.ex_subscriber:
-                    self.verify_in_batch(['LIMITED COMMERCIALS', 'COMMERCIAL FREE', 'SELECT'])
-                    self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'Only $5.99/month')]", timeout=20)
-                    self.verify_not_exists(id='GET STARTED', timeout=10)
-                    self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]", timeout=10)
+            self.verify_in_batch(['Sign In', 'TRY 1 WEEK FREE', 'Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content'])
+            # commenting due to last changes in subscribe page
+            # if user_type in [self.anonymous, self.registered]:
+            #     self.verify_in_batch(['LIMITED COMMERCIALS'])
+            # if user_type == self.registered:
+            #     self.verify_not_exists(name='SELECT', timeout=10)
+            # elif user_type in [self.subscriber, self.trial]:
+            #     self.verify_in_batch(['COMMERCIAL FREE'])
+            #     self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'UPGRADE')]")
+            # elif user_type == self.cf_subscriber:
+            #     self.verify_in_batch(['COMMERCIAL FREE'])
+            # else:
+            #     if user_type == self.ex_subscriber:
+            #         self.verify_in_batch(['LIMITED COMMERCIALS', 'COMMERCIAL FREE', 'SELECT'])
+            #         self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'Only $5.99/month')]", timeout=20)
+            #         self.verify_not_exists(id='GET STARTED', timeout=10)
+            #         self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]", timeout=10)
 
     def validation_w(self, error_number):
         if self.IS_ANDROID:
