@@ -38,6 +38,9 @@ class ShowsPage(BasePage):
     def lst_shows_icons(self, timeout=10):
         return self.get_elements(timeout=timeout, id=self.com_cbs_app + ':id/showImage')
 
+    def click_first_show(self):
+        self.click(id='showImage')
+
     def validate_page(self, category='All Shows'):
         text_list = [
             'Open navigation drawer',
