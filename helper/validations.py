@@ -576,17 +576,21 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')  # cbs icon
-            self.verify_exists(id='Live TV')
-            self.verify_exists(id='Two ways to watch Live TV')
-            self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
-            self.verify_exists(id='Stream Live TV plus thousands of full episodes on demand.', timeout=30)
-            self.verify_exists(
-                id='Take the tour')  # TODO Take the tour on Simulator, in Spec - Take a tour  (in spec for validation_u there is take the tour). Need clarification
-            self.verify_exists(id='OR')
-            self.verify_exists(id='TV PROVIDER')
-            self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
-            self.verify_exists(id='VERIFY NOW')
-            self.verify_exists(id='Learn more')
+            #self.verify_exists(id='Live TV')
+            #self.verify_exists(id='Two ways to watch Live TV')
+            #self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
+            if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
+                if self.phone:
+                    self.verify_exists(id='Stream Live TV + 10,000 Episodes On Demand Across Devices', timeout=30)
+                else:
+                    self.verify_exists(id='Stream Live TV with NFL Games + 10,000 Episodes On Demand Across Devices', timeout=30)
+                self.verify_exists(
+                    id='Take the tour')  # TODO Take the tour on Simulator, in Spec - Take a tour  (in spec for validation_u there is take the tour). Need clarification
+            #self.verify_exists(id='OR')
+            #self.verify_exists(id='TV PROVIDER')
+            #self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
+            #self.verify_exists(id='VERIFY NOW')
+            #self.verify_exists(id='Learn more')
             # self.swipe_down_and_verify_if_exists(id='Where is Live TV Available')
             # self.swipe_down_and_verify_if_exists(id='Live TV is available for over 90% of the country and growing.')
             # self.swipe_down_and_verify_if_exists(id='CHECK AVAILABILITY')
