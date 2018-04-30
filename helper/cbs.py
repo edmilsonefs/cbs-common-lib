@@ -1379,8 +1379,9 @@ class CommonHelper(TestlioAutomationTest):
         self.click_allow_popup()
 
     def select_optimum_from_provider_page(self):
-        self.driver.find_element_by_id(id_=self.com_cbs_app + ':id/ivProviderLogo')
-        self.click(id=self.com_cbs_app + ':id/ivProviderLogo')
+        lst_providers = self.get_elements(timeout=10, id=self.com_cbs_app + ':id/ivProviderLogo')
+        optimum_provider = lst_providers[5]
+        self.click(optimum_provider)
         self.click_allow_popup()
 
     def optimun_sign_in(self, user, password):
