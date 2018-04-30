@@ -358,7 +358,14 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
-            self.verify_in_batch(['Sign In', 'TRY 1 WEEK FREE', 'Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content'])
+            text_list = ['Sign In', 'Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content']
+            if user_type == self.ex_subscriber:
+                text_list.append('GET STARTED')
+            if user_type in [self.anonymous, self.registered]:
+                text_list.append('TRY 1 WEEK FREE')
+            if user_type in [self.cf_subscriber, self.trial, self.subscriber]:
+                text_list.append('UPGRADE')
+            self.verify_in_batch(text_list)
             # commenting due to last changes in subscribe page
             # if user_type in [self.anonymous, self.registered]:
             #     self.verify_in_batch(['LIMITED COMMERCIALS'])
