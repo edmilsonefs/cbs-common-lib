@@ -366,13 +366,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.driver.find_element_by_accessibility_id('Cancel').click()
 
     def back(self):
-        sleep(3)
-        try:
-            ta = TouchAction(self.driver)
-            ta.press(x=35, y=25).release().perform()
-            self.log_info("Press back")
-        except:
-            self.log_info("Fail to press back")
+        self.go_back()
 
     def go_back(self):
         try:
