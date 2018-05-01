@@ -373,10 +373,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             elem = self.exists(id='BackArrow_white', timeout=10)
             if not elem:
                 try:
-                    if self.phone:
-                        elem = self.get_element(xpath="//*[@name='Back']", timeout=10)
-                    else:
-                        elem = self.get_element(xpath="//*[@name='Back ']", timeout=10)
+                    elem = self.get_element(id="Back", timeout=10)
                 except:
                     pass
 
