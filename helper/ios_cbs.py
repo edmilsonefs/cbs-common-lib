@@ -369,32 +369,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.go_back()
 
     def go_back(self):
-        try:
-            elem = self.exists(id='BackArrow_white', timeout=10)
-            if not elem:
-                try:
-                    if self.phone:
-                        elem = self.get_element(id="Back", timeout=10)
-                    else:
-                        elem = self.get_element(id="Back ", timeout=10)
-                except:
-                    pass
-
-
-            if self.xcuitest:
-                elem.click() # add, if below element loc click is removed.
-            else:
-
-            # stupid bug where the < button is offscreen, but the hamburger is in its place (but invisible, so we
-            # use click_by_location)
-                loc = elem.location
-                if loc['x'] < 0 or loc['y'] < 0:
-                    elem = self._find_element(id='Main Menu')
-                    self.click_by_location(elem, side='middle')
-                else:
-                    elem.click()
-        except:
-            pass
+        if self.exists_and_visible(id='Back', timeout=10):
+            self.click_safe(id='Back', timeout=10)
 
     def _open_drawer(self):
         number_of_tries = 0
