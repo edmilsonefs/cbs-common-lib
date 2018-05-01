@@ -128,11 +128,11 @@ class SettingsPage(BasePage):
             self.log_info('Optimum was not connected')
         sleep(5)
         self.navigate_up()
-        if self.IS_AMAZON:
-            try:
-                self.click(element=self.btn_navigate_up())
-            except:
-                pass
+        # if self.IS_AMAZON:
+        #     try:
+        #         self.click_safe(element=self.btn_navigate_up())
+        #     except:
+        #         pass
 
     def sign_out(self):
         self.settings_page.goto_settings()
