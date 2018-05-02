@@ -1033,13 +1033,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             ]
             self.verify_in_batch(text_list, False)
 
-    def validation_bj(self, mvpd=False):
+    def validation_bj(self, user_type='anonymous', mvpd=False):
         if self.IS_ANDROID:
             text_list = [
                 'Open navigation drawer',
                 'Live TV',
                 ':id/action_search',
-                'Channels',
                 ':id/controlsContainer',
                 ':id/liveTvRecyclerView'
 
@@ -1048,6 +1047,10 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append(':id/imgProviderLogo')
 
             self.verify_in_batch(text_list, False)
+            if user_type in [self.registered]:
+                self.verify_exists(name='Schedule')
+            else:
+                self.verify_exists(name='Channels')
         elif self.IS_IOS:
             sleep(5)
             self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]', screenshot=True)
