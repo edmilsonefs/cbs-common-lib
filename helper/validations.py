@@ -609,7 +609,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             #        'states that the program is currently not available.')
             if user_type == self.anonymous:
                 self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
-                self.verify_exists(id='Already have an account? Sign In')
+                #self.verify_exists(id='Already have an account? Sign In')
 
             if user_type == self.registered:
                 self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
