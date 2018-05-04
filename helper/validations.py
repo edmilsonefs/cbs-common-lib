@@ -165,7 +165,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id=self.com_cbs_app + ":id/imgThumbnail")
                 self.verify_exists(name='My CBS')
                 self.verify_exists(id=self.com_cbs_app + ":id/showImage")
-                
+
             self.swipe_down_and_verify_if_exists(name="Primetime Episodes")
             counter = 0
             while not self.exists(name="Late Night Episodes") and counter < 10:
@@ -292,9 +292,9 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.verify_back_button(screenshot=True)
             self.verify_search_text()
-              
+
             # todo: Check black background is shown
-        
+
             # need other implementation to check if keyboard is displayed
             # self.assertTrueWithScreenShot(self.is_keyboard_displayed(), screenshot=True,
             #                               msg="Keyboard SHOULD be displayed")
@@ -613,11 +613,11 @@ class Validations(CommonHelper, CommonIOSHelper):
 
             if user_type == self.registered:
                 self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
-                self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
+                # self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
 
             if user_type == self.ex_subscriber:
                 self.verify_exists(id='GET STARTED')
-                self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
+                # self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
                 self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
     def validation_ah(self):
