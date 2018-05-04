@@ -579,8 +579,10 @@ class Validations(CommonHelper, CommonIOSHelper):
             #self.verify_exists(id='Live TV')
             #self.verify_exists(id='Two ways to watch Live TV')
             #self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
+
             if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-                self.verify_exists(id='Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content', timeout=30)
+                text_list = ['Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content', '(GET STARTED|TRY 1 WEEK FREE)']
+                self.verify_in_batch(text_list)
             #self.verify_exists(id='OR')
             #self.verify_exists(id='TV PROVIDER')
             #self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
@@ -602,18 +604,18 @@ class Validations(CommonHelper, CommonIOSHelper):
             #        'We are continuing to work towards offering more live programming. In the meantime,' /
             #        'when a program is not available to you via CBS All Access, you will see a message that' /
             #        'states that the program is currently not available.')
-            if user_type == self.anonymous:
-                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
-                #self.verify_exists(id='Already have an account? Sign In')
+            # if user_type == self.anonymous:
+            #     self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+            #     #self.verify_exists(id='Already have an account? Sign In')
 
-            if user_type == self.registered:
-                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
-                # self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
+            # if user_type == self.registered:
+            #     self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+            #     # self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
 
-            if user_type == self.ex_subscriber:
-                self.verify_exists(id='GET STARTED')
-                # self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
-                self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+            # if user_type == self.ex_subscriber:
+            #     self.verify_exists(id='GET STARTED')
+            #     # self.verify_not_exists(id='Already have CBS ALL ACCESS? Sign In')
+            #     self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
     def validation_ah(self):
         if self.IS_ANDROID:
