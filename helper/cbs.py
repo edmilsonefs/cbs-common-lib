@@ -958,14 +958,13 @@ class CommonHelper(TestlioAutomationTest):
             the_timeout = 8
 
         if self.uiautomator2:
-            while not self.exists(
-                    element=self.get_element(timeout=the_timeout, accessibility_id='Open navigation drawer')):
+            while not self.exists(timeout=the_timeout, accessibility_id='Open navigation drawer'):
                 self.back()
                 counter += 1
                 if counter > 10:
                     break
         else:
-            while not self.exists(element=self.get_element(timeout=the_timeout, id='Open navigation drawer')):
+            while not self.exists(timeout=the_timeout, id='Open navigation drawer'):
                 self.back()
                 counter += 1
                 if counter > 10:
@@ -1364,7 +1363,7 @@ class CommonHelper(TestlioAutomationTest):
             self.event.screenshot(self.screenshot())
         except:
             self.log_info('Optimum was not connected')
-        self.back()
+        #self.back_while_open_drawer_is_visible()
         if self.IS_AMAZON:
             try:
                 self.click(element=self.settings_page.btn_navigate_up())
