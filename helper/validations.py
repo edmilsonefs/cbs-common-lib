@@ -580,12 +580,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             #self.verify_exists(id='Two ways to watch Live TV')
             #self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
             if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-                if self.phone:
-                    self.verify_exists(id='Stream Live TV + 10,000 Episodes On Demand Across Devices', timeout=30)
-                else:
-                    self.verify_exists(id='Stream Live TV with NFL Games + 10,000 Episodes On Demand Across Devices', timeout=30)
-                self.verify_exists(
-                    id='Take the tour')  # TODO Take the tour on Simulator, in Spec - Take a tour  (in spec for validation_u there is take the tour). Need clarification
+                self.verify_exists(id='Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content', timeout=30)
             #self.verify_exists(id='OR')
             #self.verify_exists(id='TV PROVIDER')
             #self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
