@@ -1258,31 +1258,11 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # GET WRAPPERS
 
-    def _isIntInStr(self, item):
-
-        episode = ' Episodes'
-        clip = ' Clip'
-        index = -1
-        if episode in item:
-            index = item.find(episode)
-        else:
-            index = item.find(clip)
-
-        target = item[0: index]
-        return target.isdigit()
 
     def get_show_cards(self):
 
-        episode = ' Episodes'
-        clip = ' Clip'
-
         container = self.get_element(accessibility_id='PosterViewController')
-        static_text_elements = container.find_elements_by_class_name('XCUIElementTypeStaticText')
-        static_texts = [x.text for x in static_text_elements if x.text is not None]
-        show_cards = [x for x in static_texts if episode in x or clip in x]
-
-        #Currently we can see also primetime episodes, etc in page source.
-        show_cards = [x for x in show_cards if self._isIntInStr(x)]
+        show_cards = container.find_elements_by_class_name('XCUIElementTypeImage')
 
         return show_cards
 
