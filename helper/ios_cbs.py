@@ -157,6 +157,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def logout(self, safe=False):
         self.goto_settings()
+        self.short_swipe_down()
         if safe:
             self.click_safe(id='Sign Out', timeout=6)
         else:
