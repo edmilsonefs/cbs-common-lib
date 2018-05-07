@@ -51,7 +51,7 @@ class ShowsPage(BasePage):
             category,
             'showImage'
             ]
-        self.verify_in_batch(text_list, False)
+        self.verify_in_batch(text_list, screenshot=True)
 
     def validate_all_shows_dropdown_menu(self):
         text_list = [
@@ -64,5 +64,5 @@ class ShowsPage(BasePage):
             'News',
             'Classics'
             ]
-        self.verify_in_batch(text_list, False)
+        self.verify_in_batch(text_list, screenshot=True)
 
