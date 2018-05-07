@@ -855,8 +855,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id=self.com_cbs_app + ':id/btnTryOneWeekFree')
             if user_type == self.anonymous:
                 self.verify_exists(name='Already have an account? Sign In')
-            else:
-                self.verify_not_exists(name='Already have an account? Sign In')
+            # else:
+            #     self.verify_not_exists(name='Already have an account? Sign In')
         elif self.IS_IOS:
             text_list = [
                 'Main Menu',
