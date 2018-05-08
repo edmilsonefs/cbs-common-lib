@@ -1069,6 +1069,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.accept_popup_video_click()
             self.click_play_from_beginning()
+            self.safe_screenshot()
             self.verify_exists(element=self.video_page_android.video_player_screen(), readable_name="Video player screen", screenshot=True)
             self.back()
         elif self.IS_IOS:
