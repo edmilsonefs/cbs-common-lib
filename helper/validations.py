@@ -555,7 +555,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ae(self, mvpd=False):
         if self.IS_ANDROID:
             # cbs logo
-            self.accept_popup_video_click()
+            # self.accept_popup_video_click()
             self.verify_in_batch('Channels', ':id/controlsContainer', ':id/station_logo', ':id/liveTvRecyclerView')
         elif self.IS_IOS:
             # self.verify_exists(id="Search")
