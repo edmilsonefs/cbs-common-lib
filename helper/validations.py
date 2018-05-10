@@ -839,7 +839,7 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_as(self, user_type='anonymous'):
         if self.IS_ANDROID:
             self.click_allow_popup()
-            self.verify_exists(name='Open navigation drawer', screenshot=True)
+            self.verify_exists(name='Open navigation drawer', strict=True, screenshot=True)
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
