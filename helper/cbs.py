@@ -677,6 +677,7 @@ class CommonHelper(TestlioAutomationTest):
                 self.click_safe(xpath="//*[@text='Allow']", timeout=7)
                 self.click_safe(name="Allow", timeout=7)
                 self.click_safe(accessibility_id="Allow", timeout=7)
+                self.safe_screenshot()
                 break
             except:
                 pass
@@ -686,8 +687,6 @@ class CommonHelper(TestlioAutomationTest):
                 self.get_element(name="Enable", timeout=10).click()
             elif self.get_element(name="ENABLE", timeout=10):
                 self.get_element(name="ENABLE", timeout=10).click()
-
-        self.safe_screenshot()
 
     def click_by_location(self, elem, msg=None, **kwargs):
         """
