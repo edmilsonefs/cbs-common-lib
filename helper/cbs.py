@@ -675,12 +675,12 @@ class CommonHelper(TestlioAutomationTest):
         for i in range(2):
             try:
                 self.click_safe(xpath="//*[@text='Allow']", timeout=7)
-                self.click_safe(name="Allow", timeout=7)
-                self.click_safe(accessibility_id="Allow", timeout=7)
                 self.safe_screenshot()
                 break
             except:
+                self.safe_screenshot()
                 pass
+        self.safe_screenshot()
 
         if self.IS_AMAZON:
             if self.get_element(name="Enable", timeout=10):
