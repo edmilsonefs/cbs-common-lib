@@ -843,7 +843,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")
             self.verify_exists(id=self.com_cbs_app + ':id/action_search')
-            self.verify_exists(name='We show that CBS is not authorized for you by your TV provider', strict=True, screenshot=True)
+            self.verify_exists(name='We show that CBS is not authorized for you by your TV provider')
             self.verify_exists(name='Watch Live TV')
             self.verify_exists(name='Over 8,500 Episodes on Demand')
             self.verify_exists(name='Take A Quick Tour')
