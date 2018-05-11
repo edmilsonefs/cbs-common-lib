@@ -695,31 +695,39 @@ class CommonIOSHelper(TestlioAutomationTest):
                 count += 1
 
     def video_done_button(self, try_times=3):
-        count = 0
+        if self.phone:
+            count = 0
 
-        self.safe_screenshot()
-        while count < try_times:
-            self.click_safe(id="Done", timeout=6)
-            try:
-                ta = TouchAction(self.driver)
-                ta.press(x=100, y=100).release().perform()
-            except:
-                pass
             self.safe_screenshot()
-            try:
-                self.click(id="Done", timeout=6)
-            except:
+            while count < try_times:
+                self.click_safe(id="Done", timeout=6)
                 try:
                     ta = TouchAction(self.driver)
                     ta.press(x=100, y=100).release().perform()
                 except:
                     pass
-                self.click_safe(id="Done", timeout=6)
-            self.log_info("End of stream")
-            self.safe_screenshot()
-            if self.exists(id='Search', timeout=7):
-                break
-            count += 1
+                self.safe_screenshot()
+                try:
+                    self.click(id="Done", timeout=6)
+                except:
+                    try:
+                        ta = TouchAction(self.driver)
+                        ta.press(x=100, y=100).release().perform()
+                    except:
+                        pass
+                    self.click_safe(id="Done", timeout=6)
+                self.log_info("End of stream")
+                self.safe_screenshot()
+                if self.exists(id='Search', timeout=7):
+                    break
+                count += 1
+
+            else:
+                ta = TouchAction(self.driver)
+                ta.press(x=100, y=100).release().perform()
+                sleep(1)
+                ta = TouchAction(self.driver)
+                ta.press(x=10, y=10).release().perform()
 
     def stop_video(self):
         try:
