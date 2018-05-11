@@ -356,6 +356,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_v(self, user_type="anonymous"):
         if self.IS_ANDROID:
+            self.click_allow_popup()
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
             text_list = ['Sign In', 'Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content']
