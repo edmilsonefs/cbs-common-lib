@@ -723,6 +723,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 count += 1
 
             else:
+                sleep(5)
                 ta = TouchAction(self.driver)
                 ta.press(x=100, y=100).release().perform()
                 sleep(1)
