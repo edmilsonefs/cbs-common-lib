@@ -724,11 +724,12 @@ class CommonIOSHelper(TestlioAutomationTest):
 
             else:
                 sleep(5)
-                ta = TouchAction(self.driver)
-                ta.press(x=100, y=100).release().perform()
-                sleep(1)
-                ta = TouchAction(self.driver)
-                ta.press(x=10, y=10).release().perform()
+                while not (self.exists(id='Main Menu') or self.exists(id='Back')):
+                    ta = TouchAction(self.driver)
+                    ta.press(x=100, y=100).release().perform()
+                    sleep(1)
+                    ta.press(x=10, y=10).release().perform()
+                    sleep(5)
 
     def stop_video(self):
         try:
