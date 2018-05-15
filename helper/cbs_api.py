@@ -125,9 +125,10 @@ class CBSAPI(object):
                         #   We just want:
                         #   '8/3/2016'
                         temp_ep_title = node_item.find('{http://xml.cbs.com/field}Label').text
-                        if '(SAP) - ' in temp_ep_title:
-                            temp_ep_title = temp_ep_title[len('(SAP) - '):]
-                        show_dict['episode_title'] = temp_ep_title
+                        if temp_ep_title is not None:
+                            if '(SAP) - ' in temp_ep_title:
+                                temp_ep_title = temp_ep_title[len('(SAP) - '):]
+                            show_dict['episode_title'] = temp_ep_title
 
                     # PrimaryCategoryName looks like:
                     #   'Late Night/Late Late Show/Full Episodes'
