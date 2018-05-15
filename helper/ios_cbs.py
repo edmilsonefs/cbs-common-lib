@@ -1177,6 +1177,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(2)
         #self.tap(0.5, 0.99)
         if self.phone:
+            self.click_safe(id='Close', timeout=10)
             self.click_safe(id='CLOSE', timeout=10)
         else:
             self.tap(0.5, 0.5)
