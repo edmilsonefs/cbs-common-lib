@@ -38,7 +38,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
 
         if not caps:
-            super(CommonIOSHelper, self).setup_method(method, {'waitForAppScript': '$.delay(5000); $.acceptAlert();', 'useJSONSource': 'true'})
+            super(CommonIOSHelper, self).setup_method(method, {'waitForAppScript': '$.delay(5000); $.acceptAlert();'})
         else:
             super(CommonIOSHelper, self).setup_method(method, caps=caps)
 
