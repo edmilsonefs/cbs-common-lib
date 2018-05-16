@@ -93,21 +93,9 @@ class LiveTvPage(BasePage):
         self.log_info("after pressing enter")
         self.safe_screenshot()
 
-    def goto_providers_page(self):
-        window_size_y = self.driver.get_window_size()["height"]
-        self.goto_live_tv()
-        if self.phone:
-            self.driver.swipe(35, window_size_y - 600, 35, 700)
-        self.click(element=self.btn_verify_now())
-        sleep(5)
-        self.click_allow_popup()
-        self.safe_screenshot()
-        if self.IS_AMAZON:
-            self.driver.tap([(620, 710)])
-        self.safe_screenshot()
 
     def goto_optimum_sign_in(self):
-        self.goto_providers_page()
+        self.go_to_providers_page()
         self.click(element=self.btn_provider_logo())
         if self.IS_AMAZON:
             self.driver.tap([(620, 710)])
