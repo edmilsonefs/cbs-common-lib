@@ -359,7 +359,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.click_allow_popup()
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
-            text_list = ['Sign In', 'Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content']
+            text_list = ['Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content']
+            if user_type == self.anonymous:
+                text_list.append('Sign In')
             if user_type == self.ex_subscriber:
                 text_list.append('GET STARTED')
             if user_type in [self.anonymous, self.registered]:
