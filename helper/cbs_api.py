@@ -155,23 +155,24 @@ class CBSAPI(object):
                     # 'Thu, 04 Aug 2016 22:30:00 GMT'
                     # We just want:
                     # '8/4/2016'
-                    air_date = node_item.find('pubDate').text
-                    struct_time = time.strptime(air_date, "%a, %d %b %Y %H:%M:%S %Z")
+                    if node_item.find('pubDate').text is not None:
+                        air_date = node_item.find('pubDate').text
+                        struct_time = time.strptime(air_date, "%a, %d %b %Y %H:%M:%S %Z")
 
-                    # The app is based on Eastern Standard Time, so we need to offset GMT (also known as UTC) -> EST
-                    # testDroid servers run on GMT so we temporarily change to Pacific time to see if
-                    #   daylight savings is active.  tm_isdst == 1 when daylight savings time is active
-                    #   when daylight savings time is active, GMT -> PST is 4 hours, when NOT active, it is 5 hours.
-                    os.environ['TZ'] = 'US/Eastern'
-                    dst = time.localtime().tm_isdst
-                    os.environ['TZ'] = 'GMT'
-                    offset = (5 - dst) * 3600
-                    struct_time = time.localtime(time.mktime(struct_time) - offset)
+                        # The app is based on Eastern Standard Time, so we need to offset GMT (also known as UTC) -> EST
+                        # testDroid servers run on GMT so we temporarily change to Pacific time to see if
+                        #   daylight savings is active.  tm_isdst == 1 when daylight savings time is active
+                        #   when daylight savings time is active, GMT -> PST is 4 hours, when NOT active, it is 5 hours.
+                        os.environ['TZ'] = 'US/Eastern'
+                        dst = time.localtime().tm_isdst
+                        os.environ['TZ'] = 'GMT'
+                        offset = (5 - dst) * 3600
+                        struct_time = time.localtime(time.mktime(struct_time) - offset)
 
-                    year = time.strftime("%y", struct_time)
-                    month = time.strftime("%m", struct_time).lstrip('0')
-                    day = time.strftime("%d", struct_time).lstrip('0')
-                    show_dict['air_date'] = "%s/%s/%s" % (month, day, year)
+                        year = time.strftime("%y", struct_time)
+                        month = time.strftime("%m", struct_time).lstrip('0')
+                        day = time.strftime("%d", struct_time).lstrip('0')
+                        show_dict['air_date'] = "%s/%s/%s" % (month, day, year)
 
                     # There are several chapters, with start times (in seconds).  We want to go just past the first mid-roll,
                     # so we'll get the start time of the second chapter and add a couple minutes just to be safe
