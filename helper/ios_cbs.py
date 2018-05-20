@@ -1905,6 +1905,14 @@ class CommonIOSHelper(TestlioAutomationTest):
             for child in list(elem):
                 self.qsrc(elem=child, tab_str=tab_str + '', full=full, recursing=True)
 
+    def try_free_for_1_week(self):
+        l = self.get_elements(id='TRY 1 WEEK FREE', timeout=7)
+        if len(l) > 0:
+            self.click_safe(element=l[len(l) - 1])
+        l = self.get_elements(id='TRY FREE FOR 1 WEEK', timeout=7)
+        if len(l) > 0:
+            self.click_safe(element=l[len(l) - 1])
+
     def validation_upsell_page(self):
         self.verify_exists(id='com.cbs.app:id/allAccessLogo', screenshot=True)
         if self.user_type in [self.anonymous, self.registered]:
