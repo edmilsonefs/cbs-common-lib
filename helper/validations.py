@@ -151,7 +151,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(['Settings', 'Home', 'Shows', 'Schedule', 'Store'])
             # self.verify_exists(id='Live TV') TODO update validation
             # self.verify_exists(id='Movies')
-            # self.verify_exists(name='My CBS')
 
             # Show Page
 
