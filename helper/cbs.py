@@ -210,7 +210,7 @@ class CommonHelper(TestlioAutomationTest):
         drawer = self.get_element(id=self.com_cbs_app + ':id/navigation_drawer')
         self.click(element=drawer.find_element_by_xpath("//*[@text='{0}' or @content-desc='{1}']".format(menu, menu)),
                    data='Click on menu item %s' % menu)
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
 
     def goto_sign_in(self):
         self.back_while_open_drawer_is_visible()
@@ -248,7 +248,7 @@ class CommonHelper(TestlioAutomationTest):
         self.open_drawer()
         self._go_to('Live TV')
         self.click_allow_popup()
-        self.driver.implicitly_wait(120)
+        self.driver.implicitly_wait(30)
 
     def goto_schedule(self):
         self.open_drawer()
@@ -855,7 +855,7 @@ class CommonHelper(TestlioAutomationTest):
             self.get_element(name='Free Episodes')
             self._short_swipe_down(duration=3000)
         except:
-            self.driver.implicitly_wait(60)
+            self.driver.implicitly_wait(10)
             pass
         if self.exists(name='paid', timeout=5):
             list_episodes = self.get_elements(name='paid')
@@ -995,7 +995,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_to_home_page(self):
         counter = 0
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
         while counter < 10:
             try:
                 self.driver.find_element_by_id(self.com_cbs_app + ":id/homeMarqueeContainer")
@@ -1007,7 +1007,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_search_icon_is_visible(self):
         counter = 0
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
         while counter < 10:
             try:
                 self.driver.find_element_by_id(self.com_cbs_app + ":id/action_search")
@@ -1019,7 +1019,7 @@ class CommonHelper(TestlioAutomationTest):
 
     def back_while_page_is_visible(self, page_title):
         counter = 0
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
         while counter < 10:
             try:
                 self.driver.find_element_by_xpath(

@@ -381,8 +381,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             if number_of_tries == 5:
                 break
 
-            self.back()
-            self.tap(3, 3)
+            self.go_back()
+            #self.tap(3, 3)
             sleep(1)
 
         e = self.exists_and_visible(id='Main Menu', timeout=6)
@@ -393,7 +393,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         if e:
             e.click()
         else:
-            self.tap(3, 3)
+            #self.tap(3, 3)
             self.go_back()
             sleep(1)
             self.click(id='Main Menu')
@@ -982,7 +982,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.driver.execute_script('var target = UIATarget.localTarget();')
         self.driver.execute_script(script)
 
-    def swipe(self, startx, starty, endx, endy, swipe_time=None):
+    def swipe(self, startx, starty, endx, endy, swipe_time=1000):
         # Converts relative args such as swipe(.5, .5, .5, .2, 1000)
         # to actual numbers such as (500, 500, 500, 200, 1000) based on current screen size.
         # Apparently some versions of appium don't handle this correctly. Surprising.
@@ -1001,8 +1001,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             if endy < 1:
                 endy = endy * height
 
-        endx = endx - startx
-        endy = endy - starty
+        #endx = endx - startx
+        #endy = endy - startyx
 
         try:
             self.driver.swipe(startx, starty, endx, endy, swipe_time)
@@ -1265,7 +1265,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         count = 0
         while count <= 10:
-            self.driver.implicitly_wait(20)
+            self.driver.implicitly_wait(10)
             try:
                 if element_css:
                     self.driver.find_elements_by_class_name(element_css)
@@ -1355,7 +1355,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.back()
                 counter += 1
         try:
-            self.driver.implicitly_wait(30)
+            self.driver.implicitly_wait(10)
         except:
             pass
 
@@ -2216,7 +2216,7 @@ class CommonIOSHelper(TestlioAutomationTest):
                 self.short_swipe_down()
                 count += 1
 
-        self.driver.implicitly_wait(30)
+        self.driver.implicitly_wait(10)
 
     ####################################################################################
     # Live TV
