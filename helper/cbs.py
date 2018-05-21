@@ -1269,14 +1269,6 @@ class CommonHelper(TestlioAutomationTest):
             self.click_safe(name='OK')
 
     #### LIVE TV and NIELSEN
-    def goto_nielsen_info_page(self):
-        self.goto_settings()
-        sleep(1)
-        if self.phone:
-            self.swipe_down_if_element_is_not_visible(name='Nielsen Info & Your Choices')
-        self.click(xpath=("//*[@text='Nielsen Info & Your Choices']"))
-        sleep(15)  # waiting for page to load
-
     def go_to_debug_page(self):
         self.goto_settings()
         if self.phone:
@@ -1367,18 +1359,17 @@ class CommonHelper(TestlioAutomationTest):
             self.event.screenshot(self.screenshot())
         except:
             self.log_info('Optimum was not connected')
-        #self.back_while_open_drawer_is_visible()
-        if self.IS_AMAZON:
-            try:
-                self.click(element=self.settings_page.btn_navigate_up())
-            except:
-                pass
 
-    def go_to_providers_page(self):
-        self.goto_live_tv()
-        if self.phone:
-            self.swipe_down_if_element_is_not_visible(name='Verify Now', short_swipe=True)
-        self.select_verify_now()
+
+    def mvpd_logout_and_back(self):
+        self.mvpd_logout()
+        self.back()
+
+    def goto_tv_provider(self):
+        self.open_drawer()
+        self.click(xpath="//*[@text='TV Provider']")
+        self.click_allow_popup()
+        self.safe_screenshot()
         self.click_allow_popup()
 
     def select_optimum_from_provider_page(self):
@@ -1388,58 +1379,6 @@ class CommonHelper(TestlioAutomationTest):
         self.click(optimum_provider)
         self.safe_screenshot()
         self.click_allow_popup()
-
-    def optimun_sign_in(self, user, password):
-        sleep(15)
-        if self.testdroid_device == 'LGE Nexus 5 6.0':
-            sleep(10)
-            id_field = self.driver.find_element_by_xpath(xpath="//*[@content-desc='Optimum ID']").click()
-            self.send_keys(element=id_field, data=user, xpath="//*[@content-desc='Optimum ID']")
-            self._hide_keyboard()
-            self.safe_screenshot()
-
-            password_field = self.driver.find_element_by_xpath(xpath="//*[@resource-id='IDToken2']").click()
-            self.send_keys(element=password_field, data=password, xpath="//*[@resource-id='IDToken2']")
-            self._hide_keyboard()
-            self.safe_screenshot()
-
-            self.driver.tap([(200, 1200)])
-            self.safe_screenshot()
-
-        else:
-            count = 0
-            while count <= 5:
-                try:
-                    self.get_elements(class_name='android.widget.EditText')
-                    break
-                except:
-                    count += 1
-
-            if self.testdroid_device == 'LGE Nexus 5':
-                self.driver.tap([(200, 830)])
-                self.safe_screenshot()
-            if self.testdroid_device == 'asus Nexus 7':
-                self.driver.tap([(600, 600)])
-                self.safe_screenshot()
-            if self.testdroid_device == 'samsung SM-T330NU':
-                self.driver.tap([(400, 400)])
-                self.safe_screenshot()
-            fields = self.get_elements(class_name='android.widget.EditText')
-            email_field = fields[0]
-            password_field = fields[1]
-            # start from the bottom up
-            self.click(email_field)
-            self.safe_screenshot()
-            self.send_keys(data=user, element=email_field, class_name='android.widget.EditText'[0])
-            self.safe_screenshot()
-            self._hide_keyboard()
-            self.send_keys(data=password, element=password_field, class_name='android.widget.EditText'[1])
-            self.safe_screenshot()
-            self.driver.back()
-            self.safe_screenshot()
-            self.driver.press_keycode(66)  # Enter
-            sleep(3)
-            self.safe_screenshot()
 
     def log_info(self, info):
         self.event._log_info(self.event._event_data(info))
