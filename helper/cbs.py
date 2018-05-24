@@ -1330,22 +1330,6 @@ class CommonHelper(TestlioAutomationTest):
         self.click(id=self.com_cbs_app + ':id/btnVerifyNow', data='Clicking verify now')
         self.click_allow_popup()
 
-    def live_tv_multichannel_flow(self, time_to_watch=120):
-        # Opens multichannel Live TV, shares location, watches for specified number of seconds, then switches to CBSN and watches for just as long.
-        self.safe_screenshot()
-        self.click(name='Share Location')
-        self.click_allow_popup()
-        sleep(10)
-        self.accept_popup_video_click(force_accept=True)
-        sleep(time_to_watch)
-        self.safe_screenshot()
-        self.tap(0.7,
-                 0.7)  # Done via tap because there are no unique features of any component of the live tiles once Live TV begins playing
-        sleep(time_to_watch)
-        self.safe_screenshot()
-        self.home_page.goto_home()
-        self.safe_screenshot()
-
     def mvpd_logout(self):
         self.goto_settings()
         sleep(5)
