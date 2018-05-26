@@ -1335,11 +1335,11 @@ class CommonHelper(TestlioAutomationTest):
         sleep(5)
         self.safe_screenshot()
         try:
-            self.click(element=self.settings_page.btn_disconnect_from_optimum(), screenshot=True)
+            self.click(element=self.get_element(timeout=10, xpath='//*[contains(@text,"Disconnect from Optimum")]'), screenshot=True)
             self.safe_screenshot()
-            self.click(element=self.settings_page.btn_mvpd_disconnect())
+            self.click(element=self.get_element(timeout=10, id='btnMvpdLogoutSettings'))
             self.safe_screenshot()
-            self.click(element=self.settings_page.btn_mvpd_disconnect_yes())
+            self.click(element=self.get_element(timeout=10, id='android:id/button1'))
             self.event.screenshot(self.screenshot())
         except:
             self.log_info('Optimum was not connected')
