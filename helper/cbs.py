@@ -1332,6 +1332,13 @@ class CommonHelper(TestlioAutomationTest):
 
     def mvpd_logout(self):
         self.goto_settings()
+        if self.IS_AMAZON:
+            if self.exists(name="Send Feedback"):
+                self.safe_screenshot()
+            else:
+                self.log_info("Going to tv provider")
+                self.goto_tv_provider()
+                self.safe_screenshot()
         sleep(5)
         self.safe_screenshot()
         try:
