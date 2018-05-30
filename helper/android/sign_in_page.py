@@ -92,6 +92,9 @@ class SignInPage(BasePage):
             self.click(element=self.btn_terms_accept())
             self.click(element=self.btn_terms_accept_submit(), screenshot=True)
 
+        self.log_info("After login screenshot")
+        self.safe_screenshot()
+
         if self.exists(name='Ok', timeout=5):
             self.click(element=self.get_element(name='Ok'))
 
