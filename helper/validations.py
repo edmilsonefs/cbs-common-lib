@@ -1047,7 +1047,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append(':id/imgProviderLogo')
 
             self.verify_in_batch(text_list, False)
-            if user_type in [self.registered]:
+            if user_type in [self.registered, self.ex_subscriber]:
                 self.verify_exists(name='Schedule')
             else:
                 self.verify_exists(name='Channels')
