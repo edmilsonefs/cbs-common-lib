@@ -766,7 +766,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='SIGN UP')
             self.verify_exists(xpath='(//XCUIElementTypeStaticText[@name="Already have an account? Sign in"])[2]')
         if self.IS_ANDROID:
-            self.verify_exists(name='Complete the verification process', screenshot=True)
+            self.verify_exists(name='Complete the verification process', timeout=15, screenshot=True)
             self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
             self.verify_exists(name='Personalize experience with My CBS')
             self.verify_exists(name='Resume video across apps and web')
