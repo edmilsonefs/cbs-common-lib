@@ -88,7 +88,7 @@ class SignInPage(BasePage):
         self.post_sign_in_accept_terms()
 
     def post_sign_in_accept_terms(self):
-        if self.exists(element=self.btn_terms_accept(timeout=30)):
+        if self.exists(element=self.btn_terms_accept(timeout=60)):
             self.click(element=self.btn_terms_accept())
             self.click(element=self.btn_terms_accept_submit(), screenshot=True)
 
