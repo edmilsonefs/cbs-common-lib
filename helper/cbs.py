@@ -176,9 +176,9 @@ class CommonHelper(TestlioAutomationTest):
 
     def navigate_up(self):
         if self.uiautomator2:
-            self.click(accessibility_id='Navigate up')
+            self.click_safe(accessibility_id='Navigate up')
         else:
-            self.click(name='Navigate up')
+            self.click_safe(name='Navigate up')
 
     def select_search_icon(self):
         self.click(id=self.com_cbs_app + ':id/action_search')
