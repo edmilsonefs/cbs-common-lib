@@ -766,7 +766,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='SIGN UP')
             self.verify_exists(xpath='(//XCUIElementTypeStaticText[@name="Already have an account? Sign in"])[2]')
         if self.IS_ANDROID:
-            self.verify_exists(name='Complete the verification process', screenshot=True)
+            self.verify_exists(name='Complete the verification process', timeout=15, screenshot=True)
             self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
             self.verify_exists(name='Personalize experience with My CBS')
             self.verify_exists(name='Resume video across apps and web')
@@ -965,14 +965,13 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             pass
 
-    def validation_bb(self, mvpd=False):
+    def validation_bb(self, user_type='anonymous',mvpd=False):
         if self.IS_ANDROID:
             text_list = [
                 'Open navigation drawer',
                 'Live TV',
                 ':id/action_search',
                 ':id/surfaceView',
-                'Channel',
                 ':id/liveTvRecyclerView'
             ]
             if mvpd:
@@ -981,6 +980,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(text_list, False)
             self.verify_exists(xpath="//android.widget.FrameLayout[1]")
             self.verify_exists(xpath="//android.widget.FrameLayout[2]")
+
+            if user_type in [self.registered, self.ex_subscriber]:
+                self.verify_exists(name='Schedule')
+            else:
+                self.verify_exists(name='Channels')
 
     def validation_bc(self, mvpd=False):
         if self.IS_ANDROID:
@@ -1047,7 +1051,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append(':id/imgProviderLogo')
 
             self.verify_in_batch(text_list, False)
-            if user_type in [self.registered]:
+            if user_type in [self.registered, self.ex_subscriber]:
                 self.verify_exists(name='Schedule')
             else:
                 self.verify_exists(name='Channels')
