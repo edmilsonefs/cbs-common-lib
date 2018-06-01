@@ -1001,9 +1001,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             if endy < 1:
                 endy = endy * height
 
-        if 'TESTDROID_SERVER_URL' in os.environ or 'VIRTUAL_ENV' in os.environ:
-            endx = endx - startx
-            endy = endy - starty
+        # if 'TESTDROID_SERVER_URL' in os.environ or 'VIRTUAL_ENV' in os.environ:
+        #     endx = endx - startx
+        #     endy = endy - starty
 
         try:
             self.driver.swipe(startx, starty, endx, endy, swipe_time)
