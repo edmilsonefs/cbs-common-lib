@@ -1,17 +1,18 @@
 from time import sleep
-from helper.cbs import CommonHelper
-from helper.ios_cbs import CommonIOSHelper
+
 from helper.android.home_page import HomePage as HomePageAndroid
-from helper.android.settings_page import SettingsPage as SettingsPageAndroid
-from helper.android.shows_page import ShowsPage as ShowsPageAndroid
-from helper.android.show_page import ShowPage as ShowPageAndroid
 from helper.android.live_tv_page import LiveTvPage as LiveTvPageAndroid
-from helper.android.upsell_page import UpsellPage as UpsellPageAndroid
+from helper.android.movies_page import MoviesPage as MoviesPageAndroid
+from helper.android.schedule_page import SchedulePage as SchedulePageAndroid
+from helper.android.settings_page import SettingsPage as SettingsPageAndroid
+from helper.android.show_page import ShowPage as ShowPageAndroid
+from helper.android.shows_page import ShowsPage as ShowsPageAndroid
 from helper.android.sign_in_page import SignInPage as SignInPageAndroid
 from helper.android.sign_up_page import SignUpPage as SignUpPageAndroid
-from helper.android.schedule_page import SchedulePage as SchedulePageAndroid
-from helper.android.movies_page import MoviesPage as MoviesPageAndroid
+from helper.android.upsell_page import UpsellPage as UpsellPageAndroid
 from helper.android.video_page import VideoPage as VideoPageAndroid
+from helper.cbs import CommonHelper
+from helper.ios_cbs import CommonIOSHelper
 
 
 class Validations(CommonHelper, CommonIOSHelper):
@@ -72,13 +73,14 @@ class Validations(CommonHelper, CommonIOSHelper):
                                   'Video Services',
                                   'ACCEPT'])
         elif self.IS_IOS:
-            self.verify_in_batch(['By watching this video, you agree to our: |By watching this video or stream, you agree to our: ',
-                               'Terms of Use',
-                               'Mobile User Agreement',
-                               'Privacy Policy',
-                               'Video Services',
-                               'crossbutton|.*',
-                               'I ACCEPT|Accept'], strict_visibility=False)
+            self.verify_in_batch(
+                ['By watching this video, you agree to our: |By watching this video or stream, you agree to our: ',
+                 'Terms of Use',
+                 'Mobile User Agreement',
+                 'Privacy Policy',
+                 'Video Services',
+                 'crossbutton|.*',
+                 'I ACCEPT|Accept'], strict_visibility=False)
             # self.verify_exists(id='By watching this video, you agree to our: ', screenshot=True)
             # self.verify_exists(id='Terms of Use')
             # self.verify_exists(id='Mobile User Agreement')
@@ -114,7 +116,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.sign_in_page_android.validate_page()
         elif self.IS_IOS:
             self.verify_navigation_back_button()  # Cbs logo appear as back button
-            self.verify_in_batch(['SIGN IN', 'Sign in with your social account', 'Sign in with your email'], screenshot=True)
+            self.verify_in_batch(['SIGN IN', 'Sign in with your social account', 'Sign in with your email'],
+                                 screenshot=True)
             # self.verify_exists(id="Don't have an account? Sign Up")
 
     def validation_e(self):
@@ -183,7 +186,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.show_page_android.validate_page(user_type=user_type, clips=False)
         elif self.IS_IOS:
             self.verify_navigation_back_button()
-            #self.verify_share_icon()
+            # self.verify_share_icon()
             self.verify_search_icon()
             # self.verify_exists(id='Marquee')  # show image
             # self.verify_star_icon()
@@ -240,14 +243,15 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_cbs_logo()
             self.verify_in_batch(['Main Menu', 'Search', 'I want to see: %s' % category])
-            #self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
+            # self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
             self.verify_show_cards_exist()
 
     def validation_n(self):
         if self.IS_ANDROID:
             self.shows_page_android.validate_all_shows_dropdown_menu()
         elif self.IS_IOS:
-            self.verify_in_batch(['All Shows', 'Featured', 'Primetime', 'Daytime', 'Late Night', 'Specials', 'News', 'Classics'])
+            self.verify_in_batch(
+                ['All Shows', 'Featured', 'Primetime', 'Daytime', 'Late Night', 'Specials', 'News', 'Classics'])
 
     def validation_o(self):  # TODO update validation
         if self.IS_ANDROID:
@@ -279,7 +283,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_navigation_drawer_button()
             self.verify_cbs_logo()
             self.verify_exists(id='Settings')
-            self.verify_in_batch(['App Version', 'Terms Of Use', 'Privacy Policy', 'Mobile User Agreement', 'Video Services'])
+            self.verify_in_batch(
+                ['App Version', 'Terms Of Use', 'Privacy Policy', 'Mobile User Agreement', 'Video Services'])
             if self.phone:
                 self.verify_exists(id='Nielsen Info & Your Choices')
                 self.verify_exists(id='Send Feedback')
@@ -339,14 +344,16 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='Learn more')
 
             if user_type == self.anonymous:
-                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+                self.verify_exists(
+                    xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
             if user_type == self.ex_subscriber:
                 self.verify_exists(id='GET STARTED')
                 self.verify_not_exists(id='Already have an account? Sign In')
 
             if user_type == self.registered:
-                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+                self.verify_exists(
+                    xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_not_exists(id='Already have an account? Sign In')
 
             if user_type == self.subscriber:
@@ -440,29 +447,32 @@ class Validations(CommonHelper, CommonIOSHelper):
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
             self.verify_exists(name='Sign Up')
         elif self.IS_IOS:
-            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'CONTINUE'])
+            self.verify_in_batch(
+                ['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'CONTINUE'])
 
     def validation_xf(self):
         if self.IS_ANDROID:
-            #self.verify_exists(name='Sign up with your Facebook account', screenshot=True)
+            # self.verify_exists(name='Sign up with your Facebook account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
                 self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'Sign up with your Facebook account', 'CONTINUE'])
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration',
+                                  'Sign up with your Facebook account', 'CONTINUE'])
 
     def validation_xt(self):
         if self.IS_ANDROID:
-            #self.verify_exists(name='Sign up with your Twitter account', screenshot=True)
+            # self.verify_exists(name='Sign up with your Twitter account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
             self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'Sign up with your Twitter account', 'CONTINUE'])
+            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration',
+                                  'Sign up with your Twitter account', 'CONTINUE'])
 
     def validation_xg(self):
         if self.IS_ANDROID:
-            #self.verify_exists(name='Sign up with your Google account', screenshot=True)
+            # self.verify_exists(name='Sign up with your Google account', screenshot=True)
             for _ in range(0, 3):
                 self._short_swipe_down()
             self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
@@ -520,7 +530,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ac(self, user_type='anonymous'):
         if self.IS_ANDROID:
-            if not self.IS_AMAZON: #TODO skip for Amazon for a while
+            if not self.IS_AMAZON:  # TODO skip for Amazon for a while
                 # LCS Billing Popup
                 self.wait_until_element_is_visible(element_id='com.android.vending:id/item_title')
                 sleep(2)
@@ -529,8 +539,8 @@ class Validations(CommonHelper, CommonIOSHelper):
                     self.verify_exists(name='Limited Commercials (CBS - Full Episodes & Live TV)', screenshot=True)
 
                 # if user_type == self.registered:
-                    # self.verify_exists(xpath='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
-                    # self.verify_exists(xpath="//*[contains(@name,'CBS All Access 1') and contains(@name,'FREE (CBS - Full Episodes & Live TV)') and (contains(@name,'Week') or contains(@name,'Month'))]", screenshot=True)
+                # self.verify_exists(xpath='CBS All Access 1 Week FREE (CBS - Full Episodes & Live TV)', screenshot=True)
+                # self.verify_exists(xpath="//*[contains(@name,'CBS All Access 1') and contains(@name,'FREE (CBS - Full Episodes & Live TV)') and (contains(@name,'Week') or contains(@name,'Month'))]", screenshot=True)
 
         if self.IS_IOS:
             pass
@@ -578,18 +588,19 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             self.verify_exists(id='Main Menu', screenshot=True)
             self.verify_exists(id='CBSEye_white')  # cbs icon
-            #self.verify_exists(id='Live TV')
-            #self.verify_exists(id='Two ways to watch Live TV')
-            #self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
+            # self.verify_exists(id='Live TV')
+            # self.verify_exists(id='Two ways to watch Live TV')
+            # self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
 
             if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
-                text_list = ['Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content', '(GET STARTED|TRY 1 WEEK FREE)']
+                text_list = ['Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content',
+                             '(GET STARTED|TRY 1 WEEK FREE)']
                 self.verify_in_batch(text_list)
-            #self.verify_exists(id='OR')
-            #self.verify_exists(id='TV PROVIDER')
-            #self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
-            #self.verify_exists(id='VERIFY NOW')
-            #self.verify_exists(id='Learn more')
+            # self.verify_exists(id='OR')
+            # self.verify_exists(id='TV PROVIDER')
+            # self.verify_exists(id='Stream Live TV with your cable, satellite or telco provider.')
+            # self.verify_exists(id='VERIFY NOW')
+            # self.verify_exists(id='Learn more')
             # self.swipe_down_and_verify_if_exists(id='Where is Live TV Available')
             # self.swipe_down_and_verify_if_exists(id='Live TV is available for over 90% of the country and growing.')
             # self.swipe_down_and_verify_if_exists(id='CHECK AVAILABILITY')
@@ -696,7 +707,8 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_ap(self):
         if self.IS_ANDROID:
             # no_local_affiliate_page
-            self.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True, timeout=15)
+            self.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True,
+                               timeout=15)
             self.verify_exists(
                 name='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these Videos:')
             self.verify_exists(id=self.com_cbs_app + ':id/imgThumbnail')
@@ -738,7 +750,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type in [self.ex_subscriber, self.registered]:
                 self.verify_exists(id='CBS All Access subscription required to enjoy Live TV')
             else:
-                #TODO verify this check
+                # TODO verify this check
                 self.verify_exists(name='SIGN IN')
 
     def validation_al(self, user_type='anonymous'):
@@ -822,7 +834,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type == self.anonymous:
                 self.verify_exists(id='Your TV provider is not supported in this area', screenshot=True)
                 self.verify_exists(id='but you can sign up for CBS All Access to watch now.')
-                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+                self.verify_exists(
+                    xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_exists(id='Already have an account? Sign In')
             else:
                 self.verify_not_exists(id='Already have an account? Sign In')
@@ -830,12 +843,14 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type == self.registered:
                 self.verify_exists(id='Sorry, your TV provider is not supported in this area', screenshot=True)
                 self.verify_exists(id='but you can sign up for CBS All Access to watch now.')
-                self.verify_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+                self.verify_exists(
+                    xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
             if user_type == self.ex_subscriber:
                 self.verify_exists(id='Sorry, your TV provider is not supported in your area,', screenshot=True)
                 self.verify_exists(id='but you can sign up for CBS All Access to watch now.')
-                self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
+                self.verify_not_exists(
+                    xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
                 self.verify_exists(id='GET STARTED')
 
     def validation_as(self, user_type='anonymous'):
@@ -881,7 +896,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(['Main Menu', 'Movies', 'Search'])
             if self.xcuitest:
                 self.assertTrueWithScreenShot(
-                    len(self.driver.find_element_by_class_name('XCUIElementTypeCollectionView').find_elements_by_class_name('XCUIElementTypeCell')) > 0,
+                    len(self.driver.find_element_by_class_name(
+                        'XCUIElementTypeCollectionView').find_elements_by_class_name('XCUIElementTypeCell')) > 0,
                     msg="At least 3 Movies posters should be presented")
 
     def validation_au(self, user_type='anonymous'):
@@ -890,7 +906,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id=self.com_cbs_app + ':id/txtMovieName')
             self.verify_exists(id=self.com_cbs_app + ':id/txtMovieMetadata')
             self.verify_exists(id=self.com_cbs_app + ':id/txtMovieDescription')
-            self.verify_exists(name='PREVIEW TRAILER') #disabled due to CBS bug, will uncomment on new build
+            self.verify_exists(name='PREVIEW TRAILER')  # disabled due to CBS bug, will uncomment on new build
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
                 self.verify_exists(name='SUBSCRIBE TO WATCH')
                 self.verify_not_exists(name='WATCH MOVIE')
@@ -902,12 +918,14 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(class_name=self.element_prefix() + 'Image', screenshot=True)
                 self.verify_in_batch(['Subscribe to Watch', 'Preview Trailer', 'Close'], with_timeout=2)
             else:
-                self.verify_in_batch(['WATCH MOVIE|RESTART MOVIE|RESUME MOVIE', 'Preview Trailer', 'Close'], with_timeout=2)
+                self.verify_in_batch(['WATCH MOVIE|RESTART MOVIE|RESUME MOVIE', 'Preview Trailer', 'Close'],
+                                     with_timeout=2)
 
     def validation_av(self):
         if self.IS_ANDROID:
             self.verify_exists(xpath=("//*[@text='CBS']"), timeout=60)
-            self.verify_exists(xpath=("//*[@text='An internet connection is required to experience the CBS App. Please check your connection and try again.']"))
+            self.verify_exists(xpath=(
+                "//*[@text='An internet connection is required to experience the CBS App. Please check your connection and try again.']"))
             self.verify_exists(xpath=("//*[@text='OK']"))
 
     def validation_ax1(self):
@@ -965,7 +983,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             pass
 
-    def validation_bb(self, user_type='anonymous',mvpd=False):
+    def validation_bb(self, user_type='anonymous', mvpd=False):
         if self.IS_ANDROID:
             text_list = [
                 'Open navigation drawer',
@@ -1072,17 +1090,53 @@ class Validations(CommonHelper, CommonIOSHelper):
             ]
             self.verify_in_batch(text_list, False)
 
+    def validation_bm(self, user_type='anonymous'):
+        if self.IS_ANDROID:
+            pass
+        elif self.IS_IOS:
+            text_list = ['Back',
+                         'Pick Your Plan',
+                         'Live TV includes commercials and select shows have promotional interruptions']
+
+            if user_type != self.cf_subscriber:
+                text_list.append('COMMERCIAL FREE')
+                text_list.append('\$9\.99\/mo')
+
+            if user_type in [self.anonymous, self.registered]:
+                text_list.append('TRY 1 WEEK FREE')
+            elif user_type == self.ex_subscriber:
+                text_list.append('GET STARTED')
+            elif user_type in [self.subscriber, self.trial]:
+                text_list.append('UPGRADE')
+
+            if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+                text_list.append('LIMITED COMMERCIALS')
+                text_list.append('\$5\.99\/mo')
+
+            text_list.append(
+                'Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically '
+                'renews unless auto-renew is turned off at least 24-hours before the end of the current period. '
+                'Account will be charged for renewal wihtin 24-hours prior to the end of the current period at $5.99 '
+                'per month for the Limited Commercials plan and $9.99 for the Commecial Free plan. You can manage '
+                'your subsciption and auto-renewal by going to your device Account Settings after purchase. If '
+                'subscription is canceled, cancellation will be effective at end of then-current subscription period. '
+                'No refunds. Any unused portion of a free trial period, if offered, will be forfeited when you '
+                'purchase a subscription to CBS All Access Commecial Free.')
+
+            self.verify_in_batch(text_list, False)
+
     def validation_video(self):
         if self.IS_ANDROID:
             self.accept_popup_video_click()
             self.click_play_from_beginning()
             self.safe_screenshot()
-            self.verify_exists(element=self.video_page_android.video_player_screen(), readable_name="Video player screen", screenshot=True)
+            self.verify_exists(element=self.video_page_android.video_player_screen(),
+                               readable_name="Video player screen", screenshot=True)
             self.back()
         elif self.IS_IOS:
             self._accept_alert(1)
             self.restart_from_the_beggining(timeout=15)
-            sleep(20) # wait for video to start
+            sleep(20)  # wait for video to start
             self.verify_exists_video_element(id='Done', screenshot=True)
             if self.phone:
                 self.verify_exists_video_element(class_name='XCUIElementTypeSlider', screenshot=False)
