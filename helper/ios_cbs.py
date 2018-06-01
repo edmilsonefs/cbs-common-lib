@@ -982,7 +982,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.driver.execute_script('var target = UIATarget.localTarget();')
         self.driver.execute_script(script)
 
-    def swipe(self, startx, starty, endx, endy, swipe_time=1000):
+    def swipe(self, startx, starty, endx, endy, swipe_time=None):
         # Converts relative args such as swipe(.5, .5, .5, .2, 1000)
         # to actual numbers such as (500, 500, 500, 200, 1000) based on current screen size.
         # Apparently some versions of appium don't handle this correctly. Surprising.
