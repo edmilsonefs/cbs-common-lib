@@ -1113,16 +1113,6 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append('LIMITED COMMERCIALS')
                 text_list.append('\$5\.99\/mo')
 
-            text_list.append(
-                'Payment will be charged to iTunes Account at confirmation of purchase. Subscription automatically '
-                'renews unless auto-renew is turned off at least 24-hours before the end of the current period. '
-                'Account will be charged for renewal wihtin 24-hours prior to the end of the current period at $5.99 '
-                'per month for the Limited Commercials plan and $9.99 for the Commecial Free plan. You can manage '
-                'your subsciption and auto-renewal by going to your device Account Settings after purchase. If '
-                'subscription is canceled, cancellation will be effective at end of then-current subscription period. '
-                'No refunds. Any unused portion of a free trial period, if offered, will be forfeited when you '
-                'purchase a subscription to CBS All Access Commecial Free.')
-
             self.verify_in_batch(text_list, False)
 
     def validation_video(self):
