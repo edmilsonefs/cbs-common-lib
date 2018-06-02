@@ -347,14 +347,16 @@ class CommonIOSHelper(TestlioAutomationTest):
         sleep(2)
 
     def click_search_icon(self):
-        try:
-            self.click(accessibility_id='Search')
-            # self.click(xpath="//*[@name='Search']")
-        except:
-            self.close_drawer()
-            self.click(accessibility_id='Search')
+        attempts = 0
+        while not self.find_search_text() and attempts < 5:
+            try:
+                self.click(accessibility_id='Search')
+                # self.click(xpath="//*[@name='Search']")
+            except:
+                self.close_drawer()
+                self.click(accessibility_id='Search')
 
-    #            self.click(xpath="//*[@name='Search']")
+            attempts += 1
 
     def click_search_text(self):
         self.find_search_text().click()
@@ -1968,10 +1970,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     # FIND / EXISTS
 
     def find_search_text(self):
-        if self.exists(id='Search for a Show', timeout=2):
-            return self._find_element(id='Search for a Show')
-        else:
-            return self.driver.find_elements_by_class_name('UIATextField')[-1]
+        return self.get_element(id='Search for a Show', timeout=10)
 
     def find_on_page_horizontal(self, find_value):
         find_value_converted = ""
