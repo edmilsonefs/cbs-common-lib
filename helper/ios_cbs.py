@@ -30,7 +30,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     already_accepted_terms = False
     element_type = '//UIA'  # iOS 9
     UIAWindow_XPATH = '//UIAApplication[1]/UIAWindow[1]'
-    signed_out = False
+    signed_out = True
     xcuitest = False
     window_size = None
 
