@@ -1184,6 +1184,7 @@ class CommonIOSHelper(TestlioAutomationTest):
             self.click_safe(id='CLOSE', timeout=10)
         else:
             self.tap(0.5, 0.5)
+            self.click_safe(id='Close', timeout=10)
             self.click_safe(id='CLOSE', timeout=10)
 
     def watch_episode_popup(self):
