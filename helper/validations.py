@@ -163,9 +163,9 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(name='Recently Watched')
                 self.verify_not_exists(name='My CBS')
             else:
-                self.verify_exists(name='Recently Watched')
+                self.verify_exists(name='Continue Watching')
                 self.verify_exists(id=self.com_cbs_app + ":id/imgThumbnail")
-                self.verify_exists(name='My CBS')
+                self.verify_exists(name='Shows You Watch')
                 self.verify_exists(id=self.com_cbs_app + ":id/showImage")
 
             self.swipe_down_and_verify_if_exists(name="Primetime Episodes")
