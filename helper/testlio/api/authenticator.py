@@ -11,7 +11,8 @@ def login(email, password):
     body = response.text
     csfr_token = re.search('"csfrtoken":"(.+)"', body).group(1)
 
-    headers = {'Referer': 'https://platform.testlio.com/login?next=https%3A%2F%2Fplatform.testlio.com%2Foauth%2Ftokens%3Fresponse_type%3Dtoken%26client_id%3Dautomated_tests%26redirect_uri%3Dhttp%253A%252F%252Flocalhost',
+    login_url = '/login?next=https%3A%2F%2Fplatform.testlio.com%2Foauth%2Ftokens%3Fresponse_type%3Dtoken%26client_id%3Dautomated_tests%26redirect_uri%3Dhttp%253A%252F%252Flocalhost'
+    headers = {'Referer': BASE_URL + login_url,
                'Accept-Language': 'en-US,en;q=0.5',
                'Upgrade-Insecure-Requests': '1',
                'Content-Type': 'application/x-www-form-urlencoded',
@@ -20,7 +21,6 @@ def login(email, password):
                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:58.0) Gecko/20100101 Firefox/58.0'}
 
     post_body = quote('user[email]') + '=' + quote(email) + '&' + quote('user[password]') + '=' + quote(password) + '&csrf-token=' + quote(csfr_token)
-    login_url = '/login?next=https%3A%2F%2Fplatform.testlio.com%2Foauth%2Ftokens%3Fresponse_type%3Dtoken%26client_id%3Dautomated_tests%26redirect_uri%3Dhttp%253A%252F%252Flocalhost'
 
     response = requests.post(url=BASE_URL + login_url, data=post_body, headers=headers, cookies=response.cookies)
 
@@ -28,7 +28,7 @@ def login(email, password):
         url = response.url
         s = re.search('access_token=(.+)&token_type', url)
         if s:
-            token = re.search('access_token=(.+)&token_type', url).group(1)
+            token = s.group(1)
 
             return token
         return None
