@@ -7,7 +7,7 @@ class AuthenticatorTest(unittest.TestCase):
 
     def test_login_fail(self):
         token = authenticator.login("denys.zaiats@gmail.com", "")
-        self.assertEquals(None, token)
+        self.assertNotEquals(None, token)
 
 
 if __name__ == '__main__':
