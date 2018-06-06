@@ -6,8 +6,8 @@ from helper.testlio.api import authenticator
 class AuthenticatorTest(unittest.TestCase):
 
     def test_login_success(self):
-        expected = authenticator.login("", "")
-        self.assertEquals("", str(expected))
+        expected = authenticator.login("denys.zaiats@gmail.com", "")
+        self.assertNotEquals(None, expected)
 
 
 if __name__ == '__main__':
