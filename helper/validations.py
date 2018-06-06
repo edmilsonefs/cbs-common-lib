@@ -127,27 +127,27 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(['Sign up with your email', 'SIGN UP'])
             # Already have an account? Sign in - doesn't exist on this page
 
-    def validation_f(self, user_type='anonymous', name=None):  # TODO update Validation.
+    def validation_f(self, user_type='anonymous', name=None, mvpd=None):
+        self.log_info("Validation F")
         if self.IS_ANDROID:
+            self.safe_screenshot()
+            text_list = ['Home', 'Shows', 'Live TV', 'Movies', 'Schedule', 'Shop', 'Settings']
             if user_type == self.anonymous:
-                self.verify_exists(element=self.home_page_android.btn_sign_in_menu_item())
+                text_list.append('Sign In')
             else:
                 self.verify_exists(name=name)
             if user_type in [self.subscriber, self.trial]:
-                self.verify_exists(element=self.home_page_android.btn_upgrade_menu_item())
-
+                text_list.append('Upgrade')
             elif user_type == self.cf_subscriber:
                 self.verify_not_exists(name='Upgrade')
                 self.verify_not_exists(name='Subscribe')
             else:
-                self.verify_exists(element=self.home_page_android.btn_subscribe_menu_item())
-            self.verify_exists(element=self.home_page_android.btn_settings_menu_item(), screenshot=True)
-            self.verify_exists(element=self.home_page_android.btn_home_menu_item())
-            self.verify_exists(element=self.home_page_android.btn_shows_menu_item())
-            self.verify_exists(element=self.home_page_android.btn_live_tv_menu_item())
-            self.verify_exists(element=self.home_page_android.btn_movies_menu_item())
-            self.verify_exists(element=self.home_page_android.btn_schedule_menu_item())
-            self.verify_exists(element=self.home_page_android.btn_shop_menu_item())
+                text_list.append('Subscribe')
+            if mvpd:
+                self.verify_not_exists(name="TV Provider")
+            else:
+                text_list.append('TV Provider')
+            self.verify_in_batch(text_list, False)
         if self.IS_IOS:
             if user_type == self.anonymous:
                 self.verify_exists(id='Sign In', screenshot=False)
@@ -270,6 +270,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(['Like on Facebook', 'Follow on Twitter', 'Share', 'Add to Calendar', 'Show Info'])
 
     def validation_q(self, user_type='anonymous'):  # TODO update validation
+        self.log_info("Validation Q")
         if self.IS_ANDROID:
             self.settings_page_android.validate_page(user_type)
         elif self.IS_IOS:
@@ -361,6 +362,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(accessibility_id='Live Now')
 
     def validation_v(self, user_type="anonymous"):
+        self.log_info("Validation V")
         if self.IS_ANDROID:
             self.click_allow_popup()
             self.upsell_page_android.validate_page(user_type=user_type)
@@ -556,8 +558,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             pass
 
     def validation_ar(self):
-        # multiple_channel_selector_page
+        self.log_info("Validation AR")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = ['Navigate up', ':id/action_search', 'Select Your Local Station', 'Channels', 'KWTX',
                          'KBTX', 'You can always change this']
             self.verify_in_batch(text_list)
@@ -565,9 +568,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             pass
 
     def validation_ae(self, mvpd=False):
+        self.log_info("Validation AE")
         if self.IS_ANDROID:
-            # cbs logo
-            # self.accept_popup_video_click()
+            self.safe_screenshot()
             self.verify_in_batch('Channels', ':id/controlsContainer', ':id/station_logo', ':id/liveTvRecyclerView')
         elif self.IS_IOS:
             # self.verify_exists(id="Search")
@@ -576,6 +579,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch('Channels')
 
     def validation_af(self):
+        self.log_info("Validation AF")
         if self.IS_ANDROID:
             self.verify_exists(name='CBS', screenshot=True)
             self.verify_exists(
@@ -583,6 +587,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='OK')
 
     def validation_ag(self, user_type='anonymous'):
+        self.log_info("Validation AG")
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(self.user_type)
         elif self.IS_IOS:
@@ -664,6 +669,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 xpath=self.element_type + 'StaticText[@name="Gaming consoles"]')
 
     def validation_ai(self):
+        self.log_info("Validation AI")
         if self.IS_ANDROID:
             # faq_web_view
             sleep(5)
@@ -705,6 +711,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='CHECK AVAILABILITY')
 
     def validation_ap(self):
+        self.log_info("Validation AP")
         if self.IS_ANDROID:
             # no_local_affiliate_page
             self.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True,
@@ -720,6 +727,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             pass
 
     def validation_ak(self, user_type='anonymous'):
+        self.log_info("Validation AK")
         if self.IS_ANDROID:
             self.verify_exists(name='Success!', screenshot=True)
             self.verify_exists(name="Choose an option below to start streaming Live TV.")
@@ -754,6 +762,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(name='SIGN IN')
 
     def validation_al(self, user_type='anonymous'):
+        self.log_info("Validation AL")
         if self.IS_ANDROID:
             self.verify_exists(name='Sign in with your TV provider to start streaming')
             self.verify_exists(id=self.com_cbs_app + ':id/gridRecyclerView', screenshot=True)
@@ -767,6 +776,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(xpath=self.element_type + "CollectionView", screenshot=True)
 
     def validation_am(self):
+        self.log_info("Validation AM")
         if self.IS_IOS:
             self.verify_exists(id='Complete the verification process', screenshot=True)
             self.verify_exists(id='Register for a free CBS account to get exclusive benefits including:')
@@ -778,6 +788,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(id='SIGN UP')
             self.verify_exists(xpath='(//XCUIElementTypeStaticText[@name="Already have an account? Sign in"])[2]')
         if self.IS_ANDROID:
+            self.safe_screenshot()
             self.verify_exists(name='Complete the verification process', timeout=15, screenshot=True)
             self.verify_exists(name='Register for a free CBS account to get exclusive benefits including:')
             self.verify_exists(name='Personalize experience with My CBS')
@@ -789,7 +800,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Already have an account? Sign In')
 
     def validation_ao(self, user_type='anonymous'):  # TODO need clarification about TV Unavailable page
+        self.log_info("Validation AO")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             self.verify_exists(name='Sorry, your local CBS station is not currently available', screenshot=True)
             self.verify_exists(
                 name='Please check back soon to see if coverage has expanded to your area. In the meantime, enjoy these Videos:')
@@ -804,7 +817,9 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(id='GET NOTIFIED')
 
     def validation_aq(self, user_type='anonymous'):
+        self.log_info("Validation AQ")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             self.verify_exists(name='Your TV provider is not supported in this area', screenshot=True)
             self.verify_exists(name='but you can sign up for CBS All Access to watch now.')
             self.verify_exists(name='Watch Live TV')
@@ -854,7 +869,9 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(id='GET STARTED')
 
     def validation_as(self, user_type='anonymous'):
+        self.log_info("Validation AS")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             self.click_allow_popup()
             self.verify_exists(name='Open navigation drawer', screenshot=True)
             self.verify_exists(
@@ -978,13 +995,16 @@ class Validations(CommonHelper, CommonIOSHelper):
                 xpath='//' + self.element_prefix() + 'Other[./' + self.element_prefix() + 'Slider and ./' + self.element_prefix() + 'StaticText[1] and ./' + self.element_prefix() + 'StaticText[2]]')
 
     def validation_ba(self):
+        self.log_info("Validation BA")
         if self.IS_ANDROID:
             self.verify_in_batch(":id/expand_button", ":id/cc_button")
         elif self.IS_IOS:
             pass
 
     def validation_bb(self, user_type='anonymous', mvpd=False):
+        self.log_info("Validation BB")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = [
                 'Open navigation drawer',
                 'Live TV',
@@ -1005,7 +1025,9 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(name='Channels')
 
     def validation_bc(self, mvpd=False):
+        self.log_info("Validation BC")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = [
                 'Open navigation drawer',
                 'Live TV',
@@ -1021,7 +1043,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(xpath="//android.widget.FrameLayout[1]")
 
     def validation_be(self, mvpd=False):
+        self.log_info("Validation BE")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = [
                 'Open navigation drawer',
                 'Live TV',
@@ -1037,13 +1061,17 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(xpath="//android.widget.FrameLayout[1]")
 
     def validation_bf(self):
+        self.log_info("Validation BF")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             self.verify_in_batch(['Station Unavailable', 'Channels', 'CBS Local Station', ':id/station_logo'])
         if self.exists(name="We can't find your local CBS station."):
             self.verify_exists(name="We can't find your local CBS station.")
 
     def validation_bi(self, non_sub=None):
+        self.log_info("Validation BI")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = [
                 'Open navigation drawer',
                 'Live TV',
@@ -1060,7 +1088,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(text_list, False)
 
     def validation_bj(self, user_type='anonymous', mvpd=False):
+        self.log_info("Validation BJ")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = [
                 'Open navigation drawer',
                 'Live TV',
@@ -1083,7 +1113,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
 
     def validation_bk(self):
+        self.log_info("Validation BK")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = [
                 'Share Your Location',
                 'Please enable location services',
@@ -1095,7 +1127,9 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(text_list, False)
 
     def validation_bl(self):
+        self.log_info("Validation BL")
         if self.IS_ANDROID:
+            self.safe_screenshot()
             text_list = [
                 'Open navigation drawer',
                 'Live TV',

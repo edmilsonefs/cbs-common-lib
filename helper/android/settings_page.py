@@ -79,7 +79,8 @@ class SettingsPage(BasePage):
         return self.get_element(timeout=timeout, id=self.com_cbs_app + ':id/appIcon')
 
     def validate_page(self, user_type="anonymous"):
-        text_list_one = ['Send Feedback', 'FAQ', 'Terms of Use']
+        text_list_one = ['Open navigation drawer|Navigate up', ':id/action_search', 'Settings', 'Send Feedback', 'FAQ',
+                         'Terms of Use']
         if user_type in [self.anonymous, self.ex_subscriber, self.registered]:
             text_list_one.append('Subscribe')
         if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
