@@ -1082,6 +1082,18 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(xpath='//XCUIElementTypeApplication[@name="CBS"]', screenshot=True)
             self.verify_exists(xpath='//XCUIElementTypeOther/XCUIElementTypeImage[1]')  # station icon
 
+    def validation_bk(self):
+        if self.IS_ANDROID:
+            text_list = [
+                'Share Your Location',
+                'Please enable location services',
+                'Channels',
+                'Share Location',
+                'Channels',
+                'CBS Local Station',
+            ]
+            self.verify_in_batch(text_list, False)
+
     def validation_bl(self):
         if self.IS_ANDROID:
             text_list = [
