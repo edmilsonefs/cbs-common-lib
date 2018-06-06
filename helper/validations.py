@@ -1042,7 +1042,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.exists(name="We can't find your local CBS station."):
             self.verify_exists(name="We can't find your local CBS station.")
 
-    def validation_bi(self):
+    def validation_bi(self, non_sub=None):
         if self.IS_ANDROID:
             text_list = [
                 'Open navigation drawer',
@@ -1050,9 +1050,13 @@ class Validations(CommonHelper, CommonIOSHelper):
                 ':id/action_search',
                 'Please accept the Terms of Use in order to watch live TV.',
                 'VIEW TERMS TO ACCEPT',
-                'Channels',
                 ':id/livetv_video_view'
             ]
+            if non_sub:
+                text_list.append('Schedule')
+            else:
+                text_list.append('Channels')
+
             self.verify_in_batch(text_list, False)
 
     def validation_bj(self, user_type='anonymous', mvpd=False):
