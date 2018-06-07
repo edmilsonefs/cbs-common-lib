@@ -174,7 +174,7 @@ class ParserTest(unittest.TestCase):
              '"value": "other|other|accounts|login"}\', \'{"status": "Fail", "required": "/livetv/check ' \
              'availability", "Name": "c. screenName", "value": "/"}\', \'{"status": "Fail", "required": ' \
              '"livetv|upsell|check availability", "Name": "c. siteHier", "value": "livetv"}\', \'{"status": "Fail", ' \
-             '"required": "livetv|upsell|check availability", "Name": "c. siteHier", "value": "home"}\'])'
+             '"required": "livetv|upsell|check availability", "Name": "c. siteHier", "value": "home"}\']) '
 
     def test_parser(self):
         expected = parser.parse_response_to_set(self.mock_response)
