@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from helper.testlio.api import authenticator
+from helper.platform.api import authenticator
 
 
 class AuthenticatorTest(unittest.TestCase):
