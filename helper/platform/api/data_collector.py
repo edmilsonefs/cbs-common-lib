@@ -1,10 +1,11 @@
 import json
+import os
 
 import requests
 
 from helper.platform.api.issue import Issue
 
-PROJECT_ID = '03e98be0-c099-4037-a515-de77ef8d7efb'
+PROJECT_ID = os.getenv('testlio_project_id')
 BASE_API_URL = 'https://api.testlio.com'
 
 

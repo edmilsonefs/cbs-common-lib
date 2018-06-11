@@ -3,6 +3,7 @@ from time import sleep
 from urllib import quote
 
 import requests
+from requests import ConnectionError
 
 BASE_URL = 'https://platform.testlio.com'
 
