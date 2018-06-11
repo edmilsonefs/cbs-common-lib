@@ -133,12 +133,12 @@ def upload_dump(payload):
         print(r.content)
         print("\n6. Post bugs to Tetslio:\n")
 
-        if str(platform).lower() == 'android':
-            try:
-                return create_bug(r.content)
-            except Exception, e:
-                print("6. Failure in bug creation. " + str(e))
-                return False
+        # if str(platform).lower() == 'android':
+        #     try:
+        #         return create_bug(r.content)
+        #     except Exception, e:
+        #         print("6. Failure in bug creation. " + str(e))
+        #         return False
 
         return True
     except Exception, e:
