@@ -10,7 +10,6 @@ def create_bug(response):
     set_issues = parser.parse_response_to_set(response)
 
     token = authenticator.login(os.getenv('testlio_username'), os.getenv('testlio_password'))
-    print(os.getenv('testlio_username'))
 
     data_collector_publisher = DataCollectorPublisher()
     data_collector_publisher.token = token
