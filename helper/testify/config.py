@@ -34,7 +34,7 @@ def video_profile_shows():
         'buildversion': str(buildversion),
         'videotype': 'shows',
         'testtype': 'Show Page'
-        })
+    })
 
 
 def video_profile_livetv():
@@ -45,7 +45,7 @@ def video_profile_livetv():
         'buildversion': str(buildversion),
         'videotype': 'live tv',
         'testtype': 'Live TV Page'
-        })
+    })
 
 
 def video_profile_clips():
@@ -56,7 +56,7 @@ def video_profile_clips():
         'buildversion': str(buildversion),
         'videotype': 'clips',
         'testtype': 'Clips Page'
-        })
+    })
 
 
 def video_profile_movies():
@@ -67,7 +67,7 @@ def video_profile_movies():
         'buildversion': str(buildversion),
         'videotype': 'movies',
         'testtype': 'Movie Page'
-        })
+    })
 
 
 def omniture_profile(omniture_profile, testtype):
@@ -76,7 +76,7 @@ def omniture_profile(omniture_profile, testtype):
         'platform': platform,
         'buildversion': str(buildversion),
         'testtype': testtype
-        })
+    })
 
 
 def _get_testify_config(params=[]):
@@ -101,7 +101,7 @@ def _get_testify_config(params=[]):
         'bryan.gaikwad@cbsinteractive.com',
         'joael.harbi@cbsinteractive.com',
         'cbs-automation@testlio.com'
-        ])
+    ])
     # config['email_list'] = str(['valdo@testlio.com', 'kristjan@testlio.com'])
     config['platform'] = params['platform']
     config['appname'] = 'CBS App'
@@ -134,7 +134,11 @@ def upload_dump(payload):
         print("\n6. Post bugs to Tetslio:\n")
 
         if str(platform).lower() == 'android':
-            return create_bug(r.content)
+            try:
+                return create_bug(r.content)
+            except Exception, e:
+                print("6. Failure in bug creation. " + str(e))
+                return False
 
         return True
     except Exception, e:
