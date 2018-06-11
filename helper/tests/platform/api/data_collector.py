@@ -8,7 +8,7 @@ from helper.platform.api.data_collector_publisher import DataCollectorPublisher
 class DataCollectorTest(unittest.TestCase):
     data_collector = DataCollectorPublisher()
 
-    def test_collections_not_empty(self):
+    def _test_collections_not_empty(self):
         token = authenticator.login(os.getenv('testlio_username'), os.getenv('testlio_password'))
         self.data_collector.token = token
         print(token)

@@ -4,6 +4,8 @@ import subprocess
 import os
 import requests
 
+from helper.platform.bugger import create_bug
+
 """
 Usage:
 
@@ -129,6 +131,10 @@ def upload_dump(payload):
 
         print("\n5. Response from Testify API:\n")
         print(r.content)
+        print("\n6. Post bugs to Tetslio:\n")
+
+        if str(platform).lower() == 'android':
+            return create_bug(r.content)
 
         return True
     except Exception, e:
