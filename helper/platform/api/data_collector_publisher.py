@@ -16,7 +16,7 @@ class DataCollectorPublisher:
     def get_issues(self, query):
         headers = {"Authorization": 'Bearer ' + self.token}
         response = requests.get(
-            BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues/?isDeleted=false&q=' + quote(query),
+            BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues/?isDeleted=false&q=' + quote(str(hash(query))),
             headers=headers, allow_redirects=True)
         return json.loads(response.text)
 
@@ -62,17 +62,17 @@ class DataCollectorPublisher:
             "assignedTo": {
                 "href": "https://api.testlio.com/user/v1/users/5727"
             },
-            "isApproved": False,
+            "isApproved": "false",
             "severity": "low",
             "labels": ["bug", "automation"],
-            "isClosed": False,
-            "isDeleted": False,
+            "isClosed": "false",
+            "isDeleted": "false",
             "buildVersion": app_version,
-            "isStarred": False
+            "isStarred": "false"
         }
 
         headers = {"Authorization": 'Bearer ' + self.token}
-        response = requests.post(url=BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues', data=body, headers=headers)
+        response = requests.post(url=BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues', data=json.dumps(body), headers=headers)
 
         return response.status_code == 200
 

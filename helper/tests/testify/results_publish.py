@@ -25,7 +25,7 @@ class ResultsPublishTest(unittest.TestCase):
                 json_data = self.data_collector_publisher.get_issues(query)
                 issue_exists = self.data_collector_publisher.get_filtered_result(json_data, state='new')
                 if not issue_exists:
-                    title = '[AUTOMATION]' + query
+                    title = '[AUTOMATION] - {0} ({1})'.format(query, str(hash(query)))
                     description = issue
                     app_version = os.getenv("BUILD_VERSION")
                     self.assertTrue('Issue {0} should be created'.format(description),
