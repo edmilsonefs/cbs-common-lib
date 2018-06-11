@@ -2,11 +2,11 @@ import os
 import unittest
 
 from helper.platform.api import authenticator
-from helper.platform.api.data_collector import DataCollector
+from helper.platform.api.data_collector_publisher import DataCollectorPublisher
 
 
 class DataCollectorTest(unittest.TestCase):
-    data_collector = DataCollector()
+    data_collector = DataCollectorPublisher()
 
     def test_collections_not_empty(self):
         token = authenticator.login(os.getenv('testlio_username'), os.getenv('testlio_password'))

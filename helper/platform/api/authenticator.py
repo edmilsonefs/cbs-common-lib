@@ -3,21 +3,20 @@ from time import sleep
 from urllib import quote
 
 import requests
-from requests import ConnectionError
 
-BASE_URL = 'https://platform.testlio.com'
+from helper.platform.api.data_keeper import BASE_PLATFORM_URL
 
 
 def login(email, password):
     token = None
     count = 0
     while count < 10:
-        response = requests.get(BASE_URL + '/login')
+        response = requests.get(BASE_PLATFORM_URL + '/login')
         body = response.text
         csfr_token = re.search('"csfrtoken":"(.+)"', body).group(1)
 
         login_url = '/login?next=https%3A%2F%2Fplatform.testlio.com%2Foauth%2Ftokens%3Fresponse_type%3Dtoken%26client_id%3Dautomated_tests%26redirect_uri%3Dhttp%253A%252F%252Flocalhost'
-        headers = {'Referer': BASE_URL + login_url,
+        headers = {'Referer': BASE_PLATFORM_URL + login_url,
                    'Accept-Language': 'en-US,en;q=0.5',
                    'Upgrade-Insecure-Requests': '1',
                    'Content-Type': 'application/x-www-form-urlencoded',
@@ -28,7 +27,7 @@ def login(email, password):
         post_body = quote('user[email]') + '=' + quote(email) + '&' + quote('user[password]') + '=' + quote(
             password) + '&csrf-token=' + quote(csfr_token)
 
-        response = requests.post(url=BASE_URL + login_url, data=post_body, headers=headers, cookies=response.cookies)
+        response = requests.post(url=BASE_PLATFORM_URL + login_url, data=post_body, headers=headers, cookies=response.cookies)
 
         if response.status_code == 200:
             url = response.url

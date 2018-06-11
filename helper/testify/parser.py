@@ -8,6 +8,7 @@ def parse_response_to_set(response):
         arr_level1 = json_result[level1]
         for level2 in arr_level1:
             for level3 in level2:
+                level3['profile'] = level1
                 list_result.add(json.dumps(level3))
 
     return list_result

@@ -1,15 +1,13 @@
 import json
-import os
+from urllib import quote
 
 import requests
 
+from helper.platform.api.data_keeper import PROJECT_ID, BASE_API_URL
 from helper.platform.api.issue import Issue
 
-PROJECT_ID = os.getenv('testlio_project_id')
-BASE_API_URL = 'https://api.testlio.com'
 
-
-class DataCollector:
+class DataCollectorPublisher:
     token = ''
 
     def __init__(self):
@@ -18,7 +16,7 @@ class DataCollector:
     def get_issues(self, query):
         headers = {"Authorization": 'Bearer ' + self.token}
         response = requests.get(
-            BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues/?isDeleted=false&q=' + query,
+            BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues/?isDeleted=false&q=' + quote(query),
             headers=headers, allow_redirects=True)
         return json.loads(response.text)
 
@@ -56,3 +54,25 @@ class DataCollector:
                 issues_collection.add(Issue(state, app_version, device))
 
         return len(issues_collection) > 0
+
+    def post_issue(self, title, description_body, app_version):
+        body = {
+            "title": title,
+            "description": "Data validation is failed with failures: " + description_body,
+            "assignedTo": {
+                "href": "https://api.testlio.com/user/v1/users/5727"
+            },
+            "isApproved": False,
+            "severity": "low",
+            "labels": ["bug", "automation"],
+            "isClosed": False,
+            "isDeleted": False,
+            "buildVersion": app_version,
+            "isStarred": False
+        }
+
+        headers = {"Authorization": 'Bearer ' + self.token}
+        response = requests.post(url=BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues', data=body, headers=headers)
+
+        return response.status_code == 200
+
