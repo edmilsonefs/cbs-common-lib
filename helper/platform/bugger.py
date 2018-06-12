@@ -21,11 +21,36 @@ def create_bug(response):
     for issue in set_issues:
         i = json.loads(issue)
         if str(i['status']) == 'Fail':
-            query = '{0} {1} {2} {3}'.format(str(i['profile']), str(i['required']), str(i['Name']), str(i['value']))
+            profile = ''
+            required = ''
+            name = ''
+            value = ''
+
+            try:
+                profile = str(i['profile'])
+            except:
+                pass
+
+            try:
+                required = str(i['required'])
+            except:
+                pass
+
+            try:
+                name = str(i['Name'])
+            except:
+                pass
+
+            try:
+                value = str(i['value'])
+            except:
+                pass
+
+            query = '{0} {1} {2} {3}'.format(profile, required, name, value)
             json_data = data_collector_publisher.get_issues(query)
             issue_exists = data_collector_publisher.get_filtered_result(json_data, state='new')
             if not issue_exists:
-                title = '[AUTOMATION][{0}] - {1} {2} {3} ({4})'.format(str(i['profile']), str(i['required']), str(i['Name']), str(i['value']), str(str_to_int_sum(query)))
+                title = '[AUTOMATION][{0}] - {1} {2} {3} ({4})'.format(profile, required, name, value, str(str_to_int_sum(query)))
                 description = issue
                 app_version = 'CBS' + os.getenv("BUILD_VERSION")
                 if data_collector_publisher.post_issue(title, description, app_version):

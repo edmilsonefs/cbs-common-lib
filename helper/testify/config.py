@@ -133,7 +133,6 @@ def upload_dump(payload):
         print(r.content)
         print("\n6. Post bugs to Tetslio:\n")
 
-        #subprocess.call(["bash", "-c", "for i in {1..10000}; do (exec 2>&-; echo > /dev/tcp/localhost/$i && echo $i is open); done"])
         if str(platform).lower() == 'android':
             try:
                 create_bug(r.content)
