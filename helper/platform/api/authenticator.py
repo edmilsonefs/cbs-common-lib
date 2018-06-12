@@ -15,7 +15,7 @@ def login(email, password):
         body = response.text
         csfr_token = re.search('"csfrtoken":"(.+)"', body).group(1)
 
-        login_url = '/login?next=https%3A%2F%2Fplatform.testlio.com%2Foauth%2Ftokens%3Fresponse_type%3Dtoken%26client_id%3Dautomated_tests%26redirect_uri%3Dhttp%253A%252F%252F*'
+        login_url = '/login?next=https%3A%2F%2Fplatform.testlio.com%2Foauth%2Ftokens%3Fresponse_type%3Dtoken%26client_id%3Dautomated_tests%26redirect_uri%3Dhttp%253A%252F%252Flocalhost:631'
         headers = {'Referer': BASE_PLATFORM_URL + login_url,
                    'Accept-Language': 'en-US,en;q=0.5',
                    'Upgrade-Insecure-Requests': '1',
