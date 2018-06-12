@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 import json
 from urllib import quote
 
 import requests
 
-from helper.platform.api.data_keeper import PROJECT_ID, BASE_API_URL
+from helper.platform.data_helper import PROJECT_ID, BASE_API_URL, str_to_int_sum
 from helper.platform.api.issue import Issue
 
 
@@ -16,7 +17,7 @@ class DataCollectorPublisher:
     def get_issues(self, query):
         headers = {"Authorization": 'Bearer ' + self.token}
         response = requests.get(
-            BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues/?isDeleted=false&q=' + quote(str(hash(query))),
+            BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues/?isDeleted=false&q=' + quote(str(str_to_int_sum(query))),
             headers=headers, allow_redirects=True)
         return json.loads(response.text)
 

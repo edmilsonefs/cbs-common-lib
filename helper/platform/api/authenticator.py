@@ -4,7 +4,7 @@ from urllib import quote
 
 import requests
 
-from helper.platform.api.data_keeper import BASE_PLATFORM_URL
+from helper.platform.data_helper import BASE_PLATFORM_URL
 
 
 def login(email, password):
