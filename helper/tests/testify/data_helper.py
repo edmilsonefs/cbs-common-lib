@@ -132,6 +132,10 @@ mock_response = '{"AA Secure Omniture": [[{"status": "Fail", "required": "cbsicb
                 '"Name": "c. sitePrimaryRsid", "value": "cnetcbscomsite"}, {"status": "Fail", "required": ' \
                 '"/livetv/check availability", "Name": "pageName", "value": "CBS 4.8.5 (1648548)"}]]} '
 
+mock_response_short = '{"AA Secure Omniture": [[{"status": "Fail", "Name": "c. ' \
+                'sitePrimaryRsid", "value": "cnetcbscomsite"}]]} '
+
+actual_short = 'set([\'{"status": "Fail", "profile": "AA Secure Omniture", "Name": "c. sitePrimaryRsid", "value": "cnetcbscomsite"}\'])'
 mock_response_empty = '{"AA Secure Omniture": [[]]} '
 mock_response_empty_text = ''
 mock_response_empty_json = '{}'
