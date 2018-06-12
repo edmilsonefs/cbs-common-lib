@@ -14,14 +14,20 @@ def create_bug(response):
     data_collector_publisher = DataCollectorPublisher()
     data_collector_publisher.token = token
 
-    for issue in set_issues:
-        i = json.loads(issue)
-        if str(i['status']) == 'Fail':
-            query = '{0} {1} {2} {3}'.format(str(i['profile']), str(i['required']), str(i['Name']), str(i['value']))
-            json_data = data_collector_publisher.get_issues(query)
-            issue_exists = data_collector_publisher.get_filtered_result(json_data, state='new')
-            if not issue_exists:
-                title = '[AUTOMATION] - {0} ({1})'.format(query, str(hash(query)))
-                description = issue
-                app_version = os.getenv("BUILD_VERSION")
-                return data_collector_publisher.post_issue(title, description, app_version)
+    success_responses_counter = 0
+
+    if len(set_issues) > 0:
+        for issue in set_issues:
+            i = json.loads(issue)
+            if str(i['status']) == 'Fail':
+                query = '{0} {1} {2} {3}'.format(str(i['profile']), str(i['required']), str(i['Name']), str(i['value']))
+                json_data = data_collector_publisher.get_issues(query)
+                issue_exists = data_collector_publisher.get_filtered_result(json_data, state='new')
+                if not issue_exists:
+                    title = '[AUTOMATION] - {0} ({1})'.format(query, str(hash(query)))
+                    description = issue
+                    app_version = os.getenv("BUILD_VERSION")
+                    if data_collector_publisher.post_issue(title, description, app_version):
+                        success_responses_counter += 1
+
+        return success_responses_counter == len(set_issues)
