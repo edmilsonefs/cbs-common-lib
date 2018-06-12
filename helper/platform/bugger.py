@@ -30,5 +30,3 @@ def create_bug(response):
                 app_version = 'CBS' + os.getenv("BUILD_VERSION")
                 if data_collector_publisher.post_issue(title, description, app_version):
                     success_responses_counter += 1
-
-    return success_responses_counter == len(set_issues)

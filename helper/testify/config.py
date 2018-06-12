@@ -136,10 +136,9 @@ def upload_dump(payload):
         #subprocess.call(["bash", "-c", "for i in {1..10000}; do (exec 2>&-; echo > /dev/tcp/localhost/$i && echo $i is open); done"])
         if str(platform).lower() == 'android':
             try:
-                return create_bug(r.content)
+                create_bug(r.content)
             except Exception, e:
                 print("6. Failure in bug creation. " + str(e))
-                return False
 
         return True
     except Exception, e:
