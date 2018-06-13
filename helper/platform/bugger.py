@@ -2,7 +2,6 @@
 import json
 import os
 
-from helper.platform.api import authenticator
 from helper.platform.api.data_collector_publisher import DataCollectorPublisher
 from helper.platform.data_helper import unify_string
 from helper.testify import parser
@@ -11,7 +10,7 @@ from helper.testify import parser
 def create_bug(response):
     set_issues = parser.parse_response_to_set(response)
 
-    token = authenticator.login(os.getenv('testlio_username'), os.getenv('testlio_password'))
+    token = os.getenv('testlio_token')
 
     data_collector_publisher = DataCollectorPublisher()
     data_collector_publisher.token = token
