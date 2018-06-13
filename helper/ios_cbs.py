@@ -378,7 +378,9 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def _open_drawer(self):
         number_of_tries = 0
-        while not self.exists_and_visible(id='Main Menu', timeout=7):
+        main_menu_id = 'Main Menu' if self.exists_and_visible(id='Main Menu') else 'Open CBS Menu'
+        #while not self.exists_and_visible(id='Main Menu', timeout=7):
+        while not self.exists_and_visible(id=main_menu_id, timeout=7):
             number_of_tries += 1
             if number_of_tries == 5:
                 break
@@ -387,7 +389,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             #self.tap(3, 3)
             sleep(1)
 
-        e = self.exists_and_visible(id='Main Menu', timeout=6)
+        #e = self.exists_and_visible(id='Main Menu', timeout=6)
+        e = self.exists_and_visible(id=main_menu_id, timeout=6)
+
 
         if e and e.location['x'] > 80:
             return
@@ -398,7 +402,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             #self.tap(3, 3)
             self.go_back()
             sleep(1)
-            self.click(id='Main Menu')
+            #self.click(id='Main Menu')
+            self.click(id=main_menu_id)
 
     def open_drawer(self, native=False):
         self._open_drawer()
@@ -407,7 +412,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._open_drawer()
 
     def close_drawer(self):
-        e = self.exists_and_visible(id='Main Menu')
+        close_main_menu_id = 'Main Menu' if self.exists_and_visible(id='Main Menu') else 'Close CBS Menu'
+
+        e = self.exists_and_visible(id=close_main_menu_id)
 
         if e and e.location['x'] < 80:
             return
@@ -417,7 +424,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         else:
             self.go_back()
             sleep(1)
-            self.click(id='Main Menu')
+            self.click(id=close_main_menu_id)
 
     ####################################################################################
     # SHOW PAGE
