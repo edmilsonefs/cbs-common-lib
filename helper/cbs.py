@@ -2897,3 +2897,42 @@ class CommonHelper(TestlioAutomationTest):
 
             for child in list(elem):
                 self.qsrc(elem=child, tab_str=tab_str + '', full=full, recursing=True)
+
+    ############ BACKGROUND AND RELAUNCH METHODS #################
+    def _find_app_by_xpath_and_click(self, element_xpath):
+        # finds specific app in device apps page
+        window_size_y = self.driver.get_window_size()["height"]
+        self.driver.implicitly_wait(3)
+        count = 0
+        while count <= 5:
+            try:
+                element = self.driver.find_element_by_xpath(element_xpath)
+                self.safe_screenshot()
+                self.click(element)
+                self.safe_screenshot()
+                break
+            except:
+                self.driver.swipe(618, window_size_y - 200, 112, window_size_y - 200)
+                count += 1
+        self.driver.implicitly_wait(60)
+
+    def _go_to_background_then_launch_app(self, app_name, wait_time):
+        # background_app() method is not being stable for majority of devices
+        xpath_for_app_icon_on_device = "//android.widget.TextView[contains(@text,'" + app_name + "')]"
+        self.log_info('Going to background')
+        self.driver.press_keycode(3)
+        sleep(wait_time)  # waiting time for the app to be on background
+        apps = self.get_element(name='Apps')
+        self.click(apps)
+        self.safe_screenshot()
+        try:
+            self._find_app_by_xpath_and_click(xpath_for_app_icon_on_device)
+        except:
+            pass
+        self.log_info('Back from background')
+        self.safe_screenshot()
+
+    def close_and_relaunch_app(self):
+        self.driver.close_app()
+        self.driver.launch_app()
+        # self.close_open_navigation_drawer()
