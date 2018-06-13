@@ -6,7 +6,7 @@ BASE_API_URL = 'https://api.testlio.com'
 BASE_PLATFORM_URL = 'https://platform.testlio.com'
 
 
-def str_to_int_sum(phrase):
+def unify_string(phrase):
     sum = 0
     line = ''
     final_string = ''

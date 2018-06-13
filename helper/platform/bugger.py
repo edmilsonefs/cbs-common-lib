@@ -4,7 +4,7 @@ import os
 
 from helper.platform.api import authenticator
 from helper.platform.api.data_collector_publisher import DataCollectorPublisher
-from helper.platform.data_helper import str_to_int_sum
+from helper.platform.data_helper import unify_string
 from helper.testify import parser
 
 
@@ -50,7 +50,7 @@ def create_bug(response):
             json_data = data_collector_publisher.get_issues(query)
             issue_exists = data_collector_publisher.get_filtered_result(json_data, state='new')
             if not issue_exists:
-                title = '[AUTOMATION][{0}] - {1} {2} {3} ({4})'.format(profile, required, name, value, str(str_to_int_sum(query)))
+                title = '[AUTOMATION][{0}] - {1} {2} {3} ({4})'.format(profile, required, name, value, str(unify_string(query)))
                 description = issue
                 app_version = 'CBS' + os.getenv("BUILD_VERSION")
                 if data_collector_publisher.post_issue(title, description, app_version):
