@@ -1268,7 +1268,6 @@ class CommonHelper(TestlioAutomationTest):
         if self.exists(name='Default app selected', timeout=7):
             self.click_safe(name='OK')
 
-    #### LIVE TV and NIELSEN
     def go_to_debug_page(self):
         self.goto_settings()
         if self.phone:
@@ -1283,17 +1282,12 @@ class CommonHelper(TestlioAutomationTest):
         self.go_to_debug_page()
         self.event.screenshot(self.screenshot())
         window_size_y = self.driver.get_window_size()["height"]
-        # if "Nexus 7" in self.testdroid_device:
-        #     self.driver.tap([(450, 880)])
-        #     self.event.screenshot(self.screenshot())
-        # else:
         self.click(xpath=("//*[@text='Location Set']"))
 
         try:
             self.driver.implicitly_wait(5)
             self.get_element(name=city).click()
             self.click(name=city, screenshot=True)
-            self.safe_screenshot()
         except:
             if swipe_up:
                 for i in range(3):
@@ -1303,20 +1297,24 @@ class CommonHelper(TestlioAutomationTest):
                         self.driver.swipe(500, 600, 500, window_size_y - 400)  # Nexus 7
             else:
                 if self.phone:
-                    count = 0
-                    while not self.exists(name=city) and count < 10:
-                        items = self.get_elements(id='android:id/text1')
-                        origin = items[len(items) - 1]
-                        destination = items[1]
-                        TouchAction(self.driver).press(origin).move_to(destination).perform()
-                        #self.driver.drag_and_drop(origin, destination)
+                    if "samsung SAMSUNG-SM-G930A" in self.testdroid_device:
+                        origin = self.get_element(name='Fort Worth')
+                        destination = self.get_element(name='Denver KCNC')
+                        self.driver.drag_and_drop(origin, destination)
+                        self.safe_screenshot()
+                    else:
+                        origin = self.get_element(name='Philadelphia')
+                        destination = self.get_element(name='Denver KCNC')
+                        self.driver.drag_and_drop(origin, destination)
                         self.event.screenshot(self.screenshot())
-                        count += 1
+                    origin = self.get_element(name='College Station, TX KBTX')
+                    destination = self.get_element(name='Boston')
+                    self.driver.drag_and_drop(origin, destination)
+                    self.safe_screenshot()
                 else:
                     for i in range(4):
                         self.driver.swipe(500, window_size_y - 400, 500, 600)
             self.get_element(name=city).click()
-            self.safe_screenshot()
 
             self.driver.implicitly_wait(30)
         try:
@@ -1324,6 +1322,7 @@ class CommonHelper(TestlioAutomationTest):
         except:
             self.back()
             self.navigate_up()
+        self.safe_screenshot()
 
     def select_verify_now(self):
         self.swipe_down_and_verify_if_exists(id_element=self.com_cbs_app + ':id/btnVerifyNow')

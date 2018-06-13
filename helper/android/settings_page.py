@@ -136,20 +136,17 @@ class SettingsPage(BasePage):
         #         pass
 
     def sign_out(self):
-        self.settings_page.goto_settings()
+        self.goto_settings()
         if self.phone:
             self.swipe_down_if_element_is_not_visible(name="Debug", long_swipe=True)
-            self.safe_screenshot()
         try:
-            self.click_button_by_location('Sign Out')
+            self.click_by_location(elem='Sign Out')
             self.safe_screenshot()
             self.click_safe(element=self.settings_page.btn_sign_out())
-            self.safe_screenshot()
         except:
             self.click_safe(name='Sign Out')
-            # self.safe_screenshot()
             self.click_safe(element=self.settings_page.btn_sign_out())
-            # self.safe_screenshot()
         #  To go back to home page
+        self.safe_screenshot()
         self.click_safe(element=self.settings_page.btn_navigate_up())
         sleep(5)
