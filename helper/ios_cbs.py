@@ -1543,7 +1543,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     def verify_navigation_back_button(self, screenshot=False):
         # "verify menu icon"
         # "verify hamburger"
-        self.verify_exists(accessibility_id='Back', screenshot=screenshot)
+        self.verify_exists(accessibility_id='Back Button', screenshot=screenshot)
 
     def verify_share_icon(self, screenshot=False):
         self.click_more()
