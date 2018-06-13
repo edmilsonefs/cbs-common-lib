@@ -1247,7 +1247,7 @@ class CommonHelper(TestlioAutomationTest):
         self.safe_screenshot()
 
         if not self.exists(accessibility_id='Open navigation drawer'): #don't delete until scenarios are fixed accordingly.
-        # Test proceed to device home screen because of self.back() in some scenarios (user_account sign_in tests). 
+        # Test proceed to device home screen because of self.back() in some scenarios (user_account sign_in tests).
             self.back() #this call violates single responsibility principle
         self.user_type = self.anonymous
 
@@ -2467,7 +2467,7 @@ class CommonHelper(TestlioAutomationTest):
                 sleep(5)
                 self.safe_screenshot()
                 self.driver.find_element_by_xpath(
-                    xpath="//android.widget.Button[contains(@text,'Chromecast device on your network')]")
+                    xpath="//android.widget.TextView[contains(@text,'Chromecast device on your network')]")
                 self.log_info("Chromecast device on your network found")
                 self.safe_screenshot()
                 self.back()
