@@ -59,7 +59,7 @@ class DataCollectorPublisher:
     def post_issue(self, title, description_body, app_version):
         body = {
             "title": title,
-            "description": "Data validation is failed with failures: " + description_body,
+            "description": "Testify failure: " + description_body,
             "assignedTo": {
                 "href": "https://api.testlio.com/user/v1/users/5727"
             },
@@ -76,4 +76,3 @@ class DataCollectorPublisher:
         response = requests.post(url=BASE_API_URL + '/issue/v1/collections/' + PROJECT_ID + '/issues', data=json.dumps(body), headers=headers)
 
         return response.status_code == 200
-
