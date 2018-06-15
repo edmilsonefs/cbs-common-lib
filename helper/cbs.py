@@ -157,9 +157,7 @@ class CommonHelper(TestlioAutomationTest):
         sleep(1.5)
 
     def is_drawer_open(self):
-        if self.uiautomator2:
-            return not self.exists(accessibility_id='Open navigation drawer', timeout=3)
-        return not self.exists(name='Open navigation drawer', timeout=3)
+        return not self.get_element(name='Open navigation drawer', timeout=5)
 
     def close_drawer(self):
         self.back()
