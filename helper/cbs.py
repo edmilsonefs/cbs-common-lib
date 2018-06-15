@@ -151,6 +151,7 @@ class CommonHelper(TestlioAutomationTest):
         """
         el = self.get_element(name=OPEN_NAVIGATION_DRAWER, timeout=10)
         if el:
+            print('Clink first')
             el.click()
         else:
             self.back_while_open_drawer_is_visible()
@@ -160,6 +161,7 @@ class CommonHelper(TestlioAutomationTest):
                 if not self.is_drawer_open():
                     self.click_safe(name=OPEN_NAVIGATION_DRAWER).click()
                     attempts += 1
+                    print('Clink #' + str(attempts))
                 else:
                     break
 
