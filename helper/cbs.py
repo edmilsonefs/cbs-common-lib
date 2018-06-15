@@ -152,7 +152,10 @@ class CommonHelper(TestlioAutomationTest):
         el = self.get_element(name=OPEN_NAVIGATION_DRAWER, timeout=10)
         if el:
             print('Clink first')
-            el.click()
+            if self.phone:
+                el.click()
+            else:
+                self.click_by_location(elem=el, msg="Open drawer by coord")
         else:
             self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
