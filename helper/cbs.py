@@ -14,6 +14,8 @@ from selenium.common.exceptions import NoSuchElementException, WebDriverExceptio
 
 from testlio.base import TestlioAutomationTest
 
+OPEN_NAVIGATION_DRAWER = 'Open navigation drawer'
+
 
 class CommonHelper(TestlioAutomationTest):
     phone = False
@@ -123,9 +125,9 @@ class CommonHelper(TestlioAutomationTest):
         while count < 30:
             try:
                 if self.uiautomator2:
-                    self.get_element(accessibility_id='Open navigation drawer').click()
+                    self.get_element(accessibility_id=OPEN_NAVIGATION_DRAWER).click()
                 else:
-                    self.get_element(name='Open navigation drawer').click()
+                    self.get_element(name=OPEN_NAVIGATION_DRAWER).click()
                 self.get_element(name=menu_option).click()
                 break
             except:
@@ -145,19 +147,19 @@ class CommonHelper(TestlioAutomationTest):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
         """
-        el = self.get_element(name='Open navigation drawer', timeout=10)
+        el = self.get_element(name=OPEN_NAVIGATION_DRAWER, timeout=10)
         if el:
             el.click()
         else:
             self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
-                self.get_element(name='Open navigation drawer').click()
+                self.get_element(name=OPEN_NAVIGATION_DRAWER).click()
 
         sleep(1.5)
 
     def is_drawer_open(self):
-        return not self.get_element(name='Open navigation drawer', timeout=5)
+        return not self.get_element(name=OPEN_NAVIGATION_DRAWER, timeout=5)
 
     def close_drawer(self):
         self.back()
@@ -188,12 +190,7 @@ class CommonHelper(TestlioAutomationTest):
     def click_search_back(self):
         # self.click(id=self.com_cbs_app + ':id/closeButton')
 
-        if self.uiautomator2:
-            self.click(accessibility_id='Navigate up')
-        else:
-            self.click(name='Navigate up')  # home->search
-
-        # Todo analyze this, as it's the same as navigate up
+        self.navigate_up()
 
     ################################################
     # MENU
@@ -954,13 +951,13 @@ class CommonHelper(TestlioAutomationTest):
             the_timeout = 8
 
         if self.uiautomator2:
-            while not self.exists(timeout=the_timeout, accessibility_id='Open navigation drawer'):
+            while not self.exists(timeout=the_timeout, accessibility_id=OPEN_NAVIGATION_DRAWER):
                 self.back()
                 counter += 1
                 if counter > 10:
                     break
         else:
-            while not self.exists(timeout=the_timeout, id='Open navigation drawer'):
+            while not self.exists(timeout=the_timeout, id=OPEN_NAVIGATION_DRAWER):
                 self.back()
                 counter += 1
                 if counter > 10:
@@ -1238,7 +1235,7 @@ class CommonHelper(TestlioAutomationTest):
         self.log_info("Sign out done")
         self.safe_screenshot()
 
-        if not self.exists(accessibility_id='Open navigation drawer'): #don't delete until scenarios are fixed accordingly.
+        if not self.exists(accessibility_id=OPEN_NAVIGATION_DRAWER): #don't delete until scenarios are fixed accordingly.
         # Test proceed to device home screen because of self.back() in some scenarios (user_account sign_in tests).
             self.back() #this call violates single responsibility principle
         self.user_type = self.anonymous
@@ -2626,11 +2623,11 @@ class CommonHelper(TestlioAutomationTest):
     def verify_navigation_drawer_button(self, screenshot=False):
         # if self.exists(element=self.get_element(xpath="//*[@text='Live TV']")):
         #     if self.phone:
-        #         self.verify_exists(name='Open navigation drawer', screenshot=screenshot)
+        #         self.verify_exists(name=OPEN_NAVIGATION_DRAWER, screenshot=screenshot)
         #     else:
         #         self.verify_exists(name='Navigate up', screenshot=screenshot)
         # else:
-        #     self.verify_exists(name='Open navigation drawer', screenshot=screenshot)
+        #     self.verify_exists(name=OPEN_NAVIGATION_DRAWER, screenshot=screenshot)
         pass
 
     verify_menu_icon = verify_navigation_drawer_button
