@@ -145,20 +145,14 @@ class CommonHelper(TestlioAutomationTest):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
         """
-        if self.uiautomator2:
-            el = self.get_element(name='Open navigation drawer', timeout=10)
-        else:
-            el = self.exists(name='Open navigation drawer', timeout=10)
+        el = self.get_element(name='Open navigation drawer', timeout=10)
         if el:
             el.click()
         else:
             self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
             if not self.is_drawer_open():
-                if self.uiautomator2:
-                    self.get_element(accessibility_id='Open navigation drawer').click()
-                else:
-                    self.get_element(name='Open navigation drawer').click()
+                self.get_element(name='Open navigation drawer').click()
 
         sleep(1.5)
 
