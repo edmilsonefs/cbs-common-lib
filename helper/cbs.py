@@ -14,6 +14,8 @@ from selenium.common.exceptions import NoSuchElementException, WebDriverExceptio
 
 from testlio.base import TestlioAutomationTest
 
+NAVIGATE_UP = 'Navigate up'
+
 OPEN_NAVIGATION_DRAWER = 'Open navigation drawer'
 
 
@@ -170,12 +172,12 @@ class CommonHelper(TestlioAutomationTest):
 
     def navigate_up(self):
         if self.uiautomator2:
-            self.click_safe(accessibility_id='Navigate up')
+            self.click_safe(accessibility_id=NAVIGATE_UP)
         else:
-            self.click_safe(name='Navigate up')
+            self.click_safe(name=NAVIGATE_UP)
 
     def select_search_icon(self):
-        self.click(id=self.com_cbs_app + ':id/action_search')
+        self.click_search_icon()
         self.safe_screenshot()
 
     def click_search_icon(self):
@@ -925,9 +927,9 @@ class CommonHelper(TestlioAutomationTest):
             self.hw_back()
         else:
             if self.uiautomator2:
-                self.click_safe(accessibility_id='Navigate up')
+                self.click_safe(accessibility_id=NAVIGATE_UP)
             else:
-                self.click_safe(name='Navigate up')
+                self.click_safe(name=NAVIGATE_UP)
 
     def verify_exists_element_video_page(self, poll_every=5, **kwargs):
         count = 0
@@ -970,13 +972,13 @@ class CommonHelper(TestlioAutomationTest):
             the_timeout = 8
 
         if self.uiautomator2:
-            while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id='Navigate up')):
+            while not self.exists(element=self.get_element(timeout=the_timeout, accessibility_id=NAVIGATE_UP)):
                 self.back()
                 counter += 1
                 if counter > 10:
                     break
         else:
-            while not self.exists(element=self.get_element(timeout=the_timeout, id='Navigate up')):
+            while not self.exists(element=self.get_element(timeout=the_timeout, id=NAVIGATE_UP)):
                 self.back()
                 counter += 1
                 if counter > 10:
@@ -2625,7 +2627,7 @@ class CommonHelper(TestlioAutomationTest):
         #     if self.phone:
         #         self.verify_exists(name=OPEN_NAVIGATION_DRAWER, screenshot=screenshot)
         #     else:
-        #         self.verify_exists(name='Navigate up', screenshot=screenshot)
+        #         self.verify_exists(name=NAVIGATE_UP, screenshot=screenshot)
         # else:
         #     self.verify_exists(name=OPEN_NAVIGATION_DRAWER, screenshot=screenshot)
         pass
@@ -2639,9 +2641,9 @@ class CommonHelper(TestlioAutomationTest):
 
     def verify_back_button(self, screenshot=False):
         if self.uiautomator2:
-            self.verify_exists(accessibility_id='Navigate up', screenshot=screenshot)
+            self.verify_exists(accessibility_id=NAVIGATE_UP, screenshot=screenshot)
         else:
-            self.verify_exists(name='Navigate up', screenshot=screenshot)
+            self.verify_exists(name=NAVIGATE_UP, screenshot=screenshot)
 
     def verify_search_text(self, screenshot=False):
         self.verify_exists(id=self.com_cbs_app + ':id/search_src_text', screenshot=screenshot)
