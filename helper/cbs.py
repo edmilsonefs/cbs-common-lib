@@ -156,9 +156,12 @@ class CommonHelper(TestlioAutomationTest):
             self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
             attempts = 0
-            while not self.is_drawer_open() and attempts < 10:
-                self.get_element(name=OPEN_NAVIGATION_DRAWER).click()
-                attempts += 1
+            while attempts < 10:
+                if not self.is_drawer_open():
+                    self.click_safe(name=OPEN_NAVIGATION_DRAWER).click()
+                    attempts += 1
+                else:
+                    break
 
         sleep(1.5)
 
