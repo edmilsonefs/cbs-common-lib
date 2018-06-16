@@ -2464,16 +2464,10 @@ class CommonHelper(TestlioAutomationTest):
 
     def close_chromecast(self):
         if not self.IS_AMAZON:
-            try:
-                sleep(5)
-                self.safe_screenshot()
-                self.driver.find_element_by_xpath(
-                    xpath="//android.widget.TextView[contains(@text,'Chromecast device on your network')]")
-                self.log_info("Chromecast device on your network found")
-                self.safe_screenshot()
+            if self.exists(xpath="//android.widget.TextView[contains(@text,'Chromecast device on your network')]"):
+                self.tap(50, 50)
+            if self.exists(xpath="//android.widget.TextView[contains(@text,'Chromecast device on your network')]"):
                 self.back()
-            except:
-                pass
 
     ################################################
     # VALIDATE / VERIFY
