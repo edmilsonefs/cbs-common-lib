@@ -149,6 +149,7 @@ class CommonHelper(TestlioAutomationTest):
         """
         Opens side drawer if it's not open.  If we're up a level (viewing a show) it will go back, then open the drawer.
         """
+        self.back_while_open_drawer_is_visible()
         el = self.get_element(name=OPEN_NAVIGATION_DRAWER, timeout=10)
         if el:
             print('Clink first')
