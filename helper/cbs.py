@@ -156,7 +156,8 @@ class CommonHelper(TestlioAutomationTest):
             if self.phone:
                 el.click()
             else:
-                self.click_by_location(elem=el, msg="Open drawer by coord", side='middle')
+                el.click()    # re-trying older code
+                # self.click_by_location(elem=el, msg="Open drawer by coord", side='middle')
         else:
             self.back_while_open_drawer_is_visible()
             # if the drawer is NOT already open, try again and throw err on failure
