@@ -99,49 +99,18 @@ class CommonIOSHelper(TestlioAutomationTest):
         """
         This assumes you are on the Sign In screen.
         """
-
         # username
-        if self.phone:
-            if self.xcuitest:
-                user_elem = self._find_element(class_name='XCUIElementTypeTextField')
-            else:
-                user_elem = self._find_element(class_name='UIATextField')
-        else:
-            for e in self.driver.find_elements_by_xpath("//*[@value='Email']"):
-                if e.is_displayed():
-                    user_elem = e
-                    break
-
+        user_elem = self._find_element(class_name='XCUIElementTypeTextField')
         user_elem.click()
         self.send_keys(element=user_elem, data=username)
 
         # password
-        if self.phone:
-            if self.xcuitest:
-                pwd_elem = self._find_element(class_name='XCUIElementTypeSecureTextField')
-            else:
-                pwd_elem = self._find_element(class_name='UIASecureTextField')
-        else:
-            for e in self.driver.find_elements_by_xpath("//*[@value='Password']"):
-                if e.is_displayed():
-                    pwd_elem = e
-                    break
-
+        pwd_elem = self._find_element(class_name='XCUIElementTypeSecureTextField')
         pwd_elem.click()
         self.send_keys(element=pwd_elem, data=password)
 
         # sign in button
-        if self.phone:
-            if self.xcuitest:
-                sign_in_button = self._find_element(accessibility_id='SIGN IN')
-            else:
-                sign_in_button = self._find_element(xpath="//*[@name='SIGN IN']")
-        else:
-            for e in self.driver.find_elements_by_xpath("//*[@name='SIGN IN']"):
-                if e.is_displayed():
-                    sign_in_button = e
-                    break
-
+        sign_in_button = self._find_element(accessibility_id='SIGN IN')
         sleep(3)
         sign_in_button.click()
 
@@ -1549,14 +1518,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click_more()
         # self.verify_exists(xpath='//*[@name="Share"]', screenshot=screenshot)
         self.verify_exists(accessibility_id='Share', screenshot=screenshot)
-        if self.phone:
-            if not self.click_safe(id='CLOSE'):
-                self.click_safe(id='Close')
-        else:
-            if self.xcuitest:
-                self.click(xpath='//*[@name="PopoverDismissRegion"]')
-            else:
-                self.click_more()
+
+        if not self.click_safe(id='CLOSE'):
+            self.click_safe(id='Close')
 
     def verify_cancel_button(self, screenshot=False):
         self.verify_exists(id='Cancel', screenshot=screenshot)
