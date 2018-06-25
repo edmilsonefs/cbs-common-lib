@@ -1134,11 +1134,12 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_in_batch(text_list, False)
 
     def validation_bm(self, user_type='anonymous'):
+        self.log_info("Validation BM")
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
-            text_list = ['Back|Back Button',
-                         'Pick Your Plan',
+            self.verify_in_batch(['Back|Back Button'])
+            text_list = ['Pick Your Plan',
                          'Live TV includes commercials and select shows have promotional interruptions']
 
             if user_type != self.cf_subscriber:
