@@ -372,9 +372,9 @@ class Validations(CommonHelper, CommonIOSHelper):
                 if self.exists(id="LIMITED COMMERCIALS"):
                     self.verify_in_batch(['COMMERCIAL FREE', 'LIMITED COMMERCIALS'])
                 else:
-                    self.verify_in_batch(['Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content'])
-                if self.user_type == self.anonymous:
-                    self.verify_exists(id='Sign In')
+                    self.verify_exists('Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content')
+                    if self.user_type == self.anonymous:
+                        self.verify_exists(id='Sign In')
                 if self.user_type == self.registered:
                     self.verify_not_exists(id='Sign In')
 
