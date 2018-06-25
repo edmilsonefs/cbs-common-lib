@@ -93,7 +93,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.home_page_android.validate_page(check_marquee)
         elif self.IS_IOS:
-            self.verify_in_batch(['Main Menu', 'Search'])
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'Search'])
             # self.verify_exists(id='MarqueeCollectionView', timeout=10) #add home page marquee
 
     def validation_c(self):
@@ -225,7 +225,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.close_big_advertisement()
             self.verify_exists(id='Schedule')
             self.verify_exists(id='Search')
-            self.verify_in_batch(['Main Menu', 'ET/PT', 'Today'])
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'ET/PT', 'Today'])
             self.close_big_advertisement()
 
     def validation_l(self):  # TODO update validation
@@ -242,7 +242,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.shows_page_android.validate_page(category)
         elif self.IS_IOS:
             self.verify_cbs_logo()
-            self.verify_in_batch(['Main Menu', 'Search', 'I want to see: %s' % category])
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'Search', 'I want to see: %s' % category])
             # self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
             self.verify_show_cards_exist()
 
@@ -330,6 +330,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_u(self, user_type="anonymous"):  # TODO update validation, Updated for IOS
         # Upsell Page
+        # DEPRECATED
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
@@ -451,7 +452,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(name='Sign Up')
         elif self.IS_IOS:
             self.verify_in_batch(
-                ['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'CONTINUE'])
+                ['Main Menu|Open CBS Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration', 'CONTINUE'])
 
     def validation_xf(self):
         if self.IS_ANDROID:
@@ -460,7 +461,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self._short_swipe_down()
                 self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration',
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration',
                                   'Sign up with your Facebook account', 'CONTINUE'])
 
     def validation_xt(self):
@@ -470,7 +471,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self._short_swipe_down()
             self.verify_exists(id=self.com_cbs_app + ':id/btnSignUp', screenshot=True)
         elif self.IS_IOS:
-            self.verify_in_batch(['Main Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration',
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'CBSEye_white', 'Sign Up', 'Search', 'Please complete your registration',
                                   'Sign up with your Twitter account', 'CONTINUE'])
 
     def validation_xg(self):
@@ -592,8 +593,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.live_tv_page_android.validate_page(self.user_type)
         elif self.IS_IOS:
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')  # cbs icon
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'CBSEye_white'])
             # self.verify_exists(id='Live TV')
             # self.verify_exists(id='Two ways to watch Live TV')
             # self.verify_exists(id='Instantly watch your local CBS station at home or on the go!')
@@ -637,6 +637,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             #     self.verify_not_exists(xpath="//XCUIElementTypeButton[contains(@name,'TRY 1') and contains(@name, 'FREE') and (contains(@name, 'MONTH') or contains(@name, 'FREE'))]")
 
     def validation_ah(self):
+        #DEPRECATED
         if self.IS_ANDROID:
             # see_devices_web_view_page
             sleep(5)
@@ -680,15 +681,9 @@ class Validations(CommonHelper, CommonIOSHelper):
                 xpath="//*[@resource-id='" + self.com_cbs_app + ":id/toolbar']//*[@class='android.widget.ImageView']")  # cbs icon
             self.verify_exists(xpath="//*[@class='android.webkit.WebView']")
         elif self.IS_IOS:
-            self.driver.implicitly_wait(5)
             sleep(5)
-            self.verify_exists(id='Main Menu', screenshot=True)
-            self.verify_exists(id='CBSEye_white')
-            self.verify_exists(id="Search")
-            self.verify_exists(id="Frequently Asked Questions")
             self.safe_screenshot()
-            # self.verify_exists(xpath='//XCUIElementTypeStaticText[@name="Frequently Asked Questions"]')
-            self.driver.implicitly_wait(30)
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'CBSEye_white', 'Search', 'Frequently Asked Questions'])
 
     def validation_aj(self):
         if self.IS_ANDROID:
@@ -896,7 +891,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             #     self.verify_not_exists(name='Already have an account? Sign In')
         elif self.IS_IOS:
             text_list = [
-                'Main Menu',
+                'Main Menu|Open CBS Menu',
                 'Search',
                 'We show that CBS is not authorized for you by your TV provider,',
                 'but you can sign in to All Access to watch now.|but you can sign in to CBS All Access to watch now.',
@@ -912,7 +907,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.movies_page_android.validate_page()
         elif self.IS_IOS:
-            self.verify_in_batch(['Main Menu', 'Movies', 'Search'])
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'Movies', 'Search'])
             if self.xcuitest:
                 self.assertTrueWithScreenShot(
                     len(self.driver.find_element_by_class_name(
