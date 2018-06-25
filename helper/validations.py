@@ -367,18 +367,18 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.click_allow_popup()
             self.upsell_page_android.validate_page(user_type=user_type)
         elif self.IS_IOS:
-            if self.user_type in [self.anonymous, self.registered]:
+            if user_type in [self.anonymous, self.registered]:
                 self.verify_exists(id='TRY 1 WEEK FREE')
                 if self.exists(id="LIMITED COMMERCIALS"):
                     self.verify_in_batch(['COMMERCIAL FREE', 'LIMITED COMMERCIALS'])
                 else:
                     self.verify_exists('Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content')
-                    if self.user_type == self.anonymous:
+                    if user_type == self.anonymous:
                         self.verify_exists(id='Sign In')
-                if self.user_type == self.registered:
+                if user_type == self.registered:
                     self.verify_not_exists(id='Sign In')
 
-            if self.user_type == self.ex_subscriber:
+            if user_type == self.ex_subscriber:
                 if self.exists(id="GET STARTED"):
                     self.verify_in_batch(['GET STARTED', 'Stream 10,000\+ Episodes, Live TV &amp; Exclusive Content'])
                 else:
@@ -386,13 +386,13 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_not_exists(id='Sign In')
                 self.verify_not_exists(id='TRY 1 WEEK FREE')
 
-            if self.user_type in [self.subscriber, self.trial, self.cf_subscriber]:
+            if user_type in [self.subscriber, self.trial, self.cf_subscriber]:
                 if self.exists(id='Manage your subscription at cbs.com/account'):
                     self.verify_exists(id='Manage your subscription at cbs.com/account')
                     self.verify_not_exists(id='Sign In')
                 else:
                     self.verify_exists(id='COMMERCIAL FREE')
-                    if self.user_type == self.cf_subscriber:
+                    if user_type == self.cf_subscriber:
                         self.verify_not_exists(id="UPGRADE")
 
     def validation_w(self, error_number):
@@ -764,6 +764,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_al(self, user_type='anonymous'):
         self.log_info("Validation AL")
+        self.safe_screenshot()
         if self.IS_ANDROID:
             self.verify_exists(name='Sign in with your TV provider to start streaming')
             self.verify_exists(id=self.com_cbs_app + ':id/gridRecyclerView', screenshot=True)
