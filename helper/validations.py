@@ -891,7 +891,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             # else:
             #     self.verify_not_exists(name='Already have an account? Sign In')
         elif self.IS_IOS:
-            sleep(3)
+            sleep(5)
             self.safe_screenshot()
             self.verify_in_batch(['Main Menu|Open CBS Menu', 'Search', 'We show that CBS is not authorized for you by your TV provider,',
                 'but you can sign in to All Access to watch now.|but you can sign in to CBS All Access to watch now.',
