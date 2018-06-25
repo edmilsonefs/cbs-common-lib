@@ -342,7 +342,9 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.go_back()
 
     def go_back(self):
-        if self.exists_and_visible(id='Back', timeout=10):
+        if self.exists_and_visible(id='Back Button', timeout=10):
+            self.click_safe(id='Back Button', timeout=10)
+        else:
             self.click_safe(id='Back', timeout=10)
 
     def _open_drawer(self):
@@ -705,7 +707,7 @@ class CommonIOSHelper(TestlioAutomationTest):
 
         else:
             sleep(5)
-            while not (self.exists(id='Main Menu', timeout=7) or self.exists(id='Back', timeout=7)):
+            while not (self.exists(id='Open CBS Menu', timeout=7) or self.exists(id='Back Button', timeout=7) or self.exists(id='Main Menu', timeout=7) or self.exists(id='Back', timeout=7)):
                 ta = TouchAction(self.driver)
                 ta.press(x=100, y=100).release().perform()
                 sleep(1)
@@ -1507,12 +1509,18 @@ class CommonIOSHelper(TestlioAutomationTest):
     def verify_navigation_drawer_button(self, screenshot=False):
         # "verify menu icon"
         # "verify hamburger"
-        self.verify_exists(id='Main Menu', screenshot=screenshot)
+        if self.exists_and_visible(id='Open CBS Menu'):
+            self.verify_exists(id='Open CBS Menu', screenshot=screenshot)
+        else:
+            self.verify_exists(id='Main Menu', screenshot=screenshot)
 
     def verify_navigation_back_button(self, screenshot=False):
         # "verify menu icon"
         # "verify hamburger"
-        self.verify_exists(accessibility_id='Back', screenshot=screenshot)
+        if self.exists_and_visible(id='Back Button'):
+            self.verify_exists(id='Back Button', screenshot=screenshot)
+        else:
+            self.verify_exists(accessibility_id='Back', screenshot=screenshot)
 
     def verify_share_icon(self, screenshot=False):
         self.click_more()
