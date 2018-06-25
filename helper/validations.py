@@ -1141,7 +1141,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
-            text_list = ['Back',
+            text_list = ['Back|Back Button',
                          'Pick Your Plan',
                          'Live TV includes commercials and select shows have promotional interruptions']
 
