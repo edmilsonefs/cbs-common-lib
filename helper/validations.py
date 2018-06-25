@@ -683,7 +683,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         elif self.IS_IOS:
             sleep(5)
             self.safe_screenshot()
-            self.verify_in_batch(['Main Menu|Open CBS Menu', 'CBSEye_white', 'Search', 'Frequently Asked Questions'])
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'CBSEye_white', 'Search'])
+            self.verify_exists(id='Frequently Asked Questions')
 
     def validation_aj(self):
         if self.IS_ANDROID:
