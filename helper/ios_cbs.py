@@ -1517,6 +1517,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         # "verify hamburger"
         if self.exists_and_visible(id='Open CBS Menu'):
             self.verify_exists(id='Open CBS Menu', screenshot=screenshot)
+        elif self.exists_and_visible(id='Close CBS Menu'):
+            self.verify_exists(id='Close CBS Menu', screenshot=screenshot)
         else:
             self.verify_exists(id='Main Menu', screenshot=screenshot)
 
