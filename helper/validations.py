@@ -242,7 +242,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.shows_page_android.validate_page(category)
         elif self.IS_IOS:
             self.verify_cbs_logo()
-            self.verify_in_batch(['Main Menu|Open CBS Menu', 'Search', 'I want to see: %s' % category])
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'Search', 'I want to see: %s|%s Menu Dropdown' % (category, category)])
             # self.verify_exists(xpath="//XCUIElementTypeCell//XCUIElementTypeImage") # DO NOT MAKE IT OVER COMPLICATED
             self.verify_show_cards_exist()
 
