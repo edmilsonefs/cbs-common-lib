@@ -356,10 +356,9 @@ class CommonIOSHelper(TestlioAutomationTest):
             if number_of_tries == 5:
                 break
 
-            try:
-                self.go_back()
-            except:
+            if self.exists_and_visible(id='Close CBS Menu'):
                 self.click_safe(id='Close CBS Menu')
+            self.go_back()
             #self.tap(3, 3)
             sleep(1)
 
@@ -374,10 +373,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             e.click()
         else:
             #self.tap(3, 3)
-            try:
-                self.go_back()
-            except:
-                self.click_safe(id='Close CBS Menu')
+
+            self.go_back()
             sleep(1)
             #self.click(id='Main Menu')
             self.click(id=main_menu_id)
