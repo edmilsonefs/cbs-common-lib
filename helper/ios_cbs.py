@@ -407,11 +407,8 @@ class CommonIOSHelper(TestlioAutomationTest):
             xpath="//XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell[1]")
 
     def click_first_show_page_episode(self):
-        more_info_icon = self.get_elements(id='More Info')
-        x = more_info_icon[0].location['x']
-        y = more_info_icon[0].location['y']
-
-        self.tap(x - 20, y - 20)
+        cell = self.get_elements(class_name='XCUIElementTypeCell')
+        cell[1].click()
 
     def click_info_icon_on_found_on_show_page(self, show_elem):
         self.click_show_info_icon()
