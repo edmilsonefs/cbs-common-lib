@@ -161,12 +161,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.click(id='TV Provider')
         self._accept_alert(2)
 
-    def goto_cbs_local_station(self):
-        self.open_drawer()
-        self.click(id='CBS (Local Station)')
-        self._accept_alert(2)
-        self.click_safe(id='Allow')
-
     def goto_schedule(self):
         self.open_drawer()
         self.click(id='Schedule')
@@ -245,10 +239,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     def goto_sign_up(self):
         self.goto_sign_in()
         self.click(id='Sign Up')
-
-    def goto_cbsn_news(self):
-        self.open_drawer()
-        self.click(id='CBSN (24/7 News)')
 
     # def go_to_show(self, show_name):
     #     self.goto_show(show_name)
