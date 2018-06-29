@@ -149,11 +149,30 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append('TV Provider')
             self.verify_in_batch(text_list, False)
         if self.IS_IOS:
+            self.safe_screenshot()
+            text_list = ['Home', 'Shows', 'Live TV', 'Movies', 'Schedule', 'Store', 'Settings']
             if user_type == self.anonymous:
-                self.verify_exists(id='Sign In', screenshot=False)
-            self.verify_in_batch(['Settings', 'Home', 'Shows', 'Schedule', 'Store'])
-            # self.verify_exists(id='Live TV') TODO update validation
-            # self.verify_exists(id='Movies')
+                text_list.append('Sign In')
+                self.verify_exists(xpath='//XCUIElementTypeButton[@name="Subscribe"]')
+            else:
+                pass
+                # self.verify_exists(name=name)
+
+            if user_type in [self.ex_subscriber, self.registered]:
+                self.verify_exists(xpath='//XCUIElementTypeButton[@name="Subscribe"]')
+
+            if user_type in [self.lc_subscriber, self.trial]:
+                text_list.append('Upgrade')
+
+            elif user_type == self.cf_subscriber:
+                self.verify_not_exists(name='Upgrade')
+                self.verify_not_exists(xpath='//XCUIElementTypeButton[@name="Subscribe"]')
+
+            if mvpd:
+                self.verify_not_exists(name="TV Provider")
+            else:
+                text_list.append('TV Provider')
+            self.verify_in_batch(text_list, False)
 
             # Show Page
 
