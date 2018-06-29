@@ -161,7 +161,8 @@ class Validations(CommonHelper, CommonIOSHelper):
             if user_type in [self.ex_subscriber, self.registered]:
                 self.verify_exists(xpath='//XCUIElementTypeButton[@name="Subscribe"]')
 
-            if user_type in [self.lc_subscriber, self.trial]:
+            if user_type == self.trial:
+                #TODO self.lc_subscriber
                 text_list.append('Upgrade')
 
             elif user_type == self.cf_subscriber:
