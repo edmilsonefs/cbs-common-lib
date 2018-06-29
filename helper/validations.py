@@ -1010,7 +1010,12 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             self.verify_in_batch(":id/expand_button", ":id/cc_button")
         elif self.IS_IOS:
-            pass
+            self.verify_exists(xpath='//XCUIElementTypeImage')
+            # self.verify_exists(id='Episode title')
+            # self.verify_exists(xpath='//XCUIElementTypeText')
+            self.verify_exists(xpath="//XCUIElementTypeButton[@name='LiveSkin close captioned icon ']")
+            self.verify_exists(id='LiveSkin close fullscreen icon')
+            
 
     def validation_bb(self, user_type='anonymous', mvpd=False):
         self.log_info("Validation BB")
@@ -1034,6 +1039,18 @@ class Validations(CommonHelper, CommonIOSHelper):
                 self.verify_exists(name='Schedule')
             else:
                 self.verify_exists(name='Channels')
+        if self.IS_IOS:
+            Player='//XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'#TODO Player
+            self.verify_exists(xpath=Player)
+            self.verify_exists(xpath='//XCUIElementTypeCollectionView')
+            self.verify_exists(xpath='//XCUIElementTypeCell[1]')
+            self.verify_exists(xpath='//XCUIElementTypeCell[2]')
+            if mvpd:
+                pass
+                #TODO self.verify_exists(id='Station logo')
+
+
+        
 
     def validation_bc(self, mvpd=False):
         self.log_info("Validation BC")
@@ -1052,7 +1069,28 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append(':id/imgProviderLogo')
             self.verify_in_batch(text_list, False)
             self.verify_exists(xpath="//android.widget.FrameLayout[1]")
-
+        if self.IS_IOS:
+            self.verify_in_batch(['Main Menu|Open CBS Menu', 'CBSEye_white'])
+            Player = '//XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'  # TODO Player
+            self.verify_exists(xpath=Player)
+            self.verify_exists(xpath='//XCUIElementTypeCollectionView')#TODO Schedule
+            self.verify_exists(xpath='//XCUIElementTypeCell[1]')#TODO Schedule Grid
+            self.verify_exists(xpath='//XCUIElementTypeImage')#TODO Station Logo
+            #TODO Live Tv
+            if mvpd:
+                pass
+                #TODO Clarify validation
+                # self.verify_not_exists(id='CBS.CBSiLiveTVChannelDetailView')
+                # self.verify_not_exists(id='Channels')
+   
+    def validation_bd(self):
+        # self.verify_exists(xpath="//*[contains(@name,'AM') or contains(@name,'PM') or contains(@name,':')]")
+        #TODO TIME
+        #TODO Show Title
+        #TODO Episode Title
+        #TODO Description
+        pass
+    
     def validation_be(self, mvpd=False):
         self.log_info("Validation BE")
         if self.IS_ANDROID:
@@ -1097,6 +1135,18 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append('Channels')
 
             self.verify_in_batch(text_list, False)
+            
+        if self.IS_IOS:
+            text_list = ['Main Menu|Open CBS Menu', 'CBSEye_white', 'Please accept the Terms of Use in order to watch live TV.', 'VIEW TERMS TO ACCEPT']
+            self.verify_exists(xpath='//XCUIElementTypeCollectionView')
+            self.verify_exists(xpath='//XCUIElementTypeCell[1]')
+            self.verify_exists(xpath='//XCUIElementTypeCell[2]')
+            self.verify_in_batch(text_list)
+            #if non_sub:
+               #text_list.append('Channels')
+            #TODO Live TV and Search are absent
+
+           
 
     def validation_bj(self, user_type='anonymous', mvpd=False):
         self.log_info("Validation BJ")
