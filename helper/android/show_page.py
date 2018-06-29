@@ -82,8 +82,7 @@ class ShowPage(BasePage):
             'android.widget.ImageView',
             'action_search',
             'imgHeader',
-            'More options',
-            'imgMyCbsToggle'
+            'More options'
             ]
         if not clips:
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
