@@ -1254,12 +1254,6 @@ class CommonIOSHelper(TestlioAutomationTest):
     ####################################################################################
     # GET WRAPPERS
 
-    def get_show_cards(self):
-
-        container = self.get_element(accessibility_id='PosterViewController')
-        show_cards = container.find_elements_by_class_name('XCUIElementTypeImage')
-
-        return show_cards
 
     def get_search_result_episode_count_element(self):
 
@@ -1563,8 +1557,8 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.assertTrueWithScreenShot(element, screenshot=screenshot,
                                       msg='Should see "X Episodes" text in search results')
 
-    def verify_show_cards_exist(self, screenshot=False):
-        show_cards = self.get_show_cards()
+    def verify_show_cards_exist(self, show_name, screenshot=False):
+        show_cards = self.get_elements(accessibility_id=show_name)
         show_cards_count = len(show_cards)
         self.verify_not_equal(show_cards_count, 0, screenshot)
 
