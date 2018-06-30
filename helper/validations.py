@@ -339,11 +339,11 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_search_field()
             self.verify_exists(id="No Shows Found")
 
-    def validation_t(self):
+    def validation_t(self, show_name=""):
         if self.IS_ANDROID:
             self.verify_movie_poster()
         elif self.IS_IOS:
-            self.verify_show_cards_exist()
+            self.verify_show_cards_exist(show_name)
 
             # Live TV Page
 
