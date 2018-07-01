@@ -6,6 +6,9 @@ import re
 import subprocess
 from time import sleep, time
 from xml.etree import ElementTree
+from testlio import tcpdump
+import requests
+import json
 
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
@@ -33,6 +36,7 @@ class CommonIOSHelper(TestlioAutomationTest):
     signed_out = True
     xcuitest = False
     window_size = None
+    is_new_upsell = False
 
     def setup_method(self, method, caps=False):
         # subprocess.call("adb shell am start -n io.appium.settings/.Settings -e wifi off", shell=True)
@@ -63,6 +67,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         self._dismiss_alert(1)
         self.goto_home()
         self.window_size = self.driver.get_window_size()
+        is_new_upsell = self.get_info_from_response()
         # self.click_safe(xpath="//*[@name='OK' OR @name='Ok' OR @name='ok']", timeout=60)
 
     def teardown_method(self, method):
@@ -87,6 +92,15 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     ####################################################################################
     # SETUP/LOGIN METHODS
+
+    def get_info_from_response(self):
+        tcpdump.init(host='api.taplytics.com')
+        path = tcpdump.return_path_from_line()
+        url = 'https://api.taplytics.com' + path
+        response = requests.get(url)
+        if response.status_code == 200:
+            json_response = json.loads(response.text)
+            print 'Project info:' + json_response['projectInfo']
 
     def is_xcuitest(self):
         try:
