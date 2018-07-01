@@ -1258,8 +1258,8 @@ class CommonHelper(TestlioAutomationTest):
 
     def click_already_have_account_sign_in(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
-        elem = self.get_element(name='Already have an account? Sign In')
-        self.click_by_location(elem, side='right')
+        self.click(id=self.com_cbs_app + ':id/txtAlreadyHaveAnAccount')
+        self.safe_screenshot()
 
     def open_url(self, url):
         self.log_info('Scenario for Custom - %s' % url)
