@@ -100,7 +100,7 @@ class CommonIOSHelper(TestlioAutomationTest):
         response = requests.get(url)
         if response.status_code == 200:
             json_response = json.loads(response.text)
-            print 'Project info:' + str(json.dump(json_response['projectInfo']))
+            print 'Project info:' + str(json.dumps(json_response['projectInfo']))
 
     def is_xcuitest(self):
         try:
