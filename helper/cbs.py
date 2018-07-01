@@ -1257,9 +1257,11 @@ class CommonHelper(TestlioAutomationTest):
         self.driver.implicitly_wait(5)
 
     def click_already_have_account_sign_in(self):
-        self.event._log_info(self.event._event_data('Select Sign In'))
-        self.click(id=self.com_cbs_app + ':id/txtAlreadyHaveAnAccount')
-        self.safe_screenshot()
+        # Sometimes it needs to click more than once
+        count = 0
+        while self.exists(id=self.com_cbs_app + ':id/txtAlreadyHaveAnAccount') and count <= 3:
+            self.click(id=self.com_cbs_app + ':id/txtAlreadyHaveAnAccount')
+            count += 1
 
     def open_url(self, url):
         self.log_info('Scenario for Custom - %s' % url)
