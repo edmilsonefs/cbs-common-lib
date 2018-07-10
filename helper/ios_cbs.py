@@ -10,7 +10,6 @@ from testlio import tcpdump
 import requests
 import json
 
-from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest, SCREENSHOTS_DIR
@@ -139,10 +138,12 @@ class CommonIOSHelper(TestlioAutomationTest):
     def logout(self, safe=False):
         self.goto_settings()
         self.short_swipe_down()
+        self.safe_screenshot()
         if safe:
             self.click_safe(id='Sign Out', timeout=6)
         else:
             self.click(id='Sign Out')
+        self.safe_screenshot()
 
     def mvpd_logout(self):
         self.goto_settings()
