@@ -138,11 +138,12 @@ class CommonIOSHelper(TestlioAutomationTest):
 
     def logout(self, safe=False):
         self.goto_settings()
-        self.short_swipe_down()
+        self.swipe_down(1, (400 if self.tablet else 100))
         if safe:
             self.click_safe(id='Sign Out', timeout=6)
         else:
             self.click(id='Sign Out')
+
 
     def mvpd_logout(self):
         self.goto_settings()
