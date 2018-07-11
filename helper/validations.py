@@ -1207,26 +1207,24 @@ class Validations(CommonHelper, CommonIOSHelper):
         if self.IS_ANDROID:
             pass
         elif self.IS_IOS:
-            self.verify_in_batch(['Back|Back Button'])
             text_list = ['Pick Your Plan',
-                         'Live TV includes commercials and select shows have promotional interruptions']
+                         'Back|Back Button']
 
             if user_type != self.cf_subscriber:
-                text_list.append('COMMERCIAL FREE')
-                text_list.append('\$9\.99\/mo')
+                self.verify_exists(id='COMMERCIAL FREE.$9.99 a month.TRY 1 WEEK FREE.Live TV includes commercials and select shows have promotional interruptions.Terms and Conditions below.')
 
-            if user_type in [self.anonymous, self.registered]:
-                text_list.append('TRY 1 WEEK FREE')
             elif user_type == self.ex_subscriber:
-                text_list.append('GET STARTED')
+                self.verify_exists(id='GET STARTED')
+                
             elif user_type in [self.subscriber, self.trial]:
-                text_list.append('UPGRADE')
+                self.verify_exists(id='UPGRADE')
 
             if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
-                text_list.append('LIMITED COMMERCIALS')
-                text_list.append('\$5\.99\/mo')
+                self.verify_exists(id='LIMITED COMMERCIALS.$5.99 a month.TRY 1 WEEK FREE..Terms and Conditions below.')
 
             self.verify_in_batch(text_list, False)
+            self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'Payment will be charged to iTunes Account')]")
+
 
     def validation_video(self):
         if self.IS_ANDROID:
