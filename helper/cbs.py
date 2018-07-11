@@ -9,7 +9,6 @@ from smtplib import SMTP
 from time import sleep, time
 from xml.etree import ElementTree
 
-from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from testlio.base import TestlioAutomationTest
