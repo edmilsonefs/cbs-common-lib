@@ -180,8 +180,8 @@ class Validations(CommonHelper, CommonIOSHelper):
     def validation_g(self, user_type='anonymous'):
         if self.IS_ANDROID:
             if user_type == self.anonymous:
-                self.verify_not_exists(name='Recently Watched')
-                self.verify_not_exists(name='My CBS')
+                self.verify_not_exists(name='Continue Watching')
+                self.verify_not_exists(name='Shows You Watch')
             else:
                 self.verify_exists(name='Continue Watching')
                 self.verify_exists(id=self.com_cbs_app + ":id/imgThumbnail")
@@ -1016,7 +1016,7 @@ class Validations(CommonHelper, CommonIOSHelper):
             # self.verify_exists(xpath='//XCUIElementTypeText')
             self.verify_exists(xpath="//XCUIElementTypeButton[@name='LiveSkin close captioned icon ']")
             self.verify_exists(id='LiveSkin close fullscreen icon')
-            
+
 
     def validation_bb(self, user_type='anonymous', mvpd=False):
         self.log_info("Validation BB")
@@ -1051,7 +1051,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 #TODO self.verify_exists(id='Station logo')
 
 
-        
+
 
     def validation_bc(self, mvpd=False):
         self.log_info("Validation BC")
@@ -1083,7 +1083,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 #TODO Clarify validation
                 # self.verify_not_exists(id='CBS.CBSiLiveTVChannelDetailView')
                 # self.verify_not_exists(id='Channels')
-   
+
     def validation_bd(self):
         # self.verify_exists(xpath="//*[contains(@name,'AM') or contains(@name,'PM') or contains(@name,':')]")
         #TODO TIME
@@ -1091,7 +1091,7 @@ class Validations(CommonHelper, CommonIOSHelper):
         #TODO Episode Title
         #TODO Description
         pass
-    
+
     def validation_be(self, mvpd=False):
         self.log_info("Validation BE")
         if self.IS_ANDROID:
@@ -1136,7 +1136,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                 text_list.append('Channels')
 
             self.verify_in_batch(text_list, False)
-            
+
         if self.IS_IOS:
             text_list = ['Main Menu|Open CBS Menu', 'CBSEye_white', 'Please accept the Terms of Use in order to watch live TV.', 'VIEW TERMS TO ACCEPT']
             self.verify_exists(xpath='//XCUIElementTypeCollectionView')
@@ -1147,7 +1147,7 @@ class Validations(CommonHelper, CommonIOSHelper):
                #text_list.append('Channels')
             #TODO Live TV and Search are absent
 
-           
+
 
     def validation_bj(self, user_type='anonymous', mvpd=False):
         self.log_info("Validation BJ")
@@ -1215,7 +1215,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
             elif user_type == self.ex_subscriber:
                 self.verify_exists(id='GET STARTED')
-                
+
             elif user_type in [self.subscriber, self.trial]:
                 self.verify_exists(id='UPGRADE')
 
