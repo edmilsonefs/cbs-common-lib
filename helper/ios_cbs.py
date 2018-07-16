@@ -207,22 +207,6 @@ class CommonIOSHelper(TestlioAutomationTest):
         self.search_for_extended(show_name)
         self.safe_screenshot()
         self.click_first_search_result()
-        # if self.xcuitest:
-        #     if self.phone:
-        #         try:
-        #             t_f = self.exists(accessibility_id='MyCBSStarOutlined iPhone', timeout=10)
-        #         except:
-        #             t_f = self.exists(accessibility_id='MyCBSStarFilled iPhone', timeout=10)
-        #     else:
-        #         try:
-        #             t_f = self.exists(accessibility_id='MyCBSStarOutlined iPad', timeout=10)
-        #         except:
-        #             t_f = self.exists(accessibility_id='MyCBSStarFilled iPad', timeout=10)
-        # else:
-        t_f = self.exists(xpath="//*[contains(@name,'MyCBSStar')]", timeout=30)
-
-        # Commented until cbs star won't be visible to appium
-        # self.assertTrueWithScreenShot(t_f, msg="Assert we're on individual show page", screenshot=True)
 
     def goto_sign_in(self):
         self.open_drawer()
