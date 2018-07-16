@@ -691,6 +691,7 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_ai(self):
         self.log_info("Validation AI")
+        self.safe_screenshot()
         if self.IS_ANDROID:
             # faq_web_view
             sleep(5)
@@ -701,7 +702,6 @@ class Validations(CommonHelper, CommonIOSHelper):
             self.verify_exists(xpath="//*[@class='android.webkit.WebView']")
         elif self.IS_IOS:
             sleep(5)
-            self.safe_screenshot()
             self.verify_in_batch(['Main Menu|Open CBS Menu', 'Search'])
             self.verify_exists(id='CBSEye_white')
             self.verify_exists(id='Frequently Asked Questions')
