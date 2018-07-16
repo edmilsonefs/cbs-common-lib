@@ -1209,22 +1209,27 @@ class Validations(CommonHelper, CommonIOSHelper):
             pass
         elif self.IS_IOS:
             text_list = ['Pick Your Plan',
-                         'Back|Back Button']
+                         'Back|Back Button',
+                         'Live TV includes commercials and select shows have promotional interruptions']
 
-            if user_type != self.cf_subscriber:
-                self.verify_exists(id='COMMERCIAL FREE.$9.99 a month.TRY 1 WEEK FREE.Live TV includes commercials and select shows have promotional interruptions.Terms and Conditions below.')
+            if self.user_type != self.cf_subscriber:
+                text_list.append('COMMERCIAL FREE')
+                text_list.append('\$9\.99\/mo')
 
-            elif user_type == self.ex_subscriber:
-                self.verify_exists(id='GET STARTED')
+            if self.user_type in [self.anonymous, self.registered]:
+                text_list.append('TRY 1 WEEK FREE|TRY FREE FOR 1 WEEK')
+            elif self.user_type == self.ex_subscriber:
+                text_list.append('GET STARTED')
+            elif self.user_type in [self.subscriber, self.trial]:
+                text_list.append('UPGRADE')
 
-            elif user_type in [self.subscriber, self.trial]:
-                self.verify_exists(id='UPGRADE')
-
-            if user_type in [self.anonymous, self.registered, self.ex_subscriber]:
-                self.verify_exists(id='LIMITED COMMERCIALS.$5.99 a month.TRY 1 WEEK FREE..Terms and Conditions below.')
+            if self.user_type in [self.anonymous, self.registered, self.ex_subscriber]:
+                text_list.append('LIMITED COMMERCIALS')
+                text_list.append('\$5\.99\/mo')
 
             self.verify_in_batch(text_list, False)
-            self.verify_exists(xpath="//XCUIElementTypeStaticText[contains(@name,'Payment will be charged to iTunes Account')]")
+            self.verify_exists(
+                xpath="//XCUIElementTypeStaticText[contains(@name,'Payment will be charged to iTunes Account')]")
 
 
     def validation_video(self):
