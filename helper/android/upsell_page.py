@@ -16,7 +16,7 @@ class UpsellPage(BasePage):
                                                        "and (contains(@text,'MONTH') or contains(@text,'WEEK')) or @text='GET STARTED']")
 
     def btn_already_a_subscriber_sign_in(self, timeout=10):
-        return self.get_element(timeout=timeout, xpath="//*[@text='Already have an account? Sign In']")
+        return self.get_element(timeout=timeout, xpath="//*[@text='Already have an account? Sign In' or @text='Already a subscriber? Sign In']")
 
     def btn_take_the_tour(self, timeout=10):
         return self.get_element(timeout=timeout, name='Take the Tour')
@@ -48,14 +48,15 @@ class UpsellPage(BasePage):
 
     def select_sign_in_from_text_link(self):
         self.event._log_info(self.event._event_data('Select Sign In'))
-        elem = self.btn_already_a_subscriber_sign_in()
-        page_source_before = self.driver.page_source
-        self.click(element=elem)
-        sleep(3)
-        page_source_after = self.driver.page_source
-        if page_source_after == page_source_before:
-            self.click_by_location(elem, side='right')
-            sleep(3)
+        self.click(element=self.btn_already_a_subscriber_sign_in())
+        # elem = self.btn_already_a_subscriber_sign_in()
+        # page_source_before = self.driver.page_source
+        # self.click(element=elem)
+        # sleep(3)
+        # page_source_after = self.driver.page_source
+        # if page_source_after == page_source_before:
+        #     self.click_by_location(elem, side='right')
+        #     sleep(3)
         self._hide_keyboard()
 
 
