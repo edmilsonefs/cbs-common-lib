@@ -1258,8 +1258,8 @@ class CommonHelper(TestlioAutomationTest):
     def click_already_have_account_sign_in(self):
         # Sometimes it needs to click more than once
         count = 0
-        while self.exists(id=self.com_cbs_app + ':id/txtAlreadyHaveAnAccount') and count <= 3:
-            self.click(id=self.com_cbs_app + ':id/txtAlreadyHaveAnAccount')
+        while self.exists(xpath="//*[@text='Already have an account? Sign In']") and count <= 3:
+            self.click(xpath="//*[@text='Already have an account? Sign In']")
             count += 1
 
     def open_url(self, url):

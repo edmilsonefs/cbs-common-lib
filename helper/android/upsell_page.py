@@ -16,7 +16,7 @@ class UpsellPage(BasePage):
                                                        "and (contains(@text,'MONTH') or contains(@text,'WEEK')) or @text='GET STARTED']")
 
     def btn_already_a_subscriber_sign_in(self, timeout=10):
-        return self.get_element(timeout=timeout, id=self.com_cbs_app + ":id/txtAlreadyHaveAnAccount")
+        return self.get_element(timeout=timeout, xpath="//*[@text='Already have an account? Sign In']")
 
     def btn_take_the_tour(self, timeout=10):
         return self.get_element(timeout=timeout, name='Take the Tour')
