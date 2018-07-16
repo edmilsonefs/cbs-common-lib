@@ -592,7 +592,8 @@ class Validations(CommonHelper, CommonIOSHelper):
         self.log_info("Validation AE")
         if self.IS_ANDROID:
             self.safe_screenshot()
-            self.verify_in_batch('Channels', ':id/controlsContainer', ':id/station_logo', ':id/liveTvRecyclerView')
+            self.verify_in_batch(':id/controlsContainer', ':id/station_logo', ':id/liveTvRecyclerView')
+            self.verify_exists(name='Channels')
         elif self.IS_IOS:
             # self.verify_exists(id="Search")
             # self.verify_exists(xpath=self.element_type + 'TextView[1]')  # schedule table
