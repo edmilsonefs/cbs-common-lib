@@ -49,7 +49,7 @@ class SignInPage(BasePage):
 
     def sign_in(self, email, password):
         self.sign_in_without_finish(email, password)
-        self.post_sign_in_accept_terms()
+        #self.post_sign_in_accept_terms()
 
     def sign_in_without_finish(self, email, password):
         self.send_keys(data=email, element=self.txt_email())
