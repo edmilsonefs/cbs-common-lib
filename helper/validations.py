@@ -98,16 +98,17 @@ class Validations(CommonHelper, CommonIOSHelper):
 
     def validation_c(self):
         if self.IS_ANDROID:
-            self.verify_in_batch(['Our Terms Have Changed',
-                                  ':id/terms_accept_checkBox',
-                                  'By registering you become a member of the CBS Interactive family of sites and you have '
-                                  'read and agree to the Terms of Use, Privacy Policy and Video Services Policy. '
-                                  'You understand that on occasion, you will receive updates, alerts and promotions from '
-                                  'CBS. You agree that CBS may share information about you with companies that provide '
-                                  'content, products or services featured on CBS sites so that they may contact '
-                                  'you about their products or services.',
-                                  'CANCEL',
-                                  'SUBMIT'])
+            # self.verify_in_batch(['Our Terms Have Changed',
+            #                       ':id/terms_accept_checkBox',
+            #                       'By registering you become a member of the CBS Interactive family of sites and you have '
+            #                       'read and agree to the Terms of Use, Privacy Policy and Video Services Policy. '
+            #                       'You understand that on occasion, you will receive updates, alerts and promotions from '
+            #                       'CBS. You agree that CBS may share information about you with companies that provide '
+            #                       'content, products or services featured on CBS sites so that they may contact '
+            #                       'you about their products or services.',
+            #                       'CANCEL',
+            #                       'SUBMIT'])
+            pass
         elif self.IS_IOS:
             self.verify_in_batch(['Search', 'Sign In', 'Our terms have changed', 'CONTINUE'])
 
