@@ -1258,11 +1258,7 @@ class CommonHelper(TestlioAutomationTest):
     def click_already_have_account_sign_in(self):
         # Sometimes it needs to click more than once
         count = 0
-        while self.exists(xpath="//*[@text='Already have an account? Sign In' or @text='Already a subscriber? Sign In']") and count <= 3:
-            elem = self.get_element(xpath="//*[@text='Already have an account? Sign In' or @text='Already a subscriber? Sign In']")
-            self.click_by_location(elem, side='right')
-            self.safe_screenshot()
-            count += 1
+        self.click(xpath="//*[@text='Already have an account? Sign In' or @text='Already a subscriber? Sign In']")
 
     def open_url(self, url):
         self.log_info('Scenario for Custom - %s' % url)
